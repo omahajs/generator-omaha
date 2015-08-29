@@ -1,0 +1,29 @@
+{
+  "bitwise": true,
+  "browser": true,
+  "camelcase": true,
+  "devel": false,
+  "eqeqeq": true,
+  "forin": true,
+  "freeze": true,
+  "jasmine": true,
+  "jquery": true,
+  "maxcomplexity": 5,
+  "maxdepth": 3,
+  "maxerr": 50,
+  "maxlen": 130,
+  "maxparams": 5,
+  "maxstatements": 20,
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonbsp": true,
+  "quotmark": true,
+  "strict": true,
+  "unused": true,
+  "worker": false,
+  "globals": {
+    "define": true
+  },
+  "-W030": false
+}

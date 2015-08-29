@@ -13,13 +13,14 @@ module.exports = yeoman.generators.Base.extend({
             'Welcome to the praiseworthy ' + chalk.red('techtonic') + ' generator!'
         ));
 
-        var prompts = [{
-            type: 'confirm',
-            name: 'someOption',
-            message: 'Would you like to enable this option?',
-            default: true
-        }];
-
+        var prompts = [/*
+            {
+                type: 'confirm',
+                name: 'someOption',
+                message: 'Would you like to enable this option?',
+                default: true
+            }
+        */];
         this.prompt(prompts, function (props) {
             this.props = props;
             // To access props later use this.props.someOption;
@@ -31,8 +32,14 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         app: function () {
             //workflow
-            mkdirp('config');
-            mkdirp('tasks');
+            this.fs.copy(
+                this.templatePath('config/{.*,*.*}'),
+                this.destinationPath('config')
+            );
+            this.fs.copy(
+                this.templatePath('tasks/*.js'),
+                this.destinationPath('tasks')
+            );
             //app
             mkdirp('app/models');
             mkdirp('app/views');
