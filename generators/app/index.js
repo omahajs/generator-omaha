@@ -58,6 +58,7 @@ module.exports = yeoman.generators.Base.extend({
             mkdirp('assets/library');
             mkdirp('assets/templates');
             //TODO: Create Jasmine boilerplate here
+            //TODO: Move the next three copies into "projectfiles"?
             this.fs.copyTpl(
                 this.templatePath('_package.json'),
                 this.destinationPath('package.json'),
