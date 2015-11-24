@@ -1,0 +1,6 @@
+{
+  "name": "techtonic-webapp",
+  "description": "Slightly opinionated boilerplate and workflow for creating web applications",
+  "repository": "https://github.com/jhwohlgemuth/techtonic-webapp.git",
+  "keywords": ["MarionetteJS", "MVC", "Boilerplate"]
+}
