@@ -5,7 +5,7 @@ var yosay = require('yosay');
 var mkdirp = require('mkdirp');
 
 module.exports = yeoman.generators.Base.extend({
-    prompting: function () {
+    prompting: function() {
         var done = this.async();
 
         // Have Yeoman greet the user.
@@ -30,7 +30,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     writing: {
-        app: function () {
+        app: function() {
             //workflow
             this.fs.copy(
                 this.templatePath('config/{.*,*.*}'),
@@ -39,6 +39,10 @@ module.exports = yeoman.generators.Base.extend({
             this.fs.copy(
                 this.templatePath('tasks/*.js'),
                 this.destinationPath('tasks')
+            );
+            this.fs.copy(
+                this.templatePath('web/*.js'),
+                this.destinationPath('web')
             );
             //app
             mkdirp('app/models');
@@ -53,23 +57,26 @@ module.exports = yeoman.generators.Base.extend({
             mkdirp('assets/less');
             mkdirp('assets/library');
             mkdirp('assets/templates');
-
-            mkdirp('tests');
-            mkdirp('vault');
-            mkdirp('web');
-
+            //TODO: Create Jasmine boilerplate here
             this.fs.copyTpl(
                 this.templatePath('_package.json'),
                 this.destinationPath('package.json'),
                 {opt: this.props.someOption}
             );
-            this.fs.copy(
-                this.templatePath('_bower.json'),
-                this.destinationPath('bower.json')
+            this.fs.copyTpl(
+                this.templatePath('_app.json'),
+                this.destinationPath('app.json'),
+                {opt: this.props.someOption}
             );
+            this.fs.copyTpl(
+                this.templatePath('_Gruntfile.js'),
+                this.destinationPath('Gruntfile.js'),
+                {opt: this.props.someOption}
+            );
+            //TODO: Create/copy license here
         },
 
-        projectfiles: function () {
+        projectfiles: function() {
             this.fs.copy(
                 this.templatePath('editorconfig'),
                 this.destinationPath('.editorconfig')
