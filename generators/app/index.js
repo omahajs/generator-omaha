@@ -28,14 +28,37 @@ module.exports = yeoman.generators.Base.extend({
             done();
         }.bind(this));
     },
-
+    configuring: {
+      projectfiles: function() {
+          this.fs.copyTpl(
+              this.templatePath('_package.json'),
+              this.destinationPath('package.json'),
+              {opt: this.props.someOption}
+          );
+          this.fs.copyTpl(
+              this.templatePath('_app.json'),
+              this.destinationPath('app.json'),
+              {opt: this.props.someOption}
+          );
+          this.fs.copyTpl(
+              this.templatePath('_Gruntfile.js'),
+              this.destinationPath('Gruntfile.js'),
+              {opt: this.props.someOption}
+          );
+          this.fs.copy(
+              this.templatePath('config/{.*,*.*}'),
+              this.destinationPath('config')
+          );
+          //TODO: Create/copy license here
+          //TODO: Add .editorconfig template
+          // this.fs.copy(
+          //     this.templatePath('editorconfig'),
+          //     this.destinationPath('.editorconfig')
+          // );
+      }
+    },
     writing: {
         app: function() {
-            //workflow
-            this.fs.copy(
-                this.templatePath('config/{.*,*.*}'),
-                this.destinationPath('config')
-            );
             this.fs.copy(
                 this.templatePath('tasks/*.js'),
                 this.destinationPath('tasks')
@@ -44,51 +67,21 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('web/*.js'),
                 this.destinationPath('web')
             );
-            //app
+            //scaffold app folder structure
             mkdirp('app/models');
             mkdirp('app/views');
             mkdirp('app/controllers');
             mkdirp('app/modules');
             mkdirp('app/helpers');
             mkdirp('app/shims');
-            //assets
             mkdirp('assets/fonts');
             mkdirp('assets/images');
             mkdirp('assets/less');
             mkdirp('assets/library');
             mkdirp('assets/templates');
             //TODO: Create Jasmine boilerplate here
-            //TODO: Move the next three copies into "projectfiles"?
-            this.fs.copyTpl(
-                this.templatePath('_package.json'),
-                this.destinationPath('package.json'),
-                {opt: this.props.someOption}
-            );
-            this.fs.copyTpl(
-                this.templatePath('_app.json'),
-                this.destinationPath('app.json'),
-                {opt: this.props.someOption}
-            );
-            this.fs.copyTpl(
-                this.templatePath('_Gruntfile.js'),
-                this.destinationPath('Gruntfile.js'),
-                {opt: this.props.someOption}
-            );
-            //TODO: Create/copy license here
-        },
-
-        projectfiles: function() {
-            this.fs.copy(
-                this.templatePath('editorconfig'),
-                this.destinationPath('.editorconfig')
-            );
-            this.fs.copy(
-                this.templatePath('jshintrc'),
-                this.destinationPath('.jshintrc')
-            );
         }
     },
-
     install: function () {
         this.installDependencies();
     }
