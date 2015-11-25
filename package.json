@@ -1,7 +1,7 @@
 {
   "name": "generator-techtonic",
   "version": "0.0.0",
-  "description": "Yeoman generator",
+  "description": "Yeoman generator for techtonic development",
   "license": "MIT",
   "main": "app/index.js",
   "repository": "jhwohlgemuth/generator-techtonic",
@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
+    "config": "^1.17.1",
     "mkdirp": "^0.5.1",
     "yeoman-generator": "^0.19.0",
     "yosay": "^1.0.2"

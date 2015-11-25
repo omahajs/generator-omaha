@@ -13,7 +13,13 @@ module.exports = yeoman.generators.Base.extend({
             'Welcome to the praiseworthy ' + chalk.red('techtonic') + ' generator!'
         ));
 
-        var prompts = [/*
+        var prompts = [
+            {
+                type: 'input',
+                name: 'projectName',
+                message: 'What do you want to name this project?',
+                default: 'techtonic-app'
+            }/*
             {
                 type: 'confirm',
                 name: 'someOption',
@@ -23,8 +29,6 @@ module.exports = yeoman.generators.Base.extend({
         */];
         this.prompt(prompts, function (props) {
             this.props = props;
-            // To access props later use this.props.someOption;
-
             done();
         }.bind(this));
     },
@@ -33,18 +37,20 @@ module.exports = yeoman.generators.Base.extend({
           this.fs.copyTpl(
               this.templatePath('_package.json'),
               this.destinationPath('package.json'),
-              {opt: this.props.someOption}
+              {
+                  projectName: this.props.projectName,
+                  userName: this.user.git.name()
+              }
           );
           this.fs.copyTpl(
               this.templatePath('_app.json'),
               this.destinationPath('app.json'),
-              {opt: this.props.someOption}
+              {projectName: this.props.projectName}
           );
-          this.fs.copyTpl(
-              this.templatePath('_Gruntfile.js'),
-              this.destinationPath('Gruntfile.js'),
-              {opt: this.props.someOption}
-          );
+          // this.fs.copyTpl(
+          //     this.templatePath('_Gruntfile.js'),
+          //     this.destinationPath('Gruntfile.js')
+          // );
           this.fs.copy(
               this.templatePath('config/{.*,*.*}'),
               this.destinationPath('config')
@@ -83,6 +89,6 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
     install: function () {
-        this.installDependencies();
+        this.installDependencies({npm: true, bower: false});
     }
 });

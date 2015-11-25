@@ -1,7 +1,7 @@
 {
-  "name": "techtonic-app",
+  "name": "<%= projectName %>",
   "version": "1.0.0",
-  "author": "Jason Wohlgemuth",
+  "author": "<%= userName %>",
   "license": "MIT",
   "description": "Slightly opinionated boilerplate and workflow for creating web applications",
   "keywords": [
