@@ -34,6 +34,10 @@ module.exports = yeoman.generators.Base.extend({
     },
     configuring: {
       projectfiles: function() {
+          this.fs.copy(
+              this.templatePath('config/{.*,*.*}'),
+              this.destinationPath('config')
+          );
           this.fs.copyTpl(
               this.templatePath('_package.json'),
               this.destinationPath('package.json'),
@@ -47,20 +51,8 @@ module.exports = yeoman.generators.Base.extend({
               this.destinationPath('app.json'),
               {projectName: this.props.projectName}
           );
-          // this.fs.copyTpl(
-          //     this.templatePath('_Gruntfile.js'),
-          //     this.destinationPath('Gruntfile.js')
-          // );
-          this.fs.copy(
-              this.templatePath('config/{.*,*.*}'),
-              this.destinationPath('config')
-          );
+          this.template('_Gruntfile.js', 'Gruntfile.js');
           //TODO: Create/copy license here
-          //TODO: Add .editorconfig template
-          // this.fs.copy(
-          //     this.templatePath('editorconfig'),
-          //     this.destinationPath('.editorconfig')
-          // );
       }
     },
     writing: {
@@ -89,6 +81,6 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
     install: function () {
-        this.installDependencies({npm: true, bower: false});
+        //this.installDependencies({npm: true, bower: false});
     }
 });
