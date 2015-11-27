@@ -56,31 +56,47 @@ module.exports = yeoman.generators.Base.extend({
       }
     },
     writing: {
-        app: function() {
+        appStructure: function() {
+            this.fs.copy(
+                this.templatePath('web/*.js'),
+                this.destinationPath('web')
+            );
             this.fs.copy(
                 this.templatePath('tasks/*.js'),
                 this.destinationPath('tasks')
             );
             this.fs.copy(
-                this.templatePath('web/*.js'),
-                this.destinationPath('web')
+                this.templatePath('shims/*.js'),
+                this.destinationPath('shims')
+            );
+            this.fs.copy(
+                this.templatePath('modules/*.js'),
+                this.destinationPath('modules')
             );
             //scaffold app folder structure
             mkdirp('app/models');
             mkdirp('app/views');
             mkdirp('app/controllers');
-            mkdirp('app/modules');
             mkdirp('app/helpers');
-            mkdirp('app/shims');
             mkdirp('assets/fonts');
             mkdirp('assets/images');
             mkdirp('assets/less');
             mkdirp('assets/library');
             mkdirp('assets/templates');
+        },
+        appFiles: function() {
+            this.template('_index.js',   'index.js');
+            this.template('_index.html', 'app/index.html');
+            this.template('_app.js',     'app/app.js');
+            this.template('_main.js',    'app/main.js');
+            this.template('_config.js',  'app/config.js');
+            this.template('_router.js',  'app/router.js');
+            this.template('_reset.less', 'assets/less/reset.less');
+            this.template('_style.less', 'assets/less/style.less');
             //TODO: Create Jasmine boilerplate here
         }
     },
     install: function () {
-        //this.installDependencies({npm: true, bower: false});
+        this.installDependencies({npm: true, bower: false});
     }
 });
