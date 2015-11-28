@@ -21,8 +21,18 @@
     "type": "git",
     "url": "https://github.com/jhwohlgemuth/techtonic-webapp.git"
   },
+  "jscsConfig": "./config/.jscsrc",
   "engines": {
     "node": "*"
+  },
+  "dependencies": {
+    "requirejs": "^2.1.17",
+    "jquery": "^2.1.4",
+    "underscore": "^1.8.3",
+    "backbone": "^1.2.1",
+    "backbone.marionette": "^2.4.2",
+    "backbone.radio": "^1.0.1",
+    "handlebars": "^3.0.3"
   },
   "devDependencies": {
     "jasmine-core": "^2.2.0",
@@ -36,13 +46,7 @@
     "nodemon": "^1.4.0",
     "nsp": "^1.1.0",
     "phantomjs": "^1.9.16",
-    "requirejs": "^2.1.17",
-    "sinon": "^1.15.4"
-  },
-  "dependencies": {
-    "backbone": "^1.2.1",
-    "backbone.marionette": "^2.4.2",
-    "backbone.radio": "^1.0.1",
+    "sinon": "^1.15.4",
     "compression": "^1.5.1",
     "config": "^1.14.0",
     "cookie-session": "^1.2.0",
@@ -77,8 +81,6 @@
     "grunt-parallel": "^0.4.1",
     "grunt-plato": "^1.3.0",
     "grunt-template-jasmine-requirejs": "^0.2.3",
-    "handlebars": "^3.0.3",
-    "jquery": "^2.1.4",
     "jscs-jsdoc": "^1.1.0",
     "jshint": "^2.7.0",
     "jshint-stylish": "^2.0.1",
@@ -90,9 +92,7 @@
     "node-uuid": "^1.4.3",
     "npmlog": "^1.2.1",
     "protocolify": "^1.0.2",
-    "requirejs": "^2.1.20",
     "time-grunt": "^1.1.0",
-    "underscore": "^1.8.3",
     "ws": "^0.8.0"
   },
   "scripts": {
