@@ -10,7 +10,7 @@ define(function(require) {
     var WebApp = require('app');
     var Router = require('router');
 
-    var View = require('views/example');
+    var View = require('views/Example');
 
     WebApp.on('before:start', function() {
         console.info(WebApp.model.get('name') + ' is starting...');

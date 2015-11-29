@@ -47,17 +47,12 @@ module.exports = yeoman.generators.Base.extend({
               }
           );
           this.fs.copyTpl(
-              this.templatePath('LICENSE'),
-              this.destinationPath('LICENSE'),
-              {userName: this.user.git.name()}
-          );
-          this.fs.copyTpl(
               this.templatePath('_app.json'),
               this.destinationPath('app.json'),
               {projectName: this.props.projectName}
           );
           this.template('_Gruntfile.js', 'Gruntfile.js');
-          this.template('_README.md', 'README.md');
+          //TODO: Create/copy license here
       }
     },
     writing: {
@@ -71,9 +66,14 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath('tasks')
             );
             this.fs.copy(
-                this.templatePath('tests/**/*.*'),
-                this.destinationPath('tests')
+                this.templatePath('shims/*.js'),
+                this.destinationPath('shims')
             );
+            this.fs.copy(
+                this.templatePath('modules/*.js'),
+                this.destinationPath('modules')
+            );
+            //scaffold app folder structure
             mkdirp('app/models');
             mkdirp('app/views');
             mkdirp('app/controllers');
@@ -85,36 +85,15 @@ module.exports = yeoman.generators.Base.extend({
             mkdirp('assets/templates');
         },
         appFiles: function() {
-            this.fs.copy(
-                this.templatePath('shims/*.js'),
-                this.destinationPath('app/shims')
-            );
-            this.fs.copy(
-                this.templatePath('helpers/*.js'),
-                this.destinationPath('app/helpers')
-            );
-            this.fs.copy(
-                this.templatePath('modules/*.js'),
-                this.destinationPath('app/modules')
-            );
-            this.template('_index.js', 'index.js');
+            this.template('_index.js',   'index.js');
             this.template('_index.html', 'app/index.html');
-            this.template('_app.js', 'app/app.js');
-            this.template('_main.js', 'app/main.js');
-            this.template('_config.js', 'app/config.js');
-            this.template('_router.js', 'app/router.js');
-            this.template('example.model.js', 'app/models/example.js');
-            this.template('example.view.js', 'app/views/example.js');
-            this.template('example.controller.js', 'app/controllers/example.js');
-        },
-        assetFiles: function() {
-            this.template('example.template.hbs', 'assets/templates/example.hbs');
+            this.template('_app.js',     'app/app.js');
+            this.template('_main.js',    'app/main.js');
+            this.template('_config.js',  'app/config.js');
+            this.template('_router.js',  'app/router.js');
             this.template('_reset.less', 'assets/less/reset.less');
             this.template('_style.less', 'assets/less/style.less');
-            this.fs.copy(
-                this.templatePath('techtonic.png'),
-                this.destinationPath('assets/images/logo.png')
-            );
+            //TODO: Create Jasmine boilerplate here
         }
     },
     install: function () {
