@@ -1,5 +1,5 @@
 {
-  "name": "<%= projectName %>",
+  "name": "<%= props.projectName %>",
   "version": "1.0.0",
   "author": "<%= userName %>",
   "license": "MIT",

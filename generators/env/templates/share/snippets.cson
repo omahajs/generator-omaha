@@ -1,0 +1,48 @@
+'.source.js':
+  'console.log':
+    'prefix': 'log'
+    'body': 'console.log(\'${1:Boot!}\');$2'
+  'console.error':
+    'prefix': 'err'
+    'body': 'console.error(\'${1:Boot!}\');$2'
+  'define':
+    'prefix': 'def'
+    'body': 'define(function(require, exports, module) {$1})';
+  'use strict':
+    'prefix': 'use'
+    'body': """
+    'use strict';
+    """
+  'require':
+    'prefix': 'req'
+    'body': 'require(\'${1:module}\');$2'
+  'function':
+    'prefix': 'fun'
+    'body': """
+    function() {
+        ${1:code}
+    };
+    """
+  'dragons':
+    'prefix': 'dragons'
+    'body': """
+/*
+~~~ HERE BE DRAGONS ~~~
+________  ___ ________
+  )_   ( '-,) )   _(
+    )_  \_//_/  _(
+      )___  ___(
+          ))
+         ((
+          ``-
+    ~~~ BEWARE ~~~
+*/
+    """
+'.source.less':
+  'header':
+    'prefix': 'header'
+    'body': """
+/*------------------------------------*\\\\
+$ ${1:ENTER TITLE}
+\\\\*------------------------------------*/$2
+    """

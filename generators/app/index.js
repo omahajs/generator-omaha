@@ -42,7 +42,7 @@ module.exports = yeoman.generators.Base.extend({
               this.templatePath('_package.json'),
               this.destinationPath('package.json'),
               {
-                  projectName: this.props.projectName,
+                  props: this.props,
                   userName: this.user.git.name()
               }
           );
