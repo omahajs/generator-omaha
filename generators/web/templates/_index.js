@@ -1,5 +1,5 @@
-var config    = require('config');
-var log       = require('npmlog');
+var config = require('config');
+var log    = require('npmlog');
 // Handle error conditions
 process.on('SIGTERM', function() {
     log.warn('exit', 'Exited on SIGTERM');

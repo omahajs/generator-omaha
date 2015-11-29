@@ -2,8 +2,8 @@
  * WebSocket Server
  * @see {@link https://github.com/websockets/ws}
 **/
-var config  = require('config');
-var log     = require('npmlog');
+var config = require('config');
+var log    = require('npmlog');
 var WebSocketServer = require('ws').Server;
 var wss = new WebSocketServer({
     app: require(__dirname + '/server'),
