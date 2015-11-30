@@ -18,11 +18,11 @@ define(function(require, exports, module) {
      * @class ApplicationModel
      * @extends Backbone.Model
      * @prop {Object} default
-     * @prop {string} default.name='WebApp'
+     * @prop {string} default.name='<%= projectName %>'
     **/
     var ApplicationModel = Backbone.Model.extend({
         defaults: {
-            name: 'the techtonic demo'
+            name: '<%= projectName %>'
         }
     });
     var App = new Marionette.Application();

@@ -35,7 +35,7 @@ module.exports = yeoman.generators.Base.extend({
         }.bind(this));
     },
     configuring: {
-      projectfiles: function() {
+      project: function() {
           this.fs.copy(
               this.templatePath('config/{.*,*.*}'),
               this.destinationPath('config')
@@ -52,11 +52,6 @@ module.exports = yeoman.generators.Base.extend({
               this.templatePath('LICENSE'),
               this.destinationPath('LICENSE'),
               {userName: this.user.git.name()}
-          );
-          this.fs.copyTpl(
-              this.templatePath('_app.json'),
-              this.destinationPath('app.json'),
-              {projectName: this.props.projectName}
           );
           this.template('_Gruntfile.js', 'Gruntfile.js');
           this.template('_README.md', 'README.md');

@@ -6,8 +6,8 @@
 define(function(require, exports) {
     'use strict';
 
-    var Backbone  = require('backbone');
-    var WebApp    = require('app');
+    var Backbone = require('backbone');
+    var WebApp   = require('app');
 
     var ExampleModel = Backbone.Model.extend({
         defaults: {
