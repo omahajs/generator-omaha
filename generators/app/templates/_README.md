@@ -1,5 +1,5 @@
-<%= props.projectName %>
-========================
+<%= projectName %>
+==================
 
 Folder Structure
 ----------------

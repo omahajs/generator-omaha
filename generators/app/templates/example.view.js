@@ -1,6 +1,6 @@
 /**
  * @file Example MarionetteJS ItemView module
- * @author Jason Wohlgemuth
+ * @author <%= userName %>
  * @module views/Example
  * @extends Marionette.ItemView
  */

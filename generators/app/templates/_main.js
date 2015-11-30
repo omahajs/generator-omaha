@@ -1,6 +1,6 @@
 /**
  * @file Main entry point for application
- * @author Jason Wohlgemuth
+ * @author <%= userName %>
  * @requires module:app
  * @requires module:router
 **/

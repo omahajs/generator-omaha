@@ -1,6 +1,6 @@
 /**
  * @file Application Router and Controller
- * @author Jason Wohlgemuth
+ * @author <%= userName %>
  * @module router
 **/
 define(function(require, exports, module) {

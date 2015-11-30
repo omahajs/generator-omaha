@@ -1,6 +1,6 @@
 /**
  * @file Application Core
- * @author Jason Wohlgemuth
+ * @author <%= userName %>
  * @version 1.0.0
  * @license MIT
  * @module app

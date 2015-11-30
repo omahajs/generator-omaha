@@ -29,6 +29,8 @@ module.exports = yeoman.generators.Base.extend({
         */];
         this.prompt(prompts, function (props) {
             this.props = props;
+            this.projectName = props.projectName;
+            this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
             done();
         }.bind(this));
     },
@@ -43,7 +45,7 @@ module.exports = yeoman.generators.Base.extend({
               this.destinationPath('package.json'),
               {
                   props: this.props,
-                  userName: this.user.git.name()
+                  userName: this.userName
               }
           );
           this.fs.copyTpl(

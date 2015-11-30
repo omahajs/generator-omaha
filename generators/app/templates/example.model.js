@@ -1,6 +1,6 @@
 /**
  * @file Example model and collection module
- * @author Jason Wohlgemuth
+ * @author <%= userName %>
  * @module models/Example
  */
 define(function(require, exports) {

@@ -1,6 +1,6 @@
 /**
  * @file Example controller module using Marionette
- * @author Jason Wohlgemuth
+ * @author <%= userName %>
  * @module controllers/Example
  * @extends Marionette.Object
  */

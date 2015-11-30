@@ -1,6 +1,6 @@
 /**
  * @file RequireJS configuration file
- * @author Jason Wohlgemuth
+ * @author <%= userName %>
  */
 requirejs.config({
     baseUrl: '',
