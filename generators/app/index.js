@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var path = require('path');
 var mkdirp = require('mkdirp');
 
 module.exports = yeoman.generators.Base.extend({
@@ -18,7 +19,7 @@ module.exports = yeoman.generators.Base.extend({
                 type: 'input',
                 name: 'projectName',
                 message: 'What do you want to name this project?',
-                default: 'techtonic-app'
+                default: path.basename(this.destinationRoot())
             }/*
             {
                 type: 'confirm',
