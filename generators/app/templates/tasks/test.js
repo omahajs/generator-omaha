@@ -14,8 +14,8 @@ module.exports = function(grunt) {
             'compile',
             'lint',
             'jasmine:main',
-            'karma:coverage',
-            'coveralls'
+            'karma:coverage'<% if (props.useCoveralls) { %>,
+            'coveralls'<% } %>
         ]);
     grunt.registerTask('cover', 'Generate code coverage report using Karma and Istanbul',
         [

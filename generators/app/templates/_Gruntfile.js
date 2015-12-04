@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         ports:   config.ports,
         folders: config.folders,
         files:   config.files,
-
+<% if (useA11y) { %>
         /**
          * Accessibility audit with a11y
          * @see {@link https://github.com/lucalanca/grunt-a11y}
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                 src: ['<%%= folders.assets %>/<%%= files.templates %>']
             }
         },
-
+<% } %>
         /**
          * Find "magic numbers" (unnamed numerical constants) in code
          * @see {@link https://github.com/eugene-bulkin/grunt-buddyjs}
@@ -73,7 +73,7 @@ module.exports = function(grunt) {
             plain:    ['vault/*', '!vault/*<%%= encryptedExtension %>', '!vault/README.md'],
             cipher:   ['vault/*<%%= encryptedExtension %>']
         },
-
+<% if (props.useCoveralls) { %>
         /**
          * Send coverage report to Coveralls.io
          * @see {@link https://github.com/mattjmorrison/grunt-karma-coveralls}
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
                 force: true
             }
         },
-
+<% } %>
         /**
          * Copy files and folders (used here to copy font files to deployment directory)
          * @see {@link https://github.com/gruntjs/grunt-contrib-copy}
@@ -263,7 +263,7 @@ module.exports = function(grunt) {
             tasks: '<%%= folders.tasks %>/<%%= files.scripts %>',
             app:   '<%%= folders.app %>/<%%= files.scripts %>'
         },
-
+<% if (useJsinspect) { %>
         /**
          * Detect copy-pasted and structurally similar code
          * @see {@link https://github.com/stefanjudis/grunt-jsinspect}
@@ -274,7 +274,7 @@ module.exports = function(grunt) {
             views:       {src: ['<%%= folders.app %>/<%%= files.views %>']},
             controllers: {src: ['<%%= folders.app %>/<%%= files.controllers %>']}
         },
-
+<% } %>
         /**
          * Lint project JSON files
          * @see {@link https://github.com/brandonramirez/grunt-jsonlint}

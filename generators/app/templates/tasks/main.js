@@ -7,16 +7,16 @@ module.exports = function(grunt) {
             'jshint:app',
             'jscs:app',
             'buddyjs'
-        ]);
+        ]);<% if (useA11y) { %>
     grunt.registerTask('aria', 'Perform an accessibility audit on your code',
         [
             'accessibility',
             'a11y'
-        ]);
+        ]);<% } %><% if (useJsinspect) { %>
     grunt.registerTask('inspect', 'Detect copy-pasted and structurally similar code',
         [
             'jsinspect:app'
-        ]);
+        ]);<% } %>
     grunt.registerTask('review', 'Perform a live review of your app in a live-reload enabled browser',
         [
             'compile',
