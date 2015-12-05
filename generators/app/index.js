@@ -97,7 +97,6 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('modules/*.js'),
                 this.destinationPath('app/modules')
             );
-            this.template('_index.js', 'index.js');
             this.template('_index.html', 'app/index.html');
             this.template('_app.js', 'app/app.js');
             this.template('_main.js', 'app/main.js');
