@@ -5,14 +5,14 @@ module.exports = function(grunt) {
             'jsonlint',
             'csslint',
             'jshint:app',
-            'jscs:app',
-            'buddyjs'
-        ]);<% if (useA11y) { %>
+            'jscs:app'<% if (props.useA11y) { %>,
+            'buddyjs'<% } %>
+        ]);<% if (props.useA11y) { %>
     grunt.registerTask('aria', 'Perform an accessibility audit on your code',
         [
             'accessibility',
             'a11y'
-        ]);<% } %><% if (useJsinspect) { %>
+        ]);<% } %><% if (props.useJsinspect) { %>
     grunt.registerTask('inspect', 'Detect copy-pasted and structurally similar code',
         [
             'jsinspect:app'

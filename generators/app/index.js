@@ -22,51 +22,27 @@ module.exports = yeoman.generators.Base.extend({
                 default: path.basename(this.destinationRoot())
             },
             {
-                type: 'checkbox',
-                name: 'lintOptions',
-                message: 'How to you want to ensure code quality?',
-                choices: [
-                    {
-                        name: 'Lint CSS (CSSLint)',
-                        value: 'useCsslint',
-                        checked: true
-                    },
-                    {
-                        name: 'Lint JSON (JSONLint)',
-                        value: 'useJsonlint',
-                        checked: true
-                    },
-                    {
-                        name: 'Lint JavaScript (JSHint)',
-                        value: 'useJshint',
-                        checked: true
-                    },
-                    {
-                        name: 'Enforce JavaScript Code Style (JSCS)',
-                        value: 'useJscs',
-                        checked: true
-                    },
-                    {
-                        name: 'Detect copy-pasted and structurally similar code (JS Inspect)',
-                        value: 'useJsinspect',
-                        checked: true
-                    },
-                    {
-                        name: 'Detect magic numbers (BuddyJS)',
-                        value: 'useBuddyjs',
-                        checked: true
-                    },
-                    {
-                        name: 'Enforce ARIA and Section 508 standards (a11y and accessibility)',
-                        value: 'useA11y',
-                        checked: true
-                    }
-                ]
+                type: 'confirm',
+                name: 'useJsinspect',
+                message: 'Detect copy-pasted and structurally similar code with JS Inspect?',
+                default: true
+            },
+            {
+                type: 'confirm',
+                name: 'useBuddyjs',
+                message: 'Detect magic numbers with buddy.js?',
+                default: true
+            },
+            {
+                type: 'confirm',
+                name: 'useA11y',
+                message: 'Enforce ARIA and Section 508 standards?',
+                default: true
             },
             {
                 type: 'confirm',
                 name: 'useCoveralls',
-                message: 'Do you want integrate with Coveralls.io?',
+                message: 'Integrate with Coveralls.io?',
                 default: false
             }
         ];
@@ -74,8 +50,6 @@ module.exports = yeoman.generators.Base.extend({
             this.props = props;
             this.projectName = props.projectName;
             this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
-            this.useJsinspect = props.lintOptions.indexOf('useJsinspect') > -1;
-            this.useA11y = props.lintOptions.indexOf('useA11y') > -1;
             done();
         }.bind(this));
     },
@@ -89,21 +63,17 @@ module.exports = yeoman.generators.Base.extend({
           this.template('_package.json', 'package.json');
           this.template('_Gruntfile.js', 'Gruntfile.js');
           this.template('_README.md', 'README.md');
+          this.template('tasks/main.js', 'tasks/main.js');
+          this.template('tasks/build.js', 'tasks/build.js');
+          this.template('tasks/test.js', 'tasks/test.js');
       }
     },
     writing: {
         appStructure: function() {
             this.fs.copy(
-                this.templatePath('web/*.js'),
-                this.destinationPath('web')
-            );
-            this.fs.copy(
                 this.templatePath('tests/**/*.*'),
                 this.destinationPath('tests')
             );
-            this.template('tasks/main.js', 'tasks/main.js');
-            this.template('tasks/build.js', 'tasks/build.js');
-            this.template('tasks/test.js', 'tasks/test.js');
             mkdirp('app/models');
             mkdirp('app/views');
             mkdirp('app/controllers');

@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         ports:   config.ports,
         folders: config.folders,
         files:   config.files,
-<% if (useA11y) { %>
+<% if (props.useA11y) { %>
         /**
          * Accessibility audit with a11y
          * @see {@link https://github.com/lucalanca/grunt-a11y}
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                 src: ['<%%= folders.assets %>/<%%= files.templates %>']
             }
         },
-<% } %>
+<% } %><% if (props.useBuddyjs) { %>
         /**
          * Find "magic numbers" (unnamed numerical constants) in code
          * @see {@link https://github.com/eugene-bulkin/grunt-buddyjs}
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                 ignore: [0, 1, 10, 100]
             }
         },
-
+<% } %>
         /**
          * Clear files and folders
          * @see {@link https://github.com/gruntjs/grunt-contrib-clean}
@@ -263,7 +263,7 @@ module.exports = function(grunt) {
             tasks: '<%%= folders.tasks %>/<%%= files.scripts %>',
             app:   '<%%= folders.app %>/<%%= files.scripts %>'
         },
-<% if (useJsinspect) { %>
+<% if (props.useJsinspect) { %>
         /**
          * Detect copy-pasted and structurally similar code
          * @see {@link https://github.com/stefanjudis/grunt-jsinspect}

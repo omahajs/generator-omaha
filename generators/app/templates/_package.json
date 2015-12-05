@@ -56,10 +56,10 @@
     "phantomjs": "^1.9.16",
     "sinon": "^1.15.4",
     "globby": "^4.0.0",
-    "grunt": "^0.4.5",<% if(useA11y) { %>
+    "grunt": "^0.4.5",<% if(props.useA11y) { %>
     "grunt-a11y": "^0.1.2",
-    "grunt-accessibility": "^3.0.2",<% } %>
-    "grunt-buddyjs": "^0.1.2",
+    "grunt-accessibility": "^3.0.2",<% } %><% if(props.useBuddyjs) { %>
+    "grunt-buddyjs": "^0.1.2",<% } %>
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-copy": "^0.8.0",
@@ -75,10 +75,10 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express": "^1.4.1",
     "grunt-jscs": "^1.8.0",
-    "grunt-jsdoc": "*",<% if(useJsinspect) { %>
+    "grunt-jsdoc": "*",<% if(props.useJsinspect) { %>
     "grunt-jsinspect": "^1.1.0",<% } %>
     "grunt-jsonlint": "^1.0.4",
-    "grunt-karma": "^0.12.0",<% if(useJsinspect) { %>
+    "grunt-karma": "^0.12.0",<% if(props.useCoveralls) { %>
     "grunt-karma-coveralls": "^2.5.3",<% } %>
     "grunt-open": "^0.2.3",
     "grunt-parallel": "^0.4.1",
@@ -86,7 +86,7 @@
     "grunt-template-jasmine-requirejs": "^0.2.3",
     "jscs-jsdoc": "^1.1.0",
     "jshint": "*",
-    "jshint-stylish": "*",<% if(useJsinspect) { %>
+    "jshint-stylish": "*",<% if(props.useJsinspect) { %>
     "jsinspect": "^0.7.0",<% } %>
     "less-plugin-autoprefix": "^1.4.1",
     "less-plugin-clean-css": "^1.5.0",
