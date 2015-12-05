@@ -41,6 +41,12 @@ module.exports = yeoman.generators.Base.extend({
             },
             {
                 type: 'confirm',
+                name: 'compressImages',
+                message: 'Use image compression for deployed application?',
+                default: true
+            },
+            {
+                type: 'confirm',
                 name: 'useCoveralls',
                 message: 'Integrate with Coveralls.io?',
                 default: false

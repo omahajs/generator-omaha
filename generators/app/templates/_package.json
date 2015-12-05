@@ -58,8 +58,8 @@
     "grunt-contrib-csslint": "^0.5.0",
     "grunt-contrib-cssmin": "^0.14.0",
     "grunt-contrib-handlebars": "*",
-    "grunt-contrib-htmlmin": "^0.6.0",
-    "grunt-contrib-imagemin": "^1.0.0",
+    "grunt-contrib-htmlmin": "^0.6.0",<% if(props.compressImages) { %>
+    "grunt-contrib-imagemin": "^1.0.0",<% } %>
     "grunt-contrib-jasmine": "^0.9.1",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-less": "^1.0.1",

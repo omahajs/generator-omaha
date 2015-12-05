@@ -95,7 +95,7 @@ module.exports = function(grunt) {
             build: {
                 files: [{
                     expand: true,
-                    src: ['<%%= folders.assets %>/<%%= files.fonts %>'],
+                    src: ['<%%= folders.assets %>/<%%= files.fonts %>'<% if(!props.compressImages) { %>, '<%%= folders.assets %>/<%%= files.images %>'<% } %>],
                     dest: '<%%= folders.web %>/',
                     filter: 'isFile'
                 }]

@@ -11,8 +11,8 @@ module.exports = function(grunt) {
         'clean:build',
         'compile',
         'requirejs:build',
-        'htmlmin',
-        'imagemin:build',
+        'htmlmin',<% if(props.compressImages) { %>
+        'imagemin:build',<% } %>
         'copy:build'
     ]);
     grunt.registerTask('demo', [
