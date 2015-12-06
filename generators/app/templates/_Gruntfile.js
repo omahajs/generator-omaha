@@ -226,7 +226,7 @@ module.exports = function(grunt) {
             app: {
                 options: {
                     config: '<%%= files.config.jscs %>',
-                    fix: <% props.autoFix %>
+                    fix: <%= autoFix %>
                 },
                 files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
             },

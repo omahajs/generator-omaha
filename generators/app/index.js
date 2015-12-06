@@ -55,13 +55,14 @@ module.exports = yeoman.generators.Base.extend({
                 type: 'confirm',
                 name: 'useCoveralls',
                 message: 'Integrate with Coveralls.io?',
-                default: false
+                default: true
             }
         ];
         this.prompt(prompts, function (props) {
             this.props = props;
             this.projectName = props.projectName;
             this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
+            this.autoFix = props.autoFix ? 'true' : 'false';
             done();
         }.bind(this));
     },
