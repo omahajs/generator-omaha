@@ -412,7 +412,7 @@ module.exports = function(grunt) {
             },
             jscs: {
                 files: '<%%= folders.app %>/<%%= files.scripts %>',
-                tasks: ['jscs:app', 'jscs:comments'],
+                tasks: ['jscs:app'],
                 options: {spawn: false}
             },
             lint: {
