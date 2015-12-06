@@ -1,0 +1,26 @@
+Description:
+    Creates a web app work flow and infrastructure loaded with config files, templates and example files
+
+Options:
+    What do you want to name this project?
+        Sets the project's name
+    Auto-fix minor style errors?
+        Sets the JSCS fix option (Y/N --> true/false)
+    Detect copy-pasted and structurally similar code with JS Inspect?
+        Installs JS Inspect and includes 'inspect' Grunt task
+    Detect magic numbers with buddy.js?
+        Installs buddy.js Grunt plug-in and adds buddyjs to 'lint' Grunt task
+    Enforce ARIA and Section 508 standards?
+        Includes the 'aria', 'a11y' and 'accessibility' Grunt tasks
+    Use image compression for deployed application?
+        Installs grunt-imagemin plug-in and includes image compression in 'build' Grunt task
+    Integrate with Coveralls.io?
+        Installs karma-coveralls module and adds sending coverage to Coveralls.io to the work flow
+
+Example:
+    yo techtonic
+
+    This will create:
+        package.json: Development packages installed by npm
+        Gruntfile.js: Configuration for the task runner
+        LICENSE: License file (default is MIT)
