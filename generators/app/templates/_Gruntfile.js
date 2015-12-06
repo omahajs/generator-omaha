@@ -224,7 +224,10 @@ module.exports = function(grunt) {
                 reporterOutput: null
             },
             app: {
-                options: {config: '<%%= files.config.jscs %>'},
+                options: {
+                    config: '<%%= files.config.jscs %>',
+                    fix: <% props.autoFix %>
+                },
                 files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
             },
             comments: {

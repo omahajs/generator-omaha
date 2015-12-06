@@ -23,6 +23,12 @@ module.exports = yeoman.generators.Base.extend({
             },
             {
                 type: 'confirm',
+                name: 'autoFix',
+                message: 'Auto-fix minor style errors?',
+                default: true
+            },
+            {
+                type: 'confirm',
                 name: 'useJsinspect',
                 message: 'Detect copy-pasted and structurally similar code with JS Inspect?',
                 default: true
