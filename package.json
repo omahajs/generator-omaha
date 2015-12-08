@@ -10,6 +10,9 @@
     "email": "jhwohlgemuth@gmail.com",
     "url": "https://github.com/jhwohlgemuth"
   },
+  "engines": {
+    "node": "*"
+  },
   "files": [
     "generators"
   ],
