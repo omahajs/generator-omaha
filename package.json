@@ -1,6 +1,6 @@
 {
   "name": "generator-techtonic",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Yeoman generator for techtonic development",
   "license": "MIT",
   "main": "app/index.js",
@@ -9,9 +9,6 @@
     "name": "Jason Wohlgemuth",
     "email": "jhwohlgemuth@gmail.com",
     "url": "https://github.com/jhwohlgemuth"
-  },
-  "scripts": {
-    "test": "mocha"
   },
   "files": [
     "generators"
@@ -28,5 +25,8 @@
   },
   "devDependencies": {
     "mocha": "*"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }
