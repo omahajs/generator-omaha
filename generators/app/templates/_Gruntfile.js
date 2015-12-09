@@ -69,9 +69,7 @@ module.exports = function(grunt) {
             docs:     ['<%%= folders.reports %>/<%%= folders.docs %>/*'],
             coverage: ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
             compile:  ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css'],
-            build:    ['<%%= folders.web %>/<%%= folders.client %>', '<%%= folders.web %>/<%%= folders.assets %>'],
-            plain:    ['vault/*', '!vault/*<%%= encryptedExtension %>', '!vault/README.md'],
-            cipher:   ['vault/*<%%= encryptedExtension %>']
+            build:    ['<%%= folders.web %>/<%%= folders.client %>', '<%%= folders.web %>/<%%= folders.assets %>']
         },
 <% if (props.useCoveralls) { %>
         /**
@@ -175,7 +173,7 @@ module.exports = function(grunt) {
                 ]
             }
         },
-
+<% if(props.compressImages) { %>
         /**
          * Optimize image assets for deployment using imagemin
          * @see {@link https://github.com/gruntjs/grunt-contrib-imagemin}
@@ -190,7 +188,7 @@ module.exports = function(grunt) {
                 }]
             }
         },
-
+<% } %>
         /**
          * Run Jasmine specs with RequireJS template
          * @see {@link https://github.com/gruntjs/grunt-contrib-jasmine}
