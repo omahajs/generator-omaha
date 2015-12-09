@@ -12,18 +12,9 @@ module.exports = yeoman.generators.Base.extend({
     },
     configuring: {
         projectfiles: function() {
-            this.fs.copy(
-                this.templatePath('config/{.*,*.*}'),
-                this.destinationPath('config')
-            );
-            this.fs.copyTpl(
-                this.templatePath('_package.json'),
-                this.destinationPath('package.json')
-            );
-            this.fs.copyTpl(
-                this.templatePath('_app.json'),
-                this.destinationPath('app.json')
-            );
+            this.template('_package.json', 'package.json');
+            this.template('_app.json', 'app.json');
+            this.template('config/default.js', 'config/default.js');
         }
     },
     writing: {
