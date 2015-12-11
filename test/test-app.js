@@ -27,8 +27,7 @@ var files = [
     'app/config.js',
     'app/router.js'
 ];
-
-var deps = [
+var dependencies = [
     'jsinspect',
     'grunt-jsinspect',
     'grunt-buddyjs',
@@ -58,7 +57,7 @@ describe('techtonic:app', function() {
             assert.file(configFiles);
             assert.file(files);
         });
-        deps.forEach(function(dep) {
+        dependencies.forEach(function(dep) {
             it('adds ' + dep + ' to package.json', function() {
                 assert.fileContent('package.json', dep);
             });
@@ -91,7 +90,7 @@ describe('techtonic:app', function() {
         it('creates files', function() {
             assert.file(files);
         });
-        deps.forEach(function(dep) {
+        dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {
                 assert.noFileContent('package.json', dep);
             });
