@@ -5,6 +5,14 @@ var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 var os = require('os');
 
+var configFiles = [
+    'config/.csslintrc',
+    'config/.jscsrc',
+    'config/.jscsrc-jsdoc',
+    'config/.jshintrc',
+    'config/default.js',
+    'config/karma.conf.js'
+];
 var files = [
     'package.json',
     'Gruntfile.js',
@@ -47,6 +55,7 @@ describe('techtonic:app', function() {
         });
 
         it('creates files', function() {
+            assert.file(configFiles);
             assert.file(files);
         });
         deps.forEach(function(dep) {

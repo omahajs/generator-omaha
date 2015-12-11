@@ -15,10 +15,10 @@ module.exports = {
             config:   'config',
             assets:   'assets',//TODO: add app dir
             tasks:    'tasks',//TODO: add app dir
+            reports:  'reports',//TODO: add app dir
             tests:    'tests',//TODO: add app dir
             specs:    'jasmine/specs',
             coverage: 'coverage',
-            reports:  'reports',
             docs:     'docs'
         },
         files: {

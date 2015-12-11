@@ -68,10 +68,12 @@ module.exports = yeoman.generators.Base.extend({
     },
     configuring: {
       project: function() {
-          this.fs.copy(
-              this.templatePath('config/{.*,*.*}'),
-              this.destinationPath('config')
-          );
+          this.template('config/_csslintrc', 'config/.csslintrc');
+          this.template('config/_jscsrc', 'config/.jscsrc');
+          this.template('config/_jscsrc-jsdoc', 'config/.jscsrc-jsdoc');
+          this.template('config/_jshintrc', 'config/.jshintrc');
+          this.template('config/_default.js', 'config/default.js');
+          this.template('config/_karma.conf.js', 'config/karma.conf.js');
           this.template('_LICENSE', 'LICENSE');
           this.template('_package.json', 'package.json');
           this.template('_Gruntfile.js', 'Gruntfile.js');
