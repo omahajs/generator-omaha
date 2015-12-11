@@ -10,9 +10,7 @@ for (var file in window.__karma__.files) {
 
 requirejs.config({
     // Karma serves files from '/base'
-    // The "src/" part is the same as the one in the repo root
-    baseUrl: '/base/app',
-    // ask Require.js to load these files (all our tests) that we collected before
+    baseUrl: '/base/app',//TODO: add app dir
     deps: tests,
     paths: {
         //Dependencies
