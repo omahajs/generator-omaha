@@ -13,11 +13,13 @@ var configFiles = [
     'config/default.js',
     'config/karma.conf.js'
 ];
-var files = [
+var projectFiles = [
     'package.json',
     'Gruntfile.js',
     'README.md',
-    'LICENSE',
+    'LICENSE'
+];
+var files = [
     'tasks/main.js',
     'tasks/build.js',
     'tasks/test.js',
@@ -25,7 +27,10 @@ var files = [
     'app/app.js',
     'app/main.js',
     'app/config.js',
-    'app/router.js'
+    'app/router.js',
+    'assets/less/reset.less',
+    'assets/less/style.less',
+    'assets/images/logo.png'
 ];
 var dependencies = [
     'jsinspect',
@@ -38,11 +43,12 @@ var dependencies = [
 ];
 
 describe('techtonic:app', function() {
-    describe('when all options true', function() {
+    describe('when all options are true', function() {
         before(function(done) {
             helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions({skipInstall: true})
                 .withPrompts({
+                    appDir: './',
                     autoFix: true,
                     useJsinspect: true,
                     useBuddyjs: true,
@@ -55,6 +61,7 @@ describe('techtonic:app', function() {
 
         it('creates files', function() {
             assert.file(configFiles);
+            assert.file(projectFiles);
             assert.file(files);
         });
         dependencies.forEach(function(dep) {
@@ -72,11 +79,12 @@ describe('techtonic:app', function() {
             assert.fileContent('Gruntfile.js', 'coveralls: {');
         });
     });
-    describe('when all options false', function() {
+    describe('when all options are false', function() {
         before(function(done) {
             helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions({skipInstall: true})
                 .withPrompts({
+                    appDir: './',
                     autoFix: false,
                     useJsinspect: false,
                     useBuddyjs: false,
@@ -88,7 +96,49 @@ describe('techtonic:app', function() {
         });
 
         it('creates files', function() {
+            assert.file(configFiles);
+            assert.file(projectFiles);
             assert.file(files);
+        });
+        dependencies.forEach(function(dep) {
+            it('DOES NOT add ' + dep + ' to package.json', function() {
+                assert.noFileContent('package.json', dep);
+            });
+        });
+        it('customizes work-flow tasks', function() {
+            assert.fileContent('Gruntfile.js', 'fix: false');
+            assert.noFileContent('Gruntfile.js', 'jsinspect: {');
+            assert.noFileContent('Gruntfile.js', 'buddyjs: {');
+            assert.noFileContent('Gruntfile.js', 'imagemin: {');
+            assert.noFileContent('Gruntfile.js', 'a11y: {');
+            assert.noFileContent('Gruntfile.js', 'accessibility: {');
+            assert.noFileContent('Gruntfile.js', 'coveralls: {');
+        });
+    });
+    describe('when the application directory is changed', function() {
+        var appDirectory;
+        before(function(done) {
+            appDirectory = 'webapp/';
+            helpers.run(path.join(__dirname, '../generators/app'))
+                .withOptions({skipInstall: true})
+                .withPrompts({
+                    appDir: appDirectory,
+                    autoFix: false,
+                    useJsinspect: false,
+                    useBuddyjs: false,
+                    useA11y: false,
+                    compressImages: false,
+                    useCoveralls: false
+                })
+                .on('end', done);
+        });
+
+        it('creates files', function() {
+            assert.file(configFiles);
+            assert.file(projectFiles);
+            assert.file(files.map(function(file) {
+                return appDirectory + file;
+            }));
         });
         dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {

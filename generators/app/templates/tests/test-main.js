@@ -10,7 +10,7 @@ for (var file in window.__karma__.files) {
 
 requirejs.config({
     // Karma serves files from '/base'
-    baseUrl: '/base/app',//TODO: add app dir
+    baseUrl: '/base/<%= appDir %>app',
     deps: tests,
     paths: {
         //Dependencies

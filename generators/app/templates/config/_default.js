@@ -9,14 +9,14 @@ module.exports = {
             livereload: 46692
         },
         folders: {
-            web:      'web',//TODO: add app dir
-            client:   'client',//TODO: add app dir
-            app:      'app',//TODO: add app dir
             config:   'config',
-            assets:   'assets',//TODO: add app dir
-            tasks:    'tasks',//TODO: add app dir
-            reports:  'reports',//TODO: add app dir
-            tests:    'tests',//TODO: add app dir
+            web:      '<%= appDir %>web',    
+            client:   'client',
+            app:      '<%= appDir %>app',
+            assets:   '<%= appDir %>assets',
+            tasks:    '<%= appDir %>tasks',
+            reports:  '<%= appDir %>reports',
+            tests:    '<%= appDir %>tests',
             specs:    'jasmine/specs',
             coverage: 'coverage',
             docs:     'docs'

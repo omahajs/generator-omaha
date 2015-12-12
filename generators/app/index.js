@@ -1,4 +1,5 @@
 'use strict';
+
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
@@ -9,7 +10,6 @@ module.exports = yeoman.generators.Base.extend({
     prompting: function() {
         var done = this.async();
 
-        // Have Yeoman greet the user.
         this.log(yosay(
             'Welcome to the praiseworthy ' + chalk.red('techtonic') + ' generator!'
         ));
@@ -20,6 +20,15 @@ module.exports = yeoman.generators.Base.extend({
                 name: 'projectName',
                 message: 'What do you want to name this project?',
                 default: path.basename(this.destinationRoot())
+            },
+            {
+                type: 'input',
+                name: 'appDir',
+                message: 'Where do you want to put the application directory?',
+                default: '.',
+                filter: function(answer) {
+                    return /\/$/.test(answer) ? answer : answer + '/';
+                }
             },
             {
                 type: 'confirm',
@@ -61,6 +70,7 @@ module.exports = yeoman.generators.Base.extend({
         this.prompt(prompts, function (props) {
             this.props = props;
             this.projectName = props.projectName;
+            this.appDir = props.appDir;
             this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
             this.autoFix = props.autoFix ? 'true' : 'false';
             done();
@@ -78,56 +88,61 @@ module.exports = yeoman.generators.Base.extend({
           this.template('_package.json', 'package.json');
           this.template('_Gruntfile.js', 'Gruntfile.js');
           this.template('_README.md', 'README.md');
-          this.template('tasks/main.js', 'tasks/main.js');
-          this.template('tasks/build.js', 'tasks/build.js');
-          this.template('tasks/test.js', 'tasks/test.js');
+          this.template('tasks/main.js', this.appDir + 'tasks/main.js');
+          this.template('tasks/build.js', this.appDir + 'tasks/build.js');
+          this.template('tasks/test.js', this.appDir + 'tasks/test.js');
       }
     },
     writing: {
         appStructure: function() {
             this.fs.copy(
-                this.templatePath('tests/**/*.*'),
-                this.destinationPath('tests')
+                this.templatePath('tests/data/**/*.*'),
+                this.destinationPath(this.appDir + 'tests/data')
             );
-            mkdirp('app/models');
-            mkdirp('app/views');
-            mkdirp('app/controllers');
-            mkdirp('app/helpers');
-            mkdirp('assets/fonts');
-            mkdirp('assets/images');
-            mkdirp('assets/less');
-            mkdirp('assets/library');
-            mkdirp('assets/templates');
+            this.fs.copy(
+                this.templatePath('tests/jasmine/**/*.*'),
+                this.destinationPath(this.appDir + 'tests/jasmine')
+            );
+            this.template('tests/test-main.js', this.appDir + 'tests/test-main.js');
+            mkdirp(this.appDir + 'app/models');
+            mkdirp(this.appDir + 'app/views');
+            mkdirp(this.appDir + 'app/controllers');
+            mkdirp(this.appDir + 'app/helpers');
+            mkdirp(this.appDir + 'assets/fonts');
+            mkdirp(this.appDir + 'assets/images');
+            mkdirp(this.appDir + 'assets/less');
+            mkdirp(this.appDir + 'assets/library');
+            mkdirp(this.appDir + 'assets/templates');
         },
         appFiles: function() {
             this.fs.copy(
                 this.templatePath('shims/*.js'),
-                this.destinationPath('app/shims')
+                this.destinationPath(this.appDir + 'app/shims')
             );
             this.fs.copy(
                 this.templatePath('helpers/*.js'),
-                this.destinationPath('app/helpers')
+                this.destinationPath(this.appDir + 'app/helpers')
             );
             this.fs.copy(
                 this.templatePath('modules/*.js'),
-                this.destinationPath('app/modules')
+                this.destinationPath(this.appDir + 'app/modules')
             );
-            this.template('_index.html', 'app/index.html');
-            this.template('_app.js', 'app/app.js');
-            this.template('_main.js', 'app/main.js');
-            this.template('_config.js', 'app/config.js');
-            this.template('_router.js', 'app/router.js');
-            this.template('example.model.js', 'app/models/example.js');
-            this.template('example.view.js', 'app/views/example.js');
-            this.template('example.controller.js', 'app/controllers/example.js');
+            this.template('_index.html', this.appDir + 'app/index.html');
+            this.template('_app.js', this.appDir + 'app/app.js');
+            this.template('_main.js', this.appDir + 'app/main.js');
+            this.template('_config.js', this.appDir + 'app/config.js');
+            this.template('_router.js', this.appDir + 'app/router.js');
+            this.template('example.model.js', this.appDir + 'app/models/example.js');
+            this.template('example.view.js', this.appDir + 'app/views/example.js');
+            this.template('example.controller.js', this.appDir + 'app/controllers/example.js');
         },
         assetFiles: function() {
-            this.template('example.template.hbs', 'assets/templates/example.hbs');
-            this.template('_reset.less', 'assets/less/reset.less');
-            this.template('_style.less', 'assets/less/style.less');
+            this.template('example.template.hbs', this.appDir + 'assets/templates/example.hbs');
+            this.template('_reset.less', this.appDir + 'assets/less/reset.less');
+            this.template('_style.less', this.appDir + 'assets/less/style.less');
             this.fs.copy(
                 this.templatePath('techtonic.png'),
-                this.destinationPath('assets/images/logo.png')
+                this.destinationPath(this.appDir + 'assets/images/logo.png')
             );
         }
     },
