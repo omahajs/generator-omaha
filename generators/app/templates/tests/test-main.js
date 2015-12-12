@@ -14,7 +14,7 @@ requirejs.config({
     deps: tests,
     paths: {
         //Dependencies
-        jquery:     '<% if () { %><% } >../node_modules/jquery/dist/jquery',
+        jquery:     '<% if (false) { %><% } %>../node_modules/jquery/dist/jquery',
         underscore: '../node_modules/underscore/underscore',
         backbone:   '../node_modules/backbone/backbone',
         radio:      '../node_modules/backbone.radio/build/backbone.radio',
