@@ -69,7 +69,7 @@ module.exports = function(grunt) {
             docs:     ['<%%= folders.reports %>/<%%= folders.docs %>/*'],
             coverage: ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
             compile:  ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css'],
-            build:    ['<%%= folders.web %>/<%%= folders.client %>', '<%%= folders.web %>/<%%= folders.assets %>']
+            build:    ['<%%= folders.dist %>']
         },
 <% if (props.useCoveralls) { %>
         /**
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     src: ['<%%= folders.assets %>/<%%= files.fonts %>'<% if(!props.compressImages) { %>, '<%%= folders.assets %>/<%%= files.images %>'<% } %>],
-                    dest: '<%%= folders.web %>/',
+                    dest: '<%%= folders.dist %>/',
                     filter: 'isFile'
                 }]
             }
@@ -168,7 +168,7 @@ module.exports = function(grunt) {
                 files: [
                     {
                         src:  '<%%= folders.app %>/<%%= files.index %>',
-                        dest: '<%%= folders.web %>/<%%= folders.client %>/<%%= files.index %>'
+                        dest: '<%%= folders.dist %>/<%%= folders.client %>/<%%= files.index %>'
                     }
                 ]
             }
@@ -184,7 +184,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: './',
                     src: ['<%%= folders.assets %>/<%%= files.images %>'],
-                    dest: '<%%= folders.web %>/'
+                    dest: '<%%= folders.dist %>/'
                 }]
             }
         },
@@ -326,7 +326,7 @@ module.exports = function(grunt) {
                 },
                 files: {
                     '<%%= folders.app %>/style.css':         '<%%= folders.assets %>/less/style.less',
-                    '<%%= folders.web %>/<%%= folders.client %>/style.css': '<%%= folders.assets %>/less/style.less'
+                    '<%%= folders.dist %>/<%%= folders.client %>/style.css': '<%%= folders.assets %>/less/style.less'
                 }
             }
         },
@@ -340,7 +340,7 @@ module.exports = function(grunt) {
                 path: 'http://localhost:<%%= ports.default %>/<%%= folders.app %>'
             },
             demo: {
-                path: 'http://localhost:<%%= ports.default %>/<%%= folders.web %>/<%%= folders.client %>'
+                path: 'http://localhost:<%%= ports.default %>/<%%= folders.dist %>/<%%= folders.client %>'
             },
             coverage: {
                 path: __dirname + '/<%%= folders.reports %>/<%%= folders.coverage %>/report-html/index.html'
@@ -375,7 +375,7 @@ module.exports = function(grunt) {
         requirejs: {
             build: {
                 options: {
-                    out: '<%%= folders.web %>/<%%= folders.client %>/<%%= files.configScript %>',
+                    out: '<%%= folders.dist %>/<%%= folders.client %>/<%%= files.configScript %>',
                     mainConfigFile: '<%%= folders.app %>/<%%= files.configScript %>',
                     baseUrl: '<%%= folders.app %>',
                     include: ['<%%= files.configScript %>'],

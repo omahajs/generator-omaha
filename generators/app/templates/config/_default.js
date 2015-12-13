@@ -10,8 +10,8 @@ module.exports = {
         },
         folders: {
             config:   'config',
-            web:      '<%= appDir %>web',    
             client:   'client',
+            dist:     'dist', 
             app:      '<%= appDir %>app',
             assets:   '<%= appDir %>assets',
             tasks:    '<%= appDir %>tasks',
