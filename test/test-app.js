@@ -33,7 +33,7 @@ var files = [
     'assets/images/logo.png'
 ];
 var dependencies = [
-    'jsinspect',
+    '"jsinspect": ',
     'grunt-jsinspect',
     'grunt-buddyjs',
     'grunt-contrib-imagemin',

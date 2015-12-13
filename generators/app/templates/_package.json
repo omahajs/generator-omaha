@@ -88,7 +88,6 @@
   },
   "scripts": {
     "test": "grunt test-ci",
-    "inspect": "grunt jsinspect:app",
     "lint-comments": "grunt jscs:comments",
     "prestart": "nohup json-server --port 8080 --watch tests/data/db.json &",
     "start": " grunt"
