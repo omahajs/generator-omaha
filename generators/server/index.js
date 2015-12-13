@@ -18,7 +18,7 @@ module.exports = yeoman.generators.Base.extend({
                 type: 'input',
                 name: 'httpPort',
                 message: 'HTTP server port?',
-                default: '3000'
+                default: '8111'
             },
             {
                 type: 'input',
@@ -49,25 +49,7 @@ module.exports = yeoman.generators.Base.extend({
             this.template('_server.js', this.serverDirectory + '/server.js');//HTTP server
         }
     },
-    conflicts: function() {
-    },
     install: function () {
-        if (false) {
-            var dependencies = [
-                'compression',
-                'config',
-                'cookie-session',
-                'express',
-                'express-session',
-                'lusca',
-                'node-uuid',
-                'npmlog',
-                'protocolify',
-                'ws'
-            ];
-            this.npmInstall(dependencies, {save: true});
-        } else {
-            this.npmInstall();
-        }
+        this.npmInstall();
     }
 });

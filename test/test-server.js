@@ -6,14 +6,11 @@ var helpers = require('yeoman-generator').test;
 var os = require('os');
 var mkdirp = require('mkdirp');
 
-describe('techtonic:web', function() {
+describe('techtonic:server', function() {
     describe('when installed into an empty project', function() {
         before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/web'))
+            helpers.run(path.join(__dirname, '../generators/server'))
                 .withOptions({skipInstall: true})
-                .withPrompts({
-                    //serverDirectory: existingDirectory
-                })
                 .on('end', done);
         });
         it('creates files', function() {
@@ -28,7 +25,7 @@ describe('techtonic:web', function() {
         });
         it('configures files', function() {
             assert.fileContent('config/default.js', 'port: 13337');
-            assert.fileContent('config/default.js', 'port: process.env.PORT || 3000');
+            assert.fileContent('config/default.js', 'port: process.env.PORT || 8111');
         });
     });
 });

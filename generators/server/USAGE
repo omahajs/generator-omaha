@@ -10,7 +10,7 @@ Options:
         Choose WebSocket server port
 
 Example:
-    yo techtonic:web
+    yo techtonic:server
 
         This will create:
             package.json: Development packages installed by npm
