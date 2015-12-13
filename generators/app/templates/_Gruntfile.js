@@ -74,7 +74,7 @@ module.exports = function(grunt) {
             docs:     ['<%%= folders.reports %>/<%%= folders.docs %>/*'],
             coverage: ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
             compile:  ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css'],
-            build:    ['<%%= folders.dist %>']
+            build:    ['<%%= folders.dist %>/<%%= folders.client %>', '<%%= folders.dist %>/<%%= deployed.assets %>']
         },
 <% if (props.useCoveralls) { %>
         /**
