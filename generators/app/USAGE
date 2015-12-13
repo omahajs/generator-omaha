@@ -4,6 +4,11 @@ Description:
 Options:
     What do you want to name this project?
         Sets the project's name
+    Where do you want to put the application directory?
+        This allows you to nest the application files/folders in a directory of your choosing.
+        By default, the project is scaffolded with app/assets/tasks/tests in the same directory as the project files.
+        If a new project directory is designated, app/assets/tasks/tests will be put inside the the selected directory.
+        This option is mainly intended for accommodating multi-app projects and could be considered "cleaner" by some.
     Auto-fix minor style errors?
         Sets the JSCS fix option (Y/N --> true/false)
     Detect copy-pasted and structurally similar code with JS Inspect?
@@ -18,9 +23,17 @@ Options:
         Installs karma-coveralls module and adds sending coverage to Coveralls.io to the work flow
 
 Example:
-    yo techtonic
+    yo techtonic:app
 
-    This will create:
-        package.json: Development packages installed by npm
-        Gruntfile.js: Configuration for the task runner
-        LICENSE: License file (default is MIT)
+        This will create:
+            package.json: Development packages installed by npm
+            Gruntfile.js: Configuration for the task runner
+            LICENSE: License file (default is MIT)
+
+    yo techtonic:web
+
+        This is under construction
+
+    yo techtonic:env
+
+        This is under construction
