@@ -44,7 +44,6 @@
     "karma-requirejs": "^0.2.2",
     "lodash": "^3.10.0",
     "nodemon": "^1.4.0",
-    "nsp": "^2.0.2",
     "phantomjs": "^1.9.16",
     "sinon": "^1.15.4",
     "globby": "^4.0.0",
@@ -89,6 +88,9 @@
   },
   "scripts": {
     "test": "grunt test-ci",
-    "start": "json-server --watch tests/data/db.json"
+    "inspect": "grunt jsinspect:app",
+    "lint-comments": "grunt jscs:comments",
+    "prestart": "nohup json-server --port 8080 --watch tests/data/db.json &",
+    "start": " grunt"
   }
 }
