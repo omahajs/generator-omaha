@@ -6,6 +6,11 @@ module.exports = function(grunt) {
         ports:   config.ports,
         folders: config.folders,
         files:   config.files,
+        deployed: {
+            assets: config.folders.assets.split('/')[1],
+            images: config.files.images.split('/')[0],
+            fonts:  config.files.fonts.split('/')[0]
+        },
 <% if (props.useA11y) { %>
         /**
          * Accessibility audit with a11y
@@ -90,14 +95,24 @@ module.exports = function(grunt) {
          * @see {@link https://github.com/gruntjs/grunt-contrib-copy}
          **/
         copy: {
-            build: {
+            fonts: {
                 files: [{
                     expand: true,
-                    src: ['<%%= folders.assets %>/<%%= files.fonts %>'<% if(!props.compressImages) { %>, '<%%= folders.assets %>/<%%= files.images %>'<% } %>],
-                    dest: '<%%= folders.dist %>/',
+                    flatten: true,
+                    src: ['<%%= folders.assets %>/<%%= files.fonts %>'],
+                    dest: '<%%= folders.dist %>/<%%= deployed.assets %>/<%%= deployed.fonts %>',
                     filter: 'isFile'
                 }]
-            }
+            }<% if(!props.compressImages) { %>,
+            images: {
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    src: ['<%%= folders.assets %>/<%%= files.images %>'],
+                    dest: '<%%= folders.dist %>/<%%= deployed.assets %>/<%%= deployed.images %>',
+                    filter: 'isFile'
+                }]
+            }<% } %>
         },
 
         /**
@@ -182,9 +197,10 @@ module.exports = function(grunt) {
             build: {
                 files: [{
                     expand: true,
+                    flatten: true,
                     cwd: './',
                     src: ['<%%= folders.assets %>/<%%= files.images %>'],
-                    dest: '<%%= folders.dist %>/'
+                    dest: '<%%= folders.dist %>/<%%= deployed.assets %>/<%%= deployed.images %>'
                 }]
             }
         },

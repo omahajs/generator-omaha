@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         'requirejs:build',
         'htmlmin',<% if(props.compressImages) { %>
         'imagemin:build',<% } %>
-        'copy:build'
+        'copy'
     ]);
     grunt.registerTask('demo', [
         'build',
