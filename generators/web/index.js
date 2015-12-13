@@ -30,8 +30,8 @@ module.exports = yeoman.generators.Base.extend({
         this.prompt(prompts, function (props) {
             this.props = props;
             this.serverDirectory = props.serverDirectory;
-            this.httpPort        = props.httpPort;
-            this.websocketPort   = props.websocketPort;
+            this.httpPort = props.httpPort;
+            this.websocketPort = props.websocketPort;
             done();
         }.bind(this));
     },
@@ -39,7 +39,12 @@ module.exports = yeoman.generators.Base.extend({
         projectfiles: function() {
             this.template('_package.json', 'package.json');
             this.template('_app.json', 'app.json');
-            this.template('config/_default.js', 'config/default.js');
+            try {
+                yeoman.assert.file('config/default.js');
+                console.log('extend default.js here...');
+            } catch(e) {
+                this.template('config/_default.js', 'config/default.js');
+            }
         }
     },
     writing: {
