@@ -20,7 +20,8 @@ describe('techtonic:server', function() {
                 'index.js',
                 'config/default.js',
                 'web/socket.js',
-                'web/server.js'
+                'web/server.js',
+                'web/client/index.html'
             ]);
         });
         it('configures files', function() {

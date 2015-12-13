@@ -1,19 +1,10 @@
 'use strict';
 var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
-var mkdirp = require('mkdirp');
 
 module.exports = yeoman.generators.Base.extend({
     prompting: function() {
         var done = this.async();
         var prompts = [
-            {
-                type: 'input',
-                name: 'serverDirectory',
-                message: 'Server root directory?',
-                default: 'web'
-            },
             {
                 type: 'input',
                 name: 'httpPort',
@@ -45,8 +36,9 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         serverFiles: function() {
             this.template('_index.js', 'index.js');
-            this.template('_socket.js', this.serverDirectory + '/socket.js');//WebSocket server
-            this.template('_server.js', this.serverDirectory + '/server.js');//HTTP server
+            this.template('_socket.js', 'web/socket.js');//WebSocket server
+            this.template('_server.js', 'web/server.js');//HTTP server
+            this.template('_index.html', 'web/client/index.html');
         }
     },
     install: function () {
