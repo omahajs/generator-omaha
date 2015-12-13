@@ -12,10 +12,10 @@ module.exports = {
         saveUninitialized: false
     },
     websocket: {
-        port: 13337
+        port: <%= websocketPort %>
     },
     http: {
-        port: process.env.PORT || 3000
+        port: process.env.PORT || <%= httpPort %>
     },
     log: {
         level: "error"

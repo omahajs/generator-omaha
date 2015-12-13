@@ -23,17 +23,9 @@ Options:
         Installs karma-coveralls module and adds sending coverage to Coveralls.io to the work flow
 
 Example:
-    yo techtonic:app
+    yo techtonic
 
         This will create:
             package.json: Development packages installed by npm
             Gruntfile.js: Configuration for the task runner
             LICENSE: License file (default is MIT)
-
-    yo techtonic:web
-
-        This is under construction
-
-    yo techtonic:env
-
-        This is under construction

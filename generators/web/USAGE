@@ -1,0 +1,18 @@
+Description:
+    Creates Node.js HTTP and WebSocket servers with security baked in
+
+Options:
+    Server root directory?
+        Choose directory to scaffold server.
+    HTTP server port?
+        Choose HTTP server port
+    WebSocket server port?
+        Choose WebSocket server port
+
+Example:
+    yo techtonic:web
+
+        This will create:
+            package.json: Development packages installed by npm
+            Gruntfile.js: Configuration for the task runner
+            LICENSE: License file (default is MIT)
