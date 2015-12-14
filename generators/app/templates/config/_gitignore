@@ -1,2 +1,12 @@
 nohup.out
-dist/client
+node_modules/
+
+#Grunt template files
+.grunt/
+_SpecRunner.html
+
+# Dynamically generated files and folders
+<%= appDir %>reports/
+dist
+<%= appDir %>app/templates.js
+<%= appDir %>app/styles.css

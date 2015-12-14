@@ -11,7 +11,8 @@ var configFiles = [
     'config/.jscsrc-jsdoc',
     'config/.jshintrc',
     'config/default.js',
-    'config/karma.conf.js'
+    'config/karma.conf.js',
+    '.gitignore'
 ];
 var projectFiles = [
     'package.json',
@@ -64,6 +65,10 @@ describe('techtonic:app', function() {
             assert.file(projectFiles);
             assert.file(files);
         });
+        it('configures files', function() {
+            assert.fileContent('.gitignore', 'app/templates.js');
+            assert.fileContent('.gitignore', 'app/styles.css');
+        });
         dependencies.forEach(function(dep) {
             it('adds ' + dep + ' to package.json', function() {
                 assert.fileContent('package.json', dep);
@@ -100,6 +105,10 @@ describe('techtonic:app', function() {
             assert.file(projectFiles);
             assert.file(files);
         });
+        it('configures files', function() {
+            assert.fileContent('.gitignore', 'app/templates.js');
+            assert.fileContent('.gitignore', 'app/styles.css');
+        });
         dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {
                 assert.noFileContent('package.json', dep);
@@ -132,13 +141,16 @@ describe('techtonic:app', function() {
                 })
                 .on('end', done);
         });
-
         it('creates files', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
             assert.file(files.map(function(file) {
                 return appDirectory + file;
             }));
+        });
+        it('configures files', function() {
+            assert.fileContent('.gitignore', appDirectory + 'app/templates.js');
+            assert.fileContent('.gitignore', appDirectory + 'app/styles.css');
         });
         dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {
