@@ -5967,4 +5967,3306 @@
       ]
     }
   ]
+  "czml": [
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed34e863c81fc418359",
+      "index": 0
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed3d82373095277579e",
+      "index": 1
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed380e2703944f587a8",
+      "index": 2
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed38f96e0ef23b38b34",
+      "index": 3
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed3b7e644d56a475946",
+      "index": 4
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed34d055c0b60db59d8",
+      "index": 5
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed37cfc7350fa7c0aa0",
+      "index": 6
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed38f731f3962a59cb2",
+      "index": 7
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed3d4c1f01de45a0f98",
+      "index": 8
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed30aeace7be3c5ab8f",
+      "index": 9
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed34bd50dd46823f5fc",
+      "index": 10
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed3287f8a690a8205f1",
+      "index": 11
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed3e7663dcbe7055d20",
+      "index": 12
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed3701c210119b8081a",
+      "index": 13
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed3dfe69da659ab112f",
+      "index": 14
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed34ff1b4ed27e68177",
+      "index": 15
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed463d90a8ab5d7ff42",
+      "index": 16
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed45b8471ee0b1341b2",
+      "index": 17
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed416226dbba1522b6c",
+      "index": 18
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4aa869730f51d85d4",
+      "index": 19
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed462e1eefda69a3f1d",
+      "index": 20
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4e56124193142f052",
+      "index": 21
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4f019903153c90587",
+      "index": 22
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4a7a0775963d0e721",
+      "index": 23
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4d057a2fd130c549a",
+      "index": 24
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4c9f165c8ff3007de",
+      "index": 25
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4aeb7617af9778d02",
+      "index": 26
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed40f2f56c9d0a21613",
+      "index": 27
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed46b3e3be981d5bc4a",
+      "index": 28
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed495235d6587bae46e",
+      "index": 29
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4f0ac37a6af58090b",
+      "index": 30
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed467e4bee8c7c9ca55",
+      "index": 31
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed40d8ea228b329296d",
+      "index": 32
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4decdbf31ea3ea067",
+      "index": 33
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed40d4b35fe6f745e10",
+      "index": 34
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed413d416b585412b30",
+      "index": 35
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4df2478630c936684",
+      "index": 36
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed47c94d26aa331ba47",
+      "index": 37
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed468cf1ee7edde2be5",
+      "index": 38
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed40245a14719b051ea",
+      "index": 39
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed471fd3378ce99ddc7",
+      "index": 40
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed484f27e457d7476e7",
+      "index": 41
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4f341cc0acd1f7f18",
+      "index": 42
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed43ee84447203e25cb",
+      "index": 43
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed43db038ddce129a72",
+      "index": 44
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4b013448be0643710",
+      "index": 45
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed41f768ee44c0e057a",
+      "index": 46
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4cf58bbde4087780e",
+      "index": 47
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed46dc3c81e26b17976",
+      "index": 48
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4fd5696fb40f03237",
+      "index": 49
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed40951faebdc613991",
+      "index": 50
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed47c3a969238ba1947",
+      "index": 51
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed452404287dbf3a7f3",
+      "index": 52
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed49ea4693c062a30db",
+      "index": 53
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed44bd92cf09d1a9fb3",
+      "index": 54
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4130d893f249785e4",
+      "index": 55
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4794ff2e25b1eaffb",
+      "index": 56
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4454cb75e31da9a46",
+      "index": 57
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed462704e3b2415bf3e",
+      "index": 58
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed42a61fe06cdb651c7",
+      "index": 59
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4185d413ffad71dcc",
+      "index": 60
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4705dfc328d46886e",
+      "index": 61
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed46735452c28233314",
+      "index": 62
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed490753f0b00cd9bfd",
+      "index": 63
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4303fc4c058b0ef8e",
+      "index": 64
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4c2550d2219784354",
+      "index": 65
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed46260fba71249788a",
+      "index": 66
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4891e69784c40812e",
+      "index": 67
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4d74f873dd2956a7a",
+      "index": 68
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4c2a996ba05fffdb8",
+      "index": 69
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed48db110310b2dc32a",
+      "index": 70
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4e9091748219156e2",
+      "index": 71
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed495a6f649774e384c",
+      "index": 72
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed41c06b6416384d522",
+      "index": 73
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed47215e5545307758c",
+      "index": 74
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4fe30e4f36e18cf4f",
+      "index": 75
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4d0228bb1ce222a15",
+      "index": 76
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed431a06c0f5a524a03",
+      "index": 77
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4d4308058be30b9bf",
+      "index": 78
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4c0885d06a25a3b91",
+      "index": 79
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed41fb4f7227bd33977",
+      "index": 80
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4a107cc4ae34302eb",
+      "index": 81
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed450512e64377b50a1",
+      "index": 82
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed49b7e3962e1089452",
+      "index": 83
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4248322ab639cd57a",
+      "index": 84
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed422f0ab515dda2531",
+      "index": 85
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4a671273312f7bd46",
+      "index": 86
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed45fec1eff404a65a9",
+      "index": 87
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed416609985e4c950eb",
+      "index": 88
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4ab6d625b2b30d42d",
+      "index": 89
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed44ad428f10ca43457",
+      "index": 90
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4b553e948ab17703c",
+      "index": 91
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed49e63184d670ea355",
+      "index": 92
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4662158a7cc684b66",
+      "index": 93
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4edd99e28e1466ab7",
+      "index": 94
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed43bfa9ac88672909b",
+      "index": 95
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4a7bd94a0fe356ef0",
+      "index": 96
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": false
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Bravo",
+      "_id": "566e1ed4c949e5f0838725c0",
+      "index": 97
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Charlie",
+      "_id": "566e1ed4fbb73b62bf6c4ea0",
+      "index": 98
+    },
+    {
+      "point": {
+        "position": {
+          "cartographicDegrees": [
+            "-130.775573",
+            "-22.11362",
+            7134
+          ]
+        },
+        "color": {
+          "rgba": [
+            73,
+            179,
+            41,
+            255
+          ]
+        },
+        "pixelSize": {
+          "number": 3
+        },
+        "show": true
+      },
+      "position": {
+        "cartographicDegrees": [
+          "-179.567291",
+          "-71.351885",
+          5220
+        ]
+      },
+      "id": "Alpha",
+      "_id": "566e1ed4659807bafc02d6dd",
+      "index": 99
+    }
+  ]
 }
