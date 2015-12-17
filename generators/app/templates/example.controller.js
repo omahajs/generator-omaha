@@ -8,8 +8,13 @@ define(function(require, exports, module) {
     'use strict';
 
     var Marionette = require('marionette');
-
-    module.exports = Marionette.Object.extend({
+    /**
+     * @name ExampleController
+     * @constructor
+     * @extends Marionette.Object
+    **/
+    var ExampleController = Marionette.Object.extend({
         //controller code goes here
     });
+    module.exports = ExampleController;
 });
