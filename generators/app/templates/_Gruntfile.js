@@ -318,7 +318,8 @@ module.exports = function(grunt) {
                 }
             },
             coverage: {
-                autoWatch: false
+                autoWatch: false,
+                browsers: ['PhantomJS']
             },
             covering: {
                 autoWatch: true,

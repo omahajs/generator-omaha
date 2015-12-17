@@ -38,7 +38,7 @@ module.exports = function(karmaConfig) {
         },
         colors: true,
         logLevel: 'INFO',        //DISABLE, ERROR, WARN, INFO, DEBUG
-        browsers: ['PhantomJS'], //Chrome, ChromeCanary, Firefox, Opera, IE (Win), Safari (Mac)
+        browsers: ['PhantomJS', 'Firefox'], //Chrome, ChromeCanary, Firefox, Opera, IE (Win), Safari (Mac)
         captureTimeout: 60000,
         singleRun: true
     });
