@@ -323,7 +323,8 @@ module.exports = function(grunt) {
             },
             covering: {
                 autoWatch: true,
-                singleRun: false
+                singleRun: false,
+                browsers: ['Firefox']
             }
         },
 
