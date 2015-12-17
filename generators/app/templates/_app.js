@@ -17,7 +17,7 @@ define(function(require, exports, module) {
     /**
      * @class ApplicationModel
      * @extends Backbone.Model
-     * @prop {Object} default
+     * @prop {object} default
      * @prop {string} default.name='<%= projectName %>'
     **/
     var ApplicationModel = Backbone.Model.extend({
@@ -32,5 +32,6 @@ define(function(require, exports, module) {
             'root': 'body'
         }
     });
+    
     module.exports = App;
 });

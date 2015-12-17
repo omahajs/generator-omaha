@@ -1,20 +1,20 @@
 /**
  * @file Main entry point for application
  * @author <%= userName %>
- * @requires module:app
- * @requires module:router
+ * @requires app
+ * @requires router
+ * @requires views/example
 **/
 define(function(require) {
     'use strict';
 
-    var WebApp = require('app');
-    var Router = require('router');
-
-    var View = require('views/example');
+    var WebApp  = require('app');
+    var Example = require('router');
+    var View    = require('views/example');
 
     WebApp.on('before:start', function() {
         console.info(WebApp.model.get('name') + ' is starting...');
-        WebApp.router = new Router();
+        WebApp.router = new Example.router();
     });
     WebApp.on('start', function() {
         Backbone.history.start();
