@@ -378,7 +378,7 @@ module.exports = function(grunt) {
          **/
         plato: {
             app : {
-                src : ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js'],
+                src : ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
                 dest : '<%%= folders.reports %>/plato',
                 options : {
                     jshint : '<%%= files.config.jshint %>'
