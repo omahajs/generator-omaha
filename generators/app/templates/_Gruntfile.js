@@ -278,6 +278,7 @@ module.exports = function(grunt) {
             },
             grunt: 'Gruntfile.js',
             tasks: '<%%= folders.tasks %>/<%%= files.scripts %>',
+            tests: '<%%= folders.tests %>/<%%= folders.specs %>/<%%= files.scripts %>',
             app:   '<%%= folders.app %>/<%%= files.scripts %>'
         },
 <% if (props.useJsinspect) { %>
@@ -377,7 +378,7 @@ module.exports = function(grunt) {
          **/
         plato: {
             app : {
-                src : '<%%= folders.app %>/<%%= files.scripts %>',
+                src : ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js'],
                 dest : '<%%= folders.reports %>/plato',
                 options : {
                     jshint : '<%%= files.config.jshint %>'
