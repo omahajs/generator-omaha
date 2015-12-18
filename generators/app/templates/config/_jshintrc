@@ -18,7 +18,6 @@
   "noarg": true,
   "noempty": true,
   "nonbsp": true,
-  "quotmark": true,
   "strict": true,
   "unused": true,
   "worker": false,
