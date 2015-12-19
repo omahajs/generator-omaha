@@ -31,9 +31,10 @@
     "yosay": "^1.0.2"
   },
   "devDependencies": {
+    "istanbul": "^0.4.1",
     "mocha": "*"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "istanbul cover _mocha"
   }
 }

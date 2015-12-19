@@ -104,7 +104,7 @@ describe('BACKBONE module', function() {
         helpers.run(path.join(__dirname, '../generators/module'))
             .withArguments([moduleName])
             .withPrompts({
-                dependencies: ['underscore', 'backbone'],
+                dependencies: ['backbone'],
                 moduleDescription: moduleDescription
             })
             .on('end', done);
