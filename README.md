@@ -11,11 +11,11 @@
 Getting Started  [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ---------------
 - Install [Yeoman](http://yeoman.io/) CLI tool globally
-```javascript
+```bash
 npm install --global yo
 ```
 - Install generator-techtonic node module globally
-```javascript
+```bash
 npm install --global generator-techtonic
 ```
 - Create an empty directory and cd into it
@@ -23,7 +23,7 @@ npm install --global generator-techtonic
 mkdir my-project && cd my-project
 ```
 - Run techtonic generator
-```javascript
+```bash
 yo techtonic
 ```
 - Install answer questions and make selections
