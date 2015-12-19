@@ -31,10 +31,13 @@
     "yosay": "^1.0.2"
   },
   "devDependencies": {
+    "coveralls": "^2.11.6",
     "istanbul": "^0.4.1",
-    "mocha": "*"
+    "mocha": "*",
+    "mocha-lcov-reporter": "^1.0.0"
   },
   "scripts": {
-    "test": "istanbul cover _mocha"
+    "test": "istanbul cover _mocha",
+    "posttest": "coveralls"
   }
 }
