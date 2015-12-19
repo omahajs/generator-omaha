@@ -3,8 +3,6 @@
 var path = require('path');
 var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
-var os = require('os');
-var mkdirp = require('mkdirp');
 
 describe('techtonic:server', function() {
     before(function(done) {
