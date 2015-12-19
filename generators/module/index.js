@@ -54,7 +54,7 @@ module.exports = yeoman.generators.NamedBase.extend({
         }.bind(this));
     },
     writing: function() {
-        var moduleFileName = this.name + '.umd.js';
+        var moduleFileName = this.name + '.js';
         if (this.use.jquery) {
             moduleFileName = 'jquery.' + this.name + '.js';
         }

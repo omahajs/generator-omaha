@@ -43,7 +43,7 @@ var dependencies = [
     'grunt-karma-coveralls'
 ];
 
-describe('techtonic:app', function() {
+describe('app', function() {
     describe('when all options are true', function() {
         before(function(done) {
             helpers.run(path.join(__dirname, '../generators/app'))
