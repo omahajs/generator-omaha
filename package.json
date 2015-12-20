@@ -1,6 +1,6 @@
 {
   "name": "generator-techtonic",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Software workbench built on Yeoman for crafting maintainable code for the web",
   "license": "MIT",
   "main": "generators/app/index.js",
