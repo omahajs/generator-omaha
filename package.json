@@ -1,7 +1,7 @@
 {
   "name": "generator-techtonic",
   "version": "1.0.0",
-  "description": "Software workbench built on Yeoman for crafting maintainable code for the web",
+  "description": "Yeoman generator designed to help you craft maintainable code for the modern web",
   "license": "MIT",
   "main": "generators/app/index.js",
   "repository": "jhwohlgemuth/generator-techtonic",
@@ -39,6 +39,7 @@
   },
   "scripts": {
     "test": "istanbul cover _mocha",
+    "preversion": "npm test",
     "travis": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   }
 }
