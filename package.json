@@ -1,9 +1,9 @@
 {
   "name": "generator-techtonic",
   "version": "0.0.1",
-  "description": "Code mixed with configuration and wrapped in convention",
+  "description": "Yeoman generator that mixes code with configuration and wraps it all in a bit of convention",
   "license": "MIT",
-  "main": "app/index.js",
+  "main": "generators/app/index.js",
   "repository": "jhwohlgemuth/generator-techtonic",
   "author": {
     "name": "Jason Wohlgemuth",
@@ -15,7 +15,7 @@
   },
   "files": [
     "generators/app",
-    "generators/umd",
+    "generators/module",
     "generators/server",
     "generators/env"
   ],

@@ -1,5 +1,3 @@
-**WARNING**: The `generator-techtonic` module has not been pushed to [npm](https://www.npmjs.com/) yet
-
 <div align="center">
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
