@@ -23,7 +23,3 @@ Examples:
         Creates a functional node server project with security industry best practices baked in using Kraken.js and Helmet.js
 
         ** Should be run in an empty project folder **
-
-    yo techtonic:env
-
-        ** Under construction **
