@@ -1,7 +1,7 @@
 <div align="center">
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
-> [Yeoman](http://yeoman.io/) generator to craft web apps by mixing code with configuration and wrapping it all in a bit of convention
+> Software workbench built on [Yeoman](http://yeoman.io/) for crafting maintainable code for the web
 
 [![Build Status](https://travis-ci.org/jhwohlgemuth/generator-techtonic.svg?branch=master)](https://travis-ci.org/jhwohlgemuth/generator-techtonic)
 [![Coverage Status](https://coveralls.io/repos/jhwohlgemuth/generator-techtonic/badge.svg?branch=master&service=github)](https://coveralls.io/github/jhwohlgemuth/generator-techtonic?branch=master)

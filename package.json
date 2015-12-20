@@ -1,7 +1,7 @@
 {
   "name": "generator-techtonic",
   "version": "0.0.1",
-  "description": "Yeoman generator that mixes code with configuration and wraps it all in a bit of convention",
+  "description": "Software workbench built on Yeoman for crafting maintainable code for the web",
   "license": "MIT",
   "main": "generators/app/index.js",
   "repository": "jhwohlgemuth/generator-techtonic",

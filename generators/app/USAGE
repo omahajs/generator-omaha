@@ -1,31 +1,29 @@
 Description:
-    Creates a web app work flow and infrastructure loaded with config files, templates and example files
 
-Options:
-    What do you want to name this project?
-        Sets the project's name
-    Where do you want to put the application directory?
-        This allows you to nest the application files/folders in a directory of your choosing.
-        By default, the project is scaffolded with app/assets/tasks/tests in the same directory as the project files.
-        If a new project directory is designated, app/assets/tasks/tests will be put inside the the selected directory.
-        This option is mainly intended for accommodating multi-app projects and could be considered "cleaner" by some.
-    Auto-fix minor style errors?
-        Sets the JSCS fix option (Y/N --> true/false)
-    Detect copy-pasted and structurally similar code with JS Inspect?
-        Installs JS Inspect and includes 'inspect' Grunt task
-    Detect magic numbers with buddy.js?
-        Installs buddy.js Grunt plug-in and adds buddyjs to 'lint' Grunt task
-    Enforce ARIA and Section 508 standards?
-        Includes the 'aria', 'a11y' and 'accessibility' Grunt tasks
-    Use image compression for deployed application?
-        Installs grunt-imagemin plug-in and includes image compression in 'build' Grunt task
-    Integrate with Coveralls.io?
-        Installs karma-coveralls module and adds sending coverage to Coveralls.io to the work flow
+    Software workbench to craft maintainable code for the web
 
-Example:
+Examples:
+
     yo techtonic
 
-        This will create:
-            package.json: Development packages installed by npm
-            Gruntfile.js: Configuration for the task runner
-            LICENSE: License file (default is MIT)
+        Runs default generator, techtonic:app
+
+    yo techtonic:app
+
+        Scaffold a web application and workflow complete with code infrastructure, examples, and configuration files
+
+    yo techtonic:module <module name>
+
+        Create a UMD-compliant JavaScript module for developing with various JavaScript libraries
+
+        ** Saves generated module to app/modules folder **
+
+    yo techtonic:server
+
+        Creates a functional node server project with security industry best practices baked in using Kraken.js and Helmet.js
+
+        ** Should be run in an empty project folder **
+
+    yo techtonic:env
+
+        ** Under construction **
