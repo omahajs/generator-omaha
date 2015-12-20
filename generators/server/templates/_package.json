@@ -25,9 +25,13 @@
     "protocolify": "^1.0.2",
     "ws": "^0.8.0"
   },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
+  },
   "scripts": {
+    "scan": "nsp check",
     "prestart": "npm run scan",
     "start": "node index.js",
-    "scan": "nsp check"
+    "nodemon": "nodemon index.js"
   }
 }
