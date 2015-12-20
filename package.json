@@ -34,7 +34,8 @@
     "coveralls": "^2.11.6",
     "istanbul": "^0.4.1",
     "mocha": "*",
-    "mocha-lcov-reporter": "^1.0.0"
+    "mocha-lcov-reporter": "^1.0.0",
+    "sinon": "^1.17.2"
   },
   "scripts": {
     "test": "istanbul cover _mocha",

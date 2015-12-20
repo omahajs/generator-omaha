@@ -1,8 +1,10 @@
 'use strict';
 
-var path = require('path');
-var assert = require('yeoman-generator').assert;
+var path    = require('path');
+var assert  = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
+var base    = require('yeoman-generator').generators.Base;
+var sinon   = require('sinon');
 
 var modulePath;
 var moduleDirectory = 'app/modules/';
@@ -10,10 +12,13 @@ var moduleName;
 var moduleDescription;
 
 function testModuleConfig(moduleType, moduleTypeAlias) {
+    var stub;
     var dependencies = ['jquery', 'underscore', 'backbone'];
     var aliases = ['$', '_', 'Backbone'];
     describe(moduleType.toUpperCase() + ' module', function() {
         before(function(done) {
+            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub.returns(null);
             moduleName = 'plugin'
             moduleDescription = 'foo';
             modulePath = moduleDirectory + moduleType + '.' + moduleName + '.js';
@@ -24,6 +29,9 @@ function testModuleConfig(moduleType, moduleTypeAlias) {
                     moduleDescription: moduleDescription
                 })
                 .on('end', done);
+        });
+        after(function() {
+            stub.restore();
         });
         it('creates ' + moduleType +' JS module with appropriate name', function() {
             assert.fileContent(modulePath, '* @file ' + moduleDescription);

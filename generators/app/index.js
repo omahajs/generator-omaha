@@ -25,10 +25,7 @@ module.exports = yeoman.generators.Base.extend({
                 type: 'input',
                 name: 'appDir',
                 message: 'Where do you want to put the application directory?',
-                default: '.',
-                filter: function(answer) {
-                    return /\/$/.test(answer) ? answer : answer + '/';
-                }
+                default: '.'
             },
             {
                 type: 'confirm',
@@ -70,7 +67,11 @@ module.exports = yeoman.generators.Base.extend({
         this.prompt(prompts, function (props) {
             this.props = props;
             this.projectName = props.projectName;
-            this.appDir = props.appDir;
+            if (!/\/$/.test(props.appDir)) {
+                 this.appDir = props.appDir + '/';
+            } else {
+                this.appDir = props.appDir;
+            }
             this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
             this.autoFix = props.autoFix ? 'true' : 'false';
             done();

@@ -1,10 +1,13 @@
 'use strict';
 
-var path = require('path');
-var assert = require('yeoman-generator').assert;
+var path    = require('path');
+var assert  = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
-var os = require('os');
+var base    = require('yeoman-generator').generators.Base;
+var sinon   = require('sinon');
+var os      = require('os');
 
+var stub;
 var configFiles = [
     'config/.csslintrc',
     'config/.jscsrc',
@@ -46,6 +49,8 @@ var dependencies = [
 describe('app', function() {
     describe('when all options are true', function() {
         before(function(done) {
+            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub.returns(null);
             helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions({skipInstall: true})
                 .withPrompts({
@@ -59,7 +64,9 @@ describe('app', function() {
                 })
                 .on('end', done);
         });
-
+        after(function() {
+            stub.restore();
+        });
         it('creates files', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
@@ -127,7 +134,7 @@ describe('app', function() {
     describe('when the application directory is changed', function() {
         var appDirectory;
         before(function(done) {
-            appDirectory = 'webapp/';
+            appDirectory = 'webapp';
             helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions({skipInstall: true})
                 .withPrompts({
@@ -145,12 +152,12 @@ describe('app', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
             assert.file(files.map(function(file) {
-                return appDirectory + file;
+                return appDirectory + '/' + file;
             }));
         });
         it('configures files', function() {
-            assert.fileContent('.gitignore', appDirectory + 'app/templates.js');
-            assert.fileContent('.gitignore', appDirectory + 'app/styles.css');
+            assert.fileContent('.gitignore', appDirectory + '/app/templates.js');
+            assert.fileContent('.gitignore', appDirectory + '/app/styles.css');
         });
         dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {
