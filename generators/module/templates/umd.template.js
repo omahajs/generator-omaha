@@ -21,10 +21,23 @@
     'use strict';
 
     //Write constructors, functions, objects, variables, and other stuff here...
+    function <%= moduleName %>() {
+        this._foo = 'bar';
+    }
+
+    <%= moduleName %>.prototype.foo = function() {
+        console.log(this._foo);
+    }
+
+    function privateFunction() {
+        console.log('Well begun is half done.');
+        console.info('--Aristotle');
+    }
 
     return {
 
-        //Return the module API here..
+        //Return the public module API here..
+        publicFunction: privateFunction
 
     };
 }));

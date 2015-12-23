@@ -1,5 +1,6 @@
 nohup.out
 node_modules/
+.yo-rc.json
 
 #Grunt template files
 .grunt/

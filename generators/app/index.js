@@ -74,6 +74,7 @@ module.exports = yeoman.generators.Base.extend({
             }
             this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
             this.autoFix = props.autoFix ? 'true' : 'false';
+            this.config.set('appDir', this.appDir);
             done();
         }.bind(this));
     },

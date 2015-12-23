@@ -1,5 +1,5 @@
 {
-  "name": "<%= props.projectName %>",
+  "name": "<%= projectName %>",
   "version": "1.0.0",
   "author": "<%= userName %>",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "Karma",
     "Jasmine"
   ],
-  "main": "app/main.js",
+  "main": "<%= appDir %>app/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/jhwohlgemuth/techtonic-webapp.git"

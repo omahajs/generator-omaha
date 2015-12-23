@@ -6,6 +6,7 @@ var helpers = require('yeoman-generator').test;
 var base    = require('yeoman-generator').generators.Base;
 var sinon   = require('sinon');
 
+var appDir = './';
 var modulePath;
 var moduleDirectory = 'app/modules/';
 var moduleName;
@@ -23,6 +24,7 @@ function testModuleConfig(moduleType, moduleTypeAlias) {
             moduleDescription = 'foo';
             modulePath = moduleDirectory + moduleType + '.' + moduleName + '.js';
             helpers.run(path.join(__dirname, '../generators/module'))
+                .withLocalConfig({appDir: appDir})
                 .withArguments([moduleName])
                 .withPrompts({
                     dependencies: [moduleType],
@@ -72,6 +74,7 @@ describe('Vanilla UMD module', function() {
         moduleDescription = 'bar';
         modulePath = moduleDirectory + moduleName + '.js';
         helpers.run(path.join(__dirname, '../generators/module'))
+            .withLocalConfig({appDir: appDir})
             .withArguments([moduleName])
             .withPrompts({
                 dependencies: [],
@@ -110,6 +113,7 @@ describe('BACKBONE module', function() {
         moduleDescription = 'foo';
         modulePath = moduleDirectory + 'backbone.' + moduleName + '.js';
         helpers.run(path.join(__dirname, '../generators/module'))
+            .withLocalConfig({appDir: appDir})
             .withArguments([moduleName])
             .withPrompts({
                 dependencies: ['backbone'],
