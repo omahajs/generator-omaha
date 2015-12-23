@@ -30,7 +30,7 @@
     }
 
     function privateFunction() {
-        console.log('Well begun is half done.');
+        console.log('"Well begun is half done"');
         console.info('--Aristotle');
     }
 
