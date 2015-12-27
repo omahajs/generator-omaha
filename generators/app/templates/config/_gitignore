@@ -7,7 +7,7 @@ node_modules/
 _SpecRunner.html
 
 # Dynamically generated files and folders
-<%= appDir %>reports/
+reports/
 dist
 <%= appDir %>app/templates.js
 <%= appDir %>app/styles.css
