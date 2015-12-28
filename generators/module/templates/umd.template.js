@@ -15,7 +15,7 @@
         var Backbone = require('backbone');<% } %>
         module.exports = factory(root<% if(use.jquery) { %>, $<% } %><% if(use.underscore) { %>, _<% } %><% if(use.backbone) { %>, Backbone<% } %>);
     } else {
-        root.<%= moduleName %> = factory(root<% if (use.jquery) { %>, jQuery<% } %><% if (use.underscore) { %>, _<% } %><% if (use.backbone) { %>, Backbone<% } %>);
+        root.<%= moduleName %> = factory(root<% if (use.jquery) { %>, jQuery<% } %><% if (use.underscore) { %>, underscore<% } %><% if (use.backbone) { %>, Backbone<% } %>);
     }
 }(this, function(root<% if (use.jquery) { %>, $<% } %><% if (use.underscore) { %>, _<% } %><% if (use.backbone) { %>, Backbone<% } %>) {
     'use strict';
