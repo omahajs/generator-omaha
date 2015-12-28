@@ -45,8 +45,8 @@ function testModuleConfig(moduleType, moduleTypeAlias) {
                 assert.fileContent(modulePath, 'module.exports = factory(root, ' + moduleTypeAlias + ');');
                 if (moduleType === 'jquery') {
                     assert.fileContent(modulePath, 'root.' + moduleName + ' = factory(root, jQuery);');
-                } else {
-                    assert.fileContent(modulePath, 'root.' + moduleName + ' = factory(root, ' + moduleTypeAlias + ');');
+                } else  {
+                    assert.fileContent(modulePath, 'root.' + moduleName + ' = factory(root, ' + moduleType + ');');
                 }
                 assert.fileContent(modulePath, '}(this, function(root, ' + moduleTypeAlias + ') {');
             });
@@ -129,7 +129,7 @@ describe('BACKBONE module', function() {
         it('configures the module to work with AMD, CommonJS, and globals', function() {
             assert.fileContent(modulePath, 'define([\'underscore\',\'backbone\'], function(_, Backbone) {');
             assert.fileContent(modulePath, 'module.exports = factory(root, _, Backbone);');
-            assert.fileContent(modulePath, 'root.' + moduleName + ' = factory(root, _, Backbone);')
+            assert.fileContent(modulePath, 'root.' + moduleName + ' = factory(root, underscore, Backbone);')
             assert.fileContent(modulePath, '}(this, function(root, _, Backbone) {');
         });
         it('Does NOT add jquery dependency', function() {
