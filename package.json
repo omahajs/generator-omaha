@@ -35,9 +35,11 @@
     "istanbul": "^0.4.1",
     "mocha": "*",
     "mocha-lcov-reporter": "^1.0.0",
+    "mocha-unfunk-reporter": "^0.4.0",
     "sinon": "^1.17.2"
   },
   "scripts": {
+    "mocha": "mocha -R mocha-unfunk-reporter",
     "test": "istanbul cover _mocha",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
