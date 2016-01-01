@@ -10,6 +10,13 @@ define(function(require) {
     _.mixin({
         capitalize: function(string) {
             return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+        },
+        curry: function(func) {
+            var applied = Array.prototype.slice.call(arguments, 1);
+            return function() {
+                var args = applied.concat(Array.prototype.slice.call(arguments));
+                return func.apply(this, args);
+            };
         }
     });
 });
