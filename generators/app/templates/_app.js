@@ -32,6 +32,6 @@ define(function(require, exports, module) {
             'root': 'body'
         }
     });
-    
+
     module.exports = App;
 });
