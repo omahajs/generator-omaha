@@ -59,6 +59,12 @@ module.exports = yeoman.generators.Base.extend({
             },
             {
                 type: 'confirm',
+                name: 'benchmarks',
+                message: 'Add benchmarking support using Benchmark.js?',
+                default: true
+            },
+            {
+                type: 'confirm',
                 name: 'useCoveralls',
                 message: 'Integrate with Coveralls.io?',
                 default: true
@@ -107,6 +113,9 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath(this.appDir + 'tests/jasmine')
             );
             this.template('tests/test-main.js', this.appDir + 'tests/test-main.js');
+            if (this.props.benchmarks) {
+                this.template('tests/example.benchmark.js', this.appDir + 'tests/benchmarks/example.benchmark.js');
+            }
             mkdirp(this.appDir + 'app/models');
             mkdirp(this.appDir + 'app/views');
             mkdirp(this.appDir + 'app/controllers');

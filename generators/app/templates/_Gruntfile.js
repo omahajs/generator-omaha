@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         /**
          * Accessibility audit with a11y
          * @see {@link https://github.com/lucalanca/grunt-a11y}
-         **/
+        **/
         a11y: {
             index: {
                 options: {urls: ['<%%= folders.app %>/<%%= files.index %>']}
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         /**
          * Accessibility audit with AccessSniff and HTML Codesniffer
          * @see {@link https://github.com/yargalot/grunt-accessibility}
-         **/
+        **/
         accessibility: {
             index: {
                 options: {
@@ -54,11 +54,25 @@ module.exports = function(grunt) {
                 src: ['<%%= folders.assets %>/<%%= files.templates %>']
             }
         },
+<% } %><% if (props.benchmarks) { %>
+        /**
+         * Run benchmarks
+         * @see {@link https://github.com/shama/grunt-benchmark}
+        **/
+        benchmark: {
+            options: {
+                displayResults: true
+            },
+            all: {
+                src: ['<%%= folders.tests %>/benchmarks/*.js'],
+                dest: '<%%= folders.reports %>/benchmarks/results.csv'
+            }
+        },
 <% } %><% if (props.useBuddyjs) { %>
         /**
          * Find "magic numbers" (unnamed numerical constants) in code
          * @see {@link https://github.com/eugene-bulkin/grunt-buddyjs}
-         **/
+        **/
         buddyjs: {
             src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
             options: {
@@ -69,7 +83,7 @@ module.exports = function(grunt) {
         /**
          * Clear files and folders
          * @see {@link https://github.com/gruntjs/grunt-contrib-clean}
-         **/
+        **/
         clean: {
             docs:     ['<%%= folders.reports %>/<%%= folders.docs %>/*'],
             coverage: ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
@@ -80,7 +94,7 @@ module.exports = function(grunt) {
         /**
          * Send coverage report to Coveralls.io
          * @see {@link https://github.com/mattjmorrison/grunt-karma-coveralls}
-         **/
+        **/
         coveralls: {
             options: {
                 // LCOV coverage file relevant to every target
@@ -93,7 +107,7 @@ module.exports = function(grunt) {
         /**
          * Copy files and folders (used here to copy font files to deployment directory)
          * @see {@link https://github.com/gruntjs/grunt-contrib-copy}
-         **/
+        **/
         copy: {
             fonts: {
                 files: [{
@@ -118,7 +132,7 @@ module.exports = function(grunt) {
         /**
          * Lint compiled CSS output file
          * @see {@link https://github.com/gruntjs/grunt-contrib-csslint}
-         **/
+        **/
         csslint: {
             options: {csslintrc: '<%%= files.config.csslint %>'},
             src: ['<%%= folders.app %>/style.css']
@@ -127,7 +141,7 @@ module.exports = function(grunt) {
         /**
          * Start an Express.js web server
          * @see {@link https://github.com/blai/grunt-express}
-         **/
+        **/
         express: {
             main: {
                 options: {
@@ -150,7 +164,7 @@ module.exports = function(grunt) {
         /**
          * Pre-compile Handlebars templates
          * @see {@link https://github.com/gruntjs/grunt-contrib-handlebars}
-         **/
+        **/
         handlebars: {
             compile: {
                 options: {
@@ -173,7 +187,7 @@ module.exports = function(grunt) {
         /**
          * Minimize index.html for deployment
          * @see {@link hhttps://github.com/gruntjs/grunt-contrib-htmlmin}
-         **/
+        **/
         htmlmin: {
             options: {
                 removeComments: true,
@@ -192,7 +206,7 @@ module.exports = function(grunt) {
         /**
          * Optimize image assets for deployment using imagemin
          * @see {@link https://github.com/gruntjs/grunt-contrib-imagemin}
-         **/
+        **/
         imagemin: {
             build: {
                 files: [{
@@ -209,7 +223,7 @@ module.exports = function(grunt) {
          * Run Jasmine specs with RequireJS template
          * @see {@link https://github.com/gruntjs/grunt-contrib-jasmine}
          * @see {@link https://github.com/cloudchen/grunt-template-jasmine-requirejs}
-         **/
+        **/
         jasmine: {
             main: {
                 src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/<%%= files.scriptMain %>'],
@@ -230,7 +244,7 @@ module.exports = function(grunt) {
         /**
          * Lint JavaScript code with JSCS (focus on code style)
          * @see {@link https://github.com/jscs-dev/grunt-jscs}
-         **/
+        **/
         jscs: {
             options: {
                 force: true,
@@ -253,7 +267,7 @@ module.exports = function(grunt) {
         /**
          * Generate documentation from JS comments using JSDoc3
          * @see {@link https://github.com/krampstudio/grunt-jsdoc}
-         **/
+        **/
         jsdoc : {
             app: {
                 src: ['<%%= folders.app %>/<%%= files.scripts %>'],
@@ -285,7 +299,7 @@ module.exports = function(grunt) {
         /**
          * Detect copy-pasted and structurally similar code
          * @see {@link https://github.com/stefanjudis/grunt-jsinspect}
-         **/
+        **/
         jsinspect: {
             app:         {src: ['<%%= folders.app %>/<%%= files.scripts %>']},
             models:      {src: ['<%%= folders.app %>/<%%= files.models %>']},
@@ -296,7 +310,7 @@ module.exports = function(grunt) {
         /**
          * Lint project JSON files
          * @see {@link https://github.com/brandonramirez/grunt-jsonlint}
-         **/
+        **/
         jsonlint: {
             project: {src: ['./*.json', '<%%= folders.config %>/.*']}
         },
@@ -304,7 +318,7 @@ module.exports = function(grunt) {
         /**
          * Run tests and generate code coverage with the Karma test runner
          * @see {@link https://github.com/karma-runner/grunt-karma}
-         **/
+        **/
         karma: {
             options: {
                 configFile: '<%%= files.config.karma %>',
@@ -332,7 +346,7 @@ module.exports = function(grunt) {
         /**
          * Transpile LESS to CSS (with autoprefixed and minimized output)
          * @see {@link https://github.com/gruntjs/grunt-contrib-less}
-         **/
+        **/
         less: {
             main: {
                 options: {
@@ -353,7 +367,7 @@ module.exports = function(grunt) {
         /**
          * Open files in browsers for review
          * @see {@link https://github.com/jsoverson/grunt-open}
-         **/
+        **/
         open: {
             browser: {
                 path: 'http://localhost:<%%= ports.default %>/<%%= folders.app %>'
@@ -375,7 +389,7 @@ module.exports = function(grunt) {
         /**
          * Generate static analysis reports with plato
          * @see {@link https://github.com/jsoverson/grunt-plato}
-         **/
+        **/
         plato: {
             app : {
                 src : ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
@@ -390,7 +404,7 @@ module.exports = function(grunt) {
          * Optimize JS code into single file using r.js
          * @see {@link https://github.com/gruntjs/grunt-contrib-requirejs}
          * @see (@link https://github.com/jrburke/r.js/blob/master/build/example.build.js}
-         **/
+        **/
         requirejs: {
             build: {
                 options: {
@@ -418,7 +432,7 @@ module.exports = function(grunt) {
         /**
          * Run predefined tasks whenever watched file patterns are added, changed or deleted
          * @see {@link https://github.com/gruntjs/grunt-contrib-watch}
-         **/
+        **/
         watch: {
             style: {
                 files: ['<%%= folders.assets %>/<%%= files.styles %>'],
