@@ -27,7 +27,7 @@ module.exports = function(grunt) {
             'open:browser',
             'watch:review'
         ]);
-    grunt.registerTask('quick-review', 'Perform a live review of your app in a live-reload enabled browser (no tests)',
+    grunt.registerTask('serve', 'Start a live-reload enabled browser (no tests)',
         [
             'compile',
             'express',

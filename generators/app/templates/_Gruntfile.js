@@ -489,6 +489,6 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);    //Plugin for loading external task files
     grunt.loadTasks(config.folders.tasks); //Load external task files
     grunt.registerTask('default',          //Set default Grunt task
-        ['quick-review']
+        ['serve']
     );
 };
