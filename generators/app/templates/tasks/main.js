@@ -36,6 +36,7 @@ module.exports = function(grunt) {
         ]);
     grunt.registerTask('styling', 'Watch task styling your app',
         [
+            'less:main',
             'csslint',
             'watch:style'
         ]);

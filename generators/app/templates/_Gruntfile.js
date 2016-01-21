@@ -435,7 +435,7 @@ module.exports = function(grunt) {
         **/
         watch: {
             style: {
-                files: ['<%%= folders.assets %>/<%%= files.styles %>'],
+                files: ['<%%= folders.app %>/style.css'],
                 tasks: ['less:main', 'csslint'],
                 options: {spawn: false}
             },
@@ -451,8 +451,8 @@ module.exports = function(grunt) {
             },
             lint: {
                 files: [
-                    '<%%= folders.assets %>/<%%= files.styles %>',//Styles
-                    '<%%= folders.app %>/<%%= files.scripts %>'   //Scripts
+                    '<%%= folders.app %>/style.css',            //CSS
+                    '<%%= folders.app %>/<%%= files.scripts %>' //Scripts
                 ],
                 tasks: ['less:main', 'csslint', 'jshint:app', 'jscs:app'],
                 options: {spawn: false}
@@ -460,7 +460,7 @@ module.exports = function(grunt) {
             review: {
                 files: [
                     '<%%= folders.app %>/<%%= files.index %>',      //index.html
-                    '<%%= folders.assets %>/<%%= files.styles %>',  //Styles
+                    '<%%= folders.app %>/style.css',                //CSS
                     '<%%= folders.app %>/<%%= files.scripts %>',    //Scripts
                     '<%%= folders.assets %>/<%%= files.templates %>'//Templates
                 ],
@@ -473,7 +473,7 @@ module.exports = function(grunt) {
             browser: {
                 files: [
                     '<%%= folders.app %>/<%%= files.index %>',      //index.html
-                    '<%%= folders.assets %>/<%%= files.styles %>',  //Styles
+                    '<%%= folders.app %>/style.css',                //CSS
                     '<%%= folders.app %>/<%%= files.scripts %>',    //Scripts
                     '<%%= folders.assets %>/<%%= files.templates %>'//Templates
                 ],
