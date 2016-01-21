@@ -64,7 +64,7 @@ module.exports = function(grunt) {
                 displayResults: true
             },
             all: {
-                src: ['<%%= folders.tests %>/benchmarks/*.js'],
+                src: ['<%%= folders.test %>/benchmarks/*.js'],
                 dest: '<%%= folders.reports %>/benchmarks/results.csv'
             }
         },
@@ -228,7 +228,7 @@ module.exports = function(grunt) {
             main: {
                 src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/<%%= files.scriptMain %>'],
                 options: {
-                    specs: ['<%%= folders.tests %>/<%%= folders.specs %>/<%%= files.scripts %>'],
+                    specs: ['<%%= folders.test %>/<%%= folders.specs %>/<%%= files.scripts %>'],
                     keepRunner: false,
                     template: require('grunt-template-jasmine-requirejs'),
                     templateOptions: {
@@ -292,7 +292,7 @@ module.exports = function(grunt) {
             },
             grunt: 'Gruntfile.js',
             tasks: '<%%= folders.tasks %>/<%%= files.scripts %>',
-            tests: '<%%= folders.tests %>/<%%= folders.specs %>/<%%= files.scripts %>',
+            tests: '<%%= folders.test %>/<%%= folders.specs %>/<%%= files.scripts %>',
             app:   '<%%= folders.app %>/<%%= files.scripts %>'
         },
 <% if (props.useJsinspect) { %>

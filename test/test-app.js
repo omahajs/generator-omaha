@@ -73,7 +73,7 @@ describe('app', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
             assert.file(files);
-            assert.file('tests/benchmarks/example.benchmark.js');
+            assert.file('test/benchmarks/example.benchmark.js');
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
@@ -116,7 +116,7 @@ describe('app', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
             assert.file(files);
-            assert.noFile('tests/benchmarks/example.benchmark.js');
+            assert.noFile('test/benchmarks/example.benchmark.js');
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
@@ -162,7 +162,7 @@ describe('app', function() {
             assert.file(files.map(function(file) {
                 return appDirectory + '/' + file;
             }));
-            assert.noFile('tests/benchmarks/example.benchmark.js');
+            assert.noFile('test/benchmarks/example.benchmark.js');
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', appDirectory + '/app/templates.js');

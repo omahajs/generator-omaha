@@ -105,16 +105,16 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         appStructure: function() {
             this.fs.copy(
-                this.templatePath('tests/data/**/*.*'),
-                this.destinationPath(this.appDir + 'tests/data')
+                this.templatePath('test/data/**/*.*'),
+                this.destinationPath(this.appDir + 'test/data')
             );
             this.fs.copy(
-                this.templatePath('tests/jasmine/**/*.*'),
-                this.destinationPath(this.appDir + 'tests/jasmine')
+                this.templatePath('test/jasmine/**/*.*'),
+                this.destinationPath(this.appDir + 'test/jasmine')
             );
-            this.template('tests/test-main.js', this.appDir + 'tests/test-main.js');
+            this.template('test/test-main.js', this.appDir + 'test/test-main.js');
             if (this.props.benchmarks) {
-                this.template('tests/example.benchmark.js', this.appDir + 'tests/benchmarks/example.benchmark.js');
+                this.template('test/example.benchmark.js', this.appDir + 'test/benchmarks/example.benchmark.js');
             }
             mkdirp(this.appDir + 'app/models');
             mkdirp(this.appDir + 'app/views');
