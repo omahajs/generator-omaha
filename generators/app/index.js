@@ -124,6 +124,10 @@ module.exports = yeoman.generators.Base.extend({
             mkdirp(this.appDir + 'assets/images');
             mkdirp(this.appDir + 'assets/less');
             mkdirp(this.appDir + 'assets/library');
+            this.fs.copy(
+                this.templatePath('library/require.min.js'),
+                this.destinationPath(this.appDir + 'assets/library/require.min.js')
+            );
             mkdirp(this.appDir + 'assets/templates');
         },
         appFiles: function() {
