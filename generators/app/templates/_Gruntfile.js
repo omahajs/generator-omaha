@@ -171,9 +171,22 @@ module.exports = function(grunt) {
         },
 
         /**
+         * Lint HTML files
+         * @see {@link https://github.com/yaniswang/HTMLHint}
+        **/
+        htmlhintplus: {
+            app: {
+                src: [
+                  '<%= folders.assets %>/<%= files.templates %>',
+                  'app/index.html'
+                ]
+            }
+        },
+
+        /**
          * Minimize index.html for deployment
-         * @see {@link hhttps://github.com/gruntjs/grunt-contrib-htmlmin}
-         **/
+         * @see {@link https://github.com/gruntjs/grunt-contrib-htmlmin}
+        **/
         htmlmin: {
             options: {
                 removeComments: true,
