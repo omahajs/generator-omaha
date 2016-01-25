@@ -39,6 +39,11 @@ module.exports = yeoman.generators.Base.extend({
             this.template('_socket.js', 'web/socket.js');//WebSocket server
             this.template('_server.js', 'web/server.js');//HTTP server
             this.template('_index.html', 'web/client/index.html');
+                this.template('favicon.ico', 'favicon.ico');//empty favicon
+            this.fs.copy(
+                this.templatePath('ssl/**/*.*'),
+                this.destinationPath((this.appDir ? this.appDir : './') + 'web')
+            );
         }
     },
     install: function () {
