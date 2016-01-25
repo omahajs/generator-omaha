@@ -1,5 +1,6 @@
 <%= projectName %>
 ==================
+> Super cool project
 
 Folder Structure
 ----------------
