@@ -50,7 +50,8 @@
     "globby": "^4.0.0",
     "grunt": "^0.4.5",<% if(props.useA11y) { %>
     "grunt-a11y": "^0.1.2",
-    "grunt-accessibility": "^3.0.2",<% } %><% if(props.useBuddyjs) { %>
+    "grunt-accessibility": "^3.0.2",<% } %><% if(props.benchmarks) { %>
+    "grunt-benchmark": "^0.3.0",<% } %><% if(props.useBuddyjs) { %>
     "grunt-buddyjs": "^0.1.2",<% } %>
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.7.0",

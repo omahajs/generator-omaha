@@ -59,6 +59,12 @@ module.exports = yeoman.generators.Base.extend({
             },
             {
                 type: 'confirm',
+                name: 'benchmarks',
+                message: 'Add benchmarking support using Benchmark.js?',
+                default: true
+            },
+            {
+                type: 'confirm',
                 name: 'useCoveralls',
                 message: 'Integrate with Coveralls.io?',
                 default: true
@@ -99,14 +105,17 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         appStructure: function() {
             this.fs.copy(
-                this.templatePath('tests/data/**/*.*'),
-                this.destinationPath(this.appDir + 'tests/data')
+                this.templatePath('test/data/**/*.*'),
+                this.destinationPath(this.appDir + 'test/data')
             );
             this.fs.copy(
-                this.templatePath('tests/jasmine/**/*.*'),
-                this.destinationPath(this.appDir + 'tests/jasmine')
+                this.templatePath('test/jasmine/**/*.*'),
+                this.destinationPath(this.appDir + 'test/jasmine')
             );
-            this.template('tests/test-main.js', this.appDir + 'tests/test-main.js');
+            this.template('test/test-main.js', this.appDir + 'test/test-main.js');
+            if (this.props.benchmarks) {
+                this.template('test/example.benchmark.js', this.appDir + 'test/benchmarks/example.benchmark.js');
+            }
             mkdirp(this.appDir + 'app/models');
             mkdirp(this.appDir + 'app/views');
             mkdirp(this.appDir + 'app/controllers');
@@ -115,6 +124,10 @@ module.exports = yeoman.generators.Base.extend({
             mkdirp(this.appDir + 'assets/images');
             mkdirp(this.appDir + 'assets/less');
             mkdirp(this.appDir + 'assets/library');
+            this.fs.copy(
+                this.templatePath('library/require.min.js'),
+                this.destinationPath(this.appDir + 'assets/library/require.min.js')
+            );
             mkdirp(this.appDir + 'assets/templates');
         },
         appFiles: function() {

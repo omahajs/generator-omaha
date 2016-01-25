@@ -43,7 +43,8 @@ var dependencies = [
     'grunt-contrib-imagemin',
     'grunt-a11y',
     'grunt-accessibility',
-    'grunt-karma-coveralls'
+    'grunt-karma-coveralls',
+    'grunt-benchmark'
 ];
 
 describe('app', function() {
@@ -60,6 +61,7 @@ describe('app', function() {
                     useBuddyjs: true,
                     useA11y: true,
                     compressImages: true,
+                    benchmarks: true,
                     useCoveralls: true
                 })
                 .on('end', done);
@@ -71,6 +73,7 @@ describe('app', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
             assert.file(files);
+            assert.file('test/benchmarks/example.benchmark.js');
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
@@ -88,6 +91,7 @@ describe('app', function() {
             assert.fileContent('Gruntfile.js', 'imagemin: {');
             assert.fileContent('Gruntfile.js', 'a11y: {');
             assert.fileContent('Gruntfile.js', 'accessibility: {');
+            assert.fileContent('Gruntfile.js', 'benchmark: {');
             assert.fileContent('Gruntfile.js', 'coveralls: {');
         });
     });
@@ -102,6 +106,7 @@ describe('app', function() {
                     useBuddyjs: false,
                     useA11y: false,
                     compressImages: false,
+                    benchmarks: false,
                     useCoveralls: false
                 })
                 .on('end', done);
@@ -111,6 +116,7 @@ describe('app', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
             assert.file(files);
+            assert.noFile('test/benchmarks/example.benchmark.js');
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
@@ -128,6 +134,7 @@ describe('app', function() {
             assert.noFileContent('Gruntfile.js', 'imagemin: {');
             assert.noFileContent('Gruntfile.js', 'a11y: {');
             assert.noFileContent('Gruntfile.js', 'accessibility: {');
+            assert.noFileContent('Gruntfile.js', 'benchmark: {');
             assert.noFileContent('Gruntfile.js', 'coveralls: {');
         });
     });
@@ -144,6 +151,7 @@ describe('app', function() {
                     useBuddyjs: false,
                     useA11y: false,
                     compressImages: false,
+                    benchmarks: false,
                     useCoveralls: false
                 })
                 .on('end', done);
@@ -154,6 +162,7 @@ describe('app', function() {
             assert.file(files.map(function(file) {
                 return appDirectory + '/' + file;
             }));
+            assert.noFile('test/benchmarks/example.benchmark.js');
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', appDirectory + '/app/templates.js');
@@ -171,6 +180,7 @@ describe('app', function() {
             assert.noFileContent('Gruntfile.js', 'imagemin: {');
             assert.noFileContent('Gruntfile.js', 'a11y: {');
             assert.noFileContent('Gruntfile.js', 'accessibility: {');
+            assert.noFileContent('Gruntfile.js', 'benchmark: {');
             assert.noFileContent('Gruntfile.js', 'coveralls: {');
         });
     });

@@ -11,12 +11,12 @@ module.exports = {
         folders: {
             config:   'config',
             client:   'client',
-            dist:     'dist', 
+            dist:     'dist',
             app:      '<%= appDir %>app',
             assets:   '<%= appDir %>assets',
             tasks:    '<%= appDir %>tasks',
             reports:  '<%= appDir %>reports',
-            tests:    '<%= appDir %>tests',
+            test:     '<%= appDir %>test',
             specs:    'jasmine/specs',
             coverage: 'coverage',
             docs:     'docs'

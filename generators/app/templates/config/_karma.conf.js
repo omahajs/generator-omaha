@@ -7,11 +7,11 @@ module.exports = function(karmaConfig) {
         basePath: '../',
         frameworks: [ 'requirejs', 'jasmine'],// WARNING: Order matters!
         files: [// WARNING: Order matters! (I think)
-            {pattern: config.folders.tests + '/test-main.js'},
-            {pattern: scripts, included: false},
-            {pattern: templates, included: false},
-            {pattern: config.folders.tests + '/' + config.folders.specs + '/**/*.js', included: false},//Jasmine Specs
-            {pattern: config.folders.tests + '/data/modules/*.js',                    included: false},//Data modules
+            {pattern: config.folders.test + '/test-main.js'},
+            {pattern: scripts,                                                        included: false},//JS scripts
+            {pattern: templates,                                                      included: false},//HTML templates
+            {pattern: config.folders.test + '/' + config.folders.specs + '/**/*.js',  included: false},//Jasmine specs
+            {pattern: config.folders.test + '/data/modules/*.js',                     included: false},//Data modules
             {pattern: 'node_modules/sinon/pkg/sinon.js',                              included: false},//SinonJS
             {pattern: 'node_modules/jquery/dist/jquery.js',                           included: false},//jQuery
             {pattern: 'node_modules/handlebars/dist/handlebars.js',                   included: false},//Handlebars
