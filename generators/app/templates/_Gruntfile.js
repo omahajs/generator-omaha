@@ -191,8 +191,8 @@ module.exports = function(grunt) {
         htmlhintplus: {
             app: {
                 src: [
-                  '<%= folders.assets %>/<%= files.templates %>',
-                  'app/index.html'
+                  '<%%= folders.assets %>/<%%= files.templates %>',
+                  '<%%= folders.app %>/<%%= files.index %>'
                 ]
             }
         },
