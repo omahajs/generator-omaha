@@ -3,7 +3,7 @@
  * @author <%= userName %>
  * @module router
 **/
-define(function(require, exports, module) {
+define(function(require, exports) {
     'use strict';
 
     var Marionette = require('marionette');

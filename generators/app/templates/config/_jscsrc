@@ -63,6 +63,6 @@
   ],
   "requireSpaceBeforeBlockStatements": true,
   "validateIndentation": 4,
-  "validateLineBreaks": "CRLF",
+  "validateLineBreaks": "LF",
   "validateQuoteMarks": "'"
 }
