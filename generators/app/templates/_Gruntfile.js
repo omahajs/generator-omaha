@@ -260,19 +260,24 @@ module.exports = function(grunt) {
         **/
         jscs: {
             options: {
+                config: '<%%= files.config.jscs %>',
                 force: true,
                 reporter: 'console',//checkstyle, inline, console, text
                 reporterOutput: null
             },
-            app: {
+            ing: {
                 options: {
-                    config: '<%%= files.config.jscs %>',
                     fix: <%= autoFix %>
                 },
                 files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
             },
+            app: {
+                options: {
+                    fix: false
+                },
+                files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
+            },
             comments: {
-                options: {config: '<%%= files.config.jsdoc %>'},
                 files: {src: ['<%%= folders.app %>/<%%= files.scripts %>']}
             }
         },
@@ -461,7 +466,7 @@ module.exports = function(grunt) {
             },
             jscs: {
                 files: '<%%= folders.app %>/<%%= files.scripts %>',
-                tasks: ['jscs:app'],
+                tasks: ['jscs:ing'],
                 options: {spawn: false}
             },
             lint: {
@@ -469,7 +474,7 @@ module.exports = function(grunt) {
                     '<%%= folders.app %>/style.css',            //CSS
                     '<%%= folders.app %>/<%%= files.scripts %>' //Scripts
                 ],
-                tasks: ['less:main', 'csslint', 'jshint:app', 'jscs:app'],
+                tasks: ['lint'],
                 options: {spawn: false}
             },
             review: {
@@ -500,10 +505,8 @@ module.exports = function(grunt) {
             }
         }
     });
-    require('time-grunt')(grunt);          //Display execution times for tasks in console
-    require('load-grunt-tasks')(grunt);    //Plugin for loading external task files
-    grunt.loadTasks(config.folders.tasks); //Load external task files
-    grunt.registerTask('default',          //Set default Grunt task
-        ['serve']
-    );
+    require('time-grunt')(grunt);            //Display execution times for tasks in console
+    require('load-grunt-tasks')(grunt);      //Plugin for loading external task files
+    grunt.loadTasks(config.folders.tasks);   //Load external task files
+    grunt.registerTask('default', ['serve']);//Set default Grunt task
 };

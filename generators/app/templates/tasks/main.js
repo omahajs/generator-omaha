@@ -48,7 +48,7 @@ module.exports = function(grunt) {
         ]);
     grunt.registerTask('jscsing', 'Watch task for real-time linting with JSCS',
         [
-            'jscs:app',
+            'jscs:ing',
             'watch:jscs'
         ]);
     grunt.registerTask('linting', 'Watch task for real-time linting',

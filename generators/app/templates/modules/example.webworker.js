@@ -13,7 +13,7 @@
  * }, 1000);
 **/
 importScripts('../../assets/library/require.min.js');
-var q = new Promise(function(){});
+var q = new Promise(function() {});
 var msg = [];
 self.onmessage = function(data) {
     'use strict';
