@@ -347,12 +347,14 @@ module.exports = function(grunt) {
             },
             coverage: {
                 autoWatch: false,
-                browsers: ['PhantomJS']
+                browsers: ['PhantomJS'],
+                reporters: ['spec', 'coverage']
             },
             covering: {
                 autoWatch: true,
                 singleRun: false,
-                browsers: ['Firefox']
+                browsers: ['Firefox'],
+                reporters: ['progress', 'coverage']
             }
         },
 

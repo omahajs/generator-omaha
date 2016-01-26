@@ -1,12 +1,11 @@
-// WARNING: Order matters!
 var config = require('config').get('grunt');
 var scripts = config.folders.app + '/' + config.files.scripts;       //app source
 var templates = config.folders.assets + '/' + config.files.templates;//templates
 module.exports = function(karmaConfig) {
     karmaConfig.set({
         basePath: '../',
-        frameworks: [ 'requirejs', 'jasmine'],// WARNING: Order matters!
-        files: [// WARNING: Order matters! (I think)
+        frameworks: [ 'requirejs', 'jasmine'],
+        files: [
             {pattern: config.folders.test + '/test-main.js'},
             {pattern: scripts,                                                        included: false},//JS scripts
             {pattern: templates,                                                      included: false},//HTML templates
@@ -21,14 +20,13 @@ module.exports = function(karmaConfig) {
             {pattern: 'node_modules/backbone.marionette/lib/backbone.marionette.js',  included: false} //Marionette
         ],
         exclude: [config.folders.app + '/config.js'],
-        reporters: ['progress', 'coverage'],
         preprocessors: {
             [scripts]: ['coverage']
         },
         coverageReporter: {
             dir: config.folders.reports + '/' + config.folders.coverage,
             includeAllSources: true,
-            reporters: [// WARNING: Order matters! (I think)
+            reporters: [
                 {type: 'text-summary',subdir: '.', file: 'text-summary.txt'},
                 {type: 'html', subdir: 'report-html'},
                 {type: 'text-summary'},
