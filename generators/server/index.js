@@ -13,6 +13,12 @@ module.exports = yeoman.generators.Base.extend({
             },
             {
                 type: 'input',
+                name: 'httpsPort',
+                message: 'HTTPS server port?',
+                default: '8443'
+            },
+            {
+                type: 'input',
                 name: 'websocketPort',
                 message: 'WebSocket server port?',
                 default: '13337'
@@ -21,7 +27,8 @@ module.exports = yeoman.generators.Base.extend({
         this.prompt(prompts, function (props) {
             this.props = props;
             this.serverDirectory = props.serverDirectory;
-            this.httpPort = props.httpPort;
+            this.httpPort      = props.httpPort;
+            this.httpsPort     = props.httpsPort;
             this.websocketPort = props.websocketPort;
             done();
         }.bind(this));
@@ -42,7 +49,7 @@ module.exports = yeoman.generators.Base.extend({
                 this.template('favicon.ico', 'favicon.ico');//empty favicon
             this.fs.copy(
                 this.templatePath('ssl/**/*.*'),
-                this.destinationPath((this.appDir ? this.appDir : './') + 'web')
+                this.destinationPath('web/ssl')
             );
         }
     },

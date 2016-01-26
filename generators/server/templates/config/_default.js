@@ -12,16 +12,16 @@ module.exports = {
         saveUninitialized: false
     },
     websocket: {
-        port: 13337
+        port: <%= websocketPort %>
     },
     http: {
-        port: process.env.PORT || 8111
+        port: process.env.PORT || <%= httpPort %>
     },
     https: {
-        port: 8443
+        port: <%= httpsPort %>
     },
     log: {
-        level: "error"
+        level: 'error'
     },
     csp: {
         'default-src': '\'self\'',

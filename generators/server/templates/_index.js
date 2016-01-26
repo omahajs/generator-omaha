@@ -3,8 +3,8 @@ var log    = require('npmlog');
 var fs     = require('fs');
 var https  = require('https');
 
-var privateKey  = fs.readFileSync('web/server.key', 'utf8');
-var certificate = fs.readFileSync('web/server.cert', 'utf8');
+var privateKey  = fs.readFileSync('web/ssl/server.key', 'utf8');
+var certificate = fs.readFileSync('web/ssl/server.cert', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
 /** Handle error conditions **/
@@ -30,6 +30,6 @@ https.createServer(credentials, app).listen(config.get('https').port);
 /** WebSocket Server Endpoint **/
 var wss = require('./web/socket.js');
 
-log.info('HTTP server started.', 'Listening on port %j', config.get('http').port);
-log.info('HTTPS server started.', 'Listening on port %j', config.get('https').port);
-log.info('WebSocket server started.', 'Listening on port %j', config.get('websocket').port);
+log.info('HTTP server started........', 'Listening on port %j', config.get('http').port);
+log.info('HTTPS server started.......', 'Listening on port %j', config.get('https').port);
+log.info('WebSocket server started...', 'Listening on port %j', config.get('websocket').port);
