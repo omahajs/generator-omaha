@@ -448,7 +448,7 @@ module.exports = function(grunt) {
         **/
         watch: {
             style: {
-                files: ['<%= folders.assets %>/<%= files.styles %>'],
+                files: ['<%%= folders.assets %>/<%%= files.styles %>'],
                 tasks: ['less:main', 'csslint'],
                 options: {spawn: false}
             },
