@@ -22,7 +22,10 @@
   "unused": true,
   "worker": false,
   "globals": {
-    "define": true
+    "define": true,
+    "require": true,
+    "Promise": true,
+    "importScripts": true
   },
   "-W030": false
 }

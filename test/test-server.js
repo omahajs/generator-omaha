@@ -18,11 +18,13 @@ describe('server', function() {
             'config/default.js',
             'web/socket.js',
             'web/server.js',
-            'web/client/index.html'
+            'web/client/index.html',
+            'favicon.ico'
         ]);
     });
     it('configures files', function() {
         assert.fileContent('config/default.js', 'port: 13337');
         assert.fileContent('config/default.js', 'port: process.env.PORT || 8111');
+        assert.fileContent('config/default.js', 'port: 8443');
     });
 });

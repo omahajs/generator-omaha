@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/logo/tech/techtonic.png?v=1" alt="techtonic"/></a>
+    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
 <div align="center">
     <a href="https://www.npmjs.com/package/generator-techtonic">
@@ -42,3 +42,15 @@ yo techtonic
 - Start developing!
 
 > **TIP**:  Use `yo techtonic --help` to see full usage instructions
+
+Alternatives
+------------
+- See wiki page, [Tools for Creating Web Apps](https://github.com/jhwohlgemuth/techtonic/wiki/Tools-for-Creating-Web-Apps)
+
+Tools, References & Resources
+-----------------------------
+- See wiki page, [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
+
+Future
+------
+- See [techtonic Trello board](https://trello.com/b/WEMB9CEL/techtonic)

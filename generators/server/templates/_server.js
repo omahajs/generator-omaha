@@ -29,9 +29,9 @@ var app = express()
     .use(helmet.noSniff())
     .use(helmet.ieNoOpen())
     .use(helmet.publicKeyPins({
-      maxAge: ninetyDaysInMilliseconds,
-      sha256s: ['base64==', 'base64=='],   /** Needs to be changed **/
-      includeSubdomains: true
+        maxAge: ninetyDaysInMilliseconds,
+        sha256s: ['base64==', 'base64=='],   /** Needs to be changed **/
+        includeSubdomains: true
     }))
     .use(compress())                       /** Use gzip compression **/
     .use(express.static(__dirname));       /** Serve static files **/

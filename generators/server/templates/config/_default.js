@@ -17,8 +17,11 @@ module.exports = {
     http: {
         port: process.env.PORT || <%= httpPort %>
     },
+    https: {
+        port: <%= httpsPort %>
+    },
     log: {
-        level: "error"
+        level: 'error'
     },
     csp: {
         'default-src': '\'self\'',

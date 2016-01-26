@@ -3,6 +3,7 @@ module.exports = function(grunt) {
     grunt.registerTask('lint', 'Lint JSON, CSS, and JS code',
         [
             'jsonlint',
+            'htmlhintplus',
             'csslint',
             'jshint:app',
             'jscs:app'<% if (props.useA11y) { %>,

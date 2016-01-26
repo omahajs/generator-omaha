@@ -67,6 +67,7 @@
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express": "^1.4.1",
+    "grunt-htmlhint-plus": "*",
     "grunt-jscs": "^1.8.0",
     "grunt-jsdoc": "*",<% if(props.useJsinspect) { %>
     "grunt-jsinspect": "^1.1.0",<% } %>
