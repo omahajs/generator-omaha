@@ -2,9 +2,6 @@
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
 <div align="center">
-    <a href="https://www.npmjs.com/package/generator-techtonic">
-        <img src="https://img.shields.io/npm/v/generator-techtonic.svg" alt="Version"/>
-    </a>
     <a href="https://tldrlegal.com/license/mit-license">
         <img src="https://img.shields.io/npm/l/generator-techtonic.svg" alt="License"/>
     </a>
