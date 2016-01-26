@@ -16,7 +16,7 @@ importScripts('../../assets/library/require.min.js');
 var q = new Promise(function(){});
 var msg = [];
 self.onmessage = function(data) {
-    msg.push(data)
+    msg.push(data);
 };
 require({baseUrl: '../'}, ['config'], function() {
     'use strict';
