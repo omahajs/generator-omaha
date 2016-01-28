@@ -9,6 +9,9 @@
 define(function(require, exports, module) {
     'use strict';
 
+    var Backbone   = require('backbone');
+    var Marionette = require('marionette');
+
     require('shims/marionette.radio.shim');
     require('handlebars.helpers');
     require('jquery.extensions');

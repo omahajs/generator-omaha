@@ -1,7 +1,8 @@
+/* global requirejs */
 /**
  * @file RequireJS configuration file
  * @author <%= userName %>
- */
+**/
 requirejs.config({
     baseUrl: '',
     //urlArgs is used to cache bust.

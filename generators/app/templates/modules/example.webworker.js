@@ -1,3 +1,4 @@
+/* global self, importScripts */
 /**
  * @file Example Web Worker using RequireJS
  * @author Jason Wohlgemuth

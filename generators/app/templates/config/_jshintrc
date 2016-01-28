@@ -1,7 +1,7 @@
 {
   "bitwise": true,
   "browser": true,
-  "camelcase": true,
+  "curly": true,
   "devel": false,
   "eqeqeq": true,
   "forin": true,
@@ -11,21 +11,20 @@
   "maxcomplexity": 5,
   "maxdepth": 3,
   "maxerr": 50,
-  "maxlen": 130,
   "maxparams": 5,
   "maxstatements": 20,
-  "newcap": true,
   "noarg": true,
-  "noempty": true,
   "nonbsp": true,
   "strict": true,
+  "undef": true,
   "unused": true,
   "worker": false,
   "globals": {
+    "console": true,
     "define": true,
+    "module": true,
     "require": true,
-    "Promise": true,
-    "importScripts": true
+    "Promise": true
   },
   "-W030": false
 }

@@ -8,6 +8,8 @@
 define(function(require) {
     'use strict';
 
+    var Backbone   = require('backbone');
+
     var WebApp  = require('app');
     var Example = require('router');
     var View    = require('views/example');
