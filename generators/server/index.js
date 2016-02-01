@@ -27,9 +27,9 @@ module.exports = yeoman.generators.Base.extend({
         this.prompt(prompts, function (props) {
             this.props = props;
             this.serverDirectory = props.serverDirectory;
-            this.httpPort      = props.httpPort;
-            this.httpsPort     = props.httpsPort;
-            this.websocketPort = props.websocketPort;
+            this.httpPort        = props.httpPort;
+            this.httpsPort       = props.httpsPort;
+            this.websocketPort   = props.websocketPort;
             done();
         }.bind(this));
     },
@@ -43,14 +43,17 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         serverFiles: function() {
             this.template('_index.js', 'index.js');
-            this.template('_socket.js', 'web/socket.js');//WebSocket server
-            this.template('_server.js', 'web/server.js');//HTTP server
-            this.template('_index.html', 'web/client/index.html');
-                this.template('favicon.ico', 'favicon.ico');//empty favicon
+            this.template('_socket.js', 'web/socket.js'); //WebSocket server
+            this.template('_server.js', 'web/server.js'); //HTTP server
+            this.template('favicon.ico', 'favicon.ico');  //empty favicon
             this.fs.copy(
                 this.templatePath('ssl/**/*.*'),
                 this.destinationPath('web/ssl')
             );
+        },
+        boilerplate: function() {
+            this.template('_index.html', 'web/client/index.html');
+            this.template('example.md', 'web/markdown/example.md');
         }
     },
     install: function () {

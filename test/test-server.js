@@ -19,7 +19,8 @@ describe('server', function() {
             'web/socket.js',
             'web/server.js',
             'web/client/index.html',
-            'favicon.ico'
+            'favicon.ico',
+            'web/markdown/example.md'
         ]);
     });
     it('configures files', function() {
