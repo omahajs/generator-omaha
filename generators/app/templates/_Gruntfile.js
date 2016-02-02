@@ -146,16 +146,16 @@ module.exports = function(grunt) {
             main: {
                 options: {
                     bases: [__dirname],
-                    port:       '<%%= ports.default %>',
-                    hostname:   '0.0.0.0',
+                    port: '<%%= ports.default %>',
+                    hostname: '0.0.0.0',
                     livereload: '<%%= ports.livereload %>'
                 }
             },
             demo: {
                 options: {
                     bases: [__dirname],
-                    port:       '<%%= ports.default %>',
-                    hostname:   '0.0.0.0',
+                    port: '<%%= ports.default %>',
+                    hostname: '0.0.0.0',
                     serverreload: true
                 }
             }
@@ -351,7 +351,7 @@ module.exports = function(grunt) {
                     paths: ['<%%= folders.assets %>/<%%= files.styles %>']
                 },
                 files: {
-                    '<%%= folders.app %>/style.css':         '<%%= folders.assets %>/less/style.less',
+                    '<%%= folders.app %>/style.css': '<%%= folders.assets %>/less/style.less',
                     '<%%= folders.dist %>/<%%= folders.client %>/style.css': '<%%= folders.assets %>/less/style.less'
                 }
             }
@@ -433,7 +433,7 @@ module.exports = function(grunt) {
                         output: {
                             comments: false,
                             preamble: '/* <%%= package.name %> - v<%%= package.version %> - ' +
-                                      '2015-11-04 */'
+                                      '2016-02-07 */'
                         },
                         compress: {
                             drop_console: true //discard calls to console.* functions
