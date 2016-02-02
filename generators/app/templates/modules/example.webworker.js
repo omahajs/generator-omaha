@@ -20,9 +20,10 @@ self.onmessage = function(data) {
     'use strict';
     msg.push(data);
 };
-require({baseUrl: '../'}, ['config'], function() {
+var PREVENT_IMPORTSCRIPTS_ERROR = {baseUrl: '../', map: {'*': {'main': 'config'}}};
+require(PREVENT_IMPORTSCRIPTS_ERROR, ['config'], function() {
     'use strict';
-    require({baseUrl: '../'}, [/*paths from config go here*/], function() {
+    require(PREVENT_IMPORTSCRIPTS_ERROR, [/*paths from config go here*/], function() {
         q.resolve = function() {
             self.onmessage = function(e) {
                 msg.push(e);

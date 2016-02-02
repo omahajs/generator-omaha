@@ -8,6 +8,7 @@ requirejs.config({
     //urlArgs is used to cache bust.
     //development should use timestamp, production should use version
     urlArgs: 'bust=' + (new Date()).getTime(),
+    deps: ['main'],
     paths: {
         //Dependencies
         jquery:     '<% if (appDir !== './') { %>../<% } %>../node_modules/jquery/dist/jquery',
