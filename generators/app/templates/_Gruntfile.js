@@ -233,28 +233,6 @@ module.exports = function(grunt) {
         },
 <% } %>
         /**
-         * Run Jasmine specs with RequireJS template
-         * @see {@link https://github.com/gruntjs/grunt-contrib-jasmine}
-         * @see {@link https://github.com/cloudchen/grunt-template-jasmine-requirejs}
-        **/
-        jasmine: {
-            main: {
-                src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/<%%= files.scriptMain %>'],
-                options: {
-                    specs: ['<%%= folders.test %>/<%%= folders.specs %>/<%%= files.scripts %>'],
-                    keepRunner: false,
-                    template: require('grunt-template-jasmine-requirejs'),
-                    templateOptions: {
-                        requireConfigFile: '<%%= folders.app %>/<%%= files.configScript %>',
-                        requireConfig: {
-                            baseUrl: '<%%= folders.app %>'
-                        }
-                    }
-                }
-            }
-        },
-
-        /**
          * Lint JavaScript code with JSCS (focus on code style)
          * @see {@link https://github.com/jscs-dev/grunt-jscs}
         **/
