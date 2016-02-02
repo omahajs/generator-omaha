@@ -48,7 +48,6 @@ Grunt Tasks
 - `grunt linting`      _(watch task)_
 - `grunt build`        _(transpile LESS, pre-compile templates and optimize JS into one file)_
 - `grunt test`
-- `grunt testing`      _(watch task)_
 - `grunt cover`
 - `grunt covering`     _(watch task)_
 - `grunt serve       ` _(watch task)_ **[default task]**

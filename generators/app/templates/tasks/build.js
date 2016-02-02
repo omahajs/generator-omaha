@@ -1,7 +1,6 @@
 module.exports = function(grunt) {
     'use strict';
 
-    //Build Tasks
     grunt.registerTask('transpile-styles', [
         'less:main'
     ]);
@@ -21,24 +20,21 @@ module.exports = function(grunt) {
         'imagemin:build',<% } %>
         'copy'
     ]);
-    grunt.registerTask('demo', 'Build code and open in browser',
-        [
-            'build',
-            'open:demo',
-            'express:demo'
-        ]);
-    grunt.registerTask('docs', 'Generate documentation with JSDoc3',
-        [
-            'clean:docs',
-            'jsdoc:app'
-        ]);
-    grunt.registerTask('reports', 'Generate code coverage, plato report and documentation - then open all in browser',
-        [
-            'docs',
-            'plato',
-            'cover',
-            'open:docs',
-            'open:coverage',
-            'open:plato'
-        ]);
+    grunt.registerTask('demo', 'Build code and open in browser', [
+        'build',
+        'open:demo',
+        'express:demo'
+    ]);
+    grunt.registerTask('docs', 'Generate documentation with JSDoc3', [
+        'clean:docs',
+        'jsdoc:app'
+    ]);
+    grunt.registerTask('reports', 'Generate code coverage, plato report and documentation - then open all in browser', [
+        'docs',
+        'plato',
+        'cover',
+        'open:docs',
+        'open:coverage',
+        'open:plato'
+    ]);
 };
