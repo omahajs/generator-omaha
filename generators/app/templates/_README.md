@@ -51,7 +51,6 @@ Grunt Tasks
 - `grunt testing`      _(watch task)_
 - `grunt cover`
 - `grunt covering`     _(watch task)_
-- `grunt review`       _(watch task)_
 - `grunt serve       ` _(watch task)_ **[default task]**
 - `grunt inspect`      _(detect copy-pasted and structurally similar code)_
 - `grunt aria`         _(lint HTML files for accessibility)_

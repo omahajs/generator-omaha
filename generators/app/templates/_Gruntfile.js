@@ -477,19 +477,6 @@ module.exports = function(grunt) {
                 tasks: ['lint'],
                 options: {spawn: false}
             },
-            review: {
-                files: [
-                    '<%%= folders.app %>/<%%= files.index %>',      //index.html
-                    '<%%= folders.app %>/style.css',                //CSS
-                    '<%%= folders.app %>/<%%= files.scripts %>',    //Scripts
-                    '<%%= folders.assets %>/<%%= files.templates %>'//Templates
-                ],
-                tasks: ['compile', 'jshint:app', 'jscs:app', 'jasmine:main', 'karma:watch:run'],
-                options: {
-                    livereload: '<%%= ports.livereload %>',
-                    spawn: false
-                }
-            },
             browser: {
                 files: [
                     '<%%= folders.app %>/<%%= files.index %>',      //index.html

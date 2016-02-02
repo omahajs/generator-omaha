@@ -18,16 +18,6 @@ module.exports = function(grunt) {
         [
             'jsinspect:app'
         ]);<% } %>
-    grunt.registerTask('review', 'Perform a live review of your app in a live-reload enabled browser',
-        [
-            'compile',
-            'lint',
-            'karma:coverage',
-            'karma:watch:start',
-            'express',
-            'open:browser',
-            'watch:review'
-        ]);
     grunt.registerTask('serve', 'Start a live-reload enabled browser (no tests)',
         [
             'compile',
