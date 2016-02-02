@@ -1,5 +1,12 @@
 module.exports = function(grunt) {
     'use strict';
+    grunt.registerTask('serve', 'Start a live-reload enabled browser (no tests)',
+        [
+            'compile',
+            'express',
+            'open:browser',
+            'watch:browser'
+        ]);
     grunt.registerTask('lint', 'Lint JSON, CSS, and JS code',
         [
             'jsonlint',
@@ -8,26 +15,15 @@ module.exports = function(grunt) {
             'jshint:app',
             'jscs:app'<% if (props.useA11y) { %>,
             'buddyjs'<% } %>
-        ]);<% if (props.useA11y) { %>
-    grunt.registerTask('aria', 'Perform an accessibility audit on your code',
+        ]);
+    grunt.registerTask('linting', 'Watch task for real-time linting',
         [
-            'accessibility',
-            'a11y'
-        ]);<% } %><% if (props.useJsinspect) { %>
-    grunt.registerTask('inspect', 'Detect copy-pasted and structurally similar code',
-        [
-            'jsinspect:app'
-        ]);<% } %>
-    grunt.registerTask('serve', 'Start a live-reload enabled browser (no tests)',
-        [
-            'compile',
-            'express',
-            'open:browser',
-            'watch:browser'
+            'lint',
+            'watch:lint'
         ]);
     grunt.registerTask('styling', 'Watch task styling your app',
         [
-            'less:main',
+            'transpile-styles',
             'csslint',
             'watch:style'
         ]);
@@ -40,24 +36,14 @@ module.exports = function(grunt) {
         [
             'jscs:ing',
             'watch:jscs'
-        ]);
-    grunt.registerTask('linting', 'Watch task for real-time linting',
+        ]);<% if (props.useA11y) { %>
+    grunt.registerTask('aria', 'Perform an accessibility audit on your code',
         [
-            'lint',
-            'watch:lint'
-        ]);
-    grunt.registerTask('docs', 'Generate documentation with JSDoc3',
+            'accessibility',
+            'a11y'
+        ]);<% } %><% if (props.useJsinspect) { %>
+    grunt.registerTask('inspect', 'Detect copy-pasted and structurally similar code',
         [
-            'clean:docs',
-            'jsdoc:app'
-        ]);
-    grunt.registerTask('reports', 'Generate code coverage, plato report and documentation - then open all in browser',
-        [
-            'docs',
-            'plato',
-            'cover',
-            'open:docs',
-            'open:coverage',
-            'open:plato'
-        ]);
+            'jsinspect:app'
+        ]);<% } %>
 };

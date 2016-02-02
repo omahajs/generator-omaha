@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     //Test Tasks
     grunt.registerTask('test', 'Run full test and validation battery',
         [
-            'handlebars:compile',
+            'precompile-templates',
             'lint',
             'jasmine:main',
             'karma:coverage'
@@ -21,14 +21,14 @@ module.exports = function(grunt) {
         [
             'clean:coverage',
             'clean:compile',
-            'handlebars:compile',
+            'precompile-templates',
             'karma:coverage'
         ]);
     grunt.registerTask('covering', 'Watch task to write tests and see code coverage in real-time',
         [
             'clean:coverage',
             'clean:compile',
-            'handlebars:compile',
+            'precompile-templates',
             'karma:covering'
         ]);
     grunt.registerTask('testing', ['lint', 'karma:covering']);
