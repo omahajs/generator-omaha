@@ -10,4 +10,5 @@ _SpecRunner.html
 reports/
 dist
 <%= appDir %>app/templates.js
-<%= appDir %>app/styles.css
+<%= appDir %>app/style.css
+<%= appDir %>app/style.css.map

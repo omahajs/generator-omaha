@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         'watch:lint'
     ]);
     grunt.registerTask('styling', 'Watch task for real-time styling', [
-        'transpile-styles',
+        'process-styles',
         'csslint',
         'watch:style'
     ]);

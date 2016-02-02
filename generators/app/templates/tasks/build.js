@@ -1,15 +1,16 @@
 module.exports = function(grunt) {
     'use strict';
 
-    grunt.registerTask('transpile-styles', [
-        'less:main'
+    grunt.registerTask('process-styles', [<% if(true) { %>
+        'less:main',/*pre-process */<% } %>
+        'postcss'   /*post-process*/
     ]);
     grunt.registerTask('precompile-templates', [
-        'handlebars:compile'
+        'handlebars:main'
     ]);
     grunt.registerTask('compile', [
         'clean:compile',
-        'transpile-styles',
+        'process-styles',
         'precompile-templates'
     ]);
     grunt.registerTask('build', [

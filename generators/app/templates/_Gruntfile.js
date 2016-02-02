@@ -166,7 +166,7 @@ module.exports = function(grunt) {
          * @see {@link https://github.com/gruntjs/grunt-contrib-handlebars}
         **/
         handlebars: {
-            compile: {
+            main: {
                 options: {
                     amd: true,
                     //Use processName to name the template keys within the compiled templates.js file
@@ -348,12 +348,7 @@ module.exports = function(grunt) {
         less: {
             main: {
                 options: {
-                    paths: ['<%%= folders.assets %>/<%%= files.styles %>'],
-                    compress: false,
-                    plugins: [
-                        new (require('less-plugin-clean-css'))({advanced: true}),
-                        new (require('less-plugin-autoprefix'))({browsers: ['last 2 versions']})
-                    ]
+                    paths: ['<%%= folders.assets %>/<%%= files.styles %>']
                 },
                 files: {
                     '<%%= folders.app %>/style.css':         '<%%= folders.assets %>/less/style.less',
@@ -381,6 +376,27 @@ module.exports = function(grunt) {
             },
             docs: {
                 path: __dirname + '/<%%= folders.reports %>/<%%= folders.docs %>/index.html'
+            }
+        },
+
+        /**
+         * Apply several post-processors to your CSS using PostCSS
+         * @see {@link https://github.com/nDmitry/grunt-postcss}
+        **/
+        postcss: {
+            options: {
+                map: {
+                    inline: false,
+                    annotation: '<%%= folders.app %>'
+                },
+                parser: require('postcss-safe-parser'),
+                processors: [
+                    require('autoprefixer')({browsers: 'last 2 versions'}),
+                    require('cssnano')()
+                ]
+            },
+            dist: {
+                src: '<%%= folders.app %>/*.css'
             }
         },
 
