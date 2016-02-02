@@ -79,7 +79,7 @@ describe('app', function() {
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
-            assert.fileContent('.gitignore', 'app/styles.css');
+            assert.fileContent('.gitignore', 'app/style.css');
         });
         dependencies.forEach(function(dep) {
             it('adds ' + dep + ' to package.json', function() {
@@ -122,7 +122,7 @@ describe('app', function() {
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
-            assert.fileContent('.gitignore', 'app/styles.css');
+            assert.fileContent('.gitignore', 'app/style.css');
         });
         dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {
@@ -168,7 +168,7 @@ describe('app', function() {
         });
         it('configures files', function() {
             assert.fileContent('.gitignore', appDirectory + '/app/templates.js');
-            assert.fileContent('.gitignore', appDirectory + '/app/styles.css');
+            assert.fileContent('.gitignore', appDirectory + '/app/style.css');
         });
         dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {
