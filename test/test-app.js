@@ -34,7 +34,9 @@ var files = [
     'app/router.js',
     'assets/less/reset.less',
     'assets/less/style.less',
-    'assets/images/logo.png'
+    'assets/images/logo.png',
+    'app/modules/umd.boilerplate.js',
+    'app/modules/webworker.boilerplate.js'
 ];
 var dependencies = [
     '"jsinspect": ',
