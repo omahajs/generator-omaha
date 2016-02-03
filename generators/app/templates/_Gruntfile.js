@@ -340,7 +340,7 @@ module.exports = function(grunt) {
                 reporters: ['progress', 'coverage']
             }
         },
-
+<% if (useLess) { %>
         /**
          * Transpile LESS to CSS (with autoprefixed and minimized output)
          * @see {@link https://github.com/gruntjs/grunt-contrib-less}
@@ -356,7 +356,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-
+<% } %>
         /**
          * Open files in browsers for review
          * @see {@link https://github.com/jsoverson/grunt-open}
@@ -442,7 +442,23 @@ module.exports = function(grunt) {
                 }
             }
         },
-
+<% if (useSass) { %>
+        /**
+         * Transpile SCSS to CSS
+         * @see {@link https://github.com/gruntjs/grunt-contrib-sass}
+        **/
+        sass: {
+            main: {
+                options: {
+                    style: 'expanded',
+                    sourcemap: 'none'
+                },
+                files: {
+                    '<%%= folders.app %>/style.css': '<%%= folders.assets %>/sass/style.scss'
+                }
+            }
+        },
+<% } %>
         /**
          * Run predefined tasks whenever watched file patterns are added, changed or deleted
          * @see {@link https://github.com/gruntjs/grunt-contrib-watch}

@@ -38,9 +38,9 @@
     "autoprefixer": "^6.3.1",
     "cssnano": "^3.4.0",
     "globby": "^4.0.0",
-    "grunt": "^0.4.5",<% if(props.useA11y) { %>
+    "grunt": "^0.4.5",<% if (props.useA11y) { %>
     "grunt-a11y": "^0.1.2",
-    "grunt-accessibility": "^3.0.2",<% } %><% if(props.benchmarks) { %>
+    "grunt-accessibility": "^3.0.2",<% } %><% if (props.benchmarks) { %>
     "grunt-benchmark": "^0.3.0",<% } %><% if(props.useBuddyjs) { %>
     "grunt-buddyjs": "^0.1.2",<% } %>
     "grunt-cli": "^0.1.13",
@@ -49,19 +49,20 @@
     "grunt-contrib-csslint": "^0.5.0",
     "grunt-contrib-cssmin": "^0.14.0",
     "grunt-contrib-handlebars": "*",
-    "grunt-contrib-htmlmin": "^0.6.0",<% if(props.compressImages) { %>
+    "grunt-contrib-htmlmin": "^0.6.0",<% if (props.compressImages) { %>
     "grunt-contrib-imagemin": "^1.0.0",<% } %>
-    "grunt-contrib-jshint": "*",
-    "grunt-contrib-less": "^1.0.1",
-    "grunt-contrib-requirejs": "^0.4.4",
+    "grunt-contrib-jshint": "*",<% if (useLess) { %>
+    "grunt-contrib-less": "^1.0.1",<% } %>
+    "grunt-contrib-requirejs": "^0.4.4",<% if (useSass) { %>
+    "grunt-contrib-sass": "^0.9.2",<% } %>
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express": "^1.4.1",
     "grunt-htmlhint-plus": "*",
     "grunt-jscs": "^1.8.0",
-    "grunt-jsdoc": "*",<% if(props.useJsinspect) { %>
+    "grunt-jsdoc": "*",<% if (props.useJsinspect) { %>
     "grunt-jsinspect": "^1.1.0",<% } %>
     "grunt-jsonlint": "^1.0.4",
-    "grunt-karma": "^0.12.0",<% if(props.useCoveralls) { %>
+    "grunt-karma": "^0.12.0",<% if (props.useCoveralls) { %>
     "grunt-karma-coveralls": "^2.5.3",<% } %>
     "grunt-open": "^0.2.3",
     "grunt-parallel": "^0.4.1",
@@ -69,7 +70,7 @@
     "jasmine-core": "^2.2.0",
     "jscs-jsdoc": "^1.1.0",
     "jshint": "*",
-    "jshint-stylish": "*",<% if(props.useJsinspect) { %>
+    "jshint-stylish": "*",<% if (props.useJsinspect) { %>
     "jsinspect": "^0.7.0",<% } %>
     "json-server": "*",
     "karma": "^0.13.9",

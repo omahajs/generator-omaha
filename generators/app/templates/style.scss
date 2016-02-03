@@ -1,0 +1,22 @@
+@import "reset";
+
+/*------------------------------------*\
+    @MAIN
+\*------------------------------------*/
+body {
+    background-color: lighten(#CCC, 10);
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 100%;
+    margin: 0;
+    padding: 2em;
+}
+
+section {
+    text-align: center;
+    transform: scale(1.0);
+    user-select: none;
+}
+
+/*------------------------------------*\
+    @COMPONENTS
+\*------------------------------------*/

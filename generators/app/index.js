@@ -14,6 +14,7 @@ module.exports = yeoman.generators.Base.extend({
             'Welcome to the praiseworthy ' + chalk.red('techtonic') + ' generator!'
         ));
 
+        var cssPreprocessors = ['less', 'Sass', 'none'];
         var prompts = [
             {
                 type: 'input',
@@ -26,6 +27,12 @@ module.exports = yeoman.generators.Base.extend({
                 name: 'appDir',
                 message: 'Where do you want to put the application directory?',
                 default: '.'
+            },
+            {
+                type: 'list',
+                name: 'cssPreprocessor',
+                message: 'Which CSS pre-processor?',
+                choices: cssPreprocessors
             },
             {
                 type: 'confirm',
@@ -72,6 +79,15 @@ module.exports = yeoman.generators.Base.extend({
         ];
         this.prompt(prompts, function (props) {
             this.props = props;
+            this.useLess = false;
+            this.useSass = false;
+            var preprocessor = this.props.cssPreprocessor.toLowerCase();
+            if (preprocessor === 'less') {
+                this.useLess = true;
+            }
+            if (preprocessor === 'sass') {
+                this.useSass = true;
+            }
             this.projectName = props.projectName;
             if (!/\/$/.test(props.appDir)) {
                  this.appDir = props.appDir + '/';
@@ -122,7 +138,12 @@ module.exports = yeoman.generators.Base.extend({
             mkdirp(this.appDir + 'app/helpers');
             mkdirp(this.appDir + 'assets/fonts');
             mkdirp(this.appDir + 'assets/images');
-            mkdirp(this.appDir + 'assets/less');
+            if (this.useLess) {
+                mkdirp(this.appDir + 'assets/less');
+            }
+            if (this.useSass) {
+                mkdirp(this.appDir + 'assets/sass');
+            }
             mkdirp(this.appDir + 'assets/library');
             this.fs.copy(
                 this.templatePath('library/require.min.js'),
@@ -154,7 +175,15 @@ module.exports = yeoman.generators.Base.extend({
         },
         assetFiles: function() {
             this.template('example.template.hbs', this.appDir + 'assets/templates/example.hbs');
-            this.template('_reset.less', this.appDir + 'assets/less/reset.less');
+            if (this.useLess) {
+                this.template('_reset.css', this.appDir + 'assets/less/reset.less');
+            }
+            if (this.useSass) {
+                this.template('_reset.css', this.appDir + 'assets/sass/reset.scss');
+            }
+            if (!(this.useLess || this.useSass)) {
+                this.template('_reset.css', this.appDir + 'assets/css/reset.css');
+            }
             this.template('_style.less', this.appDir + 'assets/less/style.less');
             this.fs.copy(
                 this.templatePath('techtonic.png'),
