@@ -466,7 +466,7 @@ module.exports = function(grunt) {
         watch: {
             style: {
                 files: ['<%%= folders.assets %>/<%%= files.styles %>'],
-                tasks: ['less:main', 'csslint'],
+                tasks: ['process-styles', 'csslint'],
                 options: {spawn: false}
             },
             jshint: {

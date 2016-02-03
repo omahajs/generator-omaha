@@ -2,8 +2,7 @@ module.exports = function(grunt) {
     'use strict';
 
     grunt.registerTask('process-styles', [
-        <% if(useLess) { %>'less:main',/*pre-process */<% } %>
-        <% if(useSass) { %>'sass:main',/*pre-process */<% } %>
+        <% if(useLess) { %>'less:main',/*pre-process */<% } %><% if(useSass) { %>'sass:main',/*pre-process */<% } %>
         'postcss'   /*post-process*/
     ]);
     grunt.registerTask('precompile-templates', [
