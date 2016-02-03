@@ -177,14 +177,15 @@ module.exports = yeoman.generators.Base.extend({
             this.template('example.template.hbs', this.appDir + 'assets/templates/example.hbs');
             if (this.useLess) {
                 this.template('_reset.css', this.appDir + 'assets/less/reset.less');
+                this.template('_style.less', this.appDir + 'assets/less/style.less');
             }
             if (this.useSass) {
                 this.template('_reset.css', this.appDir + 'assets/sass/reset.scss');
+                this.template('_style.scss', this.appDir + 'assets/sass/style.scss');
             }
             if (!(this.useLess || this.useSass)) {
                 this.template('_reset.css', this.appDir + 'assets/css/reset.css');
             }
-            this.template('_style.less', this.appDir + 'assets/less/style.less');
             this.fs.copy(
                 this.templatePath('techtonic.png'),
                 this.destinationPath(this.appDir + 'assets/images/logo.png')

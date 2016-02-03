@@ -32,7 +32,6 @@ var files = [
     'app/main.js',
     'app/config.js',
     'app/router.js',
-    'assets/less/style.less',
     'assets/images/logo.png',
     'app/modules/umd.boilerplate.js',
     'app/modules/webworker.boilerplate.js'
@@ -77,6 +76,7 @@ describe('app', function() {
             assert.file(projectFiles);
             assert.file(files);
             assert.file('assets/less/reset.less');
+            assert.file('assets/less/style.less');
             assert.noFile('assets/sass/reset.scss');
             assert.file('test/benchmarks/example.benchmark.js');
         });
@@ -131,6 +131,7 @@ describe('app', function() {
             assert.file(files);
             assert.noFile('assets/less/reset.less');
             assert.noFile('assets/sass/reset.scss');
+            assert.file('assets/css/reset.css');
             assert.noFile('test/benchmarks/example.benchmark.js');
         });
         it('configures files', function() {
@@ -185,8 +186,9 @@ describe('app', function() {
             assert.file(files.map(function(file) {
                 return appDirectory + '/' + file;
             }));
-            assert.noFile('assets/less/reset.less');
-            //assert.file('assets/sass/reset.scss');
+            assert.noFile(appDirectory + '/assets/less/reset.less');
+            assert.file(appDirectory + '/assets/sass/reset.scss');
+            assert.file(appDirectory + '/assets/sass/style.scss');
             assert.noFile('test/benchmarks/example.benchmark.js');
         });
         it('configures files', function() {
