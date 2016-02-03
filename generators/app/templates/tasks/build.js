@@ -8,6 +8,9 @@ module.exports = function(grunt) {
     grunt.registerTask('precompile-templates', [
         'handlebars:main'
     ]);
+    grunt.registerTask('bundle-scripts', [
+        'requirejs:bundle'
+    ]);
     grunt.registerTask('compile', [
         'clean:compile',
         'process-styles',
@@ -16,7 +19,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'clean:build',
         'compile',
-        'requirejs:build',
+        'bundle-scripts',
         'htmlmin',<% if(props.compressImages) { %>
         'imagemin:build',<% } %>
         'copy'

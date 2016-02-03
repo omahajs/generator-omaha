@@ -10,13 +10,14 @@ requirejs.config({
     urlArgs: 'bust=' + (new Date()).getTime(),
     deps: ['main'],
     paths: {
-        //Dependencies
-        jquery:     '<% if (appDir !== './') { %>../<% } %>../node_modules/jquery/dist/jquery',
-        underscore: '<% if (appDir !== './') { %>../<% } %>../node_modules/underscore/underscore',
-        backbone:   '<% if (appDir !== './') { %>../<% } %>../node_modules/backbone/backbone',
-        radio:      '<% if (appDir !== './') { %>../<% } %>../node_modules/backbone.radio/build/backbone.radio',
-        marionette: '<% if (appDir !== './') { %>../<% } %>../node_modules/backbone.marionette/lib/backbone.marionette',
+        //Project Dependencies
         handlebars: '<% if (appDir !== './') { %>../<% } %>../node_modules/handlebars/dist/handlebars',
+        //Backbone Libraries, Frameworks and Dependencies
+        jquery:                '<% if (appDir !== './') { %>../<% } %>../node_modules/jquery/dist/jquery',
+        underscore:            '<% if (appDir !== './') { %>../<% } %>../node_modules/underscore/underscore',
+        'backbone':            '<% if (appDir !== './') { %>../<% } %>../node_modules/backbone/backbone',
+        'backbone.radio':      '<% if (appDir !== './') { %>../<% } %>../node_modules/backbone.radio/build/backbone.radio',
+        'backbone.marionette': '<% if (appDir !== './') { %>../<% } %>../node_modules/backbone.marionette/lib/backbone.marionette',
         //Helpers and extensions
         'handlebars.helpers': './helpers/handlebars.helpers',
         'jquery.extensions':  './helpers/jquery.extensions',

@@ -7,7 +7,7 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var Marionette = require('marionette');
+    var Marionette = require('backbone.marionette');
     var JST        = require('templates');
     var Example    = require('models/example');
 

@@ -81,6 +81,7 @@ module.exports = yeoman.generators.Base.extend({
             this.props = props;
             this.useLess = false;
             this.useSass = false;
+            this.useBrowserify = false;
             var preprocessor = this.props.cssPreprocessor.toLowerCase();
             if (preprocessor === 'less') {
                 this.useLess = true;

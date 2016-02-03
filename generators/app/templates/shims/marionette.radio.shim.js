@@ -6,7 +6,7 @@ define(function(require) {
     'use strict';
 
     var _          = require('underscore');
-    var Radio      = require('radio');
+    var Radio      = require('backbone.radio');
     var Marionette = require('marionette');
 
     Marionette.Application.prototype._initChannel = function() {

@@ -8,11 +8,10 @@
 define(function(require) {
     'use strict';
 
-    var Backbone   = require('backbone');
-
-    var WebApp  = require('app');
-    var Example = require('router');
-    var View    = require('views/example');
+    var Backbone = require('backbone');
+    var WebApp   = require('app');
+    var Example  = require('router');
+    var View     = require('views/example');
 
     WebApp.on('before:start', function() {
         console.info(WebApp.model.get('name') + ' is starting...');
@@ -23,5 +22,7 @@ define(function(require) {
         console.info(WebApp.model.get('name') + ' is started!');
         WebApp.regions.get('root').show(new View());
     });
-    WebApp.start();
+    document.addEventListener('DOMContentLoaded', function() {
+        WebApp.start();
+    });
 });

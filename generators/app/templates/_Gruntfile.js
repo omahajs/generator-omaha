@@ -68,6 +68,18 @@ module.exports = function(grunt) {
                 dest: '<%%= folders.reports %>/benchmarks/results.csv'
             }
         },
+<% } %><% if (useBrowserify) { %>
+        /**
+         * Use Browserify to bundle scripts
+         * @see {@link https://github.com/jmreidy/grunt-browserify}
+        **/
+        browserify: {
+            bundle: {
+                files: {
+                    '<%%= folders.dist %>/<%%= folders.client %>/bundle.js': ['<%%= folders.app %>/main.js']
+                }
+            }
+        },
 <% } %><% if (props.useBuddyjs) { %>
         /**
          * Find "magic numbers" (unnamed numerical constants) in code
@@ -420,7 +432,7 @@ module.exports = function(grunt) {
          * @see (@link https://github.com/jrburke/r.js/blob/master/build/example.build.js}
         **/
         requirejs: {
-            build: {
+            bundle: {
                 options: {
                     out: '<%%= folders.dist %>/<%%= folders.client %>/<%%= files.configScript %>',
                     mainConfigFile: '<%%= folders.app %>/<%%= files.configScript %>',
@@ -455,6 +467,28 @@ module.exports = function(grunt) {
                 },
                 files: {
                     '<%%= folders.app %>/style.css': '<%%= folders.assets %>/sass/style.scss'
+                }
+            }
+        },
+<% } %><% if (useBrowserify) { %>
+        /**
+         * Minify JavaScript files with UglifyJS
+         * @see {@link https://github.com/gruntjs/grunt-contrib-uglify}
+        **/
+        uglify: {
+            bundle: {
+                options: {
+                    mangle: true,
+                    comments: false,
+                    compress: {
+                        drop_console: true //discard calls to console.* functions
+                    },
+                    banner: '/* <%%= package.name %> - v<%%= package.version %> - 2016-02-07 */'
+                },
+                files: {
+                    '<%%= folders.dist %>/<%%= folders.client %>/bundle.min.js': [
+                        '<%%= folders.dist %>/<%%= folders.client %>/bundle.js'
+                    ]
                 }
             }
         },
