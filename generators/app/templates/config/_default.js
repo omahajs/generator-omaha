@@ -31,7 +31,7 @@ module.exports = {
             },
             index:        'index.html',
             <% if (useLess) { %>styles:       'less/**/*.less',<% } %>
-            <% if (useSass) { %>styles:       'sass/**/*.scss'<% } %>,
+            <% if (useSass) { %>styles:       'sass/**/*.scss',<% } %>
             scripts:      '**/*.js',
             mainScript:   'main.js',
             configScript: 'config.js',
