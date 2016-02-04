@@ -6,57 +6,20 @@ var helpers = require('yeoman-generator').test;
 var base    = require('yeoman-generator').generators.Base;
 var sinon   = require('sinon');
 var os      = require('os');
-var _       = require('lodash');
+var _       = require('underscore');
 
-var stub;
-//Config files that are ALWAYS created
-var configFiles = [
-    'config/.csslintrc',
-    'config/.jscsrc',
-    'config/.jscsrc-jsdoc',
-    'config/.jshintrc',
-    'config/default.js',
-    'config/karma.conf.js',
-    '.gitignore'
-];
-//Project files that are ALWAYS created
-var projectFiles = [
-    'package.json',
-    'Gruntfile.js',
-    'README.md',
-    'LICENSE'
-];
-//Files that are ALWAYS created
-var files = [
-    'tasks/main.js',
-    'tasks/build.js',
-    'tasks/test.js',
-    'app/index.html',
-    'app/app.js',
-    'app/main.js',
-    'app/config.js',
-    'app/router.js',
-    'assets/images/logo.png',
-    'app/modules/umd.boilerplate.js',
-    'app/modules/webworker.boilerplate.js'
-];
-//Dependencies that are CONDITIONALLY installed YES/NO
-var dependencies = [
-    '"jsinspect": ',
-    'grunt-jsinspect',
-    'grunt-buddyjs',
-    'grunt-contrib-imagemin',
-    'grunt-a11y',
-    'grunt-accessibility',
-    'grunt-karma-coveralls',
-    'grunt-benchmark',
-    'grunt-contrib-less'
-];
-//Dependencies that are CONDITIONALLY installed FROM CHOICES
-var dependencyChoices = [
-
-];
 var SKIP_INSTALL = {skipInstall: true};
+
+var options = require('./options');
+//Config files that are ALWAYS created
+var configFiles = options.configFiles;
+//Project files that are ALWAYS created
+var projectFiles = options.projectFiles;
+//Files that are ALWAYS created
+var files = options.appFiles;
+//Dependencies that are CONDITIONALLY installed YES/NO
+var dependencies = options.booleanDeps;
+
 var booleanAnswers = function(value) {
     value = value ? true : false;
     return {
@@ -69,54 +32,104 @@ var booleanAnswers = function(value) {
         useCoveralls:   value
     };
 };
-function promptAnswers(questions, value) {
-    return _.zipObject(questions, _.fill(_.clone(questions), value));
+
+function scaffoldApp(appDir, scriptBundler, cssProcessor, answersAllTrue) {
+    return helpers.run(path.join(__dirname, '../generators/app'))
+        .withOptions(SKIP_INSTALL)
+        .withPrompts(_.extend(_.clone(booleanAnswers(answersAllTrue)), {
+            appDir: appDir,
+            scriptBundler: scriptBundler,
+            cssPreprocessor: cssProcessor
+        }));
+}
+
+function verifyBrowserifySupport(exists, appDir) {
+    appDir = appDir ? appDir: './';
+    var verify;
+    if (exists) {
+        verify =  assert.fileContent;
+        assert.noFileContent(appDir + '/tasks/build.js', 'requirejs:bundle');
+    } else {
+        verify = assert.noFileContent;
+        assert.fileContent(appDir + '/tasks/build.js', 'requirejs:bundle');
+    }
+    verify('package.json', '"browserify": {');
+    verify('package.json', 'grunt-browserify');
+    verify('package.json', 'deamdify');
+    verify('package.json', 'aliasify');
+    verify('Gruntfile.js', 'browserify: {');
+    verify(appDir + '/tasks/build.js', 'browserify:bundle');
+    verify(appDir + '/tasks/build.js', 'uglify:bundle');
+}
+
+function verifyLessSupport(exists, appDir) {
+    appDir = appDir ? appDir : '.';
+    var verify;
+    if (exists) {
+        verify = assert.fileContent;
+        assert.file(appDir + '/assets/less/reset.less');
+        assert.file(appDir + '/assets/less/style.less');
+        assert.noFile(appDir + '/assets/sass/reset.scss');
+        assert.noFile(appDir + '/assets/sass/style.scss');
+        assert.noFileContent('config/default.js', 'sass/**/*.scss');
+        assert.noFileContent('package.json', 'grunt-contrib-sass');
+    } else {
+        verify = assert.noFileContent;
+    }
+    verify('config/default.js', 'less/**/*.less');
+    verify('package.json', 'grunt-contrib-less');
+}
+
+function verifySassSupport(exists, appDir) {
+    appDir = appDir ? appDir : '.';
+    var verify;
+    if (exists) {
+        verify = assert.fileContent;
+        assert.file(appDir + '/assets/sass/reset.scss');
+        assert.file(appDir + '/assets/sass/style.scss');
+        assert.noFile(appDir + '/assets/less/reset.less');
+        assert.noFile(appDir + '/assets/less/style.less');
+        assert.noFileContent('config/default.js', 'less/**/*.less');
+        assert.noFileContent('package.json', 'grunt-contrib-less');
+    } else {
+        verify = assert.noFileContent;
+    }
+    verify('config/default.js', 'sass/**/*.scss');
+    verify('package.json', 'grunt-contrib-sass');
 }
 
 describe('app', function() {
+    var stub;
+    var APPDIR;
+    var SCRIPT_BUNDLER;
+    var CSS_PROCESSOR;
+    var PROMPT_ANSWERS;
     describe('when all options are true (with less support)', function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
-            helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(booleanAnswers(true)), {
-                    appDir: './',
-                    scriptBundler: 'browserify',
-                    cssPreprocessor: 'less'
-                }))
-                .on('end', done);
+            APPDIR = './';
+            SCRIPT_BUNDLER = 'browserify';
+            CSS_PROCESSOR = 'less';
+            PROMPT_ANSWERS = true;
+            scaffoldApp(APPDIR, SCRIPT_BUNDLER, CSS_PROCESSOR, PROMPT_ANSWERS).on('end', done);
         });
         after(function() {
             stub.restore();
         });
-        it('creates files', function() {
+        it('creates and configures files', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
             assert.file(files);
-            assert.file('assets/less/reset.less');
-            assert.file('assets/less/style.less');
-            assert.noFile('assets/sass/reset.scss');
             assert.file('test/benchmarks/example.benchmark.js');
-        });
-        it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
             assert.fileContent('.gitignore', 'app/style.css');
         });
         it('ADDS Browserify support', function() {
-            assert.fileContent('package.json', '"browserify": {');
-            assert.fileContent('package.json', 'grunt-browserify');
-            assert.fileContent('package.json', 'deamdify');
-            assert.fileContent('package.json', 'aliasify');
-            assert.fileContent('Gruntfile.js', 'browserify: {');
-            assert.fileContent('tasks/build.js', 'browserify:bundle');
-            assert.fileContent('tasks/build.js', 'uglify:bundle');
-            assert.noFileContent('tasks/build.js', 'requirejs:bundle');
+            verifyBrowserifySupport(true);
         });
         it('ADDS only less support', function() {
-            assert.fileContent('config/default.js', 'less/**/*.less');
-            assert.noFileContent('config/default.js', 'sass/**/*.scss');
-            assert.noFileContent('package.json', 'grunt-contrib-sass');
+            verifyLessSupport(true);
         });
         dependencies.forEach(function(dep) {
             it('adds ' + dep + ' to package.json', function() {
@@ -138,43 +151,26 @@ describe('app', function() {
     });
     describe('when all options are false', function() {
         before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(booleanAnswers(false)), {
-                    appDir: './',
-                    scriptBundler: 'requirejs',
-                    cssPreprocessor: 'none'
-                }))
-                .on('end', done);
+                APPDIR = './';
+                SCRIPT_BUNDLER = 'requirejs';
+                CSS_PROCESSOR = 'none';
+                PROMPT_ANSWERS = false;
+                scaffoldApp(APPDIR, SCRIPT_BUNDLER, CSS_PROCESSOR, PROMPT_ANSWERS).on('end', done);
         });
-
-        it('creates files', function() {
+        it('creates and configures files', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
             assert.file(files);
-            assert.noFile('assets/less/reset.less');
-            assert.noFile('assets/sass/reset.scss');
-            assert.file('assets/css/reset.css');
             assert.noFile('test/benchmarks/example.benchmark.js');
-        });
-        it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
             assert.fileContent('.gitignore', 'app/style.css');
         });
         it('DOES NOT add Browserify support', function() {
-            assert.noFileContent('package.json', '"browserify": {');
-            assert.noFileContent('package.json', 'grunt-browserify');
-            assert.noFileContent('package.json', 'deamdify');
-            assert.noFileContent('package.json', 'aliasify');
-            assert.noFileContent('Gruntfile.js', 'browserify: {');
-            assert.noFileContent('tasks/build.js', 'browserify:bundle');
-            assert.noFileContent('tasks/build.js', 'uglify:bundle');
-            assert.fileContent('tasks/build.js', 'requirejs:bundle');
+            verifyBrowserifySupport(false);
         });
         it('DOES NOT add less or Sass support', function() {
-            assert.noFileContent('config/default.js', 'less/**/*.less');
-            assert.noFileContent('config/default.js', 'sass/**/*.scss');
-            assert.noFileContent('package.json', 'grunt-contrib-sass');
+            verifyLessSupport(false);
+            verifySassSupport(false);
         });
         dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {
@@ -195,46 +191,26 @@ describe('app', function() {
         });
     });
     describe('when the application directory is changed (with Sass support)', function() {
-        var appDirectory = 'webapp';
         before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(booleanAnswers(false)), {
-                    appDir: appDirectory,
-                    scriptBundler: 'requirejs',
-                    cssPreprocessor: 'sass'
-                }))
-                .on('end', done);
+                APPDIR = 'webapp';
+                SCRIPT_BUNDLER = 'requirejs';
+                CSS_PROCESSOR = 'sass';
+                PROMPT_ANSWERS = false;
+                scaffoldApp(APPDIR, SCRIPT_BUNDLER, CSS_PROCESSOR, PROMPT_ANSWERS).on('end', done);
         });
-        it('creates files', function() {
+        it('creates and configures files', function() {
             assert.file(configFiles);
             assert.file(projectFiles);
-            assert.file(files.map(function(file) {
-                return appDirectory + '/' + file;
-            }));
-            assert.noFile(appDirectory + '/assets/less/reset.less');
-            assert.file(appDirectory + '/assets/sass/reset.scss');
-            assert.file(appDirectory + '/assets/sass/style.scss');
+            assert.file(files.map(function(file) {return APPDIR + '/' + file;}));
             assert.noFile('test/benchmarks/example.benchmark.js');
-        });
-        it('configures files', function() {
-            assert.fileContent('.gitignore', appDirectory + '/app/templates.js');
-            assert.fileContent('.gitignore', appDirectory + '/app/style.css');
+            assert.fileContent('.gitignore', APPDIR + '/app/templates.js');
+            assert.fileContent('.gitignore', APPDIR + '/app/style.css');
         });
         it('DOES NOT add Browserify support', function() {
-            assert.noFileContent('package.json', '"browserify": {');
-            assert.noFileContent('package.json', 'grunt-browserify');
-            assert.noFileContent('package.json', 'deamdify');
-            assert.noFileContent('package.json', 'aliasify');
-            assert.noFileContent('Gruntfile.js', 'browserify: {');
-            assert.noFileContent(appDirectory + '/tasks/build.js', 'browserify:bundle');
-            assert.noFileContent(appDirectory + '/tasks/build.js', 'uglify:bundle');
-            assert.fileContent(appDirectory + '/tasks/build.js', 'requirejs:bundle');
+            verifyBrowserifySupport(false, APPDIR);
         });
         it('ADDS only Sass support', function() {
-            assert.noFileContent('config/default.js', 'less/**/*.less');
-            assert.fileContent('config/default.js', 'sass/**/*.scss');
-            assert.fileContent('package.json', 'grunt-contrib-sass');
+            verifySassSupport(true, APPDIR);
         });
         dependencies.forEach(function(dep) {
             it('DOES NOT add ' + dep + ' to package.json', function() {
