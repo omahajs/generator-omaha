@@ -69,6 +69,9 @@ var booleanAnswers = function(value) {
         useCoveralls:   value
     };
 };
+function promptAnswers(questions, value) {
+    return _.zipObject(questions, _.fill(_.clone(questions), value));
+}
 
 describe('app', function() {
     describe('when all options are true (with less support)', function() {
