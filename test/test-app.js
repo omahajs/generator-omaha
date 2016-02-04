@@ -1,89 +1,97 @@
 'use strict';
 
-var path    = require('path');
-var assert  = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
 var base    = require('yeoman-generator').generators.Base;
 var sinon   = require('sinon');
-var os      = require('os');
+var helpers = require('./helpers');
 
-var data        = require('./data');
-var testHelpers = require('./helpers');
-
-var configFiles = data.configFiles;
-var projectFiles = data.projectFiles;
-var files = data.appFiles;
-var dependencies = data.booleanDeps;
-var scaffoldApp = testHelpers.scaffoldApp;
-var verifyFiles = testHelpers.verifyFiles;
-var verifyConfiguration = testHelpers.verifyConfiguration;
-var verifyGruntfilePlugins = testHelpers.verifyGruntfilePlugins;
-var verifyWorkflowDependencies = testHelpers.verifyWorkflowDependencies;
-var verifyJscsAutofix = testHelpers.verifyJscsAutofix;
-var verifyBenchmarkJs = testHelpers.verifyBenchmarkJs;
-var booleanAnswers = testHelpers.booleanAnswers;
-var verifyBrowserifySupport = testHelpers.verifyBrowserifySupport;
-var verifyLessSupport = testHelpers.verifyLessSupport;
-var verifySassSupport = testHelpers.verifySassSupport;
+var scaffoldApplication    = helpers.scaffoldApp;
+var verifyApplicationFiles = helpers.verifyFiles;
+var verifyConfiguration    = helpers.verifyConfiguration;
 
 describe('app', function() {
     var stub;
     var APPDIR;
     var CONFIGURED;
-    var PROMPT_ANSWERS;
-    var SCRIPT_BUNDLER;
     var CSS_PROCESSOR;
+    var SCRIPT_BUNDLER;
     describe('when all options are true (with less support)', function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
-            APPDIR = './';
-            CONFIGURED = true;
+            CONFIGURED     = true;
+            APPDIR         = './';
             SCRIPT_BUNDLER = 'browserify';
-            CSS_PROCESSOR = 'less';
-            PROMPT_ANSWERS = true;
-            scaffoldApp(APPDIR, SCRIPT_BUNDLER, CSS_PROCESSOR, PROMPT_ANSWERS).on('end', done);
+            CSS_PROCESSOR  = 'less';
+            scaffoldApplication({
+                appDirectory:   APPDIR,
+                scriptBundler:  SCRIPT_BUNDLER,
+                styleProcessor: CSS_PROCESSOR,
+                allAnswersTrue: true
+            }).on('end', done);
         });
         after(function() {
             stub.restore();
         });
         it('creates and configures files', function() {
-            verifyFiles(APPDIR);
+            verifyApplicationFiles(APPDIR);
         });
         it('configures workflow and tool-chain', function() {
-            verifyConfiguration(CONFIGURED, SCRIPT_BUNDLER, CSS_PROCESSOR, APPDIR);
+            verifyConfiguration({
+                appDirectory:   APPDIR,
+                workflow:       CONFIGURED,
+                scriptBundler:  SCRIPT_BUNDLER,
+                styleProcessor: CSS_PROCESSOR
+            });
         });
     });
     describe('when all options are false', function() {
         before(function(done) {
-                APPDIR = './';
-                CONFIGURED = false;
+                CONFIGURED     = false;
+                APPDIR         = './';
                 SCRIPT_BUNDLER = 'requirejs';
-                CSS_PROCESSOR = 'none';
-                PROMPT_ANSWERS = false;
-                scaffoldApp(APPDIR, SCRIPT_BUNDLER, CSS_PROCESSOR, PROMPT_ANSWERS).on('end', done);
+                CSS_PROCESSOR  = 'none';
+                scaffoldApplication({
+                    appDirectory:   APPDIR,
+                    scriptBundler:  SCRIPT_BUNDLER,
+                    styleProcessor: CSS_PROCESSOR,
+                    allAnswersTrue: false
+                }).on('end', done);
         });
         it('creates and configures files', function() {
-            verifyFiles(APPDIR);
+            verifyApplicationFiles(APPDIR);
         });
         it('configures workflow and tool-chain', function() {
-            verifyConfiguration(CONFIGURED, SCRIPT_BUNDLER, CSS_PROCESSOR, APPDIR);
+            verifyConfiguration({
+                appDirectory:   APPDIR,
+                workflow:       CONFIGURED,
+                scriptBundler:  SCRIPT_BUNDLER,
+                styleProcessor: CSS_PROCESSOR
+            });
         });
     });
     describe('when the application directory is changed (with Sass support)', function() {
         before(function(done) {
-                APPDIR = 'webapp';
-                CONFIGURED = false;
+                CONFIGURED     = false;
+                APPDIR         = 'webapp';
                 SCRIPT_BUNDLER = 'requirejs';
-                CSS_PROCESSOR = 'sass';
-                PROMPT_ANSWERS = false;
-                scaffoldApp(APPDIR, SCRIPT_BUNDLER, CSS_PROCESSOR, PROMPT_ANSWERS).on('end', done);
+                CSS_PROCESSOR  = 'sass';
+                scaffoldApplication({
+                    appDirectory:   APPDIR,
+                    scriptBundler:  SCRIPT_BUNDLER,
+                    styleProcessor: CSS_PROCESSOR,
+                    allAnswersTrue: false
+                }).on('end', done);
         });
         it('creates and configures files', function() {
-            verifyFiles(APPDIR);
+            verifyApplicationFiles(APPDIR);
         });
         it('configures workflow and tool-chain', function() {
-            verifyConfiguration(CONFIGURED, SCRIPT_BUNDLER, CSS_PROCESSOR, APPDIR);
+            verifyConfiguration({
+                appDirectory:   APPDIR,
+                workflow:       CONFIGURED,
+                scriptBundler:  SCRIPT_BUNDLER,
+                styleProcessor: CSS_PROCESSOR
+            });
         });
     });
 });

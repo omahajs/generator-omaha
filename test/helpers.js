@@ -22,11 +22,15 @@ var booleanAnswers = function(value) {
     };
 };
 
-function scaffoldApp(appDir, scriptBundler, cssProcessor, answersAllTrue) {
+function scaffoldApp(options) {
+    var appDir         = options.appDirectory;
+    var scriptBundler  = options.scriptBundler;
+    var cssProcessor   = options.styleProcessor;
+    var allAnswersTrue = options.allAnswersTrue;
     var SKIP_INSTALL = {skipInstall: true};
     return helpers.run(path.join(__dirname, '../generators/app'))
         .withOptions(SKIP_INSTALL)
-        .withPrompts(_.extend(_.clone(booleanAnswers(answersAllTrue)), {
+        .withPrompts(_.extend(_.clone(booleanAnswers(allAnswersTrue)), {
             appDir: appDir,
             scriptBundler: scriptBundler,
             cssPreprocessor: cssProcessor
@@ -41,17 +45,18 @@ function verifyFiles(appDir) {
     assert.fileContent('.gitignore', 'app/style.css');
 }
 
-function verifyConfiguration(workflow, bundler, preprocessor, appDir) {
-    verifyWorkflowDependencies(workflow);
-    verifyGruntfilePlugins(workflow);
-    verifyJscsAutofix(workflow);
-    verifyBenchmarkJs(workflow);
-    if (bundler === 'browserify') {
+function verifyConfiguration(options) {
+    var appDir = options.appDirectory ? options.appDirectory : './';
+    verifyWorkflowDependencies(options.workflow);
+    verifyGruntfilePlugins(options.workflow);
+    verifyJscsAutofix(options.workflow);
+    verifyBenchmarkJs(options.workflow);
+    if (options.scriptBundler === 'browserify') {
         verifyBrowserifySupport(true, appDir);
     }
-    if (preprocessor === 'less') {
+    if (options.styleProcessor === 'less') {
         verifyLessSupport(true, appDir);
-    } else if (preprocessor === 'sass') {
+    } else if (options.styleProcessor === 'sass') {
         verifySassSupport(true, appDir);
     } else {
         verifyLessSupport(false, appDir);
@@ -148,13 +153,5 @@ function verifySassSupport(exists, appDir) {
 module.exports = {
     scaffoldApp: scaffoldApp,
     verifyFiles: verifyFiles,
-    verifyConfiguration: verifyConfiguration,
-    verifyGruntfilePlugins: verifyGruntfilePlugins,
-    verifyWorkflowDependencies: verifyWorkflowDependencies,
-    verifyJscsAutofix: verifyJscsAutofix,
-    verifyBenchmarkJs: verifyBenchmarkJs,
-    booleanAnswers: booleanAnswers,
-    verifyLessSupport: verifyLessSupport,
-    verifySassSupport: verifySassSupport,
-    verifyBrowserifySupport: verifyBrowserifySupport
+    verifyConfiguration: verifyConfiguration
 };
