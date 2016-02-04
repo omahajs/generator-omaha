@@ -26,7 +26,6 @@ var files = [
     'app/config.js',
     'app/router.js',
     'assets/images/logo.png',
-    'app/modules/umd.boilerplate.js',
     'app/modules/webworker.boilerplate.js'
 ];
 //Dependencies that are CONDITIONALLY installed YES/NO

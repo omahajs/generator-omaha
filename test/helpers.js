@@ -1,0 +1,160 @@
+var path    = require('path');
+var _       = require('underscore');
+var helpers = require('yeoman-generator').test;
+var assert  = require('yeoman-generator').assert;
+
+var data = require('./data');
+var dependencies = data.booleanDeps;
+var appFiles     = data.appFiles;
+var configFiles  = data.configFiles;
+var projectFiles = data.projectFiles;
+
+var booleanAnswers = function(value) {
+    value = value ? true : false;
+    return {
+        autoFix:        value,
+        useJsinspect:   value,
+        useBuddyjs:     value,
+        useA11y:        value,
+        compressImages: value,
+        benchmarks:     value,
+        useCoveralls:   value
+    };
+};
+
+function scaffoldApp(appDir, scriptBundler, cssProcessor, answersAllTrue) {
+    var SKIP_INSTALL = {skipInstall: true};
+    return helpers.run(path.join(__dirname, '../generators/app'))
+        .withOptions(SKIP_INSTALL)
+        .withPrompts(_.extend(_.clone(booleanAnswers(answersAllTrue)), {
+            appDir: appDir,
+            scriptBundler: scriptBundler,
+            cssPreprocessor: cssProcessor
+        }));
+}
+
+function verifyFiles(appDir) {
+    assert.file(configFiles);
+    assert.file(projectFiles);
+    assert.file(appFiles.map(function(file) {return appDir + '/' + file;}));
+    assert.fileContent('.gitignore', 'app/templates.js');
+    assert.fileContent('.gitignore', 'app/style.css');
+}
+
+function verifyConfiguration(workflow, bundler, preprocessor, appDir) {
+    verifyWorkflowDependencies(workflow);
+    verifyGruntfilePlugins(workflow);
+    verifyJscsAutofix(workflow);
+    verifyBenchmarkJs(workflow);
+    if (bundler === 'browserify') {
+        verifyBrowserifySupport(true, appDir);
+    }
+    if (preprocessor === 'less') {
+        verifyLessSupport(true, appDir);
+    } else if (preprocessor === 'sass') {
+        verifySassSupport(true, appDir);
+    } else {
+        verifyLessSupport(false, appDir);
+        verifySassSupport(false, appDir);
+    }
+}
+
+function verifyWorkflowDependencies(added) {
+    var verify = added ? assert.fileContent : assert.noFileContent;
+    dependencies.forEach(function(dep) {
+        verify('package.json', dep);
+    });
+}
+
+function verifyGruntfilePlugins(configured) {
+    var verify = configured ? assert.fileContent : assert.noFileContent;
+    verify('Gruntfile.js', 'jsinspect: {');
+    verify('Gruntfile.js', 'buddyjs: {');
+    verify('Gruntfile.js', 'imagemin: {');
+    verify('Gruntfile.js', 'a11y: {');
+    verify('Gruntfile.js', 'accessibility: {');
+    verify('Gruntfile.js', 'benchmark: {');
+    verify('Gruntfile.js', 'coveralls: {');
+}
+
+function verifyJscsAutofix(value) {
+    assert.fileContent('Gruntfile.js', 'fix: ' + String(value));
+}
+
+function verifyBenchmarkJs(configured) {
+    var verify = configured ? assert.file : assert.noFile;
+    verify('test/benchmarks/example.benchmark.js');
+}
+
+function verifyBrowserifySupport(exists, appDir) {
+    appDir = appDir ? appDir: './';
+    var verify;
+    if (exists) {
+        verify =  assert.fileContent;
+        assert.noFileContent(appDir + '/tasks/build.js', 'requirejs:bundle');
+    } else {
+        verify = assert.noFileContent;
+        assert.fileContent(appDir + '/tasks/build.js', 'requirejs:bundle');
+    }
+    verify('package.json', '"browserify": {');
+    verify('package.json', 'grunt-browserify');
+    verify('package.json', 'deamdify');
+    verify('package.json', 'aliasify');
+    verify('Gruntfile.js', 'browserify: {');
+    verify(appDir + '/tasks/build.js', 'browserify:bundle');
+    verify(appDir + '/tasks/build.js', 'uglify:bundle');
+}
+
+function verifyLessSupport(exists, appDir) {
+    appDir = appDir ? appDir : '.';
+    var verify;
+    if (exists) {
+        verify = assert.fileContent;
+        assert.file(appDir + '/assets/less/reset.less');
+        assert.file(appDir + '/assets/less/style.less');
+        assert.noFile(appDir + '/assets/sass/reset.scss');
+        assert.noFile(appDir + '/assets/sass/style.scss');
+        assert.noFileContent('Gruntfile.js', 'sass: {');
+        assert.noFileContent('config/default.js', 'sass/**/*.scss');
+        assert.noFileContent('package.json', 'grunt-contrib-sass');
+    } else {
+        verify = assert.noFileContent;
+    }
+    verify('config/default.js', 'less/**/*.less');
+    verify('package.json', 'grunt-contrib-less');
+    verify('Gruntfile.js', 'less: {');
+}
+
+function verifySassSupport(exists, appDir) {
+    appDir = appDir ? appDir : '.';
+    var verify;
+    if (exists) {
+        verify = assert.fileContent;
+        assert.file(appDir + '/assets/sass/reset.scss');
+        assert.file(appDir + '/assets/sass/style.scss');
+        assert.noFile(appDir + '/assets/less/reset.less');
+        assert.noFile(appDir + '/assets/less/style.less');
+        assert.noFileContent('Gruntfile.js', 'less: {');
+        assert.noFileContent('config/default.js', 'less/**/*.less');
+        assert.noFileContent('package.json', 'grunt-contrib-less');
+    } else {
+        verify = assert.noFileContent;
+    }
+    verify('config/default.js', 'sass/**/*.scss');
+    verify('package.json', 'grunt-contrib-sass');
+    verify('Gruntfile.js', 'sass: {');
+}
+
+module.exports = {
+    scaffoldApp: scaffoldApp,
+    verifyFiles: verifyFiles,
+    verifyConfiguration: verifyConfiguration,
+    verifyGruntfilePlugins: verifyGruntfilePlugins,
+    verifyWorkflowDependencies: verifyWorkflowDependencies,
+    verifyJscsAutofix: verifyJscsAutofix,
+    verifyBenchmarkJs: verifyBenchmarkJs,
+    booleanAnswers: booleanAnswers,
+    verifyLessSupport: verifyLessSupport,
+    verifySassSupport: verifySassSupport,
+    verifyBrowserifySupport: verifyBrowserifySupport
+};
