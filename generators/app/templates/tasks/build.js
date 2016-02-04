@@ -2,14 +2,16 @@ module.exports = function(grunt) {
     'use strict';
 
     grunt.registerTask('process-styles', [
-        <% if(useLess) { %>'less:main',/*pre-process */<% } %><% if(useSass) { %>'sass:main',/*pre-process */<% } %>
+        <% if (useLess) { %>'less:main',/*pre-process */<% } %><% if (useSass) { %>'sass:main',/*pre-process */<% } %>
         'postcss'   /*post-process*/
     ]);
     grunt.registerTask('precompile-templates', [
         'handlebars:main'
     ]);
-    grunt.registerTask('bundle-scripts', [
-        'requirejs:bundle'
+    grunt.registerTask('bundle-scripts', [<% if (useBrowserify) { %>
+        'browserify:bundle',
+        'uglify:bundle'<% } else { %>
+        'requirejs:bundle'<% } %>
     ]);
     grunt.registerTask('compile', [
         'clean:compile',
@@ -20,7 +22,7 @@ module.exports = function(grunt) {
         'clean:build',
         'compile',
         'bundle-scripts',
-        'htmlmin',<% if(props.compressImages) { %>
+        'htmlmin',<% if (props.compressImages) { %>
         'imagemin:build',<% } %>
         'copy'
     ]);

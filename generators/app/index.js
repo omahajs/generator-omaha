@@ -15,6 +15,7 @@ module.exports = yeoman.generators.Base.extend({
         ));
 
         var cssPreprocessors = ['less', 'Sass', 'none'];
+        var scriptBundlers = ['requirejs', 'browserify'];
         var prompts = [
             {
                 type: 'input',
@@ -27,6 +28,12 @@ module.exports = yeoman.generators.Base.extend({
                 name: 'appDir',
                 message: 'Where do you want to put the application directory?',
                 default: '.'
+            },
+            {
+                type: 'list',
+                name: 'scriptBundler',
+                message: 'Which technology for bundling scripts before deployment?',
+                choices: scriptBundlers
             },
             {
                 type: 'list',
@@ -82,6 +89,10 @@ module.exports = yeoman.generators.Base.extend({
             this.useLess = false;
             this.useSass = false;
             this.useBrowserify = false;
+            var bundler = this.props.scriptBundler.toLowerCase();
+            if (bundler === 'browserify') {
+                this.useBrowserify = true;
+            }
             var preprocessor = this.props.cssPreprocessor.toLowerCase();
             if (preprocessor === 'less') {
                 this.useLess = true;

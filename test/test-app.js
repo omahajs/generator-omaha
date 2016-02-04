@@ -6,8 +6,10 @@ var helpers = require('yeoman-generator').test;
 var base    = require('yeoman-generator').generators.Base;
 var sinon   = require('sinon');
 var os      = require('os');
+var _       = require('lodash');
 
 var stub;
+//Config files that are ALWAYS created
 var configFiles = [
     'config/.csslintrc',
     'config/.jscsrc',
@@ -17,12 +19,14 @@ var configFiles = [
     'config/karma.conf.js',
     '.gitignore'
 ];
+//Project files that are ALWAYS created
 var projectFiles = [
     'package.json',
     'Gruntfile.js',
     'README.md',
     'LICENSE'
 ];
+//Files that are ALWAYS created
 var files = [
     'tasks/main.js',
     'tasks/build.js',
@@ -36,6 +40,7 @@ var files = [
     'app/modules/umd.boilerplate.js',
     'app/modules/webworker.boilerplate.js'
 ];
+//Dependencies that are CONDITIONALLY installed YES/NO
 var dependencies = [
     '"jsinspect": ',
     'grunt-jsinspect',
@@ -47,6 +52,23 @@ var dependencies = [
     'grunt-benchmark',
     'grunt-contrib-less'
 ];
+//Dependencies that are CONDITIONALLY installed FROM CHOICES
+var dependencyChoices = [
+
+];
+var SKIP_INSTALL = {skipInstall: true};
+var booleanAnswers = function(value) {
+    value = value ? true : false;
+    return {
+        autoFix:        value,
+        useJsinspect:   value,
+        useBuddyjs:     value,
+        useA11y:        value,
+        compressImages: value,
+        benchmarks:     value,
+        useCoveralls:   value
+    };
+};
 
 describe('app', function() {
     describe('when all options are true (with less support)', function() {
@@ -54,18 +76,12 @@ describe('app', function() {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
             helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions({skipInstall: true})
-                .withPrompts({
+                .withOptions(SKIP_INSTALL)
+                .withPrompts(_.extend(_.clone(booleanAnswers(true)), {
                     appDir: './',
-                    cssPreprocessor: 'less',
-                    autoFix: true,
-                    useJsinspect: true,
-                    useBuddyjs: true,
-                    useA11y: true,
-                    compressImages: true,
-                    benchmarks: true,
-                    useCoveralls: true
-                })
+                    scriptBundler: 'browserify',
+                    cssPreprocessor: 'less'
+                }))
                 .on('end', done);
         });
         after(function() {
@@ -83,6 +99,16 @@ describe('app', function() {
         it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
             assert.fileContent('.gitignore', 'app/style.css');
+        });
+        it('ADDS Browserify support', function() {
+            assert.fileContent('package.json', '"browserify": {');
+            assert.fileContent('package.json', 'grunt-browserify');
+            assert.fileContent('package.json', 'deamdify');
+            assert.fileContent('package.json', 'aliasify');
+            assert.fileContent('Gruntfile.js', 'browserify: {');
+            assert.fileContent('tasks/build.js', 'browserify:bundle');
+            assert.fileContent('tasks/build.js', 'uglify:bundle');
+            assert.noFileContent('tasks/build.js', 'requirejs:bundle');
         });
         it('ADDS only less support', function() {
             assert.fileContent('config/default.js', 'less/**/*.less');
@@ -110,18 +136,12 @@ describe('app', function() {
     describe('when all options are false', function() {
         before(function(done) {
             helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions({skipInstall: true})
-                .withPrompts({
+                .withOptions(SKIP_INSTALL)
+                .withPrompts(_.extend(_.clone(booleanAnswers(false)), {
                     appDir: './',
-                    cssPreprocessor: 'none',
-                    autoFix: false,
-                    useJsinspect: false,
-                    useBuddyjs: false,
-                    useA11y: false,
-                    compressImages: false,
-                    benchmarks: false,
-                    useCoveralls: false
-                })
+                    scriptBundler: 'requirejs',
+                    cssPreprocessor: 'none'
+                }))
                 .on('end', done);
         });
 
@@ -137,6 +157,16 @@ describe('app', function() {
         it('configures files', function() {
             assert.fileContent('.gitignore', 'app/templates.js');
             assert.fileContent('.gitignore', 'app/style.css');
+        });
+        it('DOES NOT add Browserify support', function() {
+            assert.noFileContent('package.json', '"browserify": {');
+            assert.noFileContent('package.json', 'grunt-browserify');
+            assert.noFileContent('package.json', 'deamdify');
+            assert.noFileContent('package.json', 'aliasify');
+            assert.noFileContent('Gruntfile.js', 'browserify: {');
+            assert.noFileContent('tasks/build.js', 'browserify:bundle');
+            assert.noFileContent('tasks/build.js', 'uglify:bundle');
+            assert.fileContent('tasks/build.js', 'requirejs:bundle');
         });
         it('DOES NOT add less or Sass support', function() {
             assert.noFileContent('config/default.js', 'less/**/*.less');
@@ -162,22 +192,15 @@ describe('app', function() {
         });
     });
     describe('when the application directory is changed (with Sass support)', function() {
-        var appDirectory;
+        var appDirectory = 'webapp';
         before(function(done) {
-            appDirectory = 'webapp';
             helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions({skipInstall: true})
-                .withPrompts({
+                .withOptions(SKIP_INSTALL)
+                .withPrompts(_.extend(_.clone(booleanAnswers(false)), {
                     appDir: appDirectory,
-                    cssPreprocessor: 'Sass',
-                    autoFix: false,
-                    useJsinspect: false,
-                    useBuddyjs: false,
-                    useA11y: false,
-                    compressImages: false,
-                    benchmarks: false,
-                    useCoveralls: false
-                })
+                    scriptBundler: 'requirejs',
+                    cssPreprocessor: 'sass'
+                }))
                 .on('end', done);
         });
         it('creates files', function() {
@@ -194,6 +217,16 @@ describe('app', function() {
         it('configures files', function() {
             assert.fileContent('.gitignore', appDirectory + '/app/templates.js');
             assert.fileContent('.gitignore', appDirectory + '/app/style.css');
+        });
+        it('DOES NOT add Browserify support', function() {
+            assert.noFileContent('package.json', '"browserify": {');
+            assert.noFileContent('package.json', 'grunt-browserify');
+            assert.noFileContent('package.json', 'deamdify');
+            assert.noFileContent('package.json', 'aliasify');
+            assert.noFileContent('Gruntfile.js', 'browserify: {');
+            assert.noFileContent(appDirectory + '/tasks/build.js', 'browserify:bundle');
+            assert.noFileContent(appDirectory + '/tasks/build.js', 'uglify:bundle');
+            assert.fileContent(appDirectory + '/tasks/build.js', 'requirejs:bundle');
         });
         it('ADDS only Sass support', function() {
             assert.noFileContent('config/default.js', 'less/**/*.less');

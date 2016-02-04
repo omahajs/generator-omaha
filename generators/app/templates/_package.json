@@ -39,7 +39,8 @@
     "replacements": {
       "models/(\\w+)":      "./app/models/$1",
       "views/(\\w+)":       "./app/views/$1",
-      "controllers/(\\w+)": "./app/controllers/$1"
+      "controllers/(\\w+)": "./app/controllers/$1",
+      "modules/(\\w+)":     "./app/modules/$1"
     }
   },<% } %>
   "dependencies": {
