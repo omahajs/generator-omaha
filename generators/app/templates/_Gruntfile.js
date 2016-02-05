@@ -454,7 +454,26 @@ module.exports = function(grunt) {
                 }
             }
         },
-<% if (useSass) { %>
+<% if (useBrowserify) { %>
+        /**
+         * Use Applause to replace link to bundled scripts if using browserify
+         * @see {@link https://github.com/outaTiME/grunt-replace}
+        **/
+        replace: {
+            'bundle-url': {
+                options: {
+                    patterns: [{
+                        match: /<script.*<\/script>/g,
+                        replacement: '<script src="bundle.min.js"></script>'
+                    }]
+                },
+                files: [{
+                    src:  '<%%= folders.dist %>/<%%= folders.client %>/<%%= files.index %>',
+                    dest: '<%%= folders.dist %>/<%%= folders.client %>/<%%= files.index %>'
+                }]
+            }
+        },
+<% } %><% if (useSass) { %>
         /**
          * Transpile SCSS to CSS
          * @see {@link https://github.com/gruntjs/grunt-contrib-sass}

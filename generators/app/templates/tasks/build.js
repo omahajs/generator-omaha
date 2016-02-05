@@ -22,7 +22,8 @@ module.exports = function(grunt) {
         'clean:build',
         'compile',
         'bundle-scripts',
-        'htmlmin',<% if (props.compressImages) { %>
+        'htmlmin',<% if (useBrowserify) { %>
+        'replace:bundle-url',<% } %><% if (props.compressImages) { %>
         'imagemin:build',<% } %>
         'copy'
     ]);
