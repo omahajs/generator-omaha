@@ -392,6 +392,20 @@ module.exports = function(grunt) {
         },
 
         /**
+         * Generate persistent static analysis reports with plato
+         * @see {@link https://github.com/jsoverson/grunt-plato}
+        **/
+        plato: {
+            app : {
+                src : ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
+                dest : '<%%= folders.reports %>/plato',
+                options : {
+                    jshint : grunt.file.readJSON(config.files.config.jshint)
+                }
+            }
+        },
+
+        /**
          * Apply several post-processors to your CSS using PostCSS
          * @see {@link https://github.com/nDmitry/grunt-postcss}
         **/
@@ -409,20 +423,6 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: '<%%= folders.app %>/*.css'
-            }
-        },
-
-        /**
-         * Generate static analysis reports with plato
-         * @see {@link https://github.com/jsoverson/grunt-plato}
-        **/
-        plato: {
-            app : {
-                src : ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
-                dest : '<%%= folders.reports %>/plato',
-                options : {
-                    jshint : '<%%= files.config.jshint %>'
-                }
             }
         },
 
