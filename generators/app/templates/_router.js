@@ -6,7 +6,7 @@
 define(function(require, exports) {
     'use strict';
 
-    var Marionette = require('marionette');
+    var Marionette = require('backbone.marionette');
 
     /**
      * @name RouterController

@@ -5,7 +5,7 @@
 define(function(require) {
     'use strict';
 
-    var Marionette = require('marionette');
+    var Marionette = require('backbone.marionette');
     var Handlebars = require('handlebars');
 
     //Override MarionetteJS template retrieval & compilation to use Handlebars.js
