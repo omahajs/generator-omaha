@@ -21,9 +21,12 @@ define(function(require) {
         Backbone.history.start();
         console.info(WebApp.model.get('name') + ' is started!');
         WebApp.regions.get('root').show(new View());
-    });<% if (useBrowserify) { %>
-    document.addEventListener('DOMContentLoaded', function() {
+    });
+    if (typeof(define) === 'undefined') {
+        document.addEventListener('DOMContentLoaded', function() {
+            WebApp.start();
+        });
+    } else {
         WebApp.start();
-    });<% } else { %>
-    WebApp.start();<% } %>
+    }
 });
