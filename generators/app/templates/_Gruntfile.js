@@ -361,6 +361,7 @@ module.exports = function(grunt) {
             main: {
                 options: {
                     sourceMap: true,
+                    sourceMapFileInline: true,
                     paths: ['<%%= folders.assets %>/<%%= files.styles %>']
                 },
                 files: {
