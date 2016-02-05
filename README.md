@@ -23,7 +23,7 @@ Getting Started  [![Gitter](https://img.shields.io/gitter/room/jhwohlgemuth/tech
 ```bash
 npm install --global yo
 ```
-- Install generator-techtonic node module globally
+- Install [generator-techtonic node module](https://www.npmjs.com/package/generator-techtonic) globally
 ```bash
 npm install --global generator-techtonic
 ```
