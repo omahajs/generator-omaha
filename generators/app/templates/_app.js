@@ -12,10 +12,10 @@ define(function(require, exports, module) {
     var Backbone   = require('backbone');
     var Marionette = require('backbone.marionette');
 
-    require('shims/marionette.radio.shim');
-    require('handlebars.helpers');
-    require('jquery.extensions');
-    require('underscore.mixins');
+    require('./shims/marionette.radio.shim');
+    require('./handlebars.helpers');
+    require('./jquery.extensions');
+    require('./underscore.mixins');
 
     /**
      * @class ApplicationModel
