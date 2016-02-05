@@ -360,11 +360,11 @@ module.exports = function(grunt) {
         less: {
             main: {
                 options: {
+                    sourceMap: true,
                     paths: ['<%%= folders.assets %>/<%%= files.styles %>']
                 },
                 files: {
-                    '<%%= folders.app %>/style.css': '<%%= folders.assets %>/less/style.less',
-                    '<%%= folders.dist %>/<%%= folders.client %>/style.css': '<%%= folders.assets %>/less/style.less'
+                    '<%%= folders.app %>/style.css': '<%%= folders.assets %>/less/style.less'
                 }
             }
         },
@@ -411,18 +411,24 @@ module.exports = function(grunt) {
         **/
         postcss: {
             options: {
-                map: {
-                    inline: false,
-                    annotation: '<%%= folders.app %>'
-                },
                 parser: require('postcss-safe-parser'),
                 processors: [
                     require('autoprefixer')({browsers: 'last 2 versions'}),
                     require('cssnano')()
                 ]
             },
-            dist: {
-                src: '<%%= folders.app %>/*.css'
+            dev: {
+                options: {
+                    map: {
+                        inline: false,
+                        annotation: '<%%= folders.app %>'
+                    }
+                },
+                src: '<%%= folders.app %>/*.css',
+            },
+            prod: {
+                src:  '<%%= folders.app %>/*.css',
+                dest: '<%%= folders.dist %>/<%%= folders.client %>/style.css'
             }
         },
 
