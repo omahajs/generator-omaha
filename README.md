@@ -2,8 +2,8 @@
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/techtonic.png?v=1" alt="techtonic"/></a>
 </div>
 <div align="center">
-    <a href="https://tldrlegal.com/license/mit-license">
-        <img src="https://img.shields.io/npm/l/generator-techtonic.svg" alt="License"/>
+    <a href="https://ci.appveyor.com/project/jhwohlgemuth/generator-techtonic">
+        <img src="https://ci.appveyor.com/api/projects/status/n7tv489wdlkuyi0i?svg=true" alt="AppVeyor CI Build Status"/>
     </a>
     <a href="https://travis-ci.org/jhwohlgemuth/generator-techtonic">
         <img src="https://travis-ci.org/jhwohlgemuth/generator-techtonic.svg?branch=master" alt="Travis-CI Build Status"/>
