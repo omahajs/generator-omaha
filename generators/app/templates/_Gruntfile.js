@@ -482,7 +482,7 @@ module.exports = function(grunt) {
             main: {
                 options: {
                     style: 'expanded',
-                    sourcemap: 'none'
+                    sourcemap: 'inline'
                 },
                 files: {
                     '<%%= folders.app %>/style.css': '<%%= folders.assets %>/sass/style.scss'

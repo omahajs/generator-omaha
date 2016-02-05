@@ -23,10 +23,12 @@ define(function(require) {
         WebApp.regions.get('root').show(new View());
     });
     if (typeof(define) === 'undefined') {
+        //Not AMD ==> Bundled with Browserify
         document.addEventListener('DOMContentLoaded', function() {
             WebApp.start();
         });
     } else {
+        //AMD == > Bundled with r.js
         WebApp.start();
     }
 });
