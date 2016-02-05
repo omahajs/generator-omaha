@@ -103,10 +103,13 @@ function verifyBrowserifySupport(exists, appDir) {
     }
     verify('package.json', '"browserify": {');
     verify('package.json', 'grunt-browserify');
+    verify('package.json', 'grunt-replace');
     verify('package.json', 'deamdify');
     verify('package.json', 'aliasify');
+    verify('Gruntfile.js', 'replace: {');
     verify('Gruntfile.js', 'browserify: {');
     verify(appDir + '/tasks/build.js', 'browserify:bundle');
+    verify(appDir + '/tasks/build.js', 'replace:bundle-url');
     verify(appDir + '/tasks/build.js', 'uglify:bundle');
 }
 
