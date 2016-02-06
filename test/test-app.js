@@ -9,6 +9,7 @@ var verifyApplicationFiles = helpers.verifyFiles;
 var verifyConfiguration    = helpers.verifyConfiguration;
 
 describe('app', function() {
+    this.timeout(0)
     var stub;
     var APPDIR;
     var CONFIGURED;
