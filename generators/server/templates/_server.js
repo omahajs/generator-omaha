@@ -6,8 +6,8 @@
  * @see [helmetjs/helmet]{@link https://github.com/helmetjs/helmet}
 **/
 var fs       = require('fs');
-var config   = require('config');
-var marked   = require('marked');
+var config   = require('config');<% if (markdownSupport) { %>
+var marked   = require('marked');<% } %>
 var express  = require('express');
 var session  = require('express-session');
 var lusca    = require('lusca');
@@ -16,7 +16,7 @@ var compress = require('compression');
 
 var NINETY_DAYS_IN_MILLISECONDS = 7776000000;
 
-var app = express()
+var app = express()<% if (markdownSupport) { %>
     .engine('md', function(path, options, fn) {
         fs.readFile(path, 'utf8', function(err, str) {
             if (err) return fn(err);
@@ -32,7 +32,7 @@ var app = express()
         });
     })
     .set('views', __dirname + '/markdown')
-    .set('view engine', 'md')
+    .set('view engine', 'md')<% } %>
     .use(session(config.get('session')))
     .use(function (req, res, next) {
         res.set('X-CSRF', config.get('session').secret);

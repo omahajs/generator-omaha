@@ -1,5 +1,8 @@
 'use strict';
+
 var yeoman = require('yeoman-generator');
+var chalk  = require('chalk');
+var yosay  = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
     prompting: function() {
@@ -22,6 +25,12 @@ module.exports = yeoman.generators.Base.extend({
                 name: 'websocketPort',
                 message: 'WebSocket server port?',
                 default: '13337'
+            },
+            {
+                type: 'confirm',
+                name: 'markdownSupport',
+                message: 'Add support for rendering Markdown files?',
+                default: true
             }
         ];
         this.prompt(prompts, function (props) {
@@ -30,6 +39,10 @@ module.exports = yeoman.generators.Base.extend({
             this.httpPort        = props.httpPort;
             this.httpsPort       = props.httpsPort;
             this.websocketPort   = props.websocketPort;
+            this.markdownSupport = props.markdownSupport;
+            if (this.markdownSupport) {
+                this.log(yosay('Place Markdown files in ' + chalk.blue('web/markdown/')));
+            }
             done();
         }.bind(this));
     },
@@ -53,7 +66,9 @@ module.exports = yeoman.generators.Base.extend({
         },
         boilerplate: function() {
             this.template('_index.html', 'web/client/index.html');
-            this.template('example.md', 'web/markdown/example.md');
+            if (this.markdownSupport) {
+                this.template('example.md', 'web/markdown/example.md');
+            }
         }
     },
     install: function () {
