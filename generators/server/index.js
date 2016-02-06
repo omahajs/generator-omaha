@@ -41,7 +41,7 @@ module.exports = yeoman.generators.Base.extend({
             this.websocketPort   = props.websocketPort;
             this.markdownSupport = props.markdownSupport;
             if (this.markdownSupport) {
-                this.log(yosay('Place Markdown files in ' + chalk.blue('web/markdown/')));
+                this.log(yosay('Place Markdown files in ' + chalk.blue('./web/markdown/')));
             }
             done();
         }.bind(this));

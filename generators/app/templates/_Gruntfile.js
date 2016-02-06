@@ -97,6 +97,9 @@ module.exports = function(grunt) {
          * @see {@link https://github.com/gruntjs/grunt-contrib-clean}
         **/
         clean: {
+            options: {
+                force: true
+            },
             docs:     ['<%%= folders.reports %>/<%%= folders.docs %>/*'],
             coverage: ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
             compile:  ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css'],

@@ -10,7 +10,7 @@ Examples:
 
     yo techtonic:app
 
-        Scaffold a web application and workflow complete with code infrastructure, examples, and configuration files
+        Scaffold a web app, tool-chain, and workflow
 
     yo techtonic:module <module name>
 

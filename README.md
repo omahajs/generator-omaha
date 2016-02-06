@@ -40,10 +40,6 @@ yo techtonic
 
 > **TIP**:  Use `yo techtonic --help` to see full usage instructions
 
-Alternatives
-------------
-- See wiki page, [Tools for Creating Web Apps](https://github.com/jhwohlgemuth/techtonic/wiki/Tools-for-Creating-Web-Apps)
-
 Tools, References & Resources
 -----------------------------
 - See wiki page, [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
@@ -51,3 +47,7 @@ Tools, References & Resources
 Future
 ------
 - See [techtonic Trello board](https://trello.com/b/WEMB9CEL/techtonic)
+
+Alternatives
+------------
+- See wiki page, [Tools for Creating Web Apps](https://github.com/jhwohlgemuth/techtonic/wiki/Tools-for-Creating-Web-Apps)
