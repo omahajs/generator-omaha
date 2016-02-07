@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/original/techtonic.png?v=1" alt="techtonic"/></a>
+    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/techtonic/logo.png?v=1" alt="techtonic"/></a>
 </div>
 <div align="center">
     <a href="https://ci.appveyor.com/project/jhwohlgemuth/generator-techtonic">
@@ -16,6 +16,10 @@
 <br/>
 
 > A [Yeoman](http://yeoman.io) generator for the modern front-end artisan designed to help you craft maintainable code for the web.
+
+<div align="center">
+    <img width="100%" type="image/svg+xml" src="http://images.jhwohlgemuth.com/techtonic/generator-rail-diagram.svg"/>
+</div>
 
 Getting Started  [![Gitter](https://img.shields.io/gitter/room/jhwohlgemuth/techtonic.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ---------------
