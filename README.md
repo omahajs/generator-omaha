@@ -23,20 +23,21 @@
 
 Getting Started  [![Gitter](https://img.shields.io/gitter/room/jhwohlgemuth/techtonic.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ---------------
-- Install [Yeoman](http://yeoman.io/) CLI tool and [generator-techtonic node module](https://www.npmjs.com/package/generator-techtonic) globally
+✔ Install [Yeoman](http://yeoman.io/) CLI tool and [generator-techtonic node module](https://www.npmjs.com/package/generator-techtonic) globally
 ```bash
 npm install --global yo generator-techtonic
 ```
-- Create an empty directory and cd into it
+✔ Create an empty directory and cd into it
 ```bash
 mkdir my-project && cd my-project
 ```
-- Run techtonic generator
+✔ Run techtonic generator
 ```bash
 yo techtonic
 ```
-- Follow the prompts
-- Start developing!
+✔ Follow the prompts
+
+✔ Start developing!
 
 > **TIP**:  Use `yo techtonic --help` to see full usage instructions
 
