@@ -26,6 +26,7 @@ function scaffoldApp(options) {
     var appDir         = options.appDirectory;
     var scriptBundler  = options.scriptBundler;
     var cssProcessor   = options.styleProcessor;
+    var templateLang   = options.templateTechnology;
     var allAnswersTrue = options.allAnswersTrue;
     var SKIP_INSTALL = {skipInstall: true};
     return helpers.run(path.join(__dirname, '../generators/app'))
@@ -33,7 +34,8 @@ function scaffoldApp(options) {
         .withPrompts(_.extend(_.clone(booleanAnswers(allAnswersTrue)), {
             appDir: appDir,
             scriptBundler: scriptBundler,
-            cssPreprocessor: cssProcessor
+            cssPreprocessor: cssProcessor,
+            templateTechnology: templateLang
         }));
 }
 
@@ -51,9 +53,7 @@ function verifyConfiguration(options) {
     verifyGruntfilePlugins(options.workflow);
     verifyJscsAutofix(options.workflow);
     verifyBenchmarkJs(options.workflow);
-    if (options.scriptBundler === 'browserify') {
-        verifyBrowserifySupport(true, appDir);
-    }
+    verifyBrowserifySupport(options.scriptBundler === 'browserify', appDir);
     if (options.styleProcessor === 'less') {
         verifyLessSupport(true, appDir);
     } else if (options.styleProcessor === 'sass') {
@@ -62,6 +62,7 @@ function verifyConfiguration(options) {
         verifyLessSupport(false, appDir);
         verifySassSupport(false, appDir);
     }
+    verifyHandlebarsSupport(options.templateTechnology === 'handlebars', appDir);
 }
 
 function verifyWorkflowDependencies(added) {
@@ -91,8 +92,26 @@ function verifyBenchmarkJs(configured) {
     verify('test/benchmarks/example.benchmark.js');
 }
 
+function verifyHandlebarsSupport(exists, appDir) {
+    appDir = appDir ? appDir: '.';
+    var verify;
+    if (exists) {
+        verify =  assert.fileContent;
+        assert.noFileContent('Gruntfile.js', 'jst: {');
+        assert.noFileContent('package.json', '"grunt-contrib-jst": ');
+        assert.noFileContent(appDir + '/tasks/build.js', 'jst:main');
+    } else {
+        verify = assert.noFileContent;
+        assert.fileContent('Gruntfile.js', 'jst: {');
+        assert.fileContent('package.json', '"grunt-contrib-jst": ');
+        assert.fileContent(appDir + '/tasks/build.js', 'jst:main');
+    }
+    verify('package.json', '"handlebars": ');
+    verify('package.json', '"grunt-contrib-handlebars": ');
+}
+
 function verifyBrowserifySupport(exists, appDir) {
-    appDir = appDir ? appDir: './';
+    appDir = appDir ? appDir: '.';
     var verify;
     if (exists) {
         verify =  assert.fileContent;

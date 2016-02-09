@@ -175,7 +175,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-
+<% if (useHandlebars) { %>
         /**
          * Pre-compile Handlebars templates
          * @see {@link https://github.com/gruntjs/grunt-contrib-handlebars}
@@ -198,7 +198,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-
+<% } %>
         /**
          * Lint HTML files
          * @see {@link https://github.com/yaniswang/HTMLHint}
@@ -325,7 +325,33 @@ module.exports = function(grunt) {
         jsonlint: {
             project: {src: ['./*.json', '<%%= folders.config %>/.*']}
         },
-
+<% if (!useHandlebars) { %>
+        /**
+         * Pre-compile underscore templates
+         * @see {@link https://github.com/gruntjs/grunt-contrib-jst}
+        **/
+        jst: {
+            main: {
+                options: {
+                    amd: true,
+                    //Use processName to name the template keys within the compiled templates.js file
+                    //"assets/templates/example.hbs" --> "example"
+                    processName: function(filePath) {
+                        return filePath
+                            .replace(config.folders.assets, '')
+                            .replace(/[/]templates[/]/, '')
+                            .replace(/[.]hbs/, '');
+                    },
+                    templateSettings: {
+                        interpolate : /\{\{(.+?)\}\}/g
+                    }
+                },
+                files: {
+                    '<%%= folders.app %>/templates.js': ['<%%= folders.assets %>/<%%= files.templates %>']
+                }
+            }
+        },
+<% } %>
         /**
          * Run tests and generate code coverage with the Karma test runner
          * @see {@link https://github.com/karma-runner/grunt-karma}

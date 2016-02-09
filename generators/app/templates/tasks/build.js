@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         'postcss'   /*post-process*/
     ]);
     grunt.registerTask('precompile-templates', [
-        'handlebars:main'
+        <% if (useHandlebars) { %>'handlebars:main'<% } else { %>'jst:main'<% } %>
     ]);
     grunt.registerTask('bundle-scripts', [<% if (useBrowserify) { %>
         'browserify:bundle',

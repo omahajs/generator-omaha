@@ -49,8 +49,8 @@
     "underscore": "^1.8.3",
     "backbone": "^1.2.1",
     "backbone.marionette": "^2.4.2",
-    "backbone.radio": "^1.0.1",
-    "handlebars": "*",
+    "backbone.radio": "^1.0.1",<% if (useHandlebars) { %>
+    "handlebars": "*",<% } %>
     "config": "^1.14.0"
   },
   "devDependencies": {<% if (useBrowserify) { %>
@@ -69,8 +69,8 @@
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-csslint": "^0.5.0",
-    "grunt-contrib-handlebars": "*",
+    "grunt-contrib-csslint": "^0.5.0",<% if (useHandlebars) { %>
+    "grunt-contrib-handlebars": "*",<% } %>
     "grunt-contrib-htmlmin": "^0.6.0",<% if (props.compressImages) { %>
     "grunt-contrib-imagemin": "^1.0.0",<% } %>
     "grunt-contrib-jshint": "*",<% if (useLess) { %>
@@ -84,7 +84,8 @@
     "grunt-jscs": "^1.8.0",
     "grunt-jsdoc": "*",<% if (props.useJsinspect) { %>
     "grunt-jsinspect": "^1.1.0",<% } %>
-    "grunt-jsonlint": "^1.0.4",
+    "grunt-jsonlint": "^1.0.4",<% if (!useHandlebars) { %>
+    "grunt-contrib-jst": "^0.6.0",<% } %>
     "grunt-karma": "^0.12.0",<% if (props.useCoveralls) { %>
     "grunt-karma-coveralls": "^2.5.3",<% } %>
     "grunt-open": "^0.2.3",
@@ -119,7 +120,7 @@
   "scripts": {
     "test": "grunt test-ci",
     "lint-comments": "grunt jscs:comments",
-    "prestart": "nohup json-server --port 8080 --watch tests/data/db.json &",
+    "prestart": "nohup json-server --port 8080 --watch test/data/db.json &",
     "start": " grunt"
   }
 }

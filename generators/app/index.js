@@ -16,6 +16,7 @@ module.exports = yeoman.generators.Base.extend({
 
         var cssPreprocessors = ['less', 'Sass', 'none'];
         var scriptBundlers = ['requirejs', 'browserify'];
+        var templateTechnologies = ['handlebars', 'underscore'];
         var prompts = [
             {
                 type: 'input',
@@ -40,6 +41,12 @@ module.exports = yeoman.generators.Base.extend({
                 name: 'cssPreprocessor',
                 message: 'Which CSS pre-processor?',
                 choices: cssPreprocessors
+            },
+            {
+                type: 'list',
+                name: 'templateTechnology',
+                message: 'Which techtonology for templates?',
+                choices: templateTechnologies
             },
             {
                 type: 'confirm',
@@ -89,16 +96,20 @@ module.exports = yeoman.generators.Base.extend({
             this.useLess = false;
             this.useSass = false;
             this.useBrowserify = false;
+            this.useHandlebars = true;
             var bundler = this.props.scriptBundler.toLowerCase();
+            var preprocessor = this.props.cssPreprocessor.toLowerCase();
+            var templateTechnology = this.props.templateTechnology.toLowerCase();
             if (bundler === 'browserify') {
                 this.useBrowserify = true;
             }
-            var preprocessor = this.props.cssPreprocessor.toLowerCase();
             if (preprocessor === 'less') {
                 this.useLess = true;
-            }
-            if (preprocessor === 'sass') {
+            } else if (preprocessor === 'sass') {
                 this.useSass = true;
+            }
+            if (templateTechnology === 'underscore') {
+                this.useHandlebars = false;
             }
             this.projectName = props.projectName;
             if (!/\/$/.test(props.appDir)) {

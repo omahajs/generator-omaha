@@ -2,6 +2,7 @@
 
 var base    = require('yeoman-generator').generators.Base;
 var sinon   = require('sinon');
+var _       = require('underscore');
 var helpers = require('./helpers');
 
 var scaffoldApplication    = helpers.scaffoldApp;
@@ -15,6 +16,16 @@ describe('app', function() {
     var CONFIGURED;
     var CSS_PROCESSOR;
     var SCRIPT_BUNDLER;
+    var TEMPLATE_LANG;
+    var promptOptions = function(allAnswersTrue) {
+        return {
+            appDirectory:       APPDIR,
+            scriptBundler:      SCRIPT_BUNDLER,
+            styleProcessor:     CSS_PROCESSOR,
+            templateTechnology: TEMPLATE_LANG,
+            allAnswersTrue:     allAnswersTrue
+        };
+    };
     describe('when all options are true (with less support)', function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
@@ -23,12 +34,10 @@ describe('app', function() {
             APPDIR         = './';
             SCRIPT_BUNDLER = 'browserify';
             CSS_PROCESSOR  = 'less';
-            scaffoldApplication({
-                appDirectory:   APPDIR,
-                scriptBundler:  SCRIPT_BUNDLER,
-                styleProcessor: CSS_PROCESSOR,
-                allAnswersTrue: true
-            }).on('end', done);
+            TEMPLATE_LANG  = 'handlebars';
+            scaffoldApplication(
+                promptOptions(true)
+            ).on('end', done);
         });
         after(function() {
             stub.restore();
@@ -38,10 +47,11 @@ describe('app', function() {
         });
         it('configures workflow and tool-chain', function() {
             verifyConfiguration({
-                appDirectory:   APPDIR,
-                workflow:       CONFIGURED,
-                scriptBundler:  SCRIPT_BUNDLER,
-                styleProcessor: CSS_PROCESSOR
+                appDirectory:       APPDIR,
+                workflow:           CONFIGURED,
+                scriptBundler:      SCRIPT_BUNDLER,
+                styleProcessor:     CSS_PROCESSOR,
+                templateTechnology: TEMPLATE_LANG
             });
         });
     });
@@ -51,22 +61,21 @@ describe('app', function() {
                 APPDIR         = './';
                 SCRIPT_BUNDLER = 'requirejs';
                 CSS_PROCESSOR  = 'none';
-                scaffoldApplication({
-                    appDirectory:   APPDIR,
-                    scriptBundler:  SCRIPT_BUNDLER,
-                    styleProcessor: CSS_PROCESSOR,
-                    allAnswersTrue: false
-                }).on('end', done);
+                TEMPLATE_LANG  = 'handlebars';
+                scaffoldApplication(
+                    promptOptions(false)
+                ).on('end', done);
         });
         it('creates and configures files', function() {
             verifyApplicationFiles(APPDIR);
         });
         it('configures workflow and tool-chain', function() {
             verifyConfiguration({
-                appDirectory:   APPDIR,
-                workflow:       CONFIGURED,
-                scriptBundler:  SCRIPT_BUNDLER,
-                styleProcessor: CSS_PROCESSOR
+                appDirectory:       APPDIR,
+                workflow:           CONFIGURED,
+                scriptBundler:      SCRIPT_BUNDLER,
+                styleProcessor:     CSS_PROCESSOR,
+                templateTechnology: TEMPLATE_LANG
             });
         });
     });
@@ -76,22 +85,21 @@ describe('app', function() {
                 APPDIR         = 'webapp';
                 SCRIPT_BUNDLER = 'requirejs';
                 CSS_PROCESSOR  = 'sass';
-                scaffoldApplication({
-                    appDirectory:   APPDIR,
-                    scriptBundler:  SCRIPT_BUNDLER,
-                    styleProcessor: CSS_PROCESSOR,
-                    allAnswersTrue: false
-                }).on('end', done);
+                TEMPLATE_LANG  = 'handlebars';
+                scaffoldApplication(
+                    promptOptions(false)
+                ).on('end', done);
         });
         it('creates and configures files', function() {
             verifyApplicationFiles(APPDIR);
         });
         it('configures workflow and tool-chain', function() {
             verifyConfiguration({
-                appDirectory:   APPDIR,
-                workflow:       CONFIGURED,
-                scriptBundler:  SCRIPT_BUNDLER,
-                styleProcessor: CSS_PROCESSOR
+                appDirectory:       APPDIR,
+                workflow:           CONFIGURED,
+                scriptBundler:      SCRIPT_BUNDLER,
+                styleProcessor:     CSS_PROCESSOR,
+                templateTechnology: TEMPLATE_LANG
             });
         });
     });
