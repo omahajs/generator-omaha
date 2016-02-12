@@ -31,7 +31,7 @@ mkdir my-project && cd my-project
 ```bash
 yo techtonic
 ```
-✔ Follow the prompts
+✔ Make some choices
 <div align="center">
     <img width="100%" type="image/svg+xml" src="http://images.jhwohlgemuth.com/techtonic/generator-rail-diagram.svg?v=7.1" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
 </div>
