@@ -37,15 +37,17 @@ yo techtonic
 ```
 ✔ Follow the prompts
 
-✔ Start developing!
+✔ [Start developing!](#typical-workflows)
 
 > **TIP**:  Use `yo techtonic --help` to see full usage instructions
 
 Typical Workflows
 -----------------
+> After scaffolding a new project with `yo techtonic` ...
+
 - Serve live-reload enabled app with companion RESTful API using `npm start`
 - Start a live-reload enabled server and open a browser with `grunt`, then...
-  - :lipstick: see your style updates with a second terminal running `grunt styling`
+  - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
   - :sparkles: lint your code in real-time with a second terminal running `grunt linting`
   - :100: run tests and calculate code coverage with `grunt covering`
 - Demo your bundled project in a browser with `grunt demo`
