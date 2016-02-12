@@ -17,10 +17,6 @@
 
 > A [Yeoman](http://yeoman.io) generator for the modern front-end artisan designed to help you craft maintainable code for the web.
 
-<div align="center">
-    <img width="100%" type="image/svg+xml" src="http://images.jhwohlgemuth.com/techtonic/generator-rail-diagram.svg?v=7.1" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
-</div>
-
 Getting Started  [![Gitter](https://img.shields.io/gitter/room/jhwohlgemuth/techtonic.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ---------------
 ✔ Install [Yeoman](http://yeoman.io/) CLI tool and [generator-techtonic node module](https://www.npmjs.com/package/generator-techtonic) globally
@@ -36,7 +32,10 @@ mkdir my-project && cd my-project
 yo techtonic
 ```
 ✔ Follow the prompts
-
+<div align="center">
+    <img width="100%" type="image/svg+xml" src="http://images.jhwohlgemuth.com/techtonic/generator-rail-diagram.svg?v=7.1" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
+</div>
+</br>
 ✔ [Start developing!](#typical-workflows)
 
 Typical Workflows
