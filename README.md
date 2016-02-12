@@ -39,8 +39,6 @@ yo techtonic
 
 ✔ [Start developing!](#typical-workflows)
 
-> **TIP**:  Use `yo techtonic --help` to see full usage instructions
-
 Typical Workflows
 -----------------
 > After scaffolding a new project with `yo techtonic` ...
@@ -52,6 +50,8 @@ Typical Workflows
   - :100: run tests and calculate code coverage with `grunt covering`
 - Demo your bundled project in a browser with `grunt demo`
 - [Review the code](/generators/app/templates/tasks) to see all the available tasks
+
+> **TIP**:  Use `yo techtonic --help` to see full usage instructions
 
 Tools, References & Resources
 -----------------------------
