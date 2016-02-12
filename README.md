@@ -41,6 +41,16 @@ yo techtonic
 
 > **TIP**:  Use `yo techtonic --help` to see full usage instructions
 
+Typical Workflows
+-----------------
+- Serve live-reload enabled app with companion RESTful API using `npm start`
+- Start a live-reload enabled server and open a browser with `grunt`, then...
+  - :lipstick: see your style updates with a second terminal running `grunt styling`
+  - :sparkles: lint your code in real-time with a second terminal running `grunt linting`
+  - :100: run tests and calculate code coverage with `grunt covering`
+- Demo your bundled project in a browser with `grunt demo`
+- [Review the code](/generators/app/templates/tasks) to see all the available tasks
+
 Tools, References & Resources
 -----------------------------
 - See wiki page, [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
