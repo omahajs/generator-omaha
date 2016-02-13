@@ -36,7 +36,7 @@ yo techtonic
     <img width="100%" type="image/svg+xml" src="http://images.jhwohlgemuth.com/techtonic/generator-rail-diagram.svg?v=7.1" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
 </div>
 </br>
-✔ [Start developing!](#typical-workflows)
+✔ [Start creating your app!](#typical-workflows)
 
 Typical Workflows
 -----------------
