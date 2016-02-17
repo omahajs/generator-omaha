@@ -161,7 +161,7 @@ module.exports = function(grunt) {
             main: {
                 options: {
                     bases: [__dirname],
-                    port: '<%%= ports.default %>',
+                    port: '<%%= ports.server %>',
                     hostname: '0.0.0.0',
                     livereload: '<%%= ports.livereload %>'
                 }
@@ -169,7 +169,7 @@ module.exports = function(grunt) {
             demo: {
                 options: {
                     bases: [__dirname],
-                    port: '<%%= ports.default %>',
+                    port: '<%%= ports.server %>',
                     hostname: '0.0.0.0',
                     serverreload: true
                 }
@@ -405,10 +405,10 @@ module.exports = function(grunt) {
         **/
         open: {
             browser: {
-                path: 'http://localhost:<%%= ports.default %>/<%%= folders.app %>'
+                path: 'http://localhost:<%%= ports.server %>/<%%= folders.app %>'
             },
             demo: {
-                path: 'http://localhost:<%%= ports.default %>/<%%= folders.dist %>/<%%= folders.client %>'
+                path: 'http://localhost:<%%= ports.server %>/<%%= folders.dist %>/<%%= folders.client %>'
             },
             coverage: {
                 path: __dirname + '/<%%= folders.reports %>/<%%= folders.coverage %>/report-html/index.html'

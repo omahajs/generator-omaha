@@ -4,7 +4,7 @@ var uuid = require('node-uuid');
 module.exports = {
     grunt: {
         ports: {
-            default:    1337,
+            server:     1337,
             karma:      4669,
             livereload: 46692
         },
