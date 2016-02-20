@@ -271,7 +271,10 @@ module.exports = function(grunt) {
                 files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
             },
             comments: {
-                files: {src: ['<%%= folders.app %>/<%%= files.scripts %>']}
+                options: {
+                    config: '<%%= files.config.jscs %>-jsdoc',
+                },
+                files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
             }
         },
 

@@ -63,11 +63,11 @@
     "globby": "^4.0.0",
     "grunt": "^0.4.5",<% if (props.useA11y) { %>
     "grunt-a11y": "^0.1.2",
-    "grunt-accessibility": "^3.0.2",<% } %><% if (props.benchmarks) { %>
+    "grunt-accessibility": "*",<% } %><% if (props.benchmarks) { %>
     "grunt-benchmark": "^0.3.0",<% } %><% if(props.useBuddyjs) { %>
     "grunt-buddyjs": "^0.1.2",<% } %>
     "grunt-cli": "^0.1.13",
-    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-clean": "*",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-csslint": "^0.5.0",<% if (useHandlebars) { %>
     "grunt-contrib-handlebars": "*",<% } %>
@@ -97,7 +97,7 @@
     "jscs-jsdoc": "^1.1.0",
     "jshint": "*",
     "jshint-stylish": "*",<% if (props.useJsinspect) { %>
-    "jsinspect": "^0.7.0",<% } %>
+    "jsinspect": "*",<% } %>
     "json-server": "*",
     "karma": "^0.13.9",
     "karma-chrome-launcher": "^0.2.0",
@@ -108,14 +108,14 @@
     "karma-requirejs": "^0.2.2",
     "karma-spec-reporter": "*",
     "load-grunt-tasks": "^3.1.0",
-    "lodash": "^3.10.0",
-    "nodemon": "^1.4.0",
+    "lodash": "*",
+    "nodemon": "*",
     "node-uuid": "*",
     "phantomjs-prebuilt": "^2.1.3",
     "postcss-safe-parser": "^1.0.4",
     "sinon": "^1.15.4",
     "time-grunt": "^1.1.0",
-    "ws": "^0.8.0"
+    "ws": "*"
   },
   "scripts": {
     "test": "grunt test-ci",
