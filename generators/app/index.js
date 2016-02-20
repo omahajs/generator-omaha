@@ -155,10 +155,6 @@ module.exports = yeoman.generators.Base.extend({
             if (this.props.benchmarks) {
                 this.template('test/example.benchmark.js', this.appDir + 'test/benchmarks/example.benchmark.js');
             }
-            mkdirp(this.appDir + 'app/models');
-            mkdirp(this.appDir + 'app/views');
-            mkdirp(this.appDir + 'app/controllers');
-            mkdirp(this.appDir + 'app/helpers');
             mkdirp(this.appDir + 'assets/fonts');
             mkdirp(this.appDir + 'assets/images');
             if (this.useLess) {
@@ -179,10 +175,11 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('shims/*.js'),
                 this.destinationPath(this.appDir + 'app/shims')
             );
-            this.fs.copy(
-                this.templatePath('helpers/*.js'),
-                this.destinationPath(this.appDir + 'app/helpers')
-            );
+            if (this.useHandlebars) {
+                this.template('helpers/handlebars.helpers.js', this.appDir + 'app/helpers/handlebars.helpers.js');
+            }
+            this.template('helpers/jquery.extensions.js', this.appDir + 'app/helpers/jquery.extensions.js');
+            this.template('helpers/underscore.mixins.js', this.appDir + 'app/helpers/underscore.mixins.js');
             this.fs.copy(
                 this.templatePath('modules/*.js'),
                 this.destinationPath(this.appDir + 'app/modules')

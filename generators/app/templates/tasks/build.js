@@ -23,9 +23,9 @@ module.exports = function(grunt) {
         'compile',
         'bundle-scripts',
         'htmlmin',<% if (useBrowserify) { %>
-        'replace:bundle-url',<% } %><% if (props.compressImages) { %>
-        'imagemin:build',<% } %>
-        'copy'
+        'replace:bundle-url',<% } %>
+        <% if (props.compressImages) { %>'imagemin:build',<% } else { %>'copy:images',<% } %>
+        'copy:fonts'
     ]);
     grunt.registerTask('demo', 'Build code and open in browser', [
         'build',

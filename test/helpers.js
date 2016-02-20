@@ -97,11 +97,13 @@ function verifyHandlebarsSupport(exists, appDir) {
     var verify;
     if (exists) {
         verify =  assert.fileContent;
+        assert.file(appDir + '/app/helpers/handlebars.helpers.js');
         assert.noFileContent('Gruntfile.js', 'jst: {');
         assert.noFileContent('package.json', '"grunt-contrib-jst": ');
         assert.noFileContent(appDir + '/tasks/build.js', 'jst:main');
     } else {
         verify = assert.noFileContent;
+        assert.noFile(appDir + '/app/helpers/handlebars.helpers.js');
         assert.fileContent('Gruntfile.js', 'jst: {');
         assert.fileContent('package.json', '"grunt-contrib-jst": ');
         assert.fileContent(appDir + '/tasks/build.js', 'jst:main');
