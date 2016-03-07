@@ -68,16 +68,16 @@
     "grunt-buddyjs": "^0.1.2",<% } %>
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "*",
-    "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-csslint": "^0.5.0",<% if (useHandlebars) { %>
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-csslint": "^1.0.0",<% if (useHandlebars) { %>
     "grunt-contrib-handlebars": "*",<% } %>
-    "grunt-contrib-htmlmin": "^0.6.0",<% if (props.compressImages) { %>
+    "grunt-contrib-htmlmin": "^1.0.0",<% if (props.compressImages) { %>
     "grunt-contrib-imagemin": "^1.0.0",<% } %>
     "grunt-contrib-jshint": "*",<% if (useLess) { %>
     "grunt-contrib-less": "^1.0.1",<% } %>
     "grunt-contrib-requirejs": "^0.4.4",<% if (useSass) { %>
     "grunt-contrib-sass": "^0.9.2",<% } %>
-    "grunt-contrib-uglify": "^0.11.1",
+    "grunt-contrib-uglify": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-express": "^1.4.1",
     "grunt-htmlhint-plus": "*",
