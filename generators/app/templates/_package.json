@@ -75,7 +75,7 @@
     "grunt-contrib-imagemin": "^1.0.0",<% } %>
     "grunt-contrib-jshint": "*",<% if (useLess) { %>
     "grunt-contrib-less": "^1.0.1",<% } %>
-    "grunt-contrib-requirejs": "^0.4.4",<% if (useSass) { %>
+    "grunt-contrib-requirejs": "^1.0.0",<% if (useSass) { %>
     "grunt-contrib-sass": "^0.9.2",<% } %>
     "grunt-contrib-uglify": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
