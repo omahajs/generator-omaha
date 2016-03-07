@@ -1,12 +1,11 @@
 `radio.logging.js`
 ==================
-**Why?**
+### **Why?**
 - Stylized console messages with local line numbers
 - levarage power and purpose of Backbone.Radio (channels, events, and stuff)
 - Easily add to project via one line
 
-Extend application object
--------------------------
+### Extend application object
 ```javascript
 var logging = require('./modules/radio.logging');
 var App = new Marionette.Application();
@@ -14,8 +13,7 @@ _.extend(App, logging);
 module.exports = App;
 ```
 
-Use wrapped console message methods
------------------------------------
+### Use wrapped console message methods
 ```javascript
 var App = require('app');
 App.log('hello world');
@@ -24,8 +22,7 @@ App.warn('hello world');
 App.error('hello world');
 ```
 
-"Tune" in and out on channels
------------------------------
+### "Tune" in and out on channels
 ```javascript
 var App = require('app');
 setInterval(function() {
@@ -38,8 +35,7 @@ App.radio.tuneOut('test'); //messages on test channel will no longer be shown
 //Note: Remove 'test' channel with App.radio.reset('test')
 ```
 
-Choose what level of logs get shown
------------------------------------
+### Choose what level of logs get shown
 ```javascript
 var App = require('app');
 App.radio.level('log'); //show all logs
@@ -61,8 +57,7 @@ App.radio.level('warn');  //show 'error' and 'warn' logs
 
 `webworker.boilerplate.js`
 =========================
-Usage
------
+### Usage
 ```javascript
 //inside main.js
 var worker = new Worker('modules/example.webworker.js');
