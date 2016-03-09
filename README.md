@@ -54,7 +54,7 @@ Typical Workflows
 
 Tools, References & Resources
 -----------------------------
-- See wiki page, [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
+- See wiki page: [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
 
 Future
 ------
@@ -62,4 +62,4 @@ Future
 
 Alternatives
 ------------
-- See wiki page, [Tools for Creating Web Apps](https://github.com/jhwohlgemuth/techtonic/wiki/Tools-for-Creating-Web-Apps)
+- See wiki page: [Tools for Creating Web Apps](https://github.com/jhwohlgemuth/techtonic/wiki/Tools-for-Creating-Web-Apps)
