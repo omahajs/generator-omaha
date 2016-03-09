@@ -151,7 +151,7 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('test/jasmine/**/*.*'),
                 this.destinationPath(this.appDir + 'test/jasmine')
             );
-            this.template('test/test-main.js', this.appDir + 'test/test-main.js');
+            this.template('test/config.js', this.appDir + 'test/config.js');
             if (this.props.benchmarks) {
                 this.template('test/example.benchmark.js', this.appDir + 'test/benchmarks/example.benchmark.js');
             }

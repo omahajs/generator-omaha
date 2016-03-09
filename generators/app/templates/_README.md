@@ -34,11 +34,11 @@ Folder Structure
     |   |- build.js
     |   |- test.js
     |   \- main.js
-    +- tests
+    +- test
     |   +- data
     |   +- jasmine
     |       +- specs
-    |   \- test-main.js
+    |   \- config.js
     |- GruntFile.js
     \- package.json
 

@@ -6,7 +6,7 @@ module.exports = function(karmaConfig) {
         basePath: '../',
         frameworks: [ 'requirejs', 'jasmine'],
         files: [
-            {pattern: config.folders.test + '/test-main.js'},
+            {pattern: config.folders.test + '/config.js'},
             {pattern: scripts,                                                        included: false},//JS scripts
             {pattern: templates,                                                      included: false},//HTML templates
             {pattern: config.folders.test + '/' + config.folders.specs + '/**/*.js',  included: false},//Jasmine specs
