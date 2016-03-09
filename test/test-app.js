@@ -85,7 +85,7 @@ describe('app', function() {
                 APPDIR         = 'webapp';
                 SCRIPT_BUNDLER = 'requirejs';
                 CSS_PROCESSOR  = 'sass';
-                TEMPLATE_LANG  = 'handlebars';
+                TEMPLATE_LANG  = 'underscore';
                 scaffoldApplication(
                     promptOptions(false)
                 ).on('end', done);
