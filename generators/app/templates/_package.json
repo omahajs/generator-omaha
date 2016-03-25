@@ -66,7 +66,7 @@
     "grunt-accessibility": "*",<% } %><% if (props.benchmarks) { %>
     "grunt-benchmark": "^0.3.0",<% } %><% if(props.useBuddyjs) { %>
     "grunt-buddyjs": "^0.1.2",<% } %>
-    "grunt-cli": "^0.1.13",
+    "grunt-cli": "^1.0.0",
     "grunt-contrib-clean": "*",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-csslint": "^1.0.0",<% if (useHandlebars) { %>
