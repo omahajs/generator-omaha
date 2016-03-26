@@ -50,8 +50,7 @@
     "backbone": "^1.2.1",
     "backbone.marionette": "^2.4.2",
     "backbone.radio": "^1.0.1",<% if (useHandlebars) { %>
-    "handlebars": "*",<% } %>
-    "config": "^1.14.0"
+    "handlebars": "*"<% } %>
   },
   "devDependencies": {<% if (useBrowserify) { %>
     "browserify": "*",
@@ -59,6 +58,7 @@
     "aliasify": "^1.9.0",
     "deamdify": "^0.2.0",<% } %>
     "autoprefixer": "^6.3.1",
+    "config": "^1.14.0",
     "cssnano": "^3.4.0",
     "globby": "^4.0.0",
     "grunt": "^0.4.5",<% if (props.useA11y) { %>
