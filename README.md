@@ -17,7 +17,7 @@
 
 > A [Yeoman](http://yeoman.io) generator for the modern front-end artisan designed to help you craft maintainable code for the web.
 
-Getting Started  [![Gitter](https://img.shields.io/gitter/room/jhwohlgemuth/techtonic.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+Getting Started  [![Gitter](https://img.shields.io/gitter/room/jhwohlgemuth/techtonic.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![API Doc](https://doclets.io/jhwohlgemuth/generator-techtonic/master.svg)](https://doclets.io/jhwohlgemuth/generator-techtonic/master)
 ---------------
 ✔ Install [Yeoman](http://yeoman.io/) CLI tool and [generator-techtonic node module](https://www.npmjs.com/package/generator-techtonic) globally
 ```bash
@@ -38,7 +38,6 @@ yo techtonic
 </br>
 ✔ Start creating your app!
 
-> **Optional**: Read the docs [![API Doc](https://doclets.io/jhwohlgemuth/generator-techtonic/master.svg)](https://doclets.io/jhwohlgemuth/generator-techtonic/master)
 
 Typical Workflows
 -----------------
