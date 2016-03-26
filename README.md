@@ -38,6 +38,8 @@ yo techtonic
 </br>
 ✔ Start creating your app!
 
+> **Optional**: Read the docs [![API Doc](https://doclets.io/jhwohlgemuth/generator-techtonic/master.svg)](https://doclets.io/jhwohlgemuth/generator-techtonic/master)
+
 Typical Workflows
 -----------------
 > After scaffolding a new project with `yo techtonic` ...
