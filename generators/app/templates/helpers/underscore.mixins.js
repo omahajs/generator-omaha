@@ -1,7 +1,7 @@
 /**
  * @file Mixins that extend Underscore
  * @author Jason Wohlgemuth
- */
+**/
 define(function(require) {
     'use strict';
 
@@ -11,12 +11,19 @@ define(function(require) {
         capitalize: function(string) {
             return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
         },
-        curry: function(func) {
-            var applied = Array.prototype.slice.call(arguments, 1);
-            return function() {
-                var args = applied.concat(Array.prototype.slice.call(arguments));
-                return func.apply(this, args);
-            };
+        curry: function(func, numArgs) {
+            numArgs = numArgs || func.length;
+            function subCurry(prev) {
+                return function(arg) {
+                    var args = prev.concat(arg);
+                    if (args.length < numArgs) {
+                        return subCurry(args);
+                    } else {
+                        return func.apply(this, args);
+                    }
+                };
+            }
+            return subCurry([]);
         }
     });
 });
