@@ -1,7 +1,7 @@
 /**
  * @file Helpers that augment Handlebars
  * @author Jason Wohlgemuth
- */
+**/
 define(function(require) {
     'use strict';
 

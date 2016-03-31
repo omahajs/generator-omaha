@@ -1,7 +1,7 @@
 /**
  * @file Methods that extend jQuery
  * @author Jason Wohlgemuth
- */
+**/
 define(function(require) {
     'use strict';
 
