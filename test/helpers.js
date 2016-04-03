@@ -18,7 +18,8 @@ var booleanAnswers = function(value) {
         useA11y:        value,
         compressImages: value,
         benchmarks:     value,
-        useCoveralls:   value
+        useCoveralls:   value,
+        styleguide:     value
     };
 };
 
@@ -81,6 +82,8 @@ function verifyGruntfilePlugins(configured) {
     verify('Gruntfile.js', 'accessibility: {');
     verify('Gruntfile.js', 'benchmark: {');
     verify('Gruntfile.js', 'coveralls: {');
+    verify('Gruntfile.js', 'styleguide: {');
+    verify('Gruntfile.js', 'mdcss');
 }
 
 function verifyJscsAutofix(value) {

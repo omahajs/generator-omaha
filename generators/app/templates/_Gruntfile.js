@@ -421,7 +421,10 @@ module.exports = function(grunt) {
             },
             docs: {
                 path: __dirname + '/<%%= folders.reports %>/<%%= folders.docs %>/index.html'
-            }
+            }<% if (generateStyleguide) { %>,
+            styleguide: {
+                path: __dirname + '/styleguide/index.html'
+            }<% } %>
         },
 
         /**
@@ -462,7 +465,17 @@ module.exports = function(grunt) {
             prod: {
                 src:  '<%%= folders.app %>/*.css',
                 dest: '<%%= folders.dist %>/<%%= folders.client %>/style.css'
-            }
+            }<% if (generateStyleguide) { %>,
+            styleguide: {
+                options: {
+                    processors: [require('mdcss')({
+                        examples: {
+                            css: ['../app/style.css'],
+                        }
+                    })],
+                },
+                src: '<%%= folders.app %>/*.css'
+            }<% } %>
         },
 
         /**

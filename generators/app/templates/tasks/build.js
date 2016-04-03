@@ -34,14 +34,16 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('docs', 'Generate documentation with JSDoc3', [
         'clean:docs',
-        'jsdoc:app'
+        'jsdoc:app',
+        'open:docs'<% if (generateStyleguide) { %>,
+        <% if (useLess) { %>'less:main',/*pre-process */<% } %><% if (useSass) { %>'sass:main',/*pre-process */<% } %>
+        'postcss:styleguide',
+        'open:styleguide'<% } %>
     ]);
     grunt.registerTask('reports', 'Generate code coverage, plato report and documentation - then open all in browser', [
-        'docs',
         'plato',
         'cover',
-        'open:docs',
-        'open:coverage',
-        'open:plato'
+        'open:plato',
+        'open:coverage'
     ]);
 };

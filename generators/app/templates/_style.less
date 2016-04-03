@@ -1,8 +1,5 @@
 @import "reset";
 
-/*------------------------------------*\
-    $MAIN
-\*------------------------------------*/
 body {
     background-color: lighten(#CCC, 10);
     font-family: sans-serif;
@@ -11,20 +8,19 @@ body {
     padding: 2em 0 ;
 }
 
+/*---
+title:   Structure
+section: Base CSS
+---
+
+Styles for elements such as `<section>` could go in this section.
+
+*/
 section {
     text-align: center;
     transform: scale(1.0);
     user-select: none;
 }
-
-h1 {
-    padding: 1em 0;
-}
-
-a {
-    text-decoration: none;
-}
-
 footer {
     bottom: 0;
     padding: 1em 0;
@@ -33,6 +29,73 @@ footer {
     width: 100%;
 }
 
-/*------------------------------------*\
-    $COMPONENTS
-\*------------------------------------*/
+/*---
+title:   Headers
+section: Base CSS
+---
+
+```example:html
+<h1>Sample h1 Header</h1>
+<h2>Sample h2 Header</h2>
+<h3>Sample h3 Header</h3>
+```
+
+*/
+h1 {
+    font-size: 150%;
+    padding: 1em 0;
+}
+h2 {
+    font-size: 125%;
+}
+h3 {
+    font-size: 100%;
+}
+
+/*---
+title:   Links
+section: Base CSS
+---
+
+```example:html
+<a href="#">This is a sample link</a>
+<a href="#">This is another sample link</a>
+<a href="#">This is a third sample link</a>
+```
+
+*/
+a {
+    padding: 0.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+a:hover {
+    background-color: blue;
+    color: white;
+}
+
+
+/*---
+title:   Buttons
+section: Input Controls
+---
+
+The default button style is pictured below.
+
+```example:html
+<button>Hello World</button>
+```
+*/
+button {
+    background-color: blue;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    padding: 1em;
+    transition: all 100ms;
+    text-transform: uppercase;
+}
+button:hover {
+    background-color: lighten(blue, 10);
+    cursor: pointer;
+}

@@ -86,6 +86,12 @@ module.exports = yeoman.generators.Base.extend({
             },
             {
                 type: 'confirm',
+                name: 'styleguide',
+                message: 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
+                default: true
+            },
+            {
+                type: 'confirm',
                 name: 'useCoveralls',
                 message: 'Integrate with Coveralls.io?',
                 default: true
@@ -119,6 +125,7 @@ module.exports = yeoman.generators.Base.extend({
             }
             this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
             this.autoFix = props.autoFix ? 'true' : 'false';
+            this.generateStyleguide = props.styleguide;
             this.config.set('appDir', this.appDir);
             done();
         }.bind(this));

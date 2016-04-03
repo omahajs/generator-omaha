@@ -111,7 +111,9 @@
     "lodash": "*",
     "nodemon": "*",
     "node-uuid": "*",
-    "phantomjs-prebuilt": "^2.1.3",
+    "phantomjs-prebuilt": "^2.1.3",<% if (generateStyleguide) { %>
+    "mdcss": "^1.5.1",
+    "mdcss-theme-github": "^2.2.0",<% } %>
     "postcss-safe-parser": "^1.0.4",
     "sinon": "^1.15.4",
     "time-grunt": "^1.1.0",
