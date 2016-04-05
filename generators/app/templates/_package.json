@@ -61,7 +61,7 @@
     "config": "^1.14.0",
     "cssnano": "^3.4.0",
     "globby": "^4.0.0",
-    "grunt": "^0.4.5",<% if (props.useA11y) { %>
+    "grunt": "^1.0.0",<% if (props.useA11y) { %>
     "grunt-a11y": "^0.1.2",
     "grunt-accessibility": "*",<% } %><% if (props.benchmarks) { %>
     "grunt-benchmark": "^0.3.0",<% } %><% if(props.useBuddyjs) { %>
