@@ -1,18 +1,22 @@
 'use strict';
 
+var banner = require('./banner');
 var yeoman = require('yeoman-generator');
 var chalk  = require('chalk');
 var yosay  = require('yosay');
 var path   = require('path');
 var mkdirp = require('mkdirp');
 
+function step(num) {
+    var TOTAL_STEPS = 13;
+    return chalk[num === TOTAL_STEPS ? 'green' : 'gray']('('+ num + '/' + TOTAL_STEPS + ') ');
+}
+
 module.exports = yeoman.generators.Base.extend({
     prompting: function() {
         var done = this.async();
 
-        this.log(yosay(
-            'Welcome to the praiseworthy ' + chalk.red('techtonic') + ' generator!'
-        ));
+        this.log(banner);
 
         var cssPreprocessors = ['less', 'Sass', 'none'];
         var scriptBundlers = ['requirejs', 'browserify'];
@@ -21,79 +25,79 @@ module.exports = yeoman.generators.Base.extend({
             {
                 type: 'input',
                 name: 'projectName',
-                message: 'What do you want to name this project?',
+                message: step(1) + 'What do you want to name this project?',
                 default: path.basename(this.destinationRoot())
             },
             {
                 type: 'input',
                 name: 'appDir',
-                message: 'Where do you want to put the application directory?',
+                message: step(2) + 'Where do you want to put the application directory?',
                 default: '.'
             },
             {
                 type: 'list',
                 name: 'scriptBundler',
-                message: 'Which technology for bundling scripts before deployment?',
+                message: step(3) + 'Which technology for bundling scripts before deployment?',
                 choices: scriptBundlers
             },
             {
                 type: 'list',
                 name: 'cssPreprocessor',
-                message: 'Which CSS pre-processor?',
+                message: step(4) + 'Which CSS pre-processor?',
                 choices: cssPreprocessors
             },
             {
                 type: 'list',
                 name: 'templateTechnology',
-                message: 'Which techtonology for templates?',
+                message: step(5) + 'Which techtonology for templates?',
                 choices: templateTechnologies
             },
             {
                 type: 'confirm',
                 name: 'autoFix',
-                message: 'Auto-fix minor style errors?',
+                message: step(6) + 'Auto-fix minor style errors?',
                 default: true
             },
             {
                 type: 'confirm',
                 name: 'useJsinspect',
-                message: 'Detect copy-pasted and structurally similar code with JS Inspect?',
+                message: step(7) + 'Detect copy-pasted and structurally similar code with JS Inspect?',
                 default: true
             },
             {
                 type: 'confirm',
                 name: 'useBuddyjs',
-                message: 'Detect magic numbers with buddy.js?',
+                message: step(8) + 'Detect magic numbers with buddy.js?',
                 default: true
             },
             {
                 type: 'confirm',
                 name: 'useA11y',
-                message: 'Enforce ARIA and Section 508 standards?',
+                message: step(9) + 'Enforce ARIA and Section 508 standards?',
                 default: true
             },
             {
                 type: 'confirm',
                 name: 'compressImages',
-                message: 'Use image compression for deployed application?',
+                message: step(10) + 'Use image compression for deployed application?',
                 default: true
             },
             {
                 type: 'confirm',
                 name: 'benchmarks',
-                message: 'Add benchmarking support using Benchmark.js?',
+                message: step(11) + 'Add benchmarking support using Benchmark.js?',
                 default: true
             },
             {
                 type: 'confirm',
                 name: 'styleguide',
-                message: 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
+                message: step(12) + 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
                 default: true
             },
             {
                 type: 'confirm',
                 name: 'useCoveralls',
-                message: 'Integrate with Coveralls.io?',
+                message: step(13) + 'Integrate with Coveralls.io?',
                 default: true
             }
         ];
