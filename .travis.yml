@@ -4,4 +4,3 @@ script: npm run travis
 node_js:
   - 'node'
   - '4.2'
-  - "0.12"
