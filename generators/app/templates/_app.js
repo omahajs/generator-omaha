@@ -12,8 +12,8 @@ define(function(require, exports, module) {
     var Backbone   = require('backbone');
     var Marionette = require('backbone.marionette');
 
-    require('./shims/marionette.radio.shim');
-    require('./helpers/handlebars.helpers');
+    require('./shims/marionette.radio.shim');<% if (useHandlebars) { %>
+    require('./helpers/handlebars.helpers');<% } %>
     require('./helpers/jquery.extensions');
     require('./helpers/underscore.mixins');
 

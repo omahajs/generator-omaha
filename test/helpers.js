@@ -113,6 +113,7 @@ function verifyHandlebarsSupport(exists, appDir) {
     }
     verify('package.json', '"handlebars": ');
     verify('package.json', '"grunt-contrib-handlebars": ');
+    verify(appDir + '/app/app.js', './helpers/handlebars.helpers');
 }
 
 function verifyBrowserifySupport(exists, appDir) {
