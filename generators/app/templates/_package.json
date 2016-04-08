@@ -23,10 +23,17 @@
   "jscsConfig": "./config/.jscsrc",
   "engines": {
     "node": "*"
-  },<% if (useBrowserify) { %>
+  },<% if (useBrowserify) { %><% if (!useHandlebars) { %>
+  "browser": {
+    "underscore": "./node_modules/underscore/underscore-min.js"
+  },
+  "browserify-shim": {
+    "underscore": "_"
+  },<% } %>
   "browserify": {
     "transform": [
-      "deamdify",
+      "deamdify",<% if (!useHandlebars) { %>
+      "browserify-shim",<% } %>
       "aliasify"
     ]
   },
@@ -56,7 +63,8 @@
     "browserify": "*",
     "grunt-browserify": "*",
     "aliasify": "^1.9.0",
-    "deamdify": "^0.2.0",<% } %>
+    "deamdify": "^0.2.0",<% if (!useHandlebars) { %>
+    "browserify-shim": "^3.8.12",<% } %><% } %>
     "autoprefixer": "^6.3.1",
     "config": "^1.14.0",
     "cssnano": "^3.4.0",
