@@ -88,7 +88,7 @@ module.exports = function(grunt) {
         buddyjs: {
             src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
             options: {
-                ignore: [0, 1, 10, 100]
+                ignore: [0, 1, 2, 3, 10, 100]
             }
         },
 <% } %>
