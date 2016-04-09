@@ -13,11 +13,13 @@ function step(num) {
 }
 
 module.exports = yeoman.generators.Base.extend({
+    constructor: function() {
+        yeoman.generators.Base.apply(this, arguments);
+        this.option('full');
+    },
     prompting: function() {
         var done = this.async();
-
         this.log(banner);
-
         var cssPreprocessors = ['less', 'Sass', 'none'];
         var scriptBundlers = ['requirejs', 'browserify'];
         var templateTechnologies = ['handlebars', 'underscore'];
@@ -102,31 +104,22 @@ module.exports = yeoman.generators.Base.extend({
             }
         ];
         this.prompt(prompts, function (props) {
+            var generator = this;
+            var bundler = props.scriptBundler.toLowerCase();
+            var preprocessor = props.cssPreprocessor.toLowerCase();
+            var templateTechnology = props.templateTechnology.toLowerCase();
             this.props = props;
-            this.useLess = false;
-            this.useSass = false;
-            this.useBrowserify = false;
-            this.useHandlebars = true;
-            var bundler = this.props.scriptBundler.toLowerCase();
-            var preprocessor = this.props.cssPreprocessor.toLowerCase();
-            var templateTechnology = this.props.templateTechnology.toLowerCase();
-            if (bundler === 'browserify') {
-                this.useBrowserify = true;
-            }
-            if (preprocessor === 'less') {
-                this.useLess = true;
-            } else if (preprocessor === 'sass') {
-                this.useSass = true;
-            }
-            if (templateTechnology === 'underscore') {
-                this.useHandlebars = false;
-            }
+            var options = {
+                useBrowserify: (bundler === 'browserify'),
+                useLess:       (preprocessor === 'less'),
+                useSass:       (preprocessor === 'sass'),
+                useHandlebars: (templateTechnology !== 'underscore')
+            };
+            Object.keys(options).forEach(function(option) {
+                generator[option] = options[option];
+            });
             this.projectName = props.projectName;
-            if (!/\/$/.test(props.appDir)) {
-                 this.appDir = props.appDir + '/';
-            } else {
-                this.appDir = props.appDir;
-            }
+            this.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
             this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
             this.autoFix = props.autoFix ? 'true' : 'false';
             this.generateStyleguide = props.styleguide;
