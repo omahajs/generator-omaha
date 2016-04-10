@@ -171,7 +171,7 @@ module.exports = yeoman.generators.Base.extend({
                 this.template('_style.scss', this.appDir + 'assets/sass/style.scss');
             }
             if (!(this.useLess || this.useSass)) {
-                this.template('_reset.css', this.appDir + 'assets/css/reset.css');
+                this.template('_style.css', this.appDir + 'assets/css/style.css');
             }
             this.fs.copy(
                 this.templatePath('techtonic.png'),

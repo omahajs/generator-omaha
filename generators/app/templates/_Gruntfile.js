@@ -460,7 +460,8 @@ module.exports = function(grunt) {
                         annotation: '<%%= folders.app %>'
                     }
                 },
-                src: '<%%= folders.app %>/*.css',
+                src: <% if (!useLess && !useSass) { %>'<%%= folders.assets %>/css/*.css'<% } else { %>'<%%= folders.app %>/*.css'<% } %>,
+                dest: '<%%= folders.app %>/style.css'
             },
             prod: {
                 src:  '<%%= folders.app %>/*.css',
@@ -470,11 +471,11 @@ module.exports = function(grunt) {
                 options: {
                     processors: [require('mdcss')({
                         examples: {
-                            css: ['../app/style.css'],
+                            css: ['../<% if (!useLess && !useSass) { %><%= appDir %>assets/css/<% } else { %><%= appDir %>app/<% } %>style.css'],
                         }
                     })],
                 },
-                src: '<%%= folders.app %>/*.css'
+                src: <% if (!useLess && !useSass) { %>'<%%= folders.assets %>/css/*.css'<% } else { %>'<%%= folders.app %>/*.css'<% } %>
             }<% } %>
         },
 
@@ -594,9 +595,9 @@ module.exports = function(grunt) {
             },
             browser: {
                 files: [
-                    '<%%= folders.app %>/<%%= files.index %>',      //index.html
-                    '<%%= folders.app %>/style.css',                //CSS
-                    '<%%= folders.app %>/<%%= files.scripts %>',    //Scripts
+                    '<%%= folders.app %>/<%%= files.index %>',//index.html
+                    <% if (!useLess && !useSass) { %>'<%%= folders.assets %>/css/*.css'<% } else { %>'<%%= folders.app %>/style.css'<% } %>,//CSS
+                    '<%%= folders.app %>/<%%= files.scripts %>',//Scripts
                     '<%%= folders.assets %>/<%%= files.templates %>'//Templates
                 ],
                 tasks: ['compile'],

@@ -1,8 +1,9 @@
 module.exports = function(grunt) {
     'use strict';
 
-    grunt.registerTask('process-styles', [
-        <% if (useLess) { %>'less:main',/*pre-process */<% } %><% if (useSass) { %>'sass:main',/*pre-process */<% } %>
+    grunt.registerTask('process-styles', [<% if (useLess) { %>
+        'less:main',/*pre-process */<% } %><% if (useSass) { %>
+        'sass:main',/*pre-process */<% } %>
         'postcss'   /*post-process*/
     ]);
     grunt.registerTask('precompile-templates', [
@@ -34,8 +35,9 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
         'clean:docs',
-        'jsdoc:app',<% if (styleguide) { %>
-        <% if (useLess) { %>'less:main',/*pre-process */<% } %><% if (useSass) { %>'sass:main',/*pre-process */<% } %>
+        'jsdoc:app',<% if (styleguide) { %><% if (useLess) { %>
+        'less:main',/*pre-process */<% } %><% if (useSass) { %>
+        'sass:main',/*pre-process */<% } %>
         'postcss:styleguide'<% } %>
     ]);
     grunt.registerTask('reports', 'Generate code coverage and plato report - then open both in browser', [

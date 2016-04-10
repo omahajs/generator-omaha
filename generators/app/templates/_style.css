@@ -1,0 +1,148 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+body {
+    background-color: #DDD;
+    font-family: sans-serif;
+    font-size: 100%;
+    margin: 0;
+    padding: 2em 0 ;
+}
+
+/*---
+title:   Structure
+section: Base CSS
+---
+
+Styles for elements such as `<section>` could go in this section.
+
+*/
+section {
+    text-align: center;
+    transform: scale(1.0);
+    user-select: none;
+}
+footer {
+    bottom: 0;
+    padding: 1em 0;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+
+/*---
+title:   Headers
+section: Base CSS
+---
+
+```example:html
+<h1>Sample h1 Header</h1>
+<h2>Sample h2 Header</h2>
+<h3>Sample h3 Header</h3>
+```
+
+*/
+h1 {
+    font-size: 150%;
+    padding: 1em 0;
+}
+h2 {
+    font-size: 125%;
+}
+h3 {
+    font-size: 100%;
+}
+
+/*---
+title:   Links
+section: Base CSS
+---
+
+```example:html
+<a href="#">This is a sample link</a>
+<a href="#">This is another sample link</a>
+<a href="#">This is a third sample link</a>
+```
+
+*/
+a {
+    padding: 0.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+a:hover {
+    background-color: blue;
+    color: white;
+}
+
+
+/*---
+title:   Buttons
+section: Input Controls
+---
+
+The default button style is pictured below.
+
+```example:html
+<button>Hello World</button>
+```
+*/
+button {
+    background-color: blue;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    padding: 1em;
+    transition: all 100ms;
+    text-transform: uppercase;
+}
+button:hover {
+    background-color: rgba(0, 0, 255, 0.7);
+    cursor: pointer;
+}
