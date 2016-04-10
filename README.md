@@ -38,6 +38,29 @@ yo techtonic
 </br>
 ✔ Start creating your app!
 
+Command Line Options
+--------------------
+> Beyond `yo techtonic`
+
+- Scaffold app with "auto-magically" with defaults and no user input
+
+```bash
+yo techtonic --defaults
+```
+
+- Use "silent" defaults with non-default scritpt bundler, css pre-processor, and/or template technology
+
+```bash
+yo techtonic --defaults --script-bundler browserify
+```
+
+**Available options**
+> Default in **bold**
+
+- `defaults`: scaffold app with no user input using defaults
+- `script-bundler`: **`requirejs`** | `browserify`
+- `css-preprocessor`: **`less`** | `sass` | `none`
+- `template-technology`: **`handlebars`** | `underscore`
 
 Typical Workflows
 -----------------
