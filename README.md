@@ -48,6 +48,11 @@ Typical Workflows
   - :sparkles: lint your code in real-time with a second terminal running `grunt linting`
   - :100: run tests and calculate code coverage with `grunt covering`
 - Demo your bundled project in a browser with `grunt demo`
+- View reports, documentation and styleguide:
+  - code coverage: `grunt cover open:coverage`
+  - Plato report: `grunt plato open:plato`
+  - JSDocs documentation: `grunt docs open:docs`
+  - Living styleguide: `grunt docs open:styleguide`
 - [Review the code](/generators/app/templates/tasks) to see all the available tasks
 
 Command Line Options
