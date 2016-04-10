@@ -40,6 +40,17 @@ function scaffoldApp(options) {
         }));
 }
 
+function scaffoldAppWith(options) {
+    return helpers.run(path.join(__dirname, '../generators/app'))
+        .withOptions({
+            skipInstall: true,
+            defaults: options.defaults,
+            scriptBundler: options.scriptBundler,
+            cssPreprocessor: options.cssPreprocessor,
+            templateTechnology: options.templateTechnology
+        });
+}
+
 function verifyFiles(appDir) {
     assert.file(configFiles);
     assert.file(projectFiles);
@@ -81,7 +92,7 @@ function verifyGruntfilePlugins(configured) {
     verify('Gruntfile.js', 'a11y: {');
     verify('Gruntfile.js', 'accessibility: {');
     verify('Gruntfile.js', 'benchmark: {');
-    verify('Gruntfile.js', 'coveralls: {');
+    //verify('Gruntfile.js', 'coveralls: {');
     verify('Gruntfile.js', 'styleguide: {');
     verify('Gruntfile.js', 'mdcss');
 }
@@ -180,6 +191,7 @@ function verifySassSupport(exists, appDir) {
 
 module.exports = {
     scaffoldApp: scaffoldApp,
+    scaffoldAppWith: scaffoldAppWith,
     verifyFiles: verifyFiles,
     verifyConfiguration: verifyConfiguration
 };
