@@ -3,39 +3,67 @@
 var yeoman  = require('yeoman-generator');
 var mkdirp  = require('mkdirp');
 var banner  = require('./banner');
-var prompts = require('./prompts');
+var prompt = require('./prompts');
+
+var commandLineOptions = ['defaults', 'templateTechnology', 'scriptBundler', 'cssPreprocessor'];
 
 module.exports = yeoman.generators.Base.extend({
     constructor: function() {
-        yeoman.generators.Base.apply(this, arguments);
-        this.option('full');
+        var generator = this;
+        yeoman.generators.Base.apply(generator, arguments);
+        commandLineOptions.forEach(function(option) {
+            generator.option(option);
+        });
     },
     prompting: function() {
         var done = this.async();
-        this.log(banner);
-        this.prompt(prompts, function (props) {
-            var generator = this;
-            generator.props = props;
-            var bundler = props.scriptBundler.toLowerCase();
-            var preprocessor = props.cssPreprocessor.toLowerCase();
-            var templateTechnology = props.templateTechnology.toLowerCase();
+        var generator = this;
+        generator.log(banner);
+        if (generator.options.defaults) {
+            generator.props = prompt.defaults;
+            Object.keys(prompt.defaults).forEach(function(option) {
+                generator[option] = prompt.defaults[option];
+            });
+            var bundler = generator.options.scriptBundler;
+            var preprocessor = generator.options.cssPreprocessor;
+            var templateTechnology = generator.options.templateTechnology;
             var options = {
-                useBrowserify: (bundler === 'browserify'),
-                useLess:       (preprocessor === 'less'),
-                useSass:       (preprocessor === 'sass'),
-                useHandlebars: (templateTechnology !== 'underscore')
+                useBrowserify: (bundler === 'browserify') || prompt.defaults.useBrowserify,
+                useLess:       (preprocessor === 'less') || prompt.defaults.useLess,
+                useSass:       (preprocessor === 'sass') || prompt.defaults.useSass,
+                useHandlebars: (templateTechnology === 'handlebars') || prompt.defaults.useHandlebars
             };
             Object.keys(options).forEach(function(option) {
                 generator[option] = options[option];
             });
-            this.projectName = props.projectName;
-            this.autoFix = props.autoFix;
-            this.generateStyleguide = props.styleguide;
-            this.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
             done();
-        }.bind(this));
-        this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
-        this.config.set('appDir', this.appDir);
+        } else {
+            function isUnAnswered(option) {
+                return !!!generator.options[option.name];
+            }
+            generator.prompt(prompt.questions.filter(isUnAnswered), function (props) {
+                generator.props = props;
+                var bundler = (generator.options.scriptBundler || generator.props.scriptBundler).toLowerCase();
+                var preprocessor = (generator.options.cssPreprocessor || generator.props.cssPreprocessor).toLowerCase();
+                var templateTechnology = (generator.options.templateTechnology || generator.props.templateTechnology).toLowerCase();
+                var options = {
+                    useBrowserify: (bundler === 'browserify'),
+                    useLess:       (preprocessor === 'less'),
+                    useSass:       (preprocessor === 'sass'),
+                    useHandlebars: (templateTechnology === 'handlebars')
+                };
+                Object.keys(options).forEach(function(option) {
+                    generator[option] = options[option];
+                });
+                generator.projectName = props.projectName;
+                generator.autoFix = props.autoFix;
+                generator.styleguide = props.styleguide;
+                generator.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
+                done();
+            }.bind(generator));
+        }
+        generator.userName = generator.user.git.name() ? generator.user.git.name() : 'John Doe';
+        generator.config.set('appDir', generator.appDir);
     },
     configuring: {
       project: function() {

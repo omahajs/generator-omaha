@@ -34,7 +34,7 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('docs', 'Generate documentation with JSDoc3', [
         'clean:docs',
-        'jsdoc:app',<% if (generateStyleguide) { %>,
+        'jsdoc:app',<% if (styleguide) { %>,
         <% if (useLess) { %>'less:main',/*pre-process */<% } %><% if (useSass) { %>'sass:main',/*pre-process */<% } %>
         'postcss:styleguide'<% } %>
     ]);

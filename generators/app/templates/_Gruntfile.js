@@ -421,7 +421,7 @@ module.exports = function(grunt) {
             },
             docs: {
                 path: __dirname + '/<%%= folders.reports %>/<%%= folders.docs %>/index.html'
-            }<% if (generateStyleguide) { %>,
+            }<% if (styleguide) { %>,
             styleguide: {
                 path: __dirname + '/styleguide/index.html'
             }<% } %>
@@ -465,7 +465,7 @@ module.exports = function(grunt) {
             prod: {
                 src:  '<%%= folders.app %>/*.css',
                 dest: '<%%= folders.dist %>/<%%= folders.client %>/style.css'
-            }<% if (generateStyleguide) { %>,
+            }<% if (styleguide) { %>,
             styleguide: {
                 options: {
                     processors: [require('mdcss')({

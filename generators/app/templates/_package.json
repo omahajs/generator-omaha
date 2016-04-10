@@ -119,7 +119,7 @@
     "lodash": "*",
     "nodemon": "*",
     "node-uuid": "*",
-    "phantomjs-prebuilt": "^2.1.3",<% if (generateStyleguide) { %>
+    "phantomjs-prebuilt": "^2.1.3",<% if (styleguide) { %>
     "mdcss": "^1.5.1",
     "mdcss-theme-github": "^2.2.0",<% } %>
     "postcss-safe-parser": "^1.0.4",

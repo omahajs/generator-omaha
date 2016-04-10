@@ -10,9 +10,8 @@ function step(num) {
 var cssPreprocessors = ['less', 'Sass', 'none'];
 var scriptBundlers = ['requirejs', 'browserify'];
 var templateTechnologies = ['handlebars', 'underscore'];
-var prompts = require('./prompts');
 
-module.exports = [
+var questions = [
     {
         type: 'input',
         name: 'projectName',
@@ -23,7 +22,7 @@ module.exports = [
         type: 'input',
         name: 'appDir',
         message: step(2) + 'Where do you want to put the application directory?',
-        default: '.'
+        default: './'
     },
     {
         type: 'list',
@@ -92,3 +91,35 @@ module.exports = [
         default: true
     }
 ];
+
+var promptOption;
+var name;
+var defaultValue;
+var bundler;
+var preprocessor;
+var templateTechnology;
+var defaults = Object.create(null);
+var defaultOptions = questions.map(function(question) {
+    defaultValue = (question.type === 'list') ? question.choices[0] : question.default;
+    promptOption = Object.create(null);
+    name = question.name;
+    if (name === 'scriptBundler') {
+        promptOption.useBrowserify = (defaultValue.toLowerCase() === 'browserify');
+    } else if (name === 'cssPreprocessor') {
+        promptOption.useLess = (defaultValue.toLowerCase() ===  'less');
+    } else if (name === 'templateTechnology') {
+        promptOption.useHandlebars = (defaultValue.toLowerCase() ===  'handlebars');
+    } else {
+        promptOption[name] = defaultValue;
+    }
+    return promptOption;
+});
+defaultOptions.forEach(function(option) {
+    for (var key in option) {
+        defaults[key] = option[key];
+    }
+});
+defaults.useSass = !defaults.useLess;
+
+exports.defaults = defaults;
+exports.questions = questions;
