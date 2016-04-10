@@ -88,7 +88,7 @@ var questions = [
         type: 'confirm',
         name: 'useCoveralls',
         message: step(13) + 'Integrate with Coveralls.io?',
-        default: true
+        default: false
     }
 ];
 
