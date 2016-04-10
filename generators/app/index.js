@@ -5,14 +5,23 @@ var mkdirp  = require('mkdirp');
 var banner  = require('./banner');
 var prompt = require('./prompts');
 
-var commandLineOptions = ['defaults', 'templateTechnology', 'scriptBundler', 'cssPreprocessor'];
+var commandLineOptions = {
+    defaults: {
+        type: 'Boolean',
+        desc: 'Scaffold app with no user input using default settings',
+        defaults: false
+    },
+    scriptBundler: {desc: 'Choose script bundler'},
+    cssPreprocessor: {desc: 'Choose CSS pre-processor'},
+    templateTechnology: {desc: 'Choose technology to use when pre-compiling templates'}
+};
 
 module.exports = yeoman.generators.Base.extend({
     constructor: function() {
         var generator = this;
         yeoman.generators.Base.apply(generator, arguments);
-        commandLineOptions.forEach(function(option) {
-            generator.option(option);
+        Object.keys(commandLineOptions).forEach(function(option) {
+            generator.option(option, commandLineOptions[option]);
         });
     },
     prompting: function() {

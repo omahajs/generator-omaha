@@ -2,50 +2,24 @@ Description:
 
     Software workbench to craft maintainable code for the web
 
-Command Line Options:
-
-    --defaults
-        Scaffold app with no user input using default settings
-
-    --script-bundler
-        requirejs OR browserify
-
-    --css-preprocessor
-        less OR sass OR none
-
-    --template-technology
-        handlebars OR underscore
-
 Examples:
 
     yo techtonic
-
-        Runs default generator, techtonic:app
+        Scaffold a web app, tool-chain, and workflow
 
     yo techtonic --defaults
-
         Runs default app generator silently using defaults
 
     yo techtonic --defaults --script-bundler browserify
-
         Runs default app generator silently using modified defaults (browserify instead of requirejs)
 
     yo techtonic --css-preprocessor sass
-
         Starts prompting with sass as selected CSS preprocessor
 
-    yo techtonic:app
-
-        Scaffold a web app, tool-chain, and workflow
-
     yo techtonic:module <module name>
-
         Create a UMD-compliant JavaScript module for developing with various JavaScript libraries
-
         ** Saves generated module to app/modules folder **
 
     yo techtonic:server
-
         Creates a functional node server project with security industry best practices baked in using Kraken.js and Helmet.js
-
         ** Should be run in an empty project folder **
