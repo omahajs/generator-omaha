@@ -8,6 +8,7 @@ var helpers = require('./helpers');
 var scaffoldApplication    = helpers.scaffoldApp;
 var verifyApplicationFiles = helpers.verifyFiles;
 var verifyConfiguration    = helpers.verifyConfiguration;
+var verifyCoverallsSupport = helpers.verifyCoveralls;
 
 describe('app', function() {
     this.timeout(0)
@@ -26,7 +27,7 @@ describe('app', function() {
             allAnswersTrue:     allAnswersTrue
         };
     };
-    describe('when all options are true (with less support)', function() {
+    describe('when all prompts are true (with less support)', function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
@@ -53,9 +54,10 @@ describe('app', function() {
                 styleProcessor:     CSS_PROCESSOR,
                 templateTechnology: TEMPLATE_LANG
             });
+            verifyCoverallsSupport(CONFIGURED);
         });
     });
-    describe('when all options are false', function() {
+    describe('when all prompts are false', function() {
         before(function(done) {
                 CONFIGURED     = false;
                 APPDIR         = './';
@@ -77,6 +79,7 @@ describe('app', function() {
                 styleProcessor:     CSS_PROCESSOR,
                 templateTechnology: TEMPLATE_LANG
             });
+            verifyCoverallsSupport(CONFIGURED);
         });
     });
     describe('when the application directory is changed (with Sass support)', function() {
@@ -101,6 +104,7 @@ describe('app', function() {
                 styleProcessor:     CSS_PROCESSOR,
                 templateTechnology: TEMPLATE_LANG
             });
+            verifyCoverallsSupport(CONFIGURED);
         });
     });
 });

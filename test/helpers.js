@@ -92,7 +92,6 @@ function verifyGruntfilePlugins(configured) {
     verify('Gruntfile.js', 'a11y: {');
     verify('Gruntfile.js', 'accessibility: {');
     verify('Gruntfile.js', 'benchmark: {');
-    //verify('Gruntfile.js', 'coveralls: {');
     verify('Gruntfile.js', 'styleguide: {');
     verify('Gruntfile.js', 'mdcss');
 }
@@ -104,6 +103,12 @@ function verifyJscsAutofix(value) {
 function verifyBenchmarkJs(configured) {
     var verify = configured ? assert.file : assert.noFile;
     verify('test/benchmarks/example.benchmark.js');
+}
+
+function verifyCoveralls(configured) {
+    var verify = configured ? assert.fileContent : assert.noFileContent;
+    verify('Gruntfile.js', 'coveralls: {');
+    verify('package.json', 'grunt-karma-coveralls');
 }
 
 function verifyHandlebarsSupport(exists, appDir) {
@@ -193,5 +198,6 @@ module.exports = {
     scaffoldApp: scaffoldApp,
     scaffoldAppWith: scaffoldAppWith,
     verifyFiles: verifyFiles,
-    verifyConfiguration: verifyConfiguration
+    verifyConfiguration: verifyConfiguration,
+    verifyCoveralls: verifyCoveralls
 };

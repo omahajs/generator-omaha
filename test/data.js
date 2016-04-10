@@ -36,9 +36,7 @@ var dependencies = [
     'grunt-contrib-imagemin',
     'grunt-a11y',
     'grunt-accessibility',
-    //'grunt-karma-coveralls',
-    'grunt-benchmark',
-    'grunt-contrib-less'
+    'grunt-benchmark'
 ];
 
 var options = {
