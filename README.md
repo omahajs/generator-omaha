@@ -50,11 +50,9 @@ Typical Workflows
 - Demo your bundled project in a browser with `grunt demo`
 - [Review the code](/generators/app/templates/tasks) to see all the available tasks
 
-> **TIP**:  Use `yo techtonic --help` to see full usage instructions
-
 Command Line Options
 --------------------
-> Beyond `yo techtonic`
+> Beyond `yo techtonic --help`
 
 - Scaffold app "auto-magically" with defaults and no user input
 
