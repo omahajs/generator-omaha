@@ -2,11 +2,37 @@ Description:
 
     Software workbench to craft maintainable code for the web
 
+Command Line Options:
+
+    --defaults
+        Scaffold app with no user input using default settings
+
+    --script-bundler
+        requirejs OR browserify
+
+    --css-preprocessor
+        less OR sass OR none
+
+    --template-technology
+        handlebars OR underscore
+
 Examples:
 
     yo techtonic
 
         Runs default generator, techtonic:app
+
+    yo techtonic --defaults
+
+        Runs default app generator silently using defaults
+
+    yo techtonic --defaults --script-bundler browserify
+
+        Runs default app generator silently using modified defaults (browserify instead of requirejs)
+
+    yo techtonic --css-preprocessor sass
+
+        Starts prompting with sass as selected CSS preprocessor
 
     yo techtonic:app
 

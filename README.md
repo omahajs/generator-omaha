@@ -38,11 +38,25 @@ yo techtonic
 </br>
 ✔ Start creating your app!
 
+Typical Workflows
+-----------------
+> After scaffolding a new project with `yo techtonic` ...
+
+- Serve live-reload enabled app with companion RESTful API using `npm start`
+- Start a live-reload enabled server and open a browser with `grunt`, then...
+  - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
+  - :sparkles: lint your code in real-time with a second terminal running `grunt linting`
+  - :100: run tests and calculate code coverage with `grunt covering`
+- Demo your bundled project in a browser with `grunt demo`
+- [Review the code](/generators/app/templates/tasks) to see all the available tasks
+
+> **TIP**:  Use `yo techtonic --help` to see full usage instructions
+
 Command Line Options
 --------------------
 > Beyond `yo techtonic`
 
-- Scaffold app with "auto-magically" with defaults and no user input
+- Scaffold app "auto-magically" with defaults and no user input
 
 ```bash
 yo techtonic --defaults
@@ -61,20 +75,6 @@ yo techtonic --defaults --script-bundler browserify
 - `script-bundler`: **`requirejs`** | `browserify`
 - `css-preprocessor`: **`less`** | `sass` | `none`
 - `template-technology`: **`handlebars`** | `underscore`
-
-Typical Workflows
------------------
-> After scaffolding a new project with `yo techtonic` ...
-
-- Serve live-reload enabled app with companion RESTful API using `npm start`
-- Start a live-reload enabled server and open a browser with `grunt`, then...
-  - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
-  - :sparkles: lint your code in real-time with a second terminal running `grunt linting`
-  - :100: run tests and calculate code coverage with `grunt covering`
-- Demo your bundled project in a browser with `grunt demo`
-- [Review the code](/generators/app/templates/tasks) to see all the available tasks
-
-> **TIP**:  Use `yo techtonic --help` to see full usage instructions
 
 Tools, References & Resources
 -----------------------------
