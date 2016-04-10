@@ -48,18 +48,49 @@ describe('app with command line options', function() {
             verifyCoverallsSupport(!CONFIGURED);
         });
     });
-    describe('Defaults (scriptBundler=Browserify)', function() {
+    describe('Defaults (css-preprocessor=sass)', function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
             CONFIGURED       = true;
             APPDIR           = './';
-            SCRIPT_BUNDLER   = 'browserify';
-            CSS_PREPROCESSOR = 'less';
+            SCRIPT_BUNDLER   = 'requirejs';
+            CSS_PREPROCESSOR = 'sass';
             TEMPLATE_TECH    = 'handlebars';
             scaffoldApplicationWith({
                 defaults: true,
-                scriptBundler: SCRIPT_BUNDLER
+                cssPreprocessor: CSS_PREPROCESSOR
+            }).on('end', done);
+        });
+        after(function() {
+            stub.restore();
+        });
+        it('creates and configures files', function() {
+            verifyApplicationFiles(APPDIR);
+        });
+        it('configures workflow and tool-chain', function() {
+            verifyConfiguration({
+                appDirectory:       APPDIR,
+                workflow:           CONFIGURED,
+                scriptBundler:      SCRIPT_BUNDLER,
+                styleProcessor:     CSS_PREPROCESSOR,
+                templateTechnology: TEMPLATE_TECH
+            });
+            verifyCoverallsSupport(!CONFIGURED);
+        });
+    });
+    describe('Defaults (template-technology=underscore)', function() {
+        before(function(done) {
+            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub.returns(null);
+            CONFIGURED       = true;
+            APPDIR           = './';
+            SCRIPT_BUNDLER   = 'requirejs';
+            CSS_PREPROCESSOR = 'less';
+            TEMPLATE_TECH    = 'underscore';
+            scaffoldApplicationWith({
+                defaults: true,
+                templateTechnology: TEMPLATE_TECH
             }).on('end', done);
         });
         after(function() {

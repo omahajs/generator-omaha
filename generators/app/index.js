@@ -12,8 +12,14 @@ var commandLineOptions = {
         defaults: false
     },
     scriptBundler: {desc: 'Choose script bundler'},
-    cssPreprocessor: {desc: 'Choose CSS pre-processor'},
-    templateTechnology: {desc: 'Choose technology to use when pre-compiling templates'}
+    cssPreprocessor: {
+        desc: 'Choose CSS pre-processor',
+        defaults: 'less'
+    },
+    templateTechnology: {
+        desc: 'Choose technology to use when pre-compiling templates',
+        defaults: 'handlebars'
+    }
 };
 
 module.exports = yeoman.generators.Base.extend({
@@ -38,9 +44,9 @@ module.exports = yeoman.generators.Base.extend({
             var templateTechnology = generator.options.templateTechnology;
             var options = {
                 useBrowserify: (bundler === 'browserify') || prompt.defaults.useBrowserify,
-                useLess:       (preprocessor === 'less') || prompt.defaults.useLess,
-                useSass:       (preprocessor === 'sass') || prompt.defaults.useSass,
-                useHandlebars: (templateTechnology === 'handlebars') || prompt.defaults.useHandlebars
+                useLess:       (preprocessor === 'less'),
+                useSass:       (preprocessor === 'sass'),
+                useHandlebars: (templateTechnology === 'handlebars')
             };
             Object.keys(options).forEach(function(option) {
                 generator[option] = options[option];
@@ -48,13 +54,23 @@ module.exports = yeoman.generators.Base.extend({
             done();
         } else {
             function isUnAnswered(option) {
-                return !!!generator.options[option.name];
+                return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
             generator.prompt(prompt.questions.filter(isUnAnswered), function (props) {
                 generator.props = props;
                 var bundler = (generator.options.scriptBundler || generator.props.scriptBundler).toLowerCase();
-                var preprocessor = (generator.options.cssPreprocessor || generator.props.cssPreprocessor).toLowerCase();
-                var templateTechnology = (generator.options.templateTechnology || generator.props.templateTechnology).toLowerCase();
+                var preprocessor;
+                if (generator.options.cssPreprocessor === commandLineOptions.cssPreprocessor.defaults) {
+                    preprocessor = generator.props.cssPreprocessor.toLowerCase();
+                } else {
+                    preprocessor = generator.options.cssPreprocessor;
+                }
+                var templateTechnology;
+                if (generator.options.templateTechnology === commandLineOptions.templateTechnology.defaults) {
+                    templateTechnology = generator.props.templateTechnology.toLowerCase();
+                } else {
+                    templateTechnology = generator.options.templateTechnology;
+                }
                 var options = {
                     useBrowserify: (bundler === 'browserify'),
                     useLess:       (preprocessor === 'less'),
