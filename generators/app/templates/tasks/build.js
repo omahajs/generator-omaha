@@ -32,13 +32,13 @@ module.exports = function(grunt) {
         'open:demo',
         'express:demo'
     ]);
-    grunt.registerTask('docs', 'Generate documentation with JSDoc3', [
+    grunt.registerTask('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
         'clean:docs',
         'jsdoc:app',<% if (styleguide) { %>
         <% if (useLess) { %>'less:main',/*pre-process */<% } %><% if (useSass) { %>'sass:main',/*pre-process */<% } %>
         'postcss:styleguide'<% } %>
     ]);
-    grunt.registerTask('reports', 'Generate code coverage, plato report and documentation - then open all in browser', [
+    grunt.registerTask('reports', 'Generate code coverage and plato report - then open both in browser', [
         'plato',
         'cover',
         'open:plato',
