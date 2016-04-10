@@ -111,4 +111,36 @@ describe('app with command line options', function() {
             verifyCoverallsSupport(!CONFIGURED);
         });
     });
+    describe('Browserify, no pre-processing, and underscore', function() {
+        before(function(done) {
+            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub.returns(null);
+            CONFIGURED       = true;
+            APPDIR           = './';
+            SCRIPT_BUNDLER   = 'browserify';
+            CSS_PREPROCESSOR = 'none';
+            TEMPLATE_TECH    = 'underscore';
+            scaffoldApplicationWith({
+                scriptBundler: SCRIPT_BUNDLER,
+                cssPreprocessor: CSS_PREPROCESSOR,
+                templateTechnology: TEMPLATE_TECH
+            }).on('end', done);
+        });
+        after(function() {
+            stub.restore();
+        });
+        it('creates and configures files', function() {
+            verifyApplicationFiles(APPDIR);
+        });
+        it('configures workflow and tool-chain', function() {
+            verifyConfiguration({
+                appDirectory:       APPDIR,
+                workflow:           CONFIGURED,
+                scriptBundler:      SCRIPT_BUNDLER,
+                styleProcessor:     CSS_PREPROCESSOR,
+                templateTechnology: TEMPLATE_TECH
+            });
+            verifyCoverallsSupport(!CONFIGURED);
+        });
+    });
 });
