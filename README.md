@@ -6,7 +6,7 @@
         <img src="https://ci.appveyor.com/api/projects/status/n7tv489wdlkuyi0i?svg=true" alt="AppVeyor CI Build Status" title="AppVeyor CI Build Status"/>
     </a>
     <a href="https://travis-ci.org/jhwohlgemuth/generator-techtonic">
-        <img src="https://travis-ci.org/jhwohlgemuth/generator-techtonic.svg?branch=master" alt="Travis-CI Build Status" title="Travis-CI Build Status"/>
+        <img src="https://travis-ci.org/jhwohlgemuth/generator-techtonic.svg?branch=master?v=2" alt="Travis-CI Build Status" title="Travis-CI Build Status"/>
     </a>
     <a href="https://coveralls.io/github/jhwohlgemuth/generator-techtonic?branch=master">
         <img src="https://coveralls.io/repos/jhwohlgemuth/generator-techtonic/badge.svg?branch=master&service=github" alt="Coveralls.io Coverage Status" title="Coveralls.io Coverage Status"/>
