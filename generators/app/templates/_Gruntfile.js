@@ -154,6 +154,28 @@ module.exports = function(grunt) {
         },
 
         /**
+         * Validate files with ESLint
+         * @see {@link https://www.npmjs.com/package/grunt-eslint}
+        **/
+        eslint: {
+            options: {
+                configFile: './config/.eslintrc.js'
+            },
+            ing: {
+                options: {
+                    fix: <%= autoFix %>
+                },
+                src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']
+            },
+            app: {
+                options: {
+                    fix: false
+                },
+                src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']
+            }
+        },
+
+        /**
          * Start an Express.js web server
          * @see {@link https://github.com/blai/grunt-express}
         **/

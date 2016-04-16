@@ -1,4 +1,5 @@
 /* global self, importScripts */
+/* eslint strict: 0 */
 /**
  * @file Example Web Worker using RequireJS
  * @author Jason Wohlgemuth

@@ -1,3 +1,4 @@
+/* eslint strict: 0 */
 /**
  * @file Logging module that leverages Backbone.Radio
  * @module modules/logging
