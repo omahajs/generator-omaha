@@ -19,10 +19,15 @@ Folder Structure
     +- assets
     |   +- fonts
     |   +- images
-    |   +- templates
-    |   +- less/sass/css
-    |       |- reset.less/scss/css
-    |       \- style.less/scss/css
+    |   +- templates<% if (!useLess && !useSass) { %>
+    |   +- css
+    |       \- style.css<% } else if (useLess) { %>
+    |   +- less
+    |       |- reset.less
+    |       \- style.less<% } else if (useSass) { %>
+    |   +- sass
+    |       |- reset.scss
+    |       \- style.scss<% } %>
     +- config
     |   |- .csslintrc
     |   |- default.js
