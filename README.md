@@ -33,7 +33,7 @@ yo techtonic
 ```
 ✔ Make some choices
 <div align="center">
-    <img width="100%" type="image/svg+xml" src="http://images.jhwohlgemuth.com/techtonic/generator-rail-diagram.svg?v=7.1" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
+    <img width="100%" type="image/svg+xml" src="http://images.jhwohlgemuth.com/techtonic/generator-rail-diagram.svg?v=8.0" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
 </div>
 </br>
 ✔ Start creating your app!
