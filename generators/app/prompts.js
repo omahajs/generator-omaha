@@ -3,7 +3,7 @@ var path   = require('path');
 var chalk  = require('chalk');
 
 function step(num) {
-    var TOTAL_STEPS = 13;
+    var TOTAL_STEPS = 12;
     num = (num < 10) ? ('0' + num) : num;
     return chalk[num === TOTAL_STEPS ? 'green' : 'gray']('('+ num + '/' + TOTAL_STEPS + ') ');
 }
