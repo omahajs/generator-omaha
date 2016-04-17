@@ -53,8 +53,8 @@ Grunt Tasks
 - `grunt test`
 - `grunt cover`
 - `grunt covering`  _(watch task)_
-- `grunt serve`     _(watch task)_ **[default task]**<% if (props.useJsinspect) { %>
-- `grunt inspect`   _(detect copy-pasted and structurally similar code)_<% } %><% if (props.useA11y) { %>
+- `grunt serve`     _(watch task)_ **[default task]**<% if (use.jsinspect) { %>
+- `grunt inspect`   _(detect copy-pasted and structurally similar code)_<% } %><% if (use.a11y) { %>
 - `grunt aria`      _(lint HTML files for accessibility)_<% } %>
 - `grunt docs`      _(generate documentation in `./reports/docs` and living styleguide in `./styleguide`)_
 - `grunt plato`     _(generate plato report in `./reports/plato`)_

@@ -35,7 +35,7 @@ module.exports = yeoman.generators.Base.extend({
         var generator = this;
         generator.log(banner);
         if (generator.options.defaults) {
-            generator.props = prompt.defaults;
+            generator.use = prompt.defaults;
             Object.keys(prompt.defaults).forEach(function(option) {
                 generator[option] = prompt.defaults[option];
             });
@@ -57,17 +57,17 @@ module.exports = yeoman.generators.Base.extend({
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
             generator.prompt(prompt.questions.filter(isUnAnswered), function (props) {
-                generator.props = props;
-                var bundler = (generator.options.scriptBundler || generator.props.scriptBundler).toLowerCase();
+                generator.use = props;
+                var bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
                 var preprocessor;
                 if (generator.options.cssPreprocessor === commandLineOptions.cssPreprocessor.defaults) {
-                    preprocessor = generator.props.cssPreprocessor.toLowerCase();
+                    preprocessor = generator.use.cssPreprocessor.toLowerCase();
                 } else {
                     preprocessor = generator.options.cssPreprocessor;
                 }
                 var templateTechnology;
                 if (generator.options.templateTechnology === commandLineOptions.templateTechnology.defaults) {
-                    templateTechnology = generator.props.templateTechnology.toLowerCase();
+                    templateTechnology = generator.use.templateTechnology.toLowerCase();
                 } else {
                     templateTechnology = generator.options.templateTechnology;
                 }
@@ -119,7 +119,7 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath(this.appDir + 'test/jasmine')
             );
             this.template('test/config.js', this.appDir + 'test/config.js');
-            if (this.props.benchmarks) {
+            if (this.use.benchmarks) {
                 this.template('test/example.benchmark.js', this.appDir + 'test/benchmarks/example.benchmark.js');
             }
             mkdirp(this.appDir + 'assets/fonts');

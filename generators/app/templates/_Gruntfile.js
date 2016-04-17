@@ -11,7 +11,7 @@ module.exports = function(grunt) {
             images: config.files.images.split('/')[0],
             fonts:  config.files.fonts.split('/')[0]
         },
-<% if (props.useA11y) { %>
+<% if (use.a11y) { %>
         /**
          * Accessibility audit with a11y
          * @see {@link https://github.com/lucalanca/grunt-a11y}
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
                 src: ['<%%= folders.assets %>/<%%= files.templates %>']
             }
         },
-<% } %><% if (props.benchmarks) { %>
+<% } %><% if (use.benchmarks) { %>
         /**
          * Run benchmarks
          * @see {@link https://github.com/shama/grunt-benchmark}
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
             compile:  ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css', '<%%= folders.app %>/style.css.map'],
             build:    ['<%%= folders.dist %>/<%%= folders.client %>', '<%%= folders.dist %>/<%%= deployed.assets %>']
         },
-<% if (props.useCoveralls) { %>
+<% if (use.coveralls) { %>
         /**
          * Send coverage report to Coveralls.io
          * @see {@link https://github.com/mattjmorrison/grunt-karma-coveralls}
@@ -121,7 +121,7 @@ module.exports = function(grunt) {
                     dest: '<%%= folders.dist %>/<%%= deployed.assets %>/<%%= deployed.fonts %>',
                     filter: 'isFile'
                 }]
-            }<% if(!props.compressImages) { %>,
+            }<% if(!use.imagemin) { %>,
             images: {
                 files: [{
                     expand: true,
@@ -241,7 +241,7 @@ module.exports = function(grunt) {
                 ]
             }
         },
-<% if(props.compressImages) { %>
+<% if(use.imagemin) { %>
         /**
          * Optimize image assets for deployment using imagemin
          * @see {@link https://github.com/gruntjs/grunt-contrib-imagemin}
@@ -320,7 +320,7 @@ module.exports = function(grunt) {
             tests: '<%%= folders.test %>/<%%= folders.specs %>/<%%= files.scripts %>',
             app:   '<%%= folders.app %>/<%%= files.scripts %>'
         },
-<% if (props.useJsinspect) { %>
+<% if (use.jsinspect) { %>
         /**
          * Detect copy-pasted and structurally similar code
          * @see {@link https://github.com/stefanjudis/grunt-jsinspect}

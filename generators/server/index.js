@@ -34,7 +34,6 @@ module.exports = yeoman.generators.Base.extend({
             }
         ];
         this.prompt(prompts, function (props) {
-            this.props = props;
             this.serverDirectory = props.serverDirectory;
             this.httpPort        = props.httpPort;
             this.httpsPort       = props.httpsPort;

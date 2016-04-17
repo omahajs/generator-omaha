@@ -12,13 +12,13 @@ var projectFiles = data.projectFiles;
 var booleanAnswers = function(value) {
     value = value ? true : false;
     return {
-        autoFix:        value,
-        useJsinspect:   value,
-        useA11y:        value,
-        compressImages: value,
-        benchmarks:     value,
-        useCoveralls:   value,
-        styleguide:     value
+        autoFix:    value,
+        jsinspect:  value,
+        a11y:       value,
+        imagemin:   value,
+        benchmarks: value,
+        coveralls:  value,
+        styleguide: value
     };
 };
 

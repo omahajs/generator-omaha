@@ -30,11 +30,11 @@ module.exports = function(grunt) {
     grunt.registerTask('jscsing', 'Watch task for real-time linting with JSCS', [
         'jscs:ing',
         'watch:jscs'
-    ]);<% if (props.useA11y) { %>
+    ]);<% if (use.a11y) { %>
     grunt.registerTask('aria', 'Perform an accessibility audit on your code', [
         'accessibility',
         'a11y'
-    ]);<% } %><% if (props.useJsinspect) { %>
+    ]);<% } %><% if (use.jsinspect) { %>
     grunt.registerTask('inspect', 'Detect copy-pasted and structurally similar code', [
         'jsinspect:app'
     ]);<% } %>

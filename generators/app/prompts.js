@@ -51,19 +51,19 @@ var questions = [
     },
     {
         type: 'confirm',
-        name: 'useJsinspect',
+        name: 'jsinspect',
         message: step(7) + 'Detect copy-pasted and structurally similar code with JS Inspect?',
         default: true
     },
     {
         type: 'confirm',
-        name: 'useA11y',
+        name: 'a11y',
         message: step(8) + 'Enforce ARIA and Section 508 standards?',
         default: true
     },
     {
         type: 'confirm',
-        name: 'compressImages',
+        name: 'imagemin',
         message: step(9) + 'Use image compression for deployed application?',
         default: true
     },
@@ -81,7 +81,7 @@ var questions = [
     },
     {
         type: 'confirm',
-        name: 'useCoveralls',
+        name: 'coveralls',
         message: step(12) + 'Integrate with Coveralls.io?',
         default: false
     }

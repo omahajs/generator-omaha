@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         'cover'
     ]);
     grunt.registerTask('test-ci', 'Run tests on continuous integration server', [
-        'test'<% if (props.useCoveralls) { %>,
+        'test'<% if (use.coveralls) { %>,
         'coveralls'<% } %>
     ]);
     grunt.registerTask('cover', 'Generate code coverage report using Karma and Istanbul', [

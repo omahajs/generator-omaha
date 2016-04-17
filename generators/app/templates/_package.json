@@ -69,16 +69,16 @@
     "config": "^1.14.0",
     "cssnano": "^3.4.0",
     "globby": "^4.0.0",
-    "grunt": "^1.0.0",<% if (props.useA11y) { %>
+    "grunt": "^1.0.0",<% if (use.a11y) { %>
     "grunt-a11y": "^0.1.2",
-    "grunt-accessibility": "*",<% } %><% if (props.benchmarks) { %>
+    "grunt-accessibility": "*",<% } %><% if (use.benchmarks) { %>
     "grunt-benchmark": "^0.3.0",<% } %>
     "grunt-cli": "^1.0.0",
     "grunt-contrib-clean": "*",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-csslint": "^1.0.0",<% if (useHandlebars) { %>
     "grunt-contrib-handlebars": "*",<% } %>
-    "grunt-contrib-htmlmin": "^1.0.0",<% if (props.compressImages) { %>
+    "grunt-contrib-htmlmin": "^1.0.0",<% if (use.imagemin) { %>
     "grunt-contrib-imagemin": "^1.0.0",<% } %>
     "grunt-contrib-jshint": "*",<% if (useLess) { %>
     "grunt-contrib-less": "^1.0.1",<% } %>
@@ -90,11 +90,11 @@
     "grunt-express": "^1.4.1",
     "grunt-htmlhint-plus": "*",
     "grunt-jscs": "^1.8.0",
-    "grunt-jsdoc": "*",<% if (props.useJsinspect) { %>
+    "grunt-jsdoc": "*",<% if (use.jsinspect) { %>
     "grunt-jsinspect": "^1.1.0",<% } %>
     "grunt-jsonlint": "^1.0.4",<% if (!useHandlebars) { %>
     "grunt-contrib-jst": "^0.6.0",<% } %>
-    "grunt-karma": "^0.12.0",<% if (props.useCoveralls) { %>
+    "grunt-karma": "^0.12.0",<% if (use.coveralls) { %>
     "grunt-karma-coveralls": "^2.5.3",<% } %>
     "grunt-open": "^0.2.3",
     "grunt-parallel": "^0.4.1",
@@ -104,7 +104,7 @@
     "jasmine-core": "^2.2.0",
     "jscs-jsdoc": "^1.1.0",
     "jshint": "*",
-    "jshint-stylish": "*",<% if (props.useJsinspect) { %>
+    "jshint-stylish": "*",<% if (use.jsinspect) { %>
     "jsinspect": "*",<% } %>
     "json-server": "*",
     "karma": "^0.13.9",
