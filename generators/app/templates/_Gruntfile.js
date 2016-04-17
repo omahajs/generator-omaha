@@ -148,7 +148,7 @@ module.exports = function(grunt) {
         **/
         eslint: {
             options: {
-                configFile: './config/.eslintrc.js'
+                configFile: '<%%= files.config.eslint %>'
             },
             ing: {
                 options: {
@@ -400,7 +400,7 @@ module.exports = function(grunt) {
                 src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
                 dest: '<%%= folders.reports %>/plato',
                 options: {
-                    eslint: grunt.file.readJSON(config.files.config.eslint)
+                    eslint: require(config.files.config.eslint)
                 }
             }
         },
