@@ -396,11 +396,11 @@ module.exports = function(grunt) {
          * @see {@link https://github.com/jsoverson/grunt-plato}
         **/
         plato: {
-            app : {
-                src : ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
-                dest : '<%%= folders.reports %>/plato',
-                options : {
-                    eslint : grunt.file.readJSON(config.files.config.eslint)
+            app: {
+                src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
+                dest: '<%%= folders.reports %>/plato',
+                options: {
+                    eslint: grunt.file.readJSON(config.files.config.eslint)
                 }
             }
         },
