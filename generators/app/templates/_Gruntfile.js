@@ -258,36 +258,6 @@ module.exports = function(grunt) {
             }
         },
 <% } %>
-        /**
-         * Lint JavaScript code with JSCS (focus on code style)
-         * @see {@link https://github.com/jscs-dev/grunt-jscs}
-        **/
-        jscs: {
-            options: {
-                config: '<%%= files.config.jscs %>',
-                force: true,
-                reporter: 'console',//checkstyle, inline, console, text
-                reporterOutput: null
-            },
-            ing: {
-                options: {
-                    fix: <%= autoFix %>
-                },
-                files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
-            },
-            app: {
-                options: {
-                    fix: false
-                },
-                files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
-            },
-            comments: {
-                options: {
-                    config: '<%%= files.config.jscs %>-jsdoc',
-                },
-                files: {src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']}
-            }
-        },
 
         /**
          * Generate documentation from JS comments using JSDoc3
@@ -591,9 +561,9 @@ module.exports = function(grunt) {
                 tasks: ['jshint:app'],
                 options: {spawn: false}
             },
-            jscs: {
+            eslint: {
                 files: '<%%= folders.app %>/<%%= files.scripts %>',
-                tasks: ['jscs:ing'],
+                tasks: ['eslint:ing'],
                 options: {spawn: false}
             },
             lint: {

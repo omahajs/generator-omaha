@@ -62,7 +62,7 @@ function verifyConfiguration(options) {
     var appDir = options.appDirectory ? options.appDirectory : './';
     verifyWorkflowDependencies(options.workflow);
     verifyGruntfilePlugins(options.workflow);
-    verifyJscsAutofix(options.workflow);
+    verifyESLintAutofix(options.workflow);
     verifyBenchmarkJs(options.workflow);
     verifyBrowserifySupport(options.scriptBundler === 'browserify', appDir);
     if (options.styleProcessor === 'less') {
@@ -94,7 +94,7 @@ function verifyGruntfilePlugins(configured) {
     verify('Gruntfile.js', 'mdcss');
 }
 
-function verifyJscsAutofix(value) {
+function verifyESLintAutofix(value) {
     assert.fileContent('Gruntfile.js', 'fix: ' + String(value));
 }
 

@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         'htmlhintplus',
         'csslint',
         'jshint:app',
-        'jscs:app'
+        'eslint:app'
     ]);
     grunt.registerTask('linting', 'Watch task for real-time linting', [
         'lint',
@@ -27,9 +27,9 @@ module.exports = function(grunt) {
         'jshint:app',
         'watch:jshint'
     ]);
-    grunt.registerTask('jscsing', 'Watch task for real-time linting with JSCS', [
-        'jscs:ing',
-        'watch:jscs'
+    grunt.registerTask('eslinting', 'Watch task for real-time linting with ESLint', [
+        'eslint:ing',
+        'watch:eslint'
     ]);<% if (use.a11y) { %>
     grunt.registerTask('aria', 'Perform an accessibility audit on your code', [
         'accessibility',

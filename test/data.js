@@ -1,8 +1,6 @@
 //Config files that are ALWAYS created
 var configFiles = [
     'config/.csslintrc',
-    'config/.jscsrc',
-    'config/.jscsrc-jsdoc',
     'config/.jshintrc',
     'config/default.js',
     'config/.eslintrc.js',

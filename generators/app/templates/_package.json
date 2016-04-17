@@ -20,7 +20,6 @@
     "type": "git",
     "url": "https://github.com/yourGithubUsername/techtonic-app.git"
   },
-  "jscsConfig": "./config/.jscsrc",
   "engines": {
     "node": "*"
   },<% if (useBrowserify) { %><% if (!useHandlebars) { %>
@@ -89,7 +88,6 @@
     "grunt-eslint": "^18.1.0",
     "grunt-express": "^1.4.1",
     "grunt-htmlhint-plus": "*",
-    "grunt-jscs": "^1.8.0",
     "grunt-jsdoc": "*",<% if (use.jsinspect) { %>
     "grunt-jsinspect": "^1.1.0",<% } %>
     "grunt-jsonlint": "^1.0.4",<% if (!useHandlebars) { %>
@@ -102,7 +100,6 @@
     "grunt-postcss": "*",<% if (useBrowserify) { %>
     "grunt-replace": "^0.11.0",<% } %>
     "jasmine-core": "^2.2.0",
-    "jscs-jsdoc": "^1.1.0",
     "jshint": "*",
     "jshint-stylish": "*",<% if (use.jsinspect) { %>
     "jsinspect": "*",<% } %>
@@ -129,7 +126,6 @@
   },
   "scripts": {
     "test": "grunt test-ci",
-    "lint-comments": "grunt jscs:comments",
     "prestart": "nohup json-server --port 8080 --watch test/data/db.json &",
     "start": " grunt"
   }
