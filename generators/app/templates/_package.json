@@ -67,6 +67,7 @@
     "autoprefixer": "^6.3.1",
     "config": "^1.14.0",
     "cssnano": "^3.4.0",
+    "eslint-plugin-backbone": "^2.0.1",
     "globby": "^4.0.0",
     "grunt": "^1.0.0",<% if (use.a11y) { %>
     "grunt-a11y": "^0.1.2",

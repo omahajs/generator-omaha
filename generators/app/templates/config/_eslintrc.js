@@ -14,8 +14,16 @@ module.exports = {
     globals: {
         Promise: true
     },
+    plugins: [
+        'backbone'
+    ],
     rules: {
  /*fix*/'array-bracket-spacing': ['warn'],
+        'backbone/collection-model': ['warn'],
+        'backbone/defaults-on-top': ['warn'],
+        'backbone/model-defaults': ['warn'],
+        'backbone/no-collection-models': ['warn'],
+        'backbone/no-model-attributes': ['warn'],
         'block-scoped-var': ['error'],
         'brace-style': ['warn', '1tbs', {allowSingleLine: true}],
         'camelcase': ['warn'],
