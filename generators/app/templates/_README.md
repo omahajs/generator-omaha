@@ -30,8 +30,8 @@ Folder Structure
     |       \- style.scss<% } %>
     +- config
     |   |- .csslintrc
-    |   |- default.js
     |   |- .eslintrc.js
+    |   |- default.js
     |   \- karma.conf.js
     +- tasks
     |   |- build.js
