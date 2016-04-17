@@ -5,6 +5,7 @@ var configFiles = [
     'config/.jscsrc-jsdoc',
     'config/.jshintrc',
     'config/default.js',
+    'config/.eslintrc.js',
     'config/karma.conf.js',
     '.gitignore'
 ];

@@ -93,6 +93,7 @@ module.exports = yeoman.generators.Base.extend({
     configuring: {
       project: function() {
           this.template('config/_csslintrc', 'config/.csslintrc');
+          this.template('config/_eslintrc.js', 'config/.eslintrc.js');
           this.template('config/_jscsrc', 'config/.jscsrc');
           this.template('config/_jscsrc-jsdoc', 'config/.jscsrc-jsdoc');
           this.template('config/_jshintrc', 'config/.jshintrc');
