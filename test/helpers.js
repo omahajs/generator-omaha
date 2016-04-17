@@ -14,7 +14,6 @@ var booleanAnswers = function(value) {
     return {
         autoFix:        value,
         useJsinspect:   value,
-        useBuddyjs:     value,
         useA11y:        value,
         compressImages: value,
         benchmarks:     value,
@@ -87,7 +86,6 @@ function verifyWorkflowDependencies(added) {
 function verifyGruntfilePlugins(configured) {
     var verify = configured ? assert.fileContent : assert.noFileContent;
     verify('Gruntfile.js', 'jsinspect: {');
-    verify('Gruntfile.js', 'buddyjs: {');
     verify('Gruntfile.js', 'imagemin: {');
     verify('Gruntfile.js', 'a11y: {');
     verify('Gruntfile.js', 'accessibility: {');

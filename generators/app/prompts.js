@@ -4,6 +4,7 @@ var chalk  = require('chalk');
 
 function step(num) {
     var TOTAL_STEPS = 13;
+    num = (num < 10) ? ('0' + num) : num;
     return chalk[num === TOTAL_STEPS ? 'green' : 'gray']('('+ num + '/' + TOTAL_STEPS + ') ');
 }
 
@@ -56,38 +57,32 @@ var questions = [
     },
     {
         type: 'confirm',
-        name: 'useBuddyjs',
-        message: step(8) + 'Detect magic numbers with buddy.js?',
-        default: true
-    },
-    {
-        type: 'confirm',
         name: 'useA11y',
-        message: step(9) + 'Enforce ARIA and Section 508 standards?',
+        message: step(8) + 'Enforce ARIA and Section 508 standards?',
         default: true
     },
     {
         type: 'confirm',
         name: 'compressImages',
-        message: step(10) + 'Use image compression for deployed application?',
+        message: step(9) + 'Use image compression for deployed application?',
         default: true
     },
     {
         type: 'confirm',
         name: 'benchmarks',
-        message: step(11) + 'Add benchmarking support using Benchmark.js?',
+        message: step(10) + 'Add benchmarking support using Benchmark.js?',
         default: true
     },
     {
         type: 'confirm',
         name: 'styleguide',
-        message: step(12) + 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
+        message: step(11) + 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
         default: true
     },
     {
         type: 'confirm',
         name: 'useCoveralls',
-        message: step(13) + 'Integrate with Coveralls.io?',
+        message: step(12) + 'Integrate with Coveralls.io?',
         default: false
     }
 ];

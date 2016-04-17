@@ -12,8 +12,7 @@ module.exports = function(grunt) {
         'htmlhintplus',
         'csslint',
         'jshint:app',
-        'jscs:app'<% if (props.useA11y) { %>,
-        'buddyjs'<% } %>
+        'jscs:app'
     ]);
     grunt.registerTask('linting', 'Watch task for real-time linting', [
         'lint',

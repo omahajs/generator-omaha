@@ -72,8 +72,7 @@
     "grunt": "^1.0.0",<% if (props.useA11y) { %>
     "grunt-a11y": "^0.1.2",
     "grunt-accessibility": "*",<% } %><% if (props.benchmarks) { %>
-    "grunt-benchmark": "^0.3.0",<% } %><% if(props.useBuddyjs) { %>
-    "grunt-buddyjs": "^0.1.2",<% } %>
+    "grunt-benchmark": "^0.3.0",<% } %>
     "grunt-cli": "^1.0.0",
     "grunt-contrib-clean": "*",
     "grunt-contrib-copy": "^1.0.0",

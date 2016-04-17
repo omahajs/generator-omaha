@@ -80,17 +80,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-<% } %><% if (props.useBuddyjs) { %>
-        /**
-         * Find "magic numbers" (unnamed numerical constants) in code
-         * @see {@link https://github.com/eugene-bulkin/grunt-buddyjs}
-        **/
-        buddyjs: {
-            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
-            options: {
-                ignore: [0, 1, 2, 3, 10, 100]
-            }
-        },
 <% } %>
         /**
          * Clear files and folders

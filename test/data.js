@@ -32,7 +32,6 @@ var files = [
 var dependencies = [
     '"jsinspect": ',
     'grunt-jsinspect',
-    'grunt-buddyjs',
     'grunt-contrib-imagemin',
     'grunt-a11y',
     'grunt-accessibility',
