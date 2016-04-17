@@ -273,23 +273,6 @@ module.exports = function(grunt) {
             }
         },
 
-        /**
-         * Lint JavaScript code with JSHint (with improved CLI output using jshint-stylish)
-         * @see {@link https://github.com/gruntjs/grunt-contrib-jshint}
-         * @see {@link https://github.com/sindresorhus/jshint-stylish}
-         **/
-        jshint: {
-            options: {
-                force: true,
-                reporter: require('jshint-stylish'),
-                jshintrc: '<%%= files.config.jshint %>',
-                ignores: '<%%= folders.app %>/templates.js'
-            },
-            grunt: 'Gruntfile.js',
-            tasks: '<%%= folders.tasks %>/<%%= files.scripts %>',
-            tests: '<%%= folders.test %>/<%%= folders.specs %>/<%%= files.scripts %>',
-            app:   '<%%= folders.app %>/<%%= files.scripts %>'
-        },
 <% if (use.jsinspect) { %>
         /**
          * Detect copy-pasted and structurally similar code
@@ -417,7 +400,7 @@ module.exports = function(grunt) {
                 src : ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
                 dest : '<%%= folders.reports %>/plato',
                 options : {
-                    jshint : grunt.file.readJSON(config.files.config.jshint)
+                    eslint : grunt.file.readJSON(config.files.config.eslint)
                 }
             }
         },
@@ -554,11 +537,6 @@ module.exports = function(grunt) {
             style: {
                 files: ['<%%= folders.assets %>/<%%= files.styles %>'],
                 tasks: ['process-styles', 'csslint'],
-                options: {spawn: false}
-            },
-            jshint: {
-                files: '<%%= folders.app %>/<%%= files.scripts %>',
-                tasks: ['jshint:app'],
                 options: {spawn: false}
             },
             eslint: {

@@ -23,9 +23,8 @@ module.exports = {
         },
         files: {
             config: {
-                jshint:  './config/.jshintrc',
-                eslint:  './config/.eslintrc.js',
                 csslint: './config/.csslintrc',
+                eslint:  './config/.eslintrc.js',
                 karma:   './config/karma.conf.js'
             },
             index:        'index.html',

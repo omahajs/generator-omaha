@@ -11,7 +11,6 @@ module.exports = function(grunt) {
         'jsonlint',
         'htmlhintplus',
         'csslint',
-        'jshint:app',
         'eslint:app'
     ]);
     grunt.registerTask('linting', 'Watch task for real-time linting', [
@@ -22,10 +21,6 @@ module.exports = function(grunt) {
         'process-styles',
         'csslint',
         'watch:style'
-    ]);
-    grunt.registerTask('jshinting', 'Watch task for real-time linting with JSHint', [
-        'jshint:app',
-        'watch:jshint'
     ]);
     grunt.registerTask('eslinting', 'Watch task for real-time linting with ESLint', [
         'eslint:ing',

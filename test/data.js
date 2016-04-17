@@ -1,9 +1,8 @@
 //Config files that are ALWAYS created
 var configFiles = [
     'config/.csslintrc',
-    'config/.jshintrc',
-    'config/default.js',
     'config/.eslintrc.js',
+    'config/default.js',
     'config/karma.conf.js',
     '.gitignore'
 ];

@@ -94,7 +94,6 @@ module.exports = yeoman.generators.Base.extend({
       project: function() {
           this.template('config/_csslintrc', 'config/.csslintrc');
           this.template('config/_eslintrc.js', 'config/.eslintrc.js');
-          this.template('config/_jshintrc', 'config/.jshintrc');
           this.template('config/_default.js', 'config/default.js');
           this.template('config/_karma.conf.js', 'config/karma.conf.js');
           this.template('config/_gitignore', '.gitignore');
