@@ -49,6 +49,7 @@ module.exports = {
         'no-array-constructor': ['warn'],
         'no-console': ['warn'],
         'no-constant-condition': ['error'],
+        'no-debugger': ['error'],
  /*fix*/'no-extra-semi': ['error'],
         'no-empty': ['warn'],
         'no-eval': ['error'],
