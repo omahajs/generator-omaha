@@ -21,8 +21,8 @@ Folder Structure
     |   +- images
     |   +- templates
     |   +- less/sass/css
-    |       |- reset.less/sass/css
-    |       \- style.less/sass/css
+    |       |- reset.less/scss/css
+    |       \- style.less/scss/css
     +- config
     |   |- .csslintrc
     |   |- default.js
