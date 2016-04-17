@@ -290,7 +290,7 @@ module.exports = function(grunt) {
          * @see {@link https://github.com/brandonramirez/grunt-jsonlint}
         **/
         jsonlint: {
-            project: {src: ['./*.json', '<%%= folders.config %>/.*']}
+            project: {src: ['./*.json', '<%%= files.config.csslint %>']}
         },
 <% if (!useHandlebars) { %>
         /**
