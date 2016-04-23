@@ -55,6 +55,8 @@ Typical Workflows
   - Living styleguide: `grunt docs open:styleguide`
 - [Review the code](/generators/app/templates/tasks) to see all the available tasks
 
+> View the [technologies used by the app generator](generators/app/README.md) and the [lint rules that make your code more secure](generators/app/templates/config/README.md)
+
 Command Line Options
 --------------------
 > Beyond `yo techtonic --help`
