@@ -79,6 +79,11 @@ yo techtonic --defaults --script-bundler browserify
 - `css-preprocessor`: **`less`** | `sass` | `none`
 - `template-technology`: **`handlebars`** | `underscore`
 
+Why "techtonic"?
+----------------
+> **techtonic** comes from the Ancient Greek noun, [tektōn (τέκτων)](https://en.wikipedia.org/wiki/Tekt%C5%8Dn),
+> (term for a carpenter or **_builder_**)
+
 Tools, References & Resources
 -----------------------------
 - See wiki page: [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)

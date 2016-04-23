@@ -1,6 +1,6 @@
-var ALLOWED_COMPLEXITY    = 5;
-var ALLOWED_MAGIC_NUMBERS = [0, 1, 2, 3, 10, 100];
-var MAX_LINE_LENGTH       = 150;
+var ALLOWED_MAGIC_NUMBERS  = [0, 1, 2, 3, 10, 100];
+var MAX_ALLOWED_COMPLEXITY = 5;
+var MAX_LINE_LENGTH        = 150;
 
 /*
  fix --> indicates that rule can be "auto-fixed" by ESLint
@@ -30,7 +30,7 @@ module.exports = {
         'comma-dangle': ['warn', 'never'],
  /*fix*/'comma-spacing': ['warn'],
         'comma-style': ['warn'],
-        'complexity': ['warn', ALLOWED_COMPLEXITY],
+        'complexity': ['warn', MAX_ALLOWED_COMPLEXITY],
         'curly': ['error'],
         'default-case': ['error'],
         'dot-location': ['error', 'property'],
