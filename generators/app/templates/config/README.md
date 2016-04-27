@@ -2,16 +2,21 @@
 -------------------------
 > Not all lint rules are just for style.  Some address [MITRE](https://cwe.mitre.org/) defined software weaknesses.  *All* promote writing *better* code.
 
-Table of Contents
------------------
 - [CWE-95 (Do not use `eval`)](#cwe-95-eval-is-bad)
 - [CWE-398 (Indicator of Poor Code Quality)](#cwe-398-indicator-of-poor-code-quality)
 - [CWE-407 (Algorithmic Complexity)](#cwe-407-algorithmic-complexity)
-- []()
-- []()
-- []()
-- []()
-- []()
+- [CWE-456 (Missing Initialization of a Variable)](#cwe-456-missing-initialization-of-a-variable)
+- [CWE-457 (Use of Uninitialized Variable)](#cwe-457-use-of-uninitialized-variable)
+- [CWE-478 (Missing Default Case in Switch Statement)](#cwe-478-missing-default-case-in-switch-statement)
+- [CWE-483 (Incorrect Block Delimitation)](#cwe-483-incorrect-block-delimitation)
+- [CWE-484 (Omitted Break Statement in Switch)](#cwe-484-omitted-break-statement-in-switch)
+- [CWE-489 (Leftover Debug Code)](#cwe-489-leftover-debug-code)
+- [CWE-561 (Dead Code)](#cwe-561-dead-code)
+- [CWE-570 (Expression is Always False)](#cwe-570-expression-is-always-false)
+- [CWE-571 (Expression is Always True)](#cwe-571-expression-is-always-true)
+- [CWE-704 (Incorrect Type Conversion or Cast)](#cwe-704-incorrect-type-conversion-or-cast)
+
+================================================
 
 #### [CWE-95](https://cwe.mitre.org/data/definitions/95) **Eval is bad**
 - [`no-eval`](http://eslint.org/docs/rules/no-eval)
