@@ -2,6 +2,17 @@
 -------------------------
 > Not all lint rules are just for style.  Some address [MITRE](https://cwe.mitre.org/) defined software weaknesses.  *All* promote writing *better* code.
 
+Table of Contents
+-----------------
+- [CWE-95 (Do not use `eval`)](#cwe-95-eval-is-bad)
+- [CWE-398 (Indicator of Poor Code Quality)](#cwe-398-indicator-of-poor-code-quality)
+- [CWE-407 (Algorithmic Complexity)](#cwe-407-algorithmic-complexity)
+- []()
+- []()
+- []()
+- []()
+- []()
+
 #### [CWE-95](https://cwe.mitre.org/data/definitions/95) **Eval is bad**
 - [`no-eval`](http://eslint.org/docs/rules/no-eval)
 - [`no-implied-eval`](http://eslint.org/docs/rules/no-implied-eval)
