@@ -3,6 +3,7 @@
 var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
 var banner = require('./banner');
+var footer = require('./doneMessage');
 var prompt = require('./prompts');
 
 var commandLineOptions = {
@@ -178,6 +179,8 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
     install: function () {
-        this.npmInstall();
+        var generator = this;
+        generator.npmInstall();
+        generator.log(footer(generator));
     }
 });

@@ -46,7 +46,7 @@ var questions = [
     {
         type: 'confirm',
         name: 'autoFix',
-        message: step(6) + 'Auto-fix minor style errors?',
+        message: step(6) + 'Auto-fix minor style errors when "eslinting"?',
         default: true
     },
     {
