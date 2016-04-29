@@ -2,8 +2,8 @@ var chalk = require('chalk');
 
 var doneMessage = function(generator) {
     var SPACE = ' ';
-    var CHECKMARK = chalk.green.bold('✔ ');
-    var X = chalk.red.bold('✗ ')
+    function yes(str) {return chalk.green.bold('✔ ') + chalk.white.bold(str);}
+    function no(str) {return chalk.gray.bold('✗ ' + str);}
     var cssPreprocessor;
     var scriptBundler;
     if (generator.useSass) {
@@ -18,12 +18,17 @@ var doneMessage = function(generator) {
         '\nScript Bundler:    ' + chalk[generator.useBrowserify ? 'yellow' : 'red'].bold(generator.useBrowserify ? 'Browserify' : 'r.js') +
         '\nCSS pre-processor: ' + cssPreprocessor +
         '\nTemplate renderer: ' + chalk[generator.useHandlebars ? 'yellow' : 'blue'].bold(generator.useHandlebars ? 'Handlebars' : 'Underscore') +
-        '\n\n' + (generator.use.jsinspect ? CHECKMARK + chalk.white.bold('Find duplicate code with JSInspect') : '') +
-        '\n'   + (generator.use.imagemin ? CHECKMARK + chalk.white.bold('Compress production images with imagemin') : '') +
-        '\n'   + (generator.use.a11y ? CHECKMARK + chalk.white.bold('Lint HTML with a11y') : '') +
-        '\n'   + (generator.styleguide ? CHECKMARK + chalk.white.bold('Generate living styleguide with mdcss') : '') +
-        '\n'   + (generator.use.benchmarks ? CHECKMARK + chalk.white.bold('Install benchmarks.js support') : X + chalk.gray.bold('Install benchmarks.js support')) +
-        '\n'   + (generator.use.coveralls ? CHECKMARK + chalk.white.bold('Configure Coveralls.io integration') : X + chalk.gray.bold('Configure Coveralls.io integration')) +
+        '\n' +
+        '\n' + (generator.autoFix        ? yes : no)('Auto-correct minor issues when "eslinting"') +
+        '\n' + (generator.use.jsinspect  ? yes : no)('Find duplicate code with JSInspect') +
+        '\n' + (generator.use.a11y       ? yes : no)('Lint HTML with a11y') +
+        '\n' + (generator.use.imagemin   ? yes : no)('Compress production images with imagemin') +
+        '\n' + (generator.use.benchmarks ? yes : no)('Install benchmarks.js support') +
+        '\n' + (generator.styleguide     ? yes : no)('Generate living styleguide with mdcss') +
+        '\n' + (generator.use.coveralls  ? yes : no)('Integrate Coveralls.io support') +
+        '\n' +
+        '\n' + chalk.green.bold('All done!') +
+        '\n' + chalk.white('Try out your shiny new app by running ') + chalk.bgBlack.white(' npm start ') + 
         '\n';
     return message;
 };

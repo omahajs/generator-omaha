@@ -179,8 +179,10 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
     install: function () {
+        this.npmInstall();
+    },
+    end: function() {
         var generator = this;
-        generator.npmInstall();
         generator.log(footer(generator));
     }
 });
