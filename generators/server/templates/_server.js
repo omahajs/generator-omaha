@@ -46,7 +46,7 @@ var app = express()<% if (markdownSupport) { %>
     .use(lusca.xssProtection(true))
     .use(helmet.noSniff())
     .use(helmet.ieNoOpen())
-    .use(helmet.publicKeyPins({
+    .use(helmet.hpkp({
         maxAge: NINETY_DAYS_IN_MILLISECONDS,
         sha256s: ['base64==', 'base64=='],  /** Needs to be changed **/
         includeSubdomains: true
