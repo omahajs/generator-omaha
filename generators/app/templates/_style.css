@@ -64,6 +64,8 @@ Styles for elements such as `<section>` could go in this section.
 
 */
 section {
+    line-height: 3em;
+    padding: 0 2em;
     text-align: center;
     transform: scale(1.0);
     user-select: none;
@@ -90,7 +92,7 @@ section: Base CSS
 */
 h1 {
     font-size: 150%;
-    padding: 1em 0;
+    font-variant: small-caps;
 }
 h2 {
     font-size: 125%;
@@ -112,7 +114,7 @@ section: Base CSS
 
 */
 a {
-    padding: 0.5em;
+    padding: 5px;
     text-decoration: none;
     text-transform: uppercase;
 }
