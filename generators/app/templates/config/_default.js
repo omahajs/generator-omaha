@@ -28,8 +28,7 @@ module.exports = {
                 karma:   './config/karma.conf.js'
             },
             index:        'index.html',
-            <% if (useLess) { %>styles:       'less/**/*.less',<% } %>
-            <% if (useSass) { %>styles:       'sass/**/*.scss',<% } %>
+            <% if (useLess) { %>styles:       'less/**/*.less',<% } else if (useSass) { %>styles:       'sass/**/*.scss',<% } %>
             scripts:      '**/*.js',
             mainScript:   'main.js',
             configScript: 'config.js',
