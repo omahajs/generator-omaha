@@ -4,7 +4,7 @@ var templates = config.folders.assets + '/' + config.files.templates;//templates
 module.exports = function(karmaConfig) {
     karmaConfig.set({
         basePath: '../',
-        frameworks: [ 'requirejs', 'jasmine'],
+        frameworks: ['requirejs', 'jasmine'],
         files: [
             {pattern: config.folders.test + '/config.js'},
             {pattern: scripts,                                                        included: false},//JS scripts
