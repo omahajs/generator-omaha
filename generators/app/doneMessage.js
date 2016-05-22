@@ -1,5 +1,5 @@
 var chalk = require('chalk');
-
+var LETS_GET_STARTED = 'npm start';
 var doneMessage = function(generator) {
     var SPACE = ' ';
     function yes(str) {return chalk.green.bold('✔ ') + chalk.white.bold(str);}
@@ -28,7 +28,7 @@ var doneMessage = function(generator) {
         '\n' + (generator.use.coveralls  ? yes : no)('Integrate Coveralls.io support') +
         '\n' +
         '\n' + chalk.green.bold('All done!') +
-        '\n' + chalk.white('Try out your shiny new app by running ') + chalk.bgBlack.white(' npm start ') + 
+        '\n' + chalk.white('Try out your shiny new app by running ') + chalk.bgBlack.white(SPACE + LETS_GET_STARTED + SPACE) +
         '\n';
     return message;
 };
