@@ -1,7 +1,8 @@
 'use strict';
+
+var sinon   = require('sinon');
 var assert  = require('yeoman-generator').assert;
 var base    = require('yeoman-generator').generators.Base;
-var sinon   = require('sinon');
 var _       = require('underscore');
 var helpers = require('./helpers');
 

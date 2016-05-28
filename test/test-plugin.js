@@ -1,10 +1,10 @@
 'use strict';
 
+var sinon   = require('sinon');
 var path    = require('path');
 var assert  = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 var base    = require('yeoman-generator').generators.Base;
-var sinon   = require('sinon');
 
 var appDir = './';
 var pluginPath;
