@@ -8,7 +8,7 @@ var sinon   = require('sinon');
 
 var appDir = './';
 var pluginPath;
-var moduleDirectory = 'app/plugins/';
+var pluginDirectory = 'app/plugins/';
 var pluginName;
 var pluginDescription;
 
@@ -22,7 +22,7 @@ function testModuleConfig(pluginType, pluginTypeAlias) {
             stub.returns(null);
             pluginName = 'plugin'
             pluginDescription = 'foo';
-            pluginPath = moduleDirectory + pluginType + '.' + pluginName + '.js';
+            pluginPath = pluginDirectory + pluginType + '.' + pluginName + '.js';
             helpers.run(path.join(__dirname, '../generators/plugin'))
                 .withLocalConfig({appDir: appDir})
                 .withArguments([pluginName])
@@ -72,7 +72,7 @@ describe('Vanilla UMD plugin', function() {
     before(function(done) {
         pluginName = 'vanilla'
         pluginDescription = 'bar';
-        pluginPath = moduleDirectory + pluginName + '.js';
+        pluginPath = pluginDirectory + pluginName + '.js';
         helpers.run(path.join(__dirname, '../generators/plugin'))
             .withLocalConfig({appDir: appDir})
             .withArguments([pluginName])
@@ -111,7 +111,7 @@ describe('BACKBONE plugin', function() {
     before(function(done) {
         pluginName = 'plugin'
         pluginDescription = 'foo';
-        pluginPath = moduleDirectory + 'backbone.' + pluginName + '.js';
+        pluginPath = pluginDirectory + 'backbone.' + pluginName + '.js';
         helpers.run(path.join(__dirname, '../generators/plugin'))
             .withLocalConfig({appDir: appDir})
             .withArguments([pluginName])
