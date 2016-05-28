@@ -53,18 +53,3 @@ App.radio.level('warn');  //show 'error' and 'warn' logs
 //Note: Return current logging level with App.radio.level()
 //Note: Return channels with App.radio.channels()
 ```
-----------------------------------------------------------
-
-[`webworker.boilerplate.js`](webworker.boilerplate.js)
-=========================
-### Usage
-```javascript
-//inside main.js
-var worker = new Worker('plugins/example.webworker.js');
-worker.onmessage = function(e) {
-    console.log('Received from Worker:' + e.data);
-};
-setTimeout(function() {
-    worker.postMessage('start worker');
-}, 1000);
-```

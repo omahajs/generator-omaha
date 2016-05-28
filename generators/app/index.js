@@ -158,6 +158,7 @@ module.exports = yeoman.generators.Base.extend({
             this.template('example.model.js', this.appDir + 'app/models/example.js');
             this.template('example.view.js', this.appDir + 'app/views/example.js');
             this.template('example.controller.js', this.appDir + 'app/controllers/example.js');
+            this.template('example.webworker.js', this.appDir + 'app/controllers/example.webworker.js');
         },
         assetFiles: function() {
             this.template('example.template.hbs', this.appDir + 'assets/templates/example.hbs');
