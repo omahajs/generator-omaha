@@ -55,15 +55,15 @@ module.exports = yeoman.generators.NamedBase.extend({
         }.bind(this));
     },
     writing: function() {
-        var moduleFileName = this.name + '.js';
+        var pluginFileName = this.name + '.js';
         if (this.use.jquery) {
-            moduleFileName = 'jquery.' + moduleFileName;
+            pluginFileName = 'jquery.' + pluginFileName;
         } else if (this.use.underscore) {
-            moduleFileName = 'underscore.' + moduleFileName;
+            pluginFileName = 'underscore.' + pluginFileName;
         }
         if (this.use.backbone) {
-            moduleFileName = 'backbone.' + this.name + '.js';
+            pluginFileName = 'backbone.' + this.name + '.js';
         }
-        this.template('umd.template.js', this.config.get('appDir') + 'app/plugins/' + moduleFileName);
+        this.template('umd.template.js', this.config.get('appDir') + 'app/plugins/' + pluginFileName);
     }
 });
