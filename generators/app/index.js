@@ -147,8 +147,8 @@ module.exports = yeoman.generators.Base.extend({
             this.template('helpers/jquery.extensions.js', this.appDir + 'app/helpers/jquery.extensions.js');
             this.template('helpers/underscore.mixins.js', this.appDir + 'app/helpers/underscore.mixins.js');
             this.fs.copy(
-                this.templatePath('modules/*.js'),
-                this.destinationPath(this.appDir + 'app/modules')
+                this.templatePath('plugins/*.js'),
+                this.destinationPath(this.appDir + 'app/plugins')
             );
             this.template('_index.html', this.appDir + 'app/index.html');
             this.template('_app.js', this.appDir + 'app/app.js');

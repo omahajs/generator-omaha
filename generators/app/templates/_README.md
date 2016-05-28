@@ -8,7 +8,7 @@ Folder Structure
     |   +- models
     |   +- views
     |   +- controllers
-    |   +- modules
+    |   +- plugins
     |   +- helpers
     |   +- shims
     |   |- app.js

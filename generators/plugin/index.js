@@ -64,6 +64,6 @@ module.exports = yeoman.generators.NamedBase.extend({
         if (this.use.backbone) {
             moduleFileName = 'backbone.' + this.name + '.js';
         }
-        this.template('umd.template.js', this.config.get('appDir') + 'app/modules/' + moduleFileName);
+        this.template('umd.template.js', this.config.get('appDir') + 'app/plugins/' + moduleFileName);
     }
 });

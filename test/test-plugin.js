@@ -8,7 +8,7 @@ var sinon   = require('sinon');
 
 var appDir = './';
 var pluginPath;
-var moduleDirectory = 'app/modules/';
+var moduleDirectory = 'app/plugins/';
 var pluginName;
 var pluginDescription;
 

@@ -1,9 +1,9 @@
 /* eslint strict: 0 */
 /**
  * @file Logging module that leverages Backbone.Radio
- * @module modules/logging
+ * @module plugins/logging
  * @example <caption>Extend application object</caption>
- * var logging = require('./modules/radio.logging');
+ * var logging = require('./plugins/radio.logging');
  * var App = new Marionette.Application();
  * _.extend(App, logging);
  * module.exports = App;

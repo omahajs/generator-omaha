@@ -7,7 +7,7 @@
 
 ### Extend application object
 ```javascript
-var logging = require('./modules/radio.logging');
+var logging = require('./plugins/radio.logging');
 var App = new Marionette.Application();
 _.extend(App, logging);
 module.exports = App;
@@ -60,7 +60,7 @@ App.radio.level('warn');  //show 'error' and 'warn' logs
 ### Usage
 ```javascript
 //inside main.js
-var worker = new Worker('modules/example.webworker.js');
+var worker = new Worker('plugins/example.webworker.js');
 worker.onmessage = function(e) {
     console.log('Received from Worker:' + e.data);
 };

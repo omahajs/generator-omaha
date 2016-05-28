@@ -46,7 +46,7 @@
       "models/(\\w+)":      "./<%= appDir %>app/models/$1",
       "views/(\\w+)":       "./<%= appDir %>app/views/$1",
       "controllers/(\\w+)": "./<%= appDir %>app/controllers/$1",
-      "modules/(\\w+)":     "./<%= appDir %>app/modules/$1"
+      "plugins/(\\w+)":     "./<%= appDir %>app/plugins/$1"
     }
   },<% } %>
   "dependencies": {
