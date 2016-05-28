@@ -22,7 +22,7 @@ function testModuleConfig(pluginType, pluginTypeAlias) {
             stub.returns(null);
             pluginName = 'plugin'
             pluginDescription = 'foo';
-            pluginPath = pluginDirectory + pluginType + '.' + pluginName + '.js';
+            pluginPath = pluginDirectory + pluginName + '.js';
             helpers.run(path.join(__dirname, '../generators/plugin'))
                 .withLocalConfig({appDir: appDir})
                 .withArguments([pluginName])
@@ -36,7 +36,6 @@ function testModuleConfig(pluginType, pluginTypeAlias) {
             stub.restore();
         });
         it('creates ' + pluginType +' JS plugin with appropriate name', function() {
-            assert.fileContent(pluginPath, '* @file ' + pluginDescription);
             assert.fileContent(pluginPath, '* @exports ' + pluginName);
         });
         describe('when configuring the plugin for AMD, CommonJS and globals', function() {
@@ -83,7 +82,6 @@ describe('Vanilla UMD plugin', function() {
             .on('end', done);
     });
     it('creates a vanilla JS plugin with an appropriate name', function() {
-        assert.fileContent(pluginPath, '* @file ' + pluginDescription);
         assert.fileContent(pluginPath, '* @exports ' + pluginName);
     });
     describe('when configuring the plugin for AMD, CommonJS and globals', function() {
@@ -111,7 +109,7 @@ describe('BACKBONE plugin', function() {
     before(function(done) {
         pluginName = 'plugin'
         pluginDescription = 'foo';
-        pluginPath = pluginDirectory + 'backbone.' + pluginName + '.js';
+        pluginPath = pluginDirectory + pluginName + '.js';
         helpers.run(path.join(__dirname, '../generators/plugin'))
             .withLocalConfig({appDir: appDir})
             .withArguments([pluginName])
@@ -122,7 +120,6 @@ describe('BACKBONE plugin', function() {
             .on('end', done);
     });
     it('creates a Backbone JS plugin with an appropriate name', function() {
-        assert.fileContent(pluginPath, '* @file ' + pluginDescription);
         assert.fileContent(pluginPath, '* @exports ' + pluginName);
     });
     describe('when configuring the plugin for AMD, CommonJS and globals', function() {

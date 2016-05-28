@@ -1,5 +1,5 @@
 /**
- * @file <%= pluginDescription %>
+ * @file < Short description of plugin purpose and function >
  * @author <%= userName %>
  * @exports <%= pluginName %>
 **/
