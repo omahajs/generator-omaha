@@ -45,11 +45,7 @@ function testPluginConfig(pluginType, pluginTypeAlias, testAsOption) {
             it('configures the plugin to work with AMD, CommonJS, and globals', function() {
                 assert.fileContent(pluginPath, 'define([\'' + pluginType + '\'], function(' + pluginTypeAlias + ') {');
                 assert.fileContent(pluginPath, 'module.exports = factory(root, ' + pluginTypeAlias + ');');
-                if (pluginType === 'jquery') {
-                    assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, jQuery);');
-                } else  {
-                    assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, ' + pluginType + ');');
-                }
+                assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, ' + pluginTypeAlias + ');');
                 assert.fileContent(pluginPath, '}(this, function(root, ' + pluginTypeAlias + ') {');
             });
             dependencies.splice(dependencies.indexOf(pluginType), 1);
@@ -131,7 +127,7 @@ describe('BACKBONE plugin', function() {
         it('configures the plugin to work with AMD, CommonJS, and globals', function() {
             assert.fileContent(pluginPath, 'define([\'underscore\',\'backbone\'], function(_, Backbone) {');
             assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, underscore, Backbone);')
+            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone);')
             assert.fileContent(pluginPath, '}(this, function(root, _, Backbone) {');
         });
         it('Does NOT add jquery dependency', function() {

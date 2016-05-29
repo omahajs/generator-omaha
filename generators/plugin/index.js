@@ -3,7 +3,6 @@
 var yeoman    = require('yeoman-generator');
 var mkdirp    = require('mkdirp');
 
-var indent = '  ';
 var commandLineOptions = {
     jquery: {
         type: 'Boolean',
@@ -15,12 +14,55 @@ var commandLineOptions = {
         desc: 'Add Underscore dependency',
         defaults: false
     },
+    lodash: {
+        type: 'Boolean',
+        desc: 'Add lodash dependency',
+        defaults: false
+    },
+    ramda: {
+        type: 'Boolean',
+        desc: 'Add Ramda dependency',
+        defaults: false
+    },
     backbone: {
         type: 'Boolean',
         desc: 'Add Backbone dependency (automatically adds Underscore dependency)',
         defaults: false
+    },
+    marionette: {
+        type: 'Boolean',
+        desc: 'Add Marionette dependency (automatically adds Underscore and Backbone dependencies)',
+        defaults: false
+    },
+    customDependency: {
+        type: 'String',
+        desc: 'Add custom dependency (value provided will be used as global dependency name)',
+        defaults: ''
+    },
+    alias: {
+        type: 'String',
+        desc: 'Set custom variable name to be used in plugin scope for associated custom dependency',
+        defaults: ''
     }
 };
+var globalNameLookup = {
+    root: 'root',
+    jquery: '$',
+    underscore: '_',
+    lodash: '_',
+    ramda: '_',
+    backbone: 'Backbone',
+    marionette: 'Marionette'
+};
+var npmModuleNameLookup = {
+    jquery: 'jquery',
+    underscore: 'underscore',
+    lodash: 'lodash',
+    ramda: 'ramda',
+    backbone: 'backbone',
+    marionette: 'backbone.marionette'
+};
+var indent = '  ';
 var questions = [{
     type: 'checkbox',
     name: 'dependencies',
@@ -40,6 +82,11 @@ var questions = [{
             name: indent + 'Backbone.js',
             value: 'backbone',
             checked: false
+        },
+        {
+            name: indent + 'MarionetteJS',
+            value: 'marionette',
+            checked: false
         }
     ]
 }];
@@ -56,39 +103,54 @@ module.exports = yeoman.generators.NamedBase.extend({
         var generator = this;
         var options = generator.options;
         var done = generator.async();
-        var dependencySelected = options.jquery || options.underscore || options.backbone;
-        this.pluginName = this.name.substring(this.name.charAt(0) === '/' ? 1 : 0);
-        this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
-        this.use = {};
+        if (options.customDependency && options.alias) {
+            commandLineOptions[options.customDependency] = true;
+            options[options.customDependency] = true;
+            globalNameLookup[options.customDependency] = options.alias;
+        }
+        var dependencySelected = Object.keys(commandLineOptions).map(function(key) {return options[key];}).indexOf(true) > -1;
+        generator.pluginName = generator.name.substring(generator.name.charAt(0) === '/' ? 1 : 0).replace('.', '_');
+        generator.userName = generator.user.git.name() ? generator.user.git.name() : 'John Doe';
+        generator.use = {};
         if(dependencySelected) {
-            function isSelectedDependency(name) {return options[name];}
-            this.dependencies = ['jquery', 'underscore', 'backbone'].filter(isSelectedDependency);
-            this.depList = this.dependencies.map(function(dep) {return '\'' + dep + '\'';});
-            this.dependencies.forEach(function(dep) {
-                this.use[dep] = true;
+            function isSelectedDependency(name) {return options[name] === true;}
+            generator.dependencies = Object.keys(commandLineOptions).filter(isSelectedDependency);
+            generator.depList = generator.dependencies.map(function(dep) {return '\'' + dep + '\'';});
+            generator.dependencies.forEach(function(dep) {
+                generator.use[dep] = true;
                 return dep;
-            }, this);
+            });
             done();
         } else {
-            this.prompt(questions, function (props) {
-                this.depList = props.dependencies.map(function(dep) {return '\'' + dep + '\'';});
-                this.dependencies = props.dependencies.map(function(dep) {
-                    this.use[dep] = true;
+            generator.prompt(questions, function (props) {
+                generator.depList = props.dependencies.map(function(dep) {return '\'' + dep + '\'';});
+                generator.dependencies = props.dependencies.map(function(dep) {
+                    generator.use[dep] = true;
                     return dep;
-                }, this);
+                });
                 done();
-            }.bind(this));
+            }.bind(generator));
         }
     },
     writing: function() {
-
-        if (this.use.backbone && !this.use.underscore) {
-            this.depList.unshift('\'underscore\'');
-            this.use.underscore = true;
-        }
-        this.dependencies = this.depList.map(function(dep) {return dep.replace(/'/g, '');});
+        var generator = this;
         var appDir = this.config.get('appDir');
         var pathBase = appDir ? appDir + '/app/plugins/' : './';
-        this.template('umd.template.js', pathBase + this.pluginName + '.js');
+        if (generator.use.marionette && !generator.use.backbone) {
+            generator.depList.unshift('\'backbone\'');
+            generator.use.backbone = true;
+        }
+        if (generator.use.backbone && !generator.use.underscore) {
+            generator.depList.unshift('\'underscore\'');
+            generator.use.underscore = true;
+        }
+        generator.dependencies = generator.depList.map(removeSingleQuotes);
+        generator.defineArguments = generator.dependencies.map(aliasFor).join(', ');
+        generator.iifeArguments = ['root'].concat(generator.dependencies).map(aliasFor).join(', ');
+        generator.requireStatements = generator.dependencies.map(requireStatementFor).join('\n\t\t');
+        generator.template('umd.template.js', pathBase + generator.pluginName + '.js');
+        function aliasFor(dep) {return globalNameLookup[dep];}
+        function requireStatementFor(dep) {return 'var ' + aliasFor(dep) + ' = require(\'' + npmModuleNameLookup[dep] + '\');';}
+        function removeSingleQuotes(str) {return str.replace(/'/g, '');}
     }
 });
