@@ -2,8 +2,8 @@
 
 var yeoman    = require('yeoman-generator');
 var mkdirp    = require('mkdirp');
-var questions = require('./prompts');
 
+var indent = '  ';
 var commandLineOptions = {
     jquery: {
         type: 'Boolean',
@@ -21,6 +21,28 @@ var commandLineOptions = {
         defaults: false
     }
 };
+var questions = [{
+    type: 'checkbox',
+    name: 'dependencies',
+    message: 'Choose plugin dependencies:',
+    choices: [
+        {
+            name: indent + 'jQuery',
+            value: 'jquery',
+            checked: false
+        },
+        {
+            name: indent + 'Underscore.js',
+            value: 'underscore',
+            checked: false
+        },
+        {
+            name: indent + 'Backbone.js',
+            value: 'backbone',
+            checked: false
+        }
+    ]
+}];
 
 module.exports = yeoman.generators.NamedBase.extend({
     constructor: function() {
@@ -39,28 +61,34 @@ module.exports = yeoman.generators.NamedBase.extend({
         this.userName = this.user.git.name() ? this.user.git.name() : 'John Doe';
         this.use = {};
         if(dependencySelected) {
-            function isSelectedOption(name) {return options[name];}
-            var dependencies = ['jquery', 'underscore', 'backbone'].filter(isSelectedOption);
-            this.depList = dependencies.map(function(dep) {return '\'' + dep + '\'';});
-            dependencies.forEach(function(dep) {
+            function isSelectedDependency(name) {return options[name];}
+            this.dependencies = ['jquery', 'underscore', 'backbone'].filter(isSelectedDependency);
+            this.depList = this.dependencies.map(function(dep) {return '\'' + dep + '\'';});
+            this.dependencies.forEach(function(dep) {
                 this.use[dep] = true;
+                return dep;
             }, this);
             done();
         } else {
             this.prompt(questions, function (props) {
                 this.depList = props.dependencies.map(function(dep) {return '\'' + dep + '\'';});
-                props.dependencies.forEach(function(dep) {
+                this.dependencies = props.dependencies.map(function(dep) {
                     this.use[dep] = true;
+                    return dep;
                 }, this);
                 done();
             }.bind(this));
         }
     },
     writing: function() {
+
         if (this.use.backbone && !this.use.underscore) {
             this.depList.unshift('\'underscore\'');
             this.use.underscore = true;
         }
-        this.template('umd.template.js', this.config.get('appDir') + 'app/plugins/' + this.pluginName + '.js');
+        this.dependencies = this.depList.map(function(dep) {return dep.replace(/'/g, '');});
+        var appDir = this.config.get('appDir');
+        var pathBase = appDir ? appDir + '/app/plugins/' : './';
+        this.template('umd.template.js', pathBase + this.pluginName + '.js');
     }
 });

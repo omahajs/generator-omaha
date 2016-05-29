@@ -12,11 +12,13 @@ var pluginDirectory = 'app/plugins/';
 var pluginName;
 var pluginDescription;
 
-function testModuleConfig(pluginType, pluginTypeAlias) {
+function testPluginConfig(pluginType, pluginTypeAlias, testAsOption) {
     var stub;
     var dependencies = ['jquery', 'underscore', 'backbone'];
     var aliases = ['$', '_', 'Backbone'];
-    describe(pluginType.toUpperCase() + ' plugin', function() {
+    var pluginOptions = {};
+    pluginOptions[pluginType] = true;
+    describe(pluginType.toUpperCase() + ' plugin' + (testAsOption ? ' (using command line option)' : ''), function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
@@ -30,6 +32,7 @@ function testModuleConfig(pluginType, pluginTypeAlias) {
                     dependencies: [pluginType],
                     pluginDescription: pluginDescription
                 })
+                .withOptions(testAsOption ? pluginOptions : {})
                 .on('end', done);
         });
         after(function() {
@@ -103,8 +106,10 @@ describe('Vanilla UMD plugin', function() {
         });
     });
 });
-testModuleConfig('jquery', '$');
-testModuleConfig('underscore', '_');
+testPluginConfig('jquery', '$');
+testPluginConfig('jquery', '$', true);
+testPluginConfig('underscore', '_');
+testPluginConfig('underscore', '_', true);
 describe('BACKBONE plugin', function() {
     before(function(done) {
         pluginName = 'plugin'
