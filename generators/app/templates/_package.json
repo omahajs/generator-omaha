@@ -92,7 +92,7 @@
     "grunt-jsinspect": "^1.1.0",<% } %>
     "grunt-jsonlint": "^1.0.4",<% if (!useHandlebars) { %>
     "grunt-contrib-jst": "^0.6.0",<% } %>
-    "grunt-karma": "^1.0.0",<% if (use.coveralls) { %>
+    "grunt-karma": "^2.0.0",<% if (use.coveralls) { %>
     "grunt-karma-coveralls": "^2.5.3",<% } %>
     "grunt-open": "^0.2.3",
     "grunt-parallel": "^0.4.1",
