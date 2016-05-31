@@ -3,136 +3,125 @@
 var sinon   = require('sinon');
 var path    = require('path');
 var assert  = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
 var base    = require('yeoman-generator').generators.Base;
+var helpers = require('./helpers');
+
+var createPlugin = helpers.createPlugin;
 
 var appDir = './';
-var pluginPath;
+var pluginName= 'pluginName';
 var pluginDirectory = 'app/plugins/';
-var pluginName;
-var pluginDescription;
+var pluginPath = pluginDirectory + pluginName + '.js';
 
-function testPluginConfig(pluginType, pluginTypeAlias, testAsOption) {
-    var stub;
-    var dependencies = ['jquery', 'underscore', 'backbone'];
-    var aliases = ['$', '_', 'Backbone'];
-    var pluginOptions = {};
-    pluginOptions[pluginType] = true;
-    describe(pluginType.toUpperCase() + ' plugin' + (testAsOption ? ' (using command line option)' : ''), function() {
-        before(function(done) {
-            stub = sinon.stub(base.prototype.user.git, 'name');
-            stub.returns(null);
-            pluginName = 'plugin'
-            pluginDescription = 'foo';
-            pluginPath = pluginDirectory + pluginName + '.js';
-            helpers.run(path.join(__dirname, '../generators/plugin'))
-                .withLocalConfig({appDir: appDir})
-                .withArguments([pluginName])
-                .withPrompts({
-                    dependencies: [pluginType],
-                    pluginDescription: pluginDescription
-                })
-                .withOptions(testAsOption ? pluginOptions : {})
-                .on('end', done);
-        });
-        after(function() {
-            stub.restore();
-        });
-        it('creates ' + pluginType +' JS plugin with appropriate name', function() {
-            assert.fileContent(pluginPath, '* @exports ' + pluginName);
-        });
-        describe('when configuring the plugin for AMD, CommonJS and globals', function() {
-            it('configures the plugin to work with AMD, CommonJS, and globals', function() {
-                assert.fileContent(pluginPath, 'define([\'' + pluginType + '\'], function(' + pluginTypeAlias + ') {');
-                assert.fileContent(pluginPath, 'module.exports = factory(root, ' + pluginTypeAlias + ');');
-                assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, ' + pluginTypeAlias + ');');
-                assert.fileContent(pluginPath, '}(this, function(root, ' + pluginTypeAlias + ') {');
-            });
-            dependencies.splice(dependencies.indexOf(pluginType), 1);
-            dependencies.forEach(function(dep) {
-                it('Does NOT add ' + dep + ' dependency', function() {
-                    assert.noFileContent(pluginPath, dep);
-                });
-            });
-            aliases.splice(aliases.indexOf(pluginTypeAlias), 1);
-            aliases.forEach(function(alias) {
-                it('Does NOT add ' + alias + ' CommonJS support', function() {
-                    assert.noFileContent(pluginPath, 'var ' + alias + ' = require(');
-                })
-            });
-        });
-    });
-}
-
-describe('Vanilla UMD plugin', function() {
-    var dependencies = ['jquery', 'underscore', 'backbone'];
-    var aliases = ['$', '_', 'Backbone'];
+describe('plugin generator', function() {
     before(function(done) {
-        pluginName = 'vanilla'
-        pluginDescription = 'bar';
-        pluginPath = pluginDirectory + pluginName + '.js';
-        helpers.run(path.join(__dirname, '../generators/plugin'))
-            .withLocalConfig({appDir: appDir})
-            .withArguments([pluginName])
-            .withPrompts({
-                dependencies: [],
-                pluginDescription: pluginDescription
-            })
-            .on('end', done);
+        createPlugin({
+            name: pluginName,
+            dependencies: []
+        }).on('end', done);
     });
-    it('creates a vanilla JS plugin with an appropriate name', function() {
+    it('can create a vanilla JavaScript plugin', function() {
         assert.fileContent(pluginPath, '* @exports ' + pluginName);
-    });
-    describe('when configuring the plugin for AMD, CommonJS and globals', function() {
-        it('configures the plugin to work with AMD, CommonJS, and globals', function() {
-            assert.fileContent(pluginPath, 'define([], function() {');
-            assert.fileContent(pluginPath, 'module.exports = factory(root);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root);')
-            assert.fileContent(pluginPath, '}(this, function(root) {');
-        });
-        dependencies.forEach(function(dep) {
-            it('Does NOT add ' + dep + ' dependency', function() {
-                assert.noFileContent(pluginPath, dep);
-            });
-        });
-        aliases.forEach(function(alias) {
-            it('Does NOT add ' + alias + ' CommonJS support', function() {
-                assert.noFileContent(pluginPath, 'var ' + alias + ' = require(\')');
-            })
+        assert.fileContent(pluginPath, 'define([], function() {');
+        assert.fileContent(pluginPath, 'module.exports = factory(root);');
+        assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root);')
+        assert.fileContent(pluginPath, '}(this, function(root) {');
+        ['jquery', 'underscore', 'backbone', 'marionette'].forEach(function(alias) {
+            assert.noFileContent(pluginPath, 'var ' + alias + ' = require(\')');
         });
     });
 });
-testPluginConfig('jquery', '$');
-testPluginConfig('jquery', '$', true);
-testPluginConfig('underscore', '_');
-testPluginConfig('underscore', '_', true);
-describe('BACKBONE plugin', function() {
+describe('plugin generator', function() {
     before(function(done) {
-        pluginName = 'plugin'
-        pluginDescription = 'foo';
-        pluginPath = pluginDirectory + pluginName + '.js';
-        helpers.run(path.join(__dirname, '../generators/plugin'))
-            .withLocalConfig({appDir: appDir})
-            .withArguments([pluginName])
-            .withPrompts({
-                dependencies: ['backbone'],
-                pluginDescription: pluginDescription
-            })
-            .on('end', done);
+        createPlugin({
+            name: pluginName,
+            dependencies: ['jquery']
+        }).on('end', done);
     });
-    it('creates a Backbone JS plugin with an appropriate name', function() {
+    it('can create a jQuery plugin', function() {
         assert.fileContent(pluginPath, '* @exports ' + pluginName);
+        assert.fileContent(pluginPath, 'define([\'jquery\'], function($) {');
+        assert.fileContent(pluginPath, 'module.exports = factory(root, $);');
+        assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, $);')
+        assert.fileContent(pluginPath, '}(this, function(root, $) {');
     });
-    describe('when configuring the plugin for AMD, CommonJS and globals', function() {
-        it('configures the plugin to work with AMD, CommonJS, and globals', function() {
-            assert.fileContent(pluginPath, 'define([\'underscore\',\'backbone\'], function(_, Backbone) {');
-            assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone);')
-            assert.fileContent(pluginPath, '}(this, function(root, _, Backbone) {');
-        });
-        it('Does NOT add jquery dependency', function() {
-            assert.noFileContent(pluginPath, 'jquery');
-            assert.noFileContent(pluginPath, '$');
-        })
+});
+describe('plugin generator', function() {
+    before(function(done) {
+        createPlugin({
+            name: pluginName,
+            dependencies: ['underscore']
+        }).on('end', done);
+    });
+    it('can create an Underscore.js plugin', function() {
+        assert.fileContent(pluginPath, '* @exports ' + pluginName);
+        assert.fileContent(pluginPath, 'define([\'underscore\'], function(_) {');
+        assert.fileContent(pluginPath, 'module.exports = factory(root, _);');
+        assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _);')
+        assert.fileContent(pluginPath, '}(this, function(root, _) {');
+    });
+});
+describe('plugin generator', function() {
+    before(function(done) {
+        createPlugin({
+            name: pluginName,
+            dependencies: ['backbone']
+        }).on('end', done);
+    });
+    it('can create a Backbone.js plugin', function() {
+        assert.fileContent(pluginPath, '* @exports ' + pluginName);
+        assert.fileContent(pluginPath, 'define([\'underscore\',\'backbone\'], function(_, Backbone) {');
+        assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone);');
+        assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone);')
+        assert.fileContent(pluginPath, '}(this, function(root, _, Backbone) {');
+    });
+});
+describe('plugin generator', function() {
+    before(function(done) {
+        createPlugin({
+            name: pluginName,
+            dependencies: ['marionette']
+        }).on('end', done);
+    });
+    it('can create a MarionetteJS plugin', function() {
+        assert.fileContent(pluginPath, '* @exports ' + pluginName);
+        assert.fileContent(pluginPath, 'define([\'underscore\',\'backbone\',\'marionette\'], function(_, Backbone, Marionette) {');
+        assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone, Marionette);');
+        assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone, Marionette);')
+        assert.fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
+    });
+});
+describe('plugin generator', function() {
+    before(function(done) {
+        createPlugin({
+            name: pluginName,
+            dependencies: ['marionette'],
+            useCommandLineOptions: true
+        }).on('end', done);
+    });
+    it('can create a MarionetteJS plugin using command line options', function() {
+        assert.fileContent(pluginPath, '* @exports ' + pluginName);
+        assert.fileContent(pluginPath, 'define([\'underscore\',\'backbone\',\'marionette\'], function(_, Backbone, Marionette) {');
+        assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone, Marionette);');
+        assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone, Marionette);')
+        assert.fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
+    });
+});
+describe('plugin generator', function() {
+    before(function(done) {
+        createPlugin({
+            name: pluginName,
+            dependencies: [],
+            customDependency: 'FooBar',
+            alias: 'foo',
+            useCommandLineOptions: true
+        }).on('end', done);
+    });
+    it('can create a plugin with a custom dependency', function() {
+        assert.fileContent(pluginPath, '* @exports ' + pluginName);
+        assert.fileContent(pluginPath, 'define([\'FooBar\'], function(foo) {');
+        assert.fileContent(pluginPath, 'module.exports = factory(root, foo);');
+        assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, foo);')
+        assert.fileContent(pluginPath, '}(this, function(root, foo) {');
     });
 });

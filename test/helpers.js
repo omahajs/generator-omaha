@@ -50,6 +50,23 @@ function scaffoldAppWith(options) {
         });
 }
 
+function createPlugin(options) {
+    var testOptions = {};
+    if (options.customDependency && options.alias) {
+        testOptions.customDependency = options.customDependency;
+        testOptions.alias = options.alias;
+    } else {
+        options.dependencies.forEach(function(dep) {
+            testOptions[dep] = true;
+        });
+    }
+    return helpers.run(path.join(__dirname, '../generators/plugin'))
+        .withLocalConfig({appDir: './'})
+        .withArguments([options.name])
+        .withPrompts({dependencies: options.dependencies})
+        .withOptions(options.useCommandLineOptions ? testOptions : {});
+}
+
 function verifyFiles(appDir) {
     assert.file(configFiles);
     assert.file(projectFiles);
@@ -195,6 +212,7 @@ function verifySassSupport(exists, appDir) {
 module.exports = {
     scaffoldApp: scaffoldApp,
     scaffoldAppWith: scaffoldAppWith,
+    createPlugin: createPlugin,
     verifyFiles: verifyFiles,
     verifyConfiguration: verifyConfiguration,
     verifyCoveralls: verifyCoveralls
