@@ -13,7 +13,7 @@ var pluginName= 'pluginName';
 var pluginDirectory = 'app/plugins/';
 var pluginPath = pluginDirectory + pluginName + '.js';
 
-describe('plugin generator', function() {
+describe('Plugin generator', function() {
     before(function(done) {
         createPlugin({
             name: pluginName,
@@ -31,7 +31,7 @@ describe('plugin generator', function() {
         });
     });
 });
-describe('plugin generator', function() {
+describe('Plugin generator', function() {
     before(function(done) {
         createPlugin({
             name: pluginName,
@@ -46,7 +46,7 @@ describe('plugin generator', function() {
         assert.fileContent(pluginPath, '}(this, function(root, $) {');
     });
 });
-describe('plugin generator', function() {
+describe('Plugin generator', function() {
     before(function(done) {
         createPlugin({
             name: pluginName,
@@ -61,7 +61,7 @@ describe('plugin generator', function() {
         assert.fileContent(pluginPath, '}(this, function(root, _) {');
     });
 });
-describe('plugin generator', function() {
+describe('Plugin generator', function() {
     before(function(done) {
         createPlugin({
             name: pluginName,
@@ -76,7 +76,7 @@ describe('plugin generator', function() {
         assert.fileContent(pluginPath, '}(this, function(root, _, Backbone) {');
     });
 });
-describe('plugin generator', function() {
+describe('Plugin generator', function() {
     before(function(done) {
         createPlugin({
             name: pluginName,
@@ -91,7 +91,7 @@ describe('plugin generator', function() {
         assert.fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
     });
 });
-describe('plugin generator', function() {
+describe('Plugin generator', function() {
     before(function(done) {
         createPlugin({
             name: pluginName,
@@ -107,7 +107,7 @@ describe('plugin generator', function() {
         assert.fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
     });
 });
-describe('plugin generator', function() {
+describe('Plugin generator', function() {
     before(function(done) {
         createPlugin({
             name: pluginName,
