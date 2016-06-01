@@ -16,9 +16,9 @@ Examples:
     yo techtonic --css-preprocessor sass
         Starts prompting with sass as selected CSS preprocessor
 
-    yo techtonic:module <module name>
+    yo techtonic:plugin <plugin name>
         Create a UMD-compliant JavaScript module for developing with various JavaScript libraries
-        ** Saves generated module to app/modules folder **
+        ** Saves generated plugin to app/plugins folder **
 
     yo techtonic:server
         Creates a functional node server project with security industry best practices baked in using Kraken.js and Helmet.js

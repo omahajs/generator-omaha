@@ -81,6 +81,8 @@ yo techtonic --defaults --script-bundler browserify
 - `css-preprocessor`: **`less`** | `sass` | `none`
 - `template-technology`: **`handlebars`** | `underscore`
 
+**But wait, there's more!** Read about [all the available generators!](GENERATORS.md)
+
 Why "techtonic"?
 ----------------
 > **techtonic** comes from the Ancient Greek noun, [tektōn (τέκτων)](https://en.wikipedia.org/wiki/Tekt%C5%8Dn),

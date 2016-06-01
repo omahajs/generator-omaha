@@ -24,7 +24,7 @@ var files = [
     'app/config.js',
     'app/router.js',
     'assets/images/logo.png',
-    'app/modules/webworker.boilerplate.js'
+    'app/controllers/example.webworker.js'
 ];
 //Dependencies that are CONDITIONALLY installed YES/NO
 var dependencies = [

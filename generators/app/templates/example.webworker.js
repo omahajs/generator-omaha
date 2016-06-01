@@ -3,10 +3,10 @@
 /**
  * @file Example Web Worker using RequireJS
  * @author Jason Wohlgemuth
- * @module modules/worker/example
+ * @module plugins/worker/example
  * @example <caption>Using web workers with RequireJS</caption>
  * //inside main.js
- * var worker = new Worker('modules/example.webworker.js');
+ * var worker = new Worker('plugins/example.webworker.js');
  * worker.onmessage = function(e) {
  *     console.log('Received from Worker:' + e.data);
  * };

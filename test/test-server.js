@@ -33,7 +33,7 @@ function verifyMarkdownSupport(exists) {
     verify('web/server.js', 'engine(\'md\', ');
 }
 
-describe('server', function() {
+describe('Server generator', function() {
     describe('with Markdown support', function() {
         before(function(done) {
             helpers.run(path.join(__dirname, '../generators/server'))

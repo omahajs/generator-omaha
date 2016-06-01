@@ -1,7 +1,8 @@
 'use strict';
+
+var sinon   = require('sinon');
 var assert  = require('yeoman-generator').assert;
 var base    = require('yeoman-generator').generators.Base;
-var sinon   = require('sinon');
 var _       = require('underscore');
 var helpers = require('./helpers');
 
@@ -10,7 +11,7 @@ var verifyApplicationFiles = helpers.verifyFiles;
 var verifyConfiguration    = helpers.verifyConfiguration;
 var verifyCoverallsSupport = helpers.verifyCoveralls;
 
-describe('app', function() {
+describe('Webapp generator', function() {
     this.timeout(0)
     var stub;
     var APPDIR;
