@@ -3,5 +3,5 @@ packageJson: package.json
 articles:
   - Overview: README.md
   - App Generator Technologies: generators/app/README.md
-  - App Mixin Modules: generators/app/templates/modules/README.md
+  - App Mixin Modules: generators/app/templates/plugins/README.md
   - Available Generators: GENERATORS.md
