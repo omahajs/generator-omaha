@@ -73,6 +73,7 @@ function verifyFiles(appDir) {
     assert.file(appFiles.map(function(file) {return appDir + '/' + file;}));
     assert.fileContent('.gitignore', 'app/templates.js');
     assert.fileContent('.gitignore', 'app/style.css');
+    assert.fileContent('package.json', '"deploy": "cp -a dist/. dist/."');
 }
 
 function verifyConfiguration(options) {

@@ -20,6 +20,11 @@ var commandLineOptions = {
     templateTechnology: {
         desc: 'Choose technology to use when pre-compiling templates',
         defaults: 'handlebars'
+    },
+    deployDirectory: {
+        type: 'String',
+        desc: 'Designate path of directory for production app files.',
+        defaults: 'dist/.'
     }
 };
 
@@ -92,20 +97,21 @@ module.exports = yeoman.generators.Base.extend({
         generator.config.set('appDir', generator.appDir);
     },
     configuring: {
-      project: function() {
-          this.template('config/_csslintrc', 'config/.csslintrc');
-          this.template('config/_eslintrc.js', 'config/.eslintrc.js');
-          this.template('config/_default.js', 'config/default.js');
-          this.template('config/_karma.conf.js', 'config/karma.conf.js');
-          this.template('config/_gitignore', '.gitignore');
-          this.template('_LICENSE', 'LICENSE');
-          this.template('_package.json', 'package.json');
-          this.template('_Gruntfile.js', 'Gruntfile.js');
-          this.template('_README.md', 'README.md');
-          this.template('tasks/main.js', this.appDir + 'tasks/main.js');
-          this.template('tasks/build.js', this.appDir + 'tasks/build.js');
-          this.template('tasks/test.js', this.appDir + 'tasks/test.js');
-      }
+        project: function() {
+            this.deployDirectory = this.options.deployDirectory;
+            this.template('config/_csslintrc', 'config/.csslintrc');
+            this.template('config/_eslintrc.js', 'config/.eslintrc.js');
+            this.template('config/_default.js', 'config/default.js');
+            this.template('config/_karma.conf.js', 'config/karma.conf.js');
+            this.template('config/_gitignore', '.gitignore');
+            this.template('_LICENSE', 'LICENSE');
+            this.template('_README.md', 'README.md');
+            this.template('_package.json', 'package.json');
+            this.template('_Gruntfile.js', 'Gruntfile.js');
+            this.template('tasks/main.js', this.appDir + 'tasks/main.js');
+            this.template('tasks/build.js', this.appDir + 'tasks/build.js');
+            this.template('tasks/test.js', this.appDir + 'tasks/test.js');
+        }
     },
     writing: {
         appStructure: function() {
