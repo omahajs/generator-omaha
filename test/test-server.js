@@ -34,10 +34,70 @@ function verifyMarkdownSupport(exists) {
 }
 
 describe('Server generator', function() {
+    var HTTP_PORT  = 123;
+    var HTTPS_PORT = 456;
+    var WS_PORT    = 789;
+    describe('with custom ports set as options', function() {
+        before(function(done) {
+            helpers.run(path.join(__dirname, '../generators/server'))
+                .withOptions({
+                    skipInstall: true,
+                    http: HTTP_PORT,
+                    https: HTTPS_PORT,
+                    ws: WS_PORT
+                })
+                .on('end', done);
+        });
+        it('creates files', function() {
+            verifyFiles();
+        });
+        it('configures files', function() {
+            verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
+            verifyMarkdownSupport(false);
+        });
+    });
+    describe('with custom ports set from prompt', function() {
+        before(function(done) {
+            helpers.run(path.join(__dirname, '../generators/server'))
+                .withOptions({skipInstall: true})
+                .withPrompts({
+                    httpPort:      HTTP_PORT,
+                    httpsPort:     HTTPS_PORT,
+                    websocketPort: WS_PORT,
+                    markdownSupport: true
+                })
+                .on('end', done);
+        });
+        it('creates files', function() {
+            verifyFiles();
+        });
+        it('configures files', function() {
+            verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
+            verifyMarkdownSupport(true);
+        });
+    });
+    describe('with default options', function() {
+        before(function(done) {
+            helpers.run(path.join(__dirname, '../generators/server'))
+                .withOptions({
+                    skipInstall: true,
+                    defaults: true
+                })
+                .on('end', done);
+        });
+        it('creates files', function() {
+            verifyFiles();
+        });
+        it('configures files', function() {
+            verifyPorts(8111, 8443, 13337);
+            verifyMarkdownSupport(false);
+        });
+    });
     describe('with Markdown support', function() {
         before(function(done) {
             helpers.run(path.join(__dirname, '../generators/server'))
                 .withOptions({skipInstall: true})
+                .withPrompts({markdownSupport: true})
                 .on('end', done);
         });
         it('creates files', function() {
@@ -52,7 +112,6 @@ describe('Server generator', function() {
         before(function(done) {
             helpers.run(path.join(__dirname, '../generators/server'))
                 .withOptions({skipInstall: true})
-                .withPrompts({markdownSupport: false})
                 .on('end', done);
         });
         it('creates files', function() {
@@ -61,28 +120,6 @@ describe('Server generator', function() {
         it('configures files', function() {
             verifyPorts(8111, 8443, 13337);
             verifyMarkdownSupport(false);
-        });
-    });
-    describe('without custom ports', function() {
-        var HTTP_PORT  = 123;
-        var HTTPS_PORT = 456;
-        var WS_PORT    = 789;
-        before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/server'))
-                .withOptions({skipInstall: true})
-                .withPrompts({
-                    httpPort:      HTTP_PORT,
-                    httpsPort:     HTTPS_PORT,
-                    websocketPort: WS_PORT
-                })
-                .on('end', done);
-        });
-        it('creates files', function() {
-            verifyFiles();
-        });
-        it('configures files', function() {
-            verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
-            verifyMarkdownSupport(true);
         });
     });
 });
