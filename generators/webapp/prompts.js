@@ -1,12 +1,6 @@
 
-var path   = require('path');
-var chalk  = require('chalk');
-
-function step(num) {
-    var TOTAL_STEPS = 12;
-    num = (num < 10) ? ('0' + num) : num;
-    return chalk[num === TOTAL_STEPS ? 'green' : 'gray']('('+ num + '/' + TOTAL_STEPS + ') ');
-}
+var path  = require('path');
+var chalk = require('chalk');
 
 var cssPreprocessors = ['less', 'Sass', 'none'];
 var scriptBundlers = ['requirejs', 'browserify'];
@@ -16,102 +10,105 @@ var questions = [
     {
         type: 'input',
         name: 'projectName',
-        message: step(1) + 'What do you want to name this project?',
+        message: 'What do you want to name this project?',
         default: path.basename(process.cwd())
     },
     {
         type: 'input',
         name: 'appDir',
-        message: step(2) + 'Where do you want to put the application directory?',
+        message: 'Where do you want to put the application directory?',
         default: './'
     },
     {
         type: 'list',
         name: 'scriptBundler',
-        message: step(3) + 'Which technology for bundling scripts before deployment?',
+        message: 'Which technology for bundling scripts before deployment?',
         choices: scriptBundlers
-    },
-    {
-        type: 'list',
-        name: 'cssPreprocessor',
-        message: step(4) + 'Which CSS pre-processor?',
-        choices: cssPreprocessors
-    },
-    {
-        type: 'list',
-        name: 'templateTechnology',
-        message: step(5) + 'Which techtonology for templates?',
-        choices: templateTechnologies
-    },
-    {
-        type: 'confirm',
-        name: 'autoFix',
-        message: step(6) + 'Auto-fix minor style errors when "eslinting"?',
-        default: true
-    },
-    {
-        type: 'confirm',
-        name: 'jsinspect',
-        message: step(7) + 'Detect copy-pasted and structurally similar code with JS Inspect?',
-        default: true
-    },
-    {
-        type: 'confirm',
-        name: 'a11y',
-        message: step(8) + 'Enforce ARIA and Section 508 standards?',
-        default: true
-    },
-    {
-        type: 'confirm',
-        name: 'imagemin',
-        message: step(9) + 'Use image compression for deployed application?',
-        default: true
     },
     {
         type: 'confirm',
         name: 'benchmarks',
-        message: step(10) + 'Add benchmarking support using Benchmark.js?',
-        default: true
-    },
-    {
-        type: 'confirm',
-        name: 'styleguide',
-        message: step(11) + 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
+        message: 'Add benchmarking support using Benchmark.js?',
         default: true
     },
     {
         type: 'confirm',
         name: 'coveralls',
-        message: step(12) + 'Integrate with Coveralls.io?',
+        message: 'Integrate with Coveralls.io?',
         default: false
+    },
+    {
+        type: 'confirm',
+        name: 'autoFix',
+        message: 'Auto-fix minor style errors when "eslinting"?',
+        default: true
+    },
+    {
+        type: 'confirm',
+        name: 'jsinspect',
+        message: 'Detect copy-pasted and structurally similar code with JS Inspect?',
+        default: true
+    },
+    {
+        type: 'list',
+        name: 'cssPreprocessor',
+        message: 'Which CSS pre-processor?',
+        choices: cssPreprocessors
+    },
+    {
+        type: 'list',
+        name: 'templateTechnology',
+        message: 'Which technology for templates?',
+        choices: templateTechnologies
+    },
+    {
+        type: 'confirm',
+        name: 'a11y',
+        message: 'Enforce ARIA and Section 508 standards?',
+        default: true
+    },
+    {
+        type: 'confirm',
+        name: 'imagemin',
+        message: 'Use image compression for deployed application?',
+        default: true
+    },
+    {
+        type: 'confirm',
+        name: 'styleguide',
+        message: 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
+        default: true
     }
-];
+].map(addStepNumber);
 
-var promptOption;
-var name;
+function addStepNumber(question, index, array) {
+    var step = index + 1;
+    step = (step < 10) ? ('0' + step) : step;
+    question.message = chalk[step === array.length ? 'green' : 'gray']('('+ step + '/' + array.length + ') ') + question.message;
+    return question;
+}
+
+var defaults = {};
 var defaultValue;
-var bundler;
-var preprocessor;
-var templateTechnology;
-var defaults = Object.create(null);
-var defaultOptions = questions.map(function(question) {
-    defaultValue = (question.type === 'list') ? question.choices[0] : question.default;
-    promptOption = Object.create(null);
-    name = question.name;
-    if (name === 'scriptBundler') {
-        promptOption.useBrowserify = (defaultValue.toLowerCase() === 'browserify');
-    } else if (name === 'cssPreprocessor') {
-        promptOption.useLess = (defaultValue.toLowerCase() ===  'less');
-    } else if (name === 'templateTechnology') {
-        promptOption.useHandlebars = (defaultValue.toLowerCase() ===  'handlebars');
-    } else {
-        promptOption[name] = defaultValue;
+var promptOption;
+questions.forEach(function(question) {
+    defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
+    promptOption = {};
+    switch (question.name) {
+        case 'scriptBundler':
+            promptOption.useBrowserify = (defaultValue === 'browserify');
+            break;
+        case 'cssPreprocessor':
+            promptOption.useLess = (defaultValue === 'less');
+            break;
+        case 'templateTechnology':
+            promptOption.useHandlebars = (defaultValue === 'handlebars');
+            break;
+        default:
+            promptOption[question.name] = defaultValue;
     }
-    return promptOption;
-});
-defaultOptions.forEach(function(option) {
-    for (var key in option) {
-        defaults[key] = option[key];
+    for (var key in promptOption) {
+        defaults[key] = promptOption[key];
     }
 });
 defaults.useSass = !defaults.useLess;
