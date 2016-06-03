@@ -2,7 +2,7 @@
 
 var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
-var banner = require('./banner');
+var banner = require('../app/banner');
 var footer = require('./doneMessage');
 var prompt = require('./prompts');
 
@@ -39,7 +39,7 @@ module.exports = yeoman.generators.Base.extend({
     prompting: function() {
         var done = this.async();
         var generator = this;
-        generator.log(banner);
+        !generator.config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
             generator.use = prompt.defaults;
             Object.keys(prompt.defaults).forEach(function(option) {
