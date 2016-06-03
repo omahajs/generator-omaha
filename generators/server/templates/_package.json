@@ -34,6 +34,6 @@
     "scan": "nsp check",
     "prestart": "npm run scan",
     "start": "node index.js",
-    "nodemon": "nodemon index.js"
+    "dev": "nodemon index.js"
   }
 }
