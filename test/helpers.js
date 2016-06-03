@@ -29,7 +29,7 @@ function scaffoldApp(options) {
     var templateLang   = options.templateTechnology;
     var allAnswersTrue = options.allAnswersTrue;
     var SKIP_INSTALL = {skipInstall: true};
-    return helpers.run(path.join(__dirname, '../generators/app'))
+    return helpers.run(path.join(__dirname, '../generators/webapp'))
         .withOptions(SKIP_INSTALL)
         .withPrompts(_.extend(_.clone(booleanAnswers(allAnswersTrue)), {
             appDir: appDir,
@@ -40,7 +40,7 @@ function scaffoldApp(options) {
 }
 
 function scaffoldAppWith(options) {
-    return helpers.run(path.join(__dirname, '../generators/app'))
+    return helpers.run(path.join(__dirname, '../generators/webapp'))
         .withOptions({
             skipInstall: true,
             defaults: options.defaults,
