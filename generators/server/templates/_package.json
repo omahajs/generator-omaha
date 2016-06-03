@@ -19,7 +19,8 @@
     "express-session": "^1.11.3",
     "helmet": "^2.0.0",
     "lusca": "^1.3.0",<% if (markdownSupport) { %>
-    "marked": "*",<% } %>
+    "remarkable": "*",
+    "highlight.js": "*",<% } %>
     "node-uuid": "^1.4.3",
     "npmlog": "*",
     "nsp": "*",

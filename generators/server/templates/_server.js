@@ -5,14 +5,30 @@
  * @see [krakenjs/lusca]{@link https://github.com/krakenjs/lusca}
  * @see [helmetjs/helmet]{@link https://github.com/helmetjs/helmet}
 **/
-var fs       = require('fs');
-var config   = require('config');<% if (markdownSupport) { %>
-var marked   = require('marked');<% } %>
-var express  = require('express');
-var session  = require('express-session');
-var lusca    = require('lusca');
-var helmet   = require('helmet');
-var compress = require('compression');
+var fs         = require('fs');
+var config     = require('config');
+var express    = require('express');
+var session    = require('express-session');
+var lusca      = require('lusca');
+var helmet     = require('helmet');
+var compress   = require('compression');<% if (markdownSupport) { %>
+var hljs       = require('highlight.js');
+var Remarkable = require('remarkable');
+
+var md = new Remarkable({
+    highlight: function(str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return hljs.highlight(lang, str).value;
+            } catch (err) {}
+        }
+        try {
+            return hljs.highlightAuto(str).value;
+        } catch (err) {}
+        return '';
+    }
+});
+<% } %>
 
 var NINETY_DAYS_IN_MILLISECONDS = 7776000000;
 
@@ -21,10 +37,7 @@ var app = express()<% if (markdownSupport) { %>
         fs.readFile(path, 'utf8', function(err, str) {
             if (err) return fn(err);
             try {
-                var html = marked(str);
-                html = html.replace(/\{([^}]+)\}/g, function(_, name) {
-                    return options[name] || '';
-                })
+                var html = md.render(str);
                 fn(null, html);
             } catch (err) {
                 fn(err);
