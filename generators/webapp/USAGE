@@ -1,0 +1,25 @@
+Description:
+
+    Software workbench to craft maintainable code for the web
+
+Examples:
+
+    yo techtonic
+        Scaffold a web app, tool-chain, and workflow
+
+    yo techtonic --defaults
+        Runs default app generator silently using defaults
+
+    yo techtonic --defaults --script-bundler browserify
+        Runs default app generator silently using modified defaults (browserify instead of requirejs)
+
+    yo techtonic --css-preprocessor sass
+        Starts prompting with sass as selected CSS preprocessor
+
+    yo techtonic:plugin <plugin name>
+        Create a UMD-compliant JavaScript module for developing with various JavaScript libraries
+        ** Saves generated plugin to app/plugins folder **
+
+    yo techtonic:server
+        Creates a functional node server project with security industry best practices baked in using Kraken.js and Helmet.js
+        ** Should be run in an empty project folder **
