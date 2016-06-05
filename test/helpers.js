@@ -29,7 +29,7 @@ function scaffoldApp(options) {
     var templateLang   = options.templateTechnology;
     var allAnswersTrue = options.allAnswersTrue;
     var SKIP_INSTALL = {skipInstall: true};
-    return helpers.run(path.join(__dirname, '../generators/webapp'))
+    return helpers.run(path.join(__dirname, '../generators/app'))
         .withOptions(SKIP_INSTALL)
         .withPrompts(_.extend(_.clone(booleanAnswers(allAnswersTrue)), {
             appDir: appDir,
@@ -40,7 +40,7 @@ function scaffoldApp(options) {
 }
 
 function scaffoldAppWith(options) {
-    return helpers.run(path.join(__dirname, '../generators/webapp'))
+    return helpers.run(path.join(__dirname, '../generators/app'))
         .withOptions({
             skipInstall: true,
             defaults: options.defaults,
@@ -124,7 +124,7 @@ function verifyBenchmarkJs(configured) {
 function verifyCoveralls(configured) {
     var verify = configured ? assert.fileContent : assert.noFileContent;
     verify('Gruntfile.js', 'coveralls: {');
-    verify('package.json', 'grunt-karma-coveralls');
+    //verify('package.json', 'grunt-karma-coveralls');
 }
 
 function verifyHandlebarsSupport(exists, appDir) {
@@ -134,17 +134,17 @@ function verifyHandlebarsSupport(exists, appDir) {
         verify =  assert.fileContent;
         assert.file(appDir + '/app/helpers/handlebars.helpers.js');
         assert.noFileContent('Gruntfile.js', 'jst: {');
-        assert.noFileContent('package.json', '"grunt-contrib-jst": ');
+        //assert.noFileContent('package.json', '"grunt-contrib-jst": ');
         assert.noFileContent(appDir + '/tasks/build.js', 'jst:main');
     } else {
         verify = assert.noFileContent;
         assert.noFile(appDir + '/app/helpers/handlebars.helpers.js');
         assert.fileContent('Gruntfile.js', 'jst: {');
-        assert.fileContent('package.json', '"grunt-contrib-jst": ');
+        //assert.fileContent('package.json', '"grunt-contrib-jst": ');
         assert.fileContent(appDir + '/tasks/build.js', 'jst:main');
     }
-    verify('package.json', '"handlebars": ');
-    verify('package.json', '"grunt-contrib-handlebars": ');
+    //verify('package.json', '"handlebars": ');
+    //verify('package.json', '"grunt-contrib-handlebars": ');
     verify(appDir + '/app/app.js', './helpers/handlebars.helpers');
 }
 
@@ -158,11 +158,11 @@ function verifyBrowserifySupport(exists, appDir) {
         verify = assert.noFileContent;
         assert.fileContent(appDir + '/tasks/build.js', 'requirejs:bundle');
     }
-    verify('package.json', '"browserify": {');
-    verify('package.json', 'grunt-browserify');
-    verify('package.json', 'grunt-replace');
-    verify('package.json', 'deamdify');
-    verify('package.json', 'aliasify');
+    //verify('package.json', '"browserify": {');
+    //verify('package.json', 'grunt-browserify');
+    //verify('package.json', 'grunt-replace');
+    //verify('package.json', 'deamdify');
+    //verify('package.json', 'aliasify');
     verify('Gruntfile.js', 'replace: {');
     verify('Gruntfile.js', 'browserify: {');
     verify(appDir + '/tasks/build.js', 'browserify:bundle');
@@ -180,13 +180,13 @@ function verifyLessSupport(exists, appDir) {
         assert.noFile(appDir + '/assets/sass/reset.scss');
         assert.noFile(appDir + '/assets/sass/style.scss');
         assert.noFileContent('Gruntfile.js', 'sass: {');
-        assert.noFileContent('config/default.js', 'sass/**/*.scss');
+        assert.noFileContent('config/default.json', 'sass/**/*.scss');
         assert.noFileContent('package.json', 'grunt-contrib-sass');
     } else {
         verify = assert.noFileContent;
     }
-    verify('config/default.js', 'less/**/*.less');
-    verify('package.json', 'grunt-contrib-less');
+    verify('config/default.json', 'less/**/*.less');
+    //verify('package.json', 'grunt-contrib-less');
     verify('Gruntfile.js', 'less: {');
 }
 
@@ -200,13 +200,13 @@ function verifySassSupport(exists, appDir) {
         assert.noFile(appDir + '/assets/less/reset.less');
         assert.noFile(appDir + '/assets/less/style.less');
         assert.noFileContent('Gruntfile.js', 'less: {');
-        assert.noFileContent('config/default.js', 'less/**/*.less');
+        assert.noFileContent('config/default.json', 'less/**/*.less');
         assert.noFileContent('package.json', 'grunt-contrib-less');
     } else {
         verify = assert.noFileContent;
     }
-    verify('config/default.js', 'sass/**/*.scss');
-    verify('package.json', 'grunt-contrib-sass');
+    verify('config/default.json', 'sass/**/*.scss');
+    //verify('package.json', 'grunt-contrib-sass');
     verify('Gruntfile.js', 'sass: {');
 }
 

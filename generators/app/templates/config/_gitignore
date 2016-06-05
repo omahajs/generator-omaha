@@ -9,6 +9,6 @@ _SpecRunner.html
 # Dynamically generated files and folders
 reports/
 dist
-<%= appDir %>app/templates.js
-<%= appDir %>app/style.css
-<%= appDir %>app/style.css.map
+app/templates.js
+app/style.css
+app/style.css.map

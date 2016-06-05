@@ -4,7 +4,7 @@ var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
 var banner = require('../app/banner');
 var footer = require('./doneMessage');
-var prompt = require('./prompts');
+var prompt = require('./prompts').webapp;
 
 var commandLineOptions = {
     defaults: {
@@ -93,27 +93,20 @@ module.exports = yeoman.generators.Base.extend({
                 done();
             }.bind(generator));
         }
-        generator.userName = generator.user.git.name() ? generator.user.git.name() : 'John Doe';
         generator.config.set('appDir', generator.appDir);
     },
-    configuring: {
+    writing: {
         project: function() {
+            this.userName = this.config.get('userName');
             this.deployDirectory = this.options.deployDirectory;
-            this.template('config/_csslintrc', 'config/.csslintrc');
-            this.template('config/_eslintrc.js', 'config/.eslintrc.js');
-            this.template('config/_default.js', 'config/default.js');
-            this.template('config/_karma.conf.js', 'config/karma.conf.js');
-            this.template('config/_gitignore', '.gitignore');
-            this.template('_LICENSE', 'LICENSE');
+            this.template('config/_default.json', 'config/default.json');
             this.template('_README.md', 'README.md');
             this.template('_package.json', 'package.json');
             this.template('_Gruntfile.js', 'Gruntfile.js');
             this.template('tasks/main.js', this.appDir + 'tasks/main.js');
             this.template('tasks/build.js', this.appDir + 'tasks/build.js');
             this.template('tasks/test.js', this.appDir + 'tasks/test.js');
-        }
-    },
-    writing: {
+        },
         appStructure: function() {
             this.fs.copy(
                 this.templatePath('test/data/**/*.*'),
@@ -185,8 +178,57 @@ module.exports = yeoman.generators.Base.extend({
             );
         }
     },
-    install: function () {
-        this.npmInstall();
+    install: {
+        projectDependencies: function() {
+            var generator = this;
+            var dependencies = [];
+            var devDependencies = [];
+            generator.npmInstall();
+            if (generator.useBrowserify) {
+                devDependencies.push('browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace');
+            }
+            if (generator.use.benchmarks) {
+                devDependencies.push('grunt-benchmark');
+            }
+            if (generator.use.jsinspect) {
+                devDependencies.push('jsinspect', 'grunt-jsinspect');
+            }
+            if (generator.use.styleguide) {
+                devDependencies.push('mdcss', 'mdcss-theme-github');
+            }
+            if (generator.use.coveralls) {
+                devDependencies.push('grunt-karma-coveralls');
+            }
+            if (generator.use.a11y) {
+                devDependencies.push('grunt-a11y', 'grunt-accessibility');
+            }
+            if (generator.use.imagemin) {
+                devDependencies.push('grunt-contrib-imagemin');
+            }
+
+            if (generator.useHandlebars) {
+                dependencies.push('handlebars');
+                devDependencies.push('grunt-contrib-handlebars');
+            } else {
+                devDependencies.push('grunt-contrib-jst');
+            }
+            if (generator.useLess) {
+                devDependencies.push('grunt-contrib-less');
+            }
+            if (generator.useSass) {
+                devDependencies.push('grunt-contrib-sass');
+            }
+            generator.npmInstall(dependencies, {save: true});
+            generator.npmInstall(devDependencies, {saveDev: true});
+        },
+        workflowDependencies: function() {
+
+        },
+        appDependencies: function() {
+            var generator = this;
+            var dependencies = ['requirejs', 'jquery', 'underscore', 'backbone', 'backbone.marionette', 'backbone.radio'];
+            generator.npmInstall(dependencies, {save: true});
+        }
     },
     end: function() {
         var generator = this;

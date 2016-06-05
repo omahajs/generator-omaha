@@ -2,11 +2,14 @@
 var path  = require('path');
 var chalk = require('chalk');
 
+var defaults = {};
+var defaultValue;
+var promptOption;
 var cssPreprocessors = ['less', 'Sass', 'none'];
 var scriptBundlers = ['requirejs', 'browserify'];
 var templateTechnologies = ['handlebars', 'underscore'];
 
-var questions = [
+var projectQuestions = [
     {
         type: 'input',
         name: 'projectName',
@@ -48,7 +51,9 @@ var questions = [
         name: 'jsinspect',
         message: 'Detect copy-pasted and structurally similar code with JS Inspect?',
         default: true
-    },
+    }
+];
+var webappQuestions = [
     {
         type: 'list',
         name: 'cssPreprocessor',
@@ -79,19 +84,10 @@ var questions = [
         message: 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
         default: true
     }
-].map(addStepNumber);
+];
+var questions = projectQuestions.concat(webappQuestions)
 
-function addStepNumber(question, index, array) {
-    var step = index + 1;
-    step = (step < 10) ? ('0' + step) : step;
-    question.message = chalk[step === array.length ? 'green' : 'gray']('('+ step + '/' + array.length + ') ') + question.message;
-    return question;
-}
-
-var defaults = {};
-var defaultValue;
-var promptOption;
-questions.forEach(function(question) {
+projectQuestions.concat(webappQuestions).forEach(function(question) {
     defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
     promptOption = {};
     switch (question.name) {
@@ -113,5 +109,22 @@ questions.forEach(function(question) {
 });
 defaults.useSass = !defaults.useLess;
 
-exports.defaults = defaults;
-exports.questions = questions;
+exports.project = {
+    defaults: defaults,
+    //questions: projectQuestions.map(addStepNumber)
+};
+exports.webapp = {
+    defaults: defaults,
+    questions: projectQuestions.concat(webappQuestions).map(addStepNumber)
+};
+
+function addStepNumber(question, index, array) {
+    var step = index + 1;
+    step = (step < 10) ? ('0' + step) : step;
+    question.message = chalk[step === array.length ? 'green' : 'gray']('('+ step + '/' + array.length + ') ') + question.message;
+    return question;
+}
+function select(arr, items) {
+    function isSelectedItem(item) {return items.indexOf(item.name) > -1;}
+    return arr.filter(isSelectedItem);
+}

@@ -1,10 +1,10 @@
 //Config files that are ALWAYS created
 var configFiles = [
+    '.gitignore',
     'config/.csslintrc',
     'config/.eslintrc.js',
-    'config/default.js',
     'config/karma.conf.js',
-    '.gitignore'
+    'config/default.json'
 ];
 //Project files that are ALWAYS created
 var projectFiles = [
@@ -28,12 +28,12 @@ var files = [
 ];
 //Dependencies that are CONDITIONALLY installed YES/NO
 var dependencies = [
-    '"jsinspect": ',
-    'grunt-jsinspect',
-    'grunt-contrib-imagemin',
-    'grunt-a11y',
-    'grunt-accessibility',
-    'grunt-benchmark'
+    // '"jsinspect": ',
+    // 'grunt-jsinspect',
+    // 'grunt-contrib-imagemin',
+    // 'grunt-a11y',
+    // 'grunt-accessibility',
+    // 'grunt-benchmark'
 ];
 
 var options = {
