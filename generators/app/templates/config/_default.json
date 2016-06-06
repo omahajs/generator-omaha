@@ -25,7 +25,6 @@
                 "karma":   "./config/karma.conf.js"
             },
             "index":        "index.html",
-            "styles":       <% if (useLess) { %>"less/**/*.less",<% } else if (useSass) { %>"sass/**/*.scss",<% } %>
             "scripts":      "**/*.js",
             "mainScript":   "main.js",
             "configScript": "config.js",

@@ -2,6 +2,7 @@
 
 var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
+var utils  = require('../utils');
 var banner = require('../app/banner');
 var footer = require('./doneMessage');
 var prompt = require('./prompts').webapp;
@@ -99,7 +100,6 @@ module.exports = yeoman.generators.Base.extend({
         project: function() {
             this.userName = this.config.get('userName');
             this.deployDirectory = this.options.deployDirectory;
-            this.template('config/_default.json', 'config/default.json');
             this.template('_README.md', 'README.md');
             this.template('_package.json', 'package.json');
             this.template('_Gruntfile.js', 'Gruntfile.js');
@@ -214,9 +214,23 @@ module.exports = yeoman.generators.Base.extend({
             }
             if (generator.useLess) {
                 devDependencies.push('grunt-contrib-less');
+                utils.json.extend(this.destinationPath('config/default.json'), {
+                    grunt: {
+                        files: {
+                            styles: 'less/**/*.less'
+                        }
+                    }
+                });
             }
             if (generator.useSass) {
                 devDependencies.push('grunt-contrib-sass');
+                utils.json.extend(this.destinationPath('config/default.json'), {
+                    grunt: {
+                        files: {
+                            styles: 'sass/**/*.scss'
+                        }
+                    }
+                });
             }
             generator.npmInstall(dependencies, {save: true});
             generator.npmInstall(devDependencies, {saveDev: true});
