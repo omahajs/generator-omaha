@@ -71,6 +71,9 @@ function verifyFiles(appDir) {
     assert.file(configFiles);
     assert.file(projectFiles);
     assert.file(appFiles.map(function(file) {return appDir + '/' + file;}));
+    assert.file('tasks/main.js');
+    assert.file('tasks/build.js');
+    assert.file('tasks/test.js');
     assert.fileContent('.gitignore', 'app/templates.js');
     assert.fileContent('.gitignore', 'app/style.css');
     assert.fileContent('package.json', '"deploy": "cp -a dist/. dist/."');
@@ -135,13 +138,13 @@ function verifyHandlebarsSupport(exists, appDir) {
         assert.file(appDir + '/app/helpers/handlebars.helpers.js');
         assert.noFileContent('Gruntfile.js', 'jst: {');
         //assert.noFileContent('package.json', '"grunt-contrib-jst": ');
-        assert.noFileContent(appDir + '/tasks/build.js', 'jst:main');
+        assert.noFileContent('tasks/build.js', 'jst:main');
     } else {
         verify = assert.noFileContent;
         assert.noFile(appDir + '/app/helpers/handlebars.helpers.js');
         assert.fileContent('Gruntfile.js', 'jst: {');
         //assert.fileContent('package.json', '"grunt-contrib-jst": ');
-        assert.fileContent(appDir + '/tasks/build.js', 'jst:main');
+        assert.fileContent('tasks/build.js', 'jst:main');
     }
     //verify('package.json', '"handlebars": ');
     //verify('package.json', '"grunt-contrib-handlebars": ');
@@ -153,10 +156,10 @@ function verifyBrowserifySupport(exists, appDir) {
     var verify;
     if (exists) {
         verify =  assert.fileContent;
-        assert.noFileContent(appDir + '/tasks/build.js', 'requirejs:bundle');
+        assert.noFileContent('tasks/build.js', 'requirejs:bundle');
     } else {
         verify = assert.noFileContent;
-        assert.fileContent(appDir + '/tasks/build.js', 'requirejs:bundle');
+        assert.fileContent('tasks/build.js', 'requirejs:bundle');
     }
     //verify('package.json', '"browserify": {');
     //verify('package.json', 'grunt-browserify');
@@ -165,9 +168,9 @@ function verifyBrowserifySupport(exists, appDir) {
     //verify('package.json', 'aliasify');
     verify('Gruntfile.js', 'replace: {');
     verify('Gruntfile.js', 'browserify: {');
-    verify(appDir + '/tasks/build.js', 'browserify:bundle');
-    verify(appDir + '/tasks/build.js', 'replace:bundle-url');
-    verify(appDir + '/tasks/build.js', 'uglify:bundle');
+    verify('tasks/build.js', 'browserify:bundle');
+    verify('tasks/build.js', 'replace:bundle-url');
+    verify('tasks/build.js', 'uglify:bundle');
 }
 
 function verifyLessSupport(exists, appDir) {

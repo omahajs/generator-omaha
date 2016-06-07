@@ -15,9 +15,9 @@ var projectFiles = [
 ];
 //Files that are ALWAYS created
 var files = [
-    'tasks/main.js',
-    'tasks/build.js',
-    'tasks/test.js',
+    //'tasks/main.js',
+    //'tasks/build.js',
+    //'tasks/test.js',
     'app/index.html',
     'app/app.js',
     'app/main.js',

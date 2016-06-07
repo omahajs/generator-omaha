@@ -11,7 +11,7 @@
             "dist":     "dist",
             "app":      "<%= appDir %>app",
             "assets":   "<%= appDir %>assets",
-            "tasks":    "<%= appDir %>tasks",
+            "tasks":    "tasks",
             "reports":  "<%= appDir %>reports",
             "test":     "<%= appDir %>test",
             "specs":    "jasmine/specs",
