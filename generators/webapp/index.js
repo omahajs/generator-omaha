@@ -106,20 +106,20 @@ module.exports = yeoman.generators.Base.extend({
             this.template('tasks/main.js', 'tasks/main.js');
             this.template('tasks/build.js', 'tasks/build.js');
             this.template('tasks/test.js', 'tasks/test.js');
-            this.template('test/config.js', this.appDir + 'test/config.js');
+            this.template('test/config.js', 'test/config.js');
             this.fs.copy(
                 this.templatePath('test/data/**/*.*'),
-                this.destinationPath(this.appDir + 'test/data')
+                this.destinationPath('test/data')
             );
             this.fs.copy(
                 this.templatePath('test/jasmine/**/*.*'),
-                this.destinationPath(this.appDir + 'test/jasmine')
+                this.destinationPath('test/jasmine')
             );
             if (this.use.benchmarks) {
-                this.template('test/example.benchmark.js', this.appDir + 'test/benchmarks/example.benchmark.js');
+                this.template('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js');
             }
         },
-        appStructure: function() {
+        appFiles: function() {
             mkdirp(this.appDir + 'assets/fonts');
             mkdirp(this.appDir + 'assets/images');
             if (this.useLess) {
@@ -156,8 +156,6 @@ module.exports = yeoman.generators.Base.extend({
             this.template('example.view.js', this.appDir + 'app/views/example.js');
             this.template('example.controller.js', this.appDir + 'app/controllers/example.js');
             this.template('example.webworker.js', this.appDir + 'app/controllers/example.webworker.js');
-        },
-        assetFiles: function() {
             this.template('example.template.hbs', this.appDir + 'assets/templates/example.hbs');
             if (this.useLess) {
                 this.template('_reset.css', this.appDir + 'assets/less/reset.less');
