@@ -181,6 +181,21 @@ module.exports = yeoman.generators.Base.extend({
             var devDependencies = [];
             generator.npmInstall();
             if (generator.useBrowserify) {
+                utils.json.extend(generator.destinationPath('package.json'), {
+                    aliasify: {
+                        aliases: {
+                            app:       './' + generator.appDir + 'app/app',
+                            router:    './' + generator.appDir + 'app/router',
+                            templates: './' + generator.appDir + 'app/templates'
+                        },
+                        replacements: {
+                            'models/(\\w+)':      './' + generator.appDir + 'app/models/$1',
+                            'views/(\\w+)':       './' + generator.appDir + 'app/views/$1',
+                            'controllers/(\\w+)': './' + generator.appDir + 'app/controllers/$1',
+                            'plugins/(\\w+)':     './' + generator.appDir + 'app/plugins/$1'
+                        }
+                    }
+                });
                 devDependencies.push('browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace');
             }
             if (generator.use.benchmarks) {
@@ -201,6 +216,11 @@ module.exports = yeoman.generators.Base.extend({
             if (generator.use.imagemin) {
                 devDependencies.push('grunt-contrib-imagemin');
             }
+            utils.json.extend(generator.destinationPath('package.json'), {
+                scripts: {
+                    'test-ci': 'npm test' + (generator.use.coveralls ? ' && grunt coveralls' : '')
+                }
+            });
 
             if (generator.useHandlebars) {
                 dependencies.push('handlebars');
@@ -210,7 +230,7 @@ module.exports = yeoman.generators.Base.extend({
             }
             if (generator.useLess) {
                 devDependencies.push('grunt-contrib-less');
-                utils.json.extend(this.destinationPath('config/default.json'), {
+                utils.json.extend(generator.destinationPath('config/default.json'), {
                     grunt: {
                         files: {
                             styles: 'less/**/*.less'
@@ -220,7 +240,7 @@ module.exports = yeoman.generators.Base.extend({
             }
             if (generator.useSass) {
                 devDependencies.push('grunt-contrib-sass');
-                utils.json.extend(this.destinationPath('config/default.json'), {
+                utils.json.extend(generator.destinationPath('config/default.json'), {
                     grunt: {
                         files: {
                             styles: 'sass/**/*.scss'

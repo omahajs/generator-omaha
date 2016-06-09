@@ -21,16 +21,26 @@ module.exports = function(grunt) {
         'process-styles',
         'csslint',
         'watch:style'
-    ]);
-    grunt.registerTask('eslinting', 'Watch task for real-time linting with ESLint', [
-        'eslint:ing',
-        'watch:eslint'
     ]);<% if (use.a11y) { %>
     grunt.registerTask('aria', 'Perform an accessibility audit on your code', [
         'accessibility',
         'a11y'
-    ]);<% } %><% if (use.jsinspect) { %>
-    grunt.registerTask('inspect', 'Detect copy-pasted and structurally similar code', [
-        'jsinspect:app'
     ]);<% } %>
+    grunt.registerTask('test', 'Run full test and validation battery', [
+        'compile',
+        'lint',
+        'cover'
+    ]);
+    grunt.registerTask('cover', 'Generate code coverage report using Karma and Istanbul', [
+        'clean:coverage',
+        'clean:compile',
+        'precompile-templates',
+        'karma:coverage'
+    ]);
+    grunt.registerTask('covering', 'Watch task to write tests and see code coverage in real-time', [
+        'clean:coverage',
+        'clean:compile',
+        'precompile-templates',
+        'karma:covering'
+    ]);
 };

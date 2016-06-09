@@ -1,6 +1,7 @@
 'use strict';
 
 var yeoman = require('yeoman-generator');
+var utils  = require('../utils');
 var banner = require('./banner');
 
 module.exports = yeoman.generators.Base.extend({

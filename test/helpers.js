@@ -127,7 +127,11 @@ function verifyBenchmarkJs(configured) {
 function verifyCoveralls(configured) {
     var verify = configured ? assert.fileContent : assert.noFileContent;
     verify('Gruntfile.js', 'coveralls: {');
-    //verify('package.json', 'grunt-karma-coveralls');
+    if (configured) {
+        assert.fileContent('package.json', '"test-ci": "npm test && grunt coveralls"');
+    } else {
+        assert.fileContent('package.json', '"test-ci": "npm test"');
+    }
 }
 
 function verifyHandlebarsSupport(exists, appDir) {
