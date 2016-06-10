@@ -2,7 +2,7 @@
 
 var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
-var utils  = require('../utils');
+var utils  = require('../app/utils');
 var banner = require('../app/banner');
 var footer = require('./doneMessage');
 var prompt = require('./prompts').webapp;
@@ -36,6 +36,7 @@ module.exports = yeoman.generators.Base.extend({
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
+        generator.config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'John Doe');
     },
     prompting: function() {
         var done = this.async();

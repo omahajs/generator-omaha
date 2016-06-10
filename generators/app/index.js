@@ -1,29 +1,23 @@
 'use strict';
 
 var yeoman = require('yeoman-generator');
-var utils  = require('../utils');
+var utils  = require('../app/utils');
 var banner = require('./banner');
 
 module.exports = yeoman.generators.Base.extend({
     initializing: function() {
         var generator = this;
         generator.log(banner);
-        generator.config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'John Doe');
         generator.config.set('hideBanner', true);
+        generator.composeWith('techtonic:project',
+            {options: generator.options},
+            {local: require.resolve('../project')});
         generator.composeWith('techtonic:webapp',
             {options: generator.options},
             {local: require.resolve('../webapp')}
         );
     },
-    writing: function() {
-        var generator = this;
-        generator.userName = generator.config.get('userName');
-        generator.appDir = './';
-        generator.template('_LICENSE', 'LICENSE');
-        generator.template('config/_gitignore', '.gitignore');
-        generator.template('config/_default.json', 'config/default.json');
-        generator.template('config/_csslintrc', 'config/.csslintrc');
-        generator.template('config/_eslintrc.js', 'config/.eslintrc.js');
-        generator.template('config/_karma.conf.js', 'config/karma.conf.js');
+    end: function() {
+        this.config.set('hideBanner', false);
     }
 });
