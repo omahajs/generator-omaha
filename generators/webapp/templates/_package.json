@@ -4,71 +4,33 @@
   "author": "<%= userName %>",
   "license": "MIT",
   "description": "Slightly opinionated boilerplate and workflow for creating web applications",
-  "keywords": [
-    "webplate",
-    "MVC",
-    "MarionetteJS",
-    "JavaScript",
-    "Node",
-    "Grunt",
-    "Handlebars",
-    "Karma",
-    "Jasmine"
-  ],
   "main": "<%= appDir %>app/main.js",
+  "keywords": [],
   "repository": {
     "type": "git",
     "url": "https://github.com/yourGithubUsername/techtonic-app.git"
   },
   "engines": {
     "node": "*"
-  },<% if (useBrowserify) { %>
-  "browser": {
-    "underscore": "./node_modules/underscore/underscore-min.js"
-  },
-  "browserify-shim": {
-    "underscore": "_"
-  },
-  "browserify": {
-    "transform": [
-      "deamdify",
-      "browserify-shim",
-      "aliasify"
-    ]
-  },<% } %>
-  "dependencies": {
-    "requirejs": "^2.1.17",
-    "jquery": "*",
-    "underscore": "^1.8.3",
-    "backbone": "^1.2.1",
-    "backbone.marionette": "^2.4.2",
-    "backbone.radio": "^1.0.1"
   },
   "devDependencies": {
-    "autoprefixer": "^6.3.1",
     "config": "^1.14.0",
-    "cssnano": "^3.4.0",
     "eslint-plugin-backbone": "^2.0.1",
     "globby": "^4.0.0",
     "grunt": "^1.0.0",
     "grunt-cli": "^1.0.0",
     "grunt-contrib-clean": "*",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-csslint": "^1.0.0",
-    "grunt-contrib-htmlmin": "^1.0.0",
-    "grunt-contrib-requirejs": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^18.1.0",
     "grunt-express": "^1.4.1",
-    "grunt-htmlhint-plus": "*",
     "grunt-jsdoc": "*",
     "grunt-jsonlint": "^1.0.4",
     "grunt-karma": "^2.0.0",
     "grunt-open": "^0.2.3",
     "grunt-parallel": "^0.4.1",
     "grunt-plato": "^1.3.0",
-    "grunt-postcss": "*",
     "jasmine-core": "^2.2.0",
     "json-server": "*",
     "karma": "^0.13.9",
@@ -77,26 +39,24 @@
     "karma-jasmine": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-firefox-launcher": "^1.0.0",
-    "karma-requirejs": "^1.0.0",
     "karma-spec-reporter": "*",
     "load-grunt-tasks": "^3.1.0",
     "lodash": "*",
-    "nodemon": "*",
-    "node-uuid": "*",
     "phantomjs-prebuilt": "^2.1.3",
-    "postcss-safe-parser": "^1.0.4",
     "sinon": "^1.15.4",
-    "time-grunt": "^1.1.0",
-    "ws": "*"
+    "time-grunt": "^1.1.0"
   },
   "scripts": {
     "test": "grunt test",
+    "build": "grunt build",
+    "predemo": "npm run build",
+    "demo": "grunt open:demo express:demo",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
     "rest-api": "json-server --port 8080 --watch test/data/db.json",<% if (/^linux/.test(process.platform)) { %>
     "prestart": "nohup npm run rest-api &",<% } %>
     "start": " grunt",
-    "predeploy": "grunt build",
+    "predeploy": "npm run build",
     "deploy": "cp -a dist/. <%= deployDirectory %>"
   }
 }

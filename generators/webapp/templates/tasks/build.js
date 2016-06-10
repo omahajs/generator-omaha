@@ -28,11 +28,6 @@ module.exports = function(grunt) {
         <% if (use.imagemin) { %>'imagemin:build',<% } else { %>'copy:images',<% } %>
         'copy:fonts'
     ]);
-    grunt.registerTask('demo', 'Build code and open in browser', [
-        'build',
-        'open:demo',
-        'express:demo'
-    ]);
     grunt.registerTask('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
         'clean:docs',
         'jsdoc:app',<% if (styleguide) { %><% if (useLess) { %>
