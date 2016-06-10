@@ -4,8 +4,8 @@ var yeoman = require('yeoman-generator');
 var mkdirp = require('mkdirp');
 var utils  = require('../app/utils');
 var banner = require('../app/banner');
+var prompt = require('../app/prompts').webapp;
 var footer = require('./doneMessage');
-var prompt = require('./prompts').webapp;
 
 var commandLineOptions = {
     defaults: {
