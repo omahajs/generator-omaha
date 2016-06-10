@@ -98,25 +98,25 @@ module.exports = yeoman.generators.Base.extend({
     },
     writing: {
         project: function() {
-            this.userName = this.config.get('userName');
-            this.deployDirectory = this.options.deployDirectory;
-            this.template('_README.md', 'README.md');
-            this.template('_package.json', 'package.json');
-            this.template('_Gruntfile.js', 'Gruntfile.js');
-            this.template('tasks/main.js', 'tasks/main.js');
-            this.template('tasks/build.js', 'tasks/build.js');
-            this.template('tasks/test.js', 'tasks/test.js');
-            this.template('test/config.js', 'test/config.js');
-            this.fs.copy(
-                this.templatePath('test/data/**/*.*'),
-                this.destinationPath('test/data')
+            var generator = this;
+            generator.userName = generator.config.get('userName');
+            generator.deployDirectory = generator.options.deployDirectory;
+            generator.template('_package.json', 'package.json');
+            generator.template('_README.md', 'README.md');
+            generator.template('_Gruntfile.js', 'Gruntfile.js');
+            generator.template('tasks/build.js', 'tasks/build.js');
+            generator.template('tasks/app.js', 'tasks/app.js');
+            generator.template('test/config.js', 'test/config.js');
+            generator.fs.copy(
+                generator.templatePath('test/data/**/*.*'),
+                generator.destinationPath('test/data')
             );
-            this.fs.copy(
-                this.templatePath('test/jasmine/**/*.*'),
-                this.destinationPath('test/jasmine')
+            generator.fs.copy(
+                generator.templatePath('test/jasmine/**/*.*'),
+                generator.destinationPath('test/jasmine')
             );
-            if (this.use.benchmarks) {
-                this.template('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js');
+            if (generator.use.benchmarks) {
+                generator.template('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js');
             }
         },
         appFiles: function() {
@@ -177,77 +177,48 @@ module.exports = yeoman.generators.Base.extend({
     install: {
         projectDependencies: function() {
             var generator = this;
-            var dependencies = [];
-            var devDependencies = [];
-            generator.npmInstall();
-            if (generator.useBrowserify) {
-                utils.json.extend(generator.destinationPath('package.json'), {
-                    aliasify: {
-                        aliases: {
-                            app:       './' + generator.appDir + 'app/app',
-                            router:    './' + generator.appDir + 'app/router',
-                            templates: './' + generator.appDir + 'app/templates'
-                        },
-                        replacements: {
-                            'models/(\\w+)':      './' + generator.appDir + 'app/models/$1',
-                            'views/(\\w+)':       './' + generator.appDir + 'app/views/$1',
-                            'controllers/(\\w+)': './' + generator.appDir + 'app/controllers/$1',
-                            'plugins/(\\w+)':     './' + generator.appDir + 'app/plugins/$1'
-                        }
-                    }
-                });
-                devDependencies.push('browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace');
-            }
-            if (generator.use.benchmarks) {
-                devDependencies.push('grunt-benchmark');
-            }
-            if (generator.use.jsinspect) {
-                devDependencies.push('jsinspect', 'grunt-jsinspect');
-            }
-            if (generator.use.styleguide) {
-                devDependencies.push('mdcss', 'mdcss-theme-github');
-            }
-            if (generator.use.coveralls) {
-                devDependencies.push('grunt-karma-coveralls');
-            }
-            if (generator.use.a11y) {
-                devDependencies.push('grunt-a11y', 'grunt-accessibility');
-            }
-            if (generator.use.imagemin) {
-                devDependencies.push('grunt-contrib-imagemin');
-            }
-            utils.json.extend(generator.destinationPath('package.json'), {
-                scripts: {
-                    'test-ci': 'npm test' + (generator.use.coveralls ? ' && grunt coveralls' : '')
-                }
-            });
+            var htmlDevDependencies = [
+                'grunt-contrib-htmlmin',
+                'grunt-htmlhint-plus'
+            ];
+            var cssDevDependencies = [
+                'grunt-contrib-csslint',
+                'grunt-postcss',
+                'autoprefixer',
+                'cssnano',
+                'postcss-safe-parser'
+            ];
+            var requirejsDevDependencies = [
+                'grunt-contrib-requirejs',
+                'karma-requirejs'
+            ];
+            var dependencies = [
+                'requirejs',
+                'jquery',
+                'underscore',
+                'backbone',
+                'backbone.marionette',
+                'backbone.radio'
+            ];
+            var devDependencies = []
+                .concat(htmlDevDependencies)
+                .concat(cssDevDependencies)
+                .concat(requirejsDevDependencies)
+                .concat(generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [])
+                .concat(generator.use.benchmarks ? ['grunt-benchmark'] : [])
+                .concat(generator.use.jsinspect ? ['jsinspect', 'grunt-jsinspect'] : [])
+                .concat(generator.use.styleguide ? ['mdcss', 'mdcss-theme-github'] : [])
+                .concat(generator.use.coveralls ? ['grunt-karma-coveralls'] : [])
+                .concat(generator.use.a11y ? ['grunt-a11y', 'grunt-accessibility'] : [])
+                .concat(generator.use.imagemin ? ['grunt-contrib-imagemin'] :[]);
 
-            if (generator.useHandlebars) {
-                dependencies.push('handlebars');
-                devDependencies.push('grunt-contrib-handlebars');
-            } else {
-                devDependencies.push('grunt-contrib-jst');
-            }
-            if (generator.useLess) {
-                devDependencies.push('grunt-contrib-less');
-                utils.json.extend(generator.destinationPath('config/default.json'), {
-                    grunt: {
-                        files: {
-                            styles: 'less/**/*.less'
-                        }
-                    }
-                });
-            }
-            if (generator.useSass) {
-                devDependencies.push('grunt-contrib-sass');
-                utils.json.extend(generator.destinationPath('config/default.json'), {
-                    grunt: {
-                        files: {
-                            styles: 'sass/**/*.scss'
-                        }
-                    }
-                });
-            }
+            devDependencies = devDependencies
+                .concat(generator.useLess ? ['grunt-contrib-less'] : [])
+                .concat(generator.useSass ? ['grunt-contrib-sass'] : [])
+                .concat(generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']);
+            generator.useHandlebars && dependencies.push('handlebars');
+
+            generator.npmInstall();
             generator.npmInstall(dependencies, {save: true});
             generator.npmInstall(devDependencies, {saveDev: true});
         },
@@ -262,6 +233,63 @@ module.exports = yeoman.generators.Base.extend({
     },
     end: function() {
         var generator = this;
+        var appDir = (generator.appDir !== './') ? generator.appDir : '';
+        utils.json.extend(generator.destinationPath('package.json'), {
+            scripts: {
+                'test-ci': 'npm test' + (generator.use.coveralls ? ' && grunt coveralls' : '')
+            }
+        });
+        if (generator.use.inspect) {
+            utils.json.extend(generator.destinationPath('package.json'), {
+                scripts: {
+                    inspect: 'grunt jsinspect:app'
+                }
+            });
+        }
+        if (generator.useBrowserify) {
+            utils.json.extend(generator.destinationPath('package.json'), {
+                browser: {
+                    underscore: './node_modules/underscore/underscore-min.js'
+                },
+                browserify: {
+                    transform: ['deamdify', 'browserify-shim', 'aliasify']
+                },
+                'browserify-shim': {
+                    underscore: '_'
+                },
+                aliasify: {
+                    aliases: {
+                        app:       './' + appDir + 'app/app',
+                        router:    './' + appDir + 'app/router',
+                        templates: './' + appDir + 'app/templates'
+                    },
+                    replacements: {
+                        'models/(\\w+)':      './' + appDir + 'app/models/$1',
+                        'views/(\\w+)':       './' + appDir + 'app/views/$1',
+                        'controllers/(\\w+)': './' + appDir + 'app/controllers/$1',
+                        'plugins/(\\w+)':     './' + appDir + 'app/plugins/$1'
+                    }
+                }
+            });
+        }
+        if (generator.useLess) {
+            utils.json.extend(generator.destinationPath('config/default.json'), {
+                grunt: {
+                    files: {
+                        styles: 'less/**/*.less'
+                    }
+                }
+            });
+        }
+        if (generator.useSass) {
+            utils.json.extend(generator.destinationPath('config/default.json'), {
+                grunt: {
+                    files: {
+                        styles: 'sass/**/*.scss'
+                    }
+                }
+            });
+        }
         generator.log(footer(generator));
     }
 });
