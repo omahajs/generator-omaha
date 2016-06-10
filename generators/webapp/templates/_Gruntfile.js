@@ -571,4 +571,8 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);      //Plugin for loading external task files
     grunt.loadTasks(config.folders.tasks);   //Load external task files
     grunt.registerTask('default', ['serve']);//Set default Grunt task
+    grunt.registerTask('eslinting', 'Watch task for real-time linting with ESLint', [
+        'eslint:ing',
+        'watch:eslint'
+    ]);
 };

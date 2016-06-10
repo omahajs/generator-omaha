@@ -71,9 +71,8 @@ function verifyFiles(appDir) {
     assert.file(configFiles);
     assert.file(projectFiles);
     assert.file(appFiles.map(function(file) {return appDir + '/' + file;}));
-    assert.file('tasks/main.js');
     assert.file('tasks/build.js');
-    assert.file('tasks/test.js');
+    assert.file('tasks/app.js');
     assert.fileContent('.gitignore', 'app/templates.js');
     assert.fileContent('.gitignore', 'app/style.css');
     assert.fileContent('package.json', '"deploy": "cp -a dist/. dist/."');
