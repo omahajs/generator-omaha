@@ -24,8 +24,7 @@ describe('Webapp generator', function() {
             appDirectory:       APPDIR,
             scriptBundler:      SCRIPT_BUNDLER,
             styleProcessor:     CSS_PROCESSOR,
-            templateTechnology: TEMPLATE_LANG,
-            allAnswersTrue:     allAnswersTrue
+            templateTechnology: TEMPLATE_LANG
         };
     };
     describe('when all prompts are true (with less support)', function() {
@@ -86,7 +85,7 @@ describe('Webapp generator', function() {
     describe('when the application directory is changed (with Sass support)', function() {
         before(function(done) {
                 CONFIGURED     = false;
-                APPDIR         = 'webapp';
+                APPDIR         = 'webapp/';
                 SCRIPT_BUNDLER = 'requirejs';
                 CSS_PROCESSOR  = 'sass';
                 TEMPLATE_LANG  = 'underscore';

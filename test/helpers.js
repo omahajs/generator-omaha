@@ -31,7 +31,7 @@ function scaffoldApp(options) {
     var SKIP_INSTALL = {skipInstall: true};
     return helpers.run(path.join(__dirname, '../generators/app'))
         .withOptions(SKIP_INSTALL)
-        .withPrompts(_.extend(_.clone(booleanAnswers(allAnswersTrue)), {
+        .withPrompts(_.extend(_.clone(booleanAnswers(true)), {
             appDir: appDir,
             scriptBundler: scriptBundler,
             cssPreprocessor: cssProcessor,
@@ -70,7 +70,7 @@ function createPlugin(options) {
 function verifyFiles(appDir) {
     assert.file(configFiles);
     assert.file(projectFiles);
-    assert.file(appFiles.map(function(file) {return appDir + '/' + file;}));
+    assert.file(appFiles.map(function(file) {return appDir + file;}));
     assert.file('tasks/build.js');
     assert.file('tasks/app.js');
     assert.fileContent('.gitignore', 'app/templates.js');

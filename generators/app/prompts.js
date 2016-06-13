@@ -14,19 +14,13 @@ var projectQuestions = [
         type: 'input',
         name: 'projectName',
         message: 'What do you want to name this project?',
-        default: path.basename(process.cwd())
+        default: 'techtonicApp'
     },
     {
         type: 'input',
         name: 'appDir',
         message: 'Where do you want to put the application directory?',
         default: './'
-    },
-    {
-        type: 'list',
-        name: 'scriptBundler',
-        message: 'Which technology for bundling scripts before deployment?',
-        choices: scriptBundlers
     },
     {
         type: 'confirm',
@@ -54,6 +48,18 @@ var projectQuestions = [
     }
 ];
 var webappQuestions = [
+    {
+        type: 'input',
+        name: 'appDir',
+        message: 'Where do you want to put the application directory?',
+        default: './'
+    },
+    {
+        type: 'list',
+        name: 'scriptBundler',
+        message: 'Which technology for bundling scripts before deployment?',
+        choices: scriptBundlers
+    },
     {
         type: 'list',
         name: 'cssPreprocessor',
@@ -85,6 +91,7 @@ var webappQuestions = [
         default: true
     }
 ];
+var TOTAL_STEPS = projectQuestions.length + webappQuestions.length;
 var questions = projectQuestions.concat(webappQuestions)
 
 projectQuestions.concat(webappQuestions).forEach(function(question) {
@@ -111,17 +118,17 @@ defaults.useSass = !defaults.useLess;
 
 exports.project = {
     defaults: defaults,
-    //questions: projectQuestions.map(addStepNumber)
+    questions: projectQuestions.map(addStepNumber)
 };
 exports.webapp = {
     defaults: defaults,
-    questions: projectQuestions.concat(webappQuestions).map(addStepNumber)
+    questions: webappQuestions.map(addStepNumber)
 };
 
 function addStepNumber(question, index, array) {
     var step = index + 1;
     step = (step < 10) ? ('0' + step) : step;
-    question.message = chalk[step === array.length ? 'green' : 'gray']('('+ step + '/' + array.length + ') ') + question.message;
+    question.message = chalk[step === TOTAL_STEPS ? 'green' : 'gray']('('+ step + '/' + TOTAL_STEPS + ') ') + question.message;
     return question;
 }
 function select(arr, items) {

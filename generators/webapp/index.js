@@ -95,6 +95,7 @@ module.exports = yeoman.generators.Base.extend({
                 done();
             }.bind(generator));
         }
+        console.log(generator.projectName);
         generator.config.set('appDir', generator.appDir);
     },
     writing: {
@@ -240,7 +241,7 @@ module.exports = yeoman.generators.Base.extend({
                 'test-ci': 'npm test' + (generator.use.coveralls ? ' && grunt coveralls' : '')
             }
         });
-        if (generator.use.inspect) {
+        if (generator.use.jsinspect) {
             utils.json.extend(generator.destinationPath('package.json'), {
                 scripts: {
                     inspect: 'grunt jsinspect:app'

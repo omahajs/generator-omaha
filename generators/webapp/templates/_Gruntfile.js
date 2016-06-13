@@ -258,7 +258,6 @@ module.exports = function(grunt) {
             }
         },
 <% } %>
-
         /**
          * Generate documentation from JS comments using JSDoc3
          * @see {@link https://github.com/krampstudio/grunt-jsdoc}
@@ -272,7 +271,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
 <% if (use.jsinspect) { %>
         /**
          * Detect copy-pasted and structurally similar code
