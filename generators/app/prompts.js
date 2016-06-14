@@ -2,7 +2,10 @@
 var path  = require('path');
 var chalk = require('chalk');
 
-var defaults = {};
+var defaults = {
+    project: {},
+    webapp: {}
+};
 var defaultValue;
 var promptOption;
 var cssPreprocessors = ['less', 'Sass', 'none'];
@@ -94,7 +97,7 @@ var webappQuestions = [
 var TOTAL_STEPS = projectQuestions.length + webappQuestions.length;
 var questions = projectQuestions.concat(webappQuestions)
 
-projectQuestions.concat(webappQuestions).forEach(function(question) {
+projectQuestions.forEach(function(question) {
     defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
     promptOption = {};
     switch (question.name) {
@@ -111,17 +114,37 @@ projectQuestions.concat(webappQuestions).forEach(function(question) {
             promptOption[question.name] = defaultValue;
     }
     for (var key in promptOption) {
-        defaults[key] = promptOption[key];
+        defaults.project[key] = promptOption[key];
+    }
+});
+webappQuestions.forEach(function(question) {
+    defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
+    promptOption = {};
+    switch (question.name) {
+        case 'scriptBundler':
+            promptOption.useBrowserify = (defaultValue === 'browserify');
+            break;
+        case 'cssPreprocessor':
+            promptOption.useLess = (defaultValue === 'less');
+            break;
+        case 'templateTechnology':
+            promptOption.useHandlebars = (defaultValue === 'handlebars');
+            break;
+        default:
+            promptOption[question.name] = defaultValue;
+    }
+    for (var key in promptOption) {
+        defaults.webapp[key] = promptOption[key];
     }
 });
 defaults.useSass = !defaults.useLess;
 
 exports.project = {
-    defaults: defaults,
+    defaults: defaults.project,
     questions: projectQuestions.map(addStepNumber)
 };
 exports.webapp = {
-    defaults: defaults,
+    defaults: defaults.webapp,
     questions: webappQuestions.map(addStepNumber)
 };
 

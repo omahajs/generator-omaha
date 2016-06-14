@@ -43,7 +43,6 @@ module.exports = yeoman.generators.Base.extend({
             }
             generator.prompt(prompt.questions.filter(isUnAnswered), function (props) {
                 generator.use = props;
-                console.log(props);
                 var options = {};
                 Object.keys(options).forEach(function(option) {
                     generator[option] = options[option];
@@ -55,7 +54,6 @@ module.exports = yeoman.generators.Base.extend({
                 done();
             }.bind(generator));
         }
-        console.log(generator.projectName);
         generator.config.set('appDir', generator.appDir);
     },
     writing: function() {
