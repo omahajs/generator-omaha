@@ -40,7 +40,8 @@
     "mocha": "*",
     "mocha-lcov-reporter": "^1.0.0",
     "mocha-unfunk-reporter": "^0.4.0",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.2",
+    "yeoman-test": "^1.4.0"
   },
   "scripts": {
     "mocha": "mocha -R mocha-unfunk-reporter",
