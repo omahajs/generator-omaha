@@ -43,10 +43,8 @@ describe('Webapp generator', function() {
         after(function() {
             stub.restore();
         });
-        it('creates and configures files', function() {
+        it('can create and configure files', function() {
             verifyApplicationFiles(APPDIR);
-        });
-        it('configures workflow and tool-chain', function() {
             verifyConfiguration({
                 appDirectory:       APPDIR,
                 workflow:           CONFIGURED,
@@ -68,10 +66,8 @@ describe('Webapp generator', function() {
                     promptOptions(false)
                 ).on('end', done);
         });
-        it('creates and configures files', function() {
+        it('can create and configure files', function() {
             verifyApplicationFiles(APPDIR);
-        });
-        it('configures workflow and tool-chain', function() {
             verifyConfiguration({
                 appDirectory:       APPDIR,
                 workflow:           CONFIGURED,
@@ -93,10 +89,8 @@ describe('Webapp generator', function() {
                     promptOptions(false)
                 ).on('end', done);
         });
-        it('creates and configures files', function() {
+        it('can create and configure files', function() {
             verifyApplicationFiles(APPDIR);
-        });
-        it('configures workflow and tool-chain', function() {
             verifyConfiguration({
                 appDirectory:       APPDIR,
                 workflow:           CONFIGURED,

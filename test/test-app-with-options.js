@@ -11,7 +11,7 @@ var verifyApplicationFiles  = helpers.verifyFiles;
 var verifyConfiguration     = helpers.verifyConfiguration;
 var verifyCoverallsSupport  = helpers.verifyCoveralls;
 
-xdescribe('Webapp generator (with command line options)', function() {
+describe('Webapp generator (with command line options)', function() {
     this.timeout(0)
     var stub;
     var APPDIR;
@@ -19,7 +19,7 @@ xdescribe('Webapp generator (with command line options)', function() {
     var CSS_PREPROCESSOR;
     var SCRIPT_BUNDLER;
     var TEMPLATE_TECH;
-    describe('Defaults', function() {
+    xdescribe('Defaults', function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
@@ -35,10 +35,8 @@ xdescribe('Webapp generator (with command line options)', function() {
         after(function() {
             stub.restore();
         });
-        it('creates and configures files', function() {
+        it('can create and configure files', function() {
             verifyApplicationFiles(APPDIR);
-        });
-        it('configures workflow and tool-chain', function() {
             verifyConfiguration({
                 appDirectory:       APPDIR,
                 workflow:           CONFIGURED,
@@ -49,7 +47,7 @@ xdescribe('Webapp generator (with command line options)', function() {
             verifyCoverallsSupport(!CONFIGURED);
         });
     });
-    describe('Defaults (css-preprocessor=sass)', function() {
+    xdescribe('Defaults (css-preprocessor=sass)', function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
@@ -66,10 +64,8 @@ xdescribe('Webapp generator (with command line options)', function() {
         after(function() {
             stub.restore();
         });
-        it('creates and configures files', function() {
+        it('can create and configure files', function() {
             verifyApplicationFiles(APPDIR);
-        });
-        it('configures workflow and tool-chain', function() {
             verifyConfiguration({
                 appDirectory:       APPDIR,
                 workflow:           CONFIGURED,
@@ -80,7 +76,7 @@ xdescribe('Webapp generator (with command line options)', function() {
             verifyCoverallsSupport(!CONFIGURED);
         });
     });
-    describe('Defaults (template-technology=underscore)', function() {
+    xdescribe('Defaults (template-technology=underscore)', function() {
         before(function(done) {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
@@ -97,10 +93,8 @@ xdescribe('Webapp generator (with command line options)', function() {
         after(function() {
             stub.restore();
         });
-        it('creates and configures files', function() {
+        it('can create and configure files', function() {
             verifyApplicationFiles(APPDIR);
-        });
-        it('configures workflow and tool-chain', function() {
             verifyConfiguration({
                 appDirectory:       APPDIR,
                 workflow:           CONFIGURED,
@@ -129,10 +123,8 @@ xdescribe('Webapp generator (with command line options)', function() {
         after(function() {
             stub.restore();
         });
-        it('creates and configures files', function() {
+        it('can create and configure files', function() {
             verifyApplicationFiles(APPDIR);
-        });
-        it('configures workflow and tool-chain', function() {
             verifyConfiguration({
                 appDirectory:       APPDIR,
                 workflow:           CONFIGURED,
@@ -161,10 +153,8 @@ xdescribe('Webapp generator (with command line options)', function() {
         after(function() {
             stub.restore();
         });
-        it('creates and configures files', function() {
+        it('can create and configure files', function() {
             verifyApplicationFiles(APPDIR);
-        });
-        it('configures workflow and tool-chain', function() {
             verifyConfiguration({
                 appDirectory:       APPDIR,
                 workflow:           CONFIGURED,

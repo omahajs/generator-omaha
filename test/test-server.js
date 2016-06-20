@@ -48,10 +48,8 @@ describe('Server generator', function() {
                 })
                 .on('end', done);
         });
-        it('creates files', function() {
+        it('can create and configure files', function() {
             verifyFiles();
-        });
-        it('configures files', function() {
             verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
             verifyMarkdownSupport(false);
         });
@@ -68,10 +66,8 @@ describe('Server generator', function() {
                 })
                 .on('end', done);
         });
-        it('creates files', function() {
+        it('can create and configure files', function() {
             verifyFiles();
-        });
-        it('configures files', function() {
             verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
             verifyMarkdownSupport(true);
         });
@@ -85,10 +81,8 @@ describe('Server generator', function() {
                 })
                 .on('end', done);
         });
-        it('creates files', function() {
+        it('can create and configure files', function() {
             verifyFiles();
-        });
-        it('configures files', function() {
             verifyPorts(8111, 8443, 13337);
             verifyMarkdownSupport(false);
         });
@@ -100,10 +94,8 @@ describe('Server generator', function() {
                 .withPrompts({markdownSupport: true})
                 .on('end', done);
         });
-        it('creates files', function() {
+        it('can create and configure files', function() {
             verifyFiles();
-        });
-        it('configures files', function() {
             verifyPorts(8111, 8443, 13337);
             verifyMarkdownSupport(true);
         });
@@ -114,10 +106,8 @@ describe('Server generator', function() {
                 .withOptions({skipInstall: true})
                 .on('end', done);
         });
-        it('creates files', function() {
+        it('can create and configure files', function() {
             verifyFiles();
-        });
-        it('configures files', function() {
             verifyPorts(8111, 8443, 13337);
             verifyMarkdownSupport(false);
         });

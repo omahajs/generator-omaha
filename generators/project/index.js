@@ -54,7 +54,6 @@ module.exports = yeoman.generators.Base.extend({
                 done();
             }.bind(generator));
         }
-        generator.projectName = 'Bob';
         generator.config.set('appDir', generator.appDir);
     },
     writing: function() {
