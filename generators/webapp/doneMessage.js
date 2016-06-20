@@ -19,7 +19,6 @@ var doneMessage = function(generator) {
         '\nCSS pre-processor: ' + cssPreprocessor +
         '\nTemplate renderer: ' + chalk[generator.useHandlebars ? 'yellow' : 'blue'].bold(generator.useHandlebars ? 'Handlebars' : 'Underscore') +
         '\n' +
-        '\n' + (generator.autoFix        ? yes : no)('Auto-correct minor issues when "eslinting"') +
         '\n' + (generator.use.jsinspect  ? yes : no)('Find duplicate code with JSInspect') +
         '\n' + (generator.use.a11y       ? yes : no)('Lint HTML with a11y') +
         '\n' + (generator.use.imagemin   ? yes : no)('Compress production images with imagemin') +

@@ -89,7 +89,6 @@ module.exports = yeoman.generators.Base.extend({
                     generator[option] = options[option];
                 });
                 generator.projectName = props.projectName;
-                generator.autoFix = props.autoFix;
                 generator.styleguide = props.styleguide;
                 generator.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
                 done();

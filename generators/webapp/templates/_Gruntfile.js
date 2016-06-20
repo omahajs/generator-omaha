@@ -152,7 +152,7 @@ module.exports = function(grunt) {
             },
             ing: {
                 options: {
-                    fix: <%= autoFix %>
+                    fix: true
                 },
                 src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']
             },

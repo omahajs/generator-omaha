@@ -39,12 +39,6 @@ var projectQuestions = [
     },
     {
         type: 'confirm',
-        name: 'autoFix',
-        message: 'Auto-fix minor style errors when "eslinting"?',
-        default: true
-    },
-    {
-        type: 'confirm',
         name: 'jsinspect',
         message: 'Detect copy-pasted and structurally similar code with JS Inspect?',
         default: true
