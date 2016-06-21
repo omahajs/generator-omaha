@@ -159,11 +159,11 @@ function verifyBrowserifySupport(exists, appDir) {
         verify = assert.noFileContent;
         assert.fileContent('tasks/build.js', 'requirejs:bundle');
     }
-    //verify('package.json', '"browserify": {');
-    //verify('package.json', 'grunt-browserify');
-    //verify('package.json', 'grunt-replace');
-    //verify('package.json', 'deamdify');
-    //verify('package.json', 'aliasify');
+    verify('package.json', '"browserify": {');
+    // verify('package.json', 'grunt-browserify');
+    // verify('package.json', 'grunt-replace');
+    verify('package.json', 'deamdify');
+    verify('package.json', 'aliasify');
     verify('Gruntfile.js', 'replace: {');
     verify('Gruntfile.js', 'browserify: {');
     verify('tasks/build.js', 'browserify:bundle');
