@@ -26,6 +26,7 @@
     "chalk": "^1.0.0",
     "config": "^1.17.1",
     "deep-extend": "^0.4.1",
+    "gruntfile-editor": "^1.2.0",
     "lodash": "^4.13.1",
     "mkdirp": "^0.5.1",
     "underscore": "^1.8.3",

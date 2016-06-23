@@ -1,11 +1,14 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
-var mkdirp = require('mkdirp');
-var utils  = require('../app/utils');
-var banner = require('../app/banner');
-var prompt = require('../app/prompts').webapp;
-var footer = require('./doneMessage');
+var fs              = require('fs');
+var mkdirp          = require('mkdirp');
+var yeoman          = require('yeoman-generator');
+var GruntfileEditor = require('gruntfile-editor');
+var utils           = require('../app/utils');
+var banner          = require('../app/banner');
+var prompt          = require('../app/prompts').webapp;
+var tasks           = require('./gruntTaskConfigs');
+var footer          = require('./doneMessage');
 
 var commandLineOptions = {
     defaults: {
@@ -97,15 +100,17 @@ module.exports = yeoman.generators.Base.extend({
         generator.config.set('appDir', generator.appDir);
     },
     writing: {
-        project: function() {
+        workflowFiles: function() {
             var generator = this;
             generator.userName = generator.config.get('userName');
             generator.deployDirectory = generator.options.deployDirectory;
-            generator.template('_package.json', 'package.json');
             generator.template('_README.md', 'README.md');
             generator.template('_Gruntfile.js', 'Gruntfile.js');
             generator.template('tasks/build.js', 'tasks/build.js');
             generator.template('tasks/app.js', 'tasks/app.js');
+        },
+        testFiles: function() {
+            var generator = this;
             generator.template('test/config.js', 'test/config.js');
             generator.fs.copy(
                 generator.templatePath('test/data/**/*.*'),
@@ -175,7 +180,7 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
     install: {
-        projectDependencies: function() {
+        appDependencies: function() {
             var generator = this;
             var htmlDevDependencies = [
                 'grunt-contrib-htmlmin',
@@ -200,40 +205,35 @@ module.exports = yeoman.generators.Base.extend({
                 'backbone.marionette',
                 'backbone.radio'
             ];
-            var devDependencies = []
-                .concat(htmlDevDependencies)
-                .concat(cssDevDependencies)
-                .concat(requirejsDevDependencies)
-                .concat(generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [])
-                .concat(generator.use.benchmarks ? ['grunt-benchmark'] : [])
-                .concat(generator.use.jsinspect ? ['jsinspect', 'grunt-jsinspect'] : [])
-                .concat(generator.use.styleguide ? ['mdcss', 'mdcss-theme-github'] : [])
-                .concat(generator.use.coveralls ? ['grunt-karma-coveralls'] : [])
-                .concat(generator.use.a11y ? ['grunt-a11y', 'grunt-accessibility'] : [])
-                .concat(generator.use.imagemin ? ['grunt-contrib-imagemin'] :[]);
+            var devDependencies = [].concat(
+                htmlDevDependencies,
+                cssDevDependencies,
+                requirejsDevDependencies,
+                generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [],
+                generator.use.benchmarks ? ['grunt-benchmark'] : [],
+                generator.use.jsinspect ? ['jsinspect', 'grunt-jsinspect'] : [],
+                generator.use.styleguide ? ['mdcss', 'mdcss-theme-github'] : [],
+                generator.use.coveralls ? ['grunt-karma-coveralls'] : [],
+                generator.use.a11y ? ['grunt-a11y', 'grunt-accessibility'] : [],
+                generator.use.imagemin ? ['grunt-contrib-imagemin'] :[]
+            );
 
-            devDependencies = devDependencies
-                .concat(generator.useLess ? ['grunt-contrib-less'] : [])
-                .concat(generator.useSass ? ['grunt-contrib-sass'] : [])
-                .concat(generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']);
+            devDependencies = devDependencies.concat(
+                generator.useLess ? ['grunt-contrib-less'] : [],
+                generator.useSass ? ['grunt-contrib-sass'] : [],
+                generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']
+            );
             generator.useHandlebars && dependencies.push('handlebars');
 
             generator.npmInstall();
             generator.npmInstall(dependencies, {save: true});
             generator.npmInstall(devDependencies, {saveDev: true});
-        },
-        workflowDependencies: function() {
-
-        },
-        appDependencies: function() {
-            var generator = this;
-            var dependencies = ['requirejs', 'jquery', 'underscore', 'backbone', 'backbone.marionette', 'backbone.radio'];
-            generator.npmInstall(dependencies, {save: true});
         }
     },
     end: function() {
         var generator = this;
         var appDir = (generator.appDir !== './') ? generator.appDir : '';
+        var editor = new GruntfileEditor(fs.readFileSync(__dirname + '/templates/_Gruntfile.js').toString());
         utils.json.extend(generator.destinationPath('package.json'), {
             scripts: {
                 'test-ci': 'npm test' + (generator.use.coveralls ? ' && grunt coveralls' : '')
@@ -273,23 +273,31 @@ module.exports = yeoman.generators.Base.extend({
             });
         }
         if (generator.useLess) {
+            editor.insertConfig('less', JSON.stringify(tasks.less, null, 4));
             utils.json.extend(generator.destinationPath('config/default.json'), {
                 grunt: {
                     files: {
-                        styles: 'less/**/*.less'
+                        styles: "less/**/*.less"
                     }
                 }
             });
         }
         if (generator.useSass) {
+            editor.insertConfig('sass', JSON.stringify(tasks.sass, null, 4));
             utils.json.extend(generator.destinationPath('config/default.json'), {
                 grunt: {
                     files: {
-                        styles: 'sass/**/*.scss'
+                        styles: "sass/**/*.scss"
                     }
                 }
             });
         }
+        editor.insertConfig('postcss', tasks.postcss);
+        if (generator.use.imagemin) {
+            editor.insertConfig('copy', JSON.stringify(tasks.copy, null, 4));
+        }
+        editor.insertConfig('a11y', JSON.stringify(tasks.a11y, null, 4));
+        fs.writeFileSync(generator.destinationPath('Gruntfile.js'), editor.toString());
         generator.log(footer(generator));
     }
 });

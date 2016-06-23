@@ -55,7 +55,7 @@ describe('Webapp generator', function() {
             verifyCoverallsSupport(CONFIGURED);
         });
     });
-    describe('when all prompts are false', function() {
+    xdescribe('when all prompts are false', function() {
         before(function(done) {
                 CONFIGURED     = false;
                 APPDIR         = './';
@@ -78,7 +78,7 @@ describe('Webapp generator', function() {
             verifyCoverallsSupport(CONFIGURED);
         });
     });
-    describe('when the application directory is changed (with Sass support)', function() {
+    xdescribe('when the application directory is changed (with Sass support)', function() {
         before(function(done) {
                 CONFIGURED     = false;
                 APPDIR         = 'webapp/';

@@ -48,11 +48,11 @@ module.exports = yeoman.generators.Base.extend({
                     generator[option] = options[option];
                 });
                 generator.projectName = props.projectName;
-                generator.styleguide = props.styleguide;
                 generator.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
                 done();
             }.bind(generator));
         }
+        generator.deployDirectory = 'dist/.'
         generator.config.set('appDir', generator.appDir);
     },
     writing: function() {
@@ -60,6 +60,7 @@ module.exports = yeoman.generators.Base.extend({
         generator.userName = generator.config.get('userName');
         generator.appDir = './';
         generator.template('_LICENSE', 'LICENSE');
+        generator.template('_package.json', 'package.json');
         generator.template('config/_gitignore', '.gitignore');
         generator.template('config/_default.json', 'config/default.json');
         generator.template('config/_csslintrc', 'config/.csslintrc');
