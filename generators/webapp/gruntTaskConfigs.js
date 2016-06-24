@@ -5,7 +5,7 @@ module.exports = {
     **/
     a11y: `{
         index: {
-            options: {urls: ["<%%= folders.appxxx %>/<%%= files.index %>"]}
+            options: {urls: ["<%= folders.appxxx %>/<%= files.index %>"]}
         }
     }`,
     /**
@@ -25,7 +25,7 @@ module.exports = {
                     "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2"
                 ]
             },
-            src: ["<%%= folders.app %>/<%%= files.index %>"]
+            src: ["<%= folders.app %>/<%= files.index %>"]
         },
         templates: {
             options: {
@@ -37,7 +37,7 @@ module.exports = {
                     "WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2"
                 ]
             },
-            src: ["<%%= folders.assets %>/<%%= files.templates %>"]
+            src: ["<%= folders.assets %>/<%= files.templates %>"]
         }
     }`,
     /**
@@ -49,8 +49,8 @@ module.exports = {
             displayResults: true
         },
         all: {
-            src: ["<%%= folders.test %>/benchmarks/*.js"],
-            dest: "<%%= folders.reports %>/benchmarks/results.csv"
+            src: ["<%= folders.test %>/benchmarks/*.js"],
+            dest: "<%= folders.reports %>/benchmarks/results.csv"
         }
     }`,
     /**
@@ -60,7 +60,7 @@ module.exports = {
     browserify: `{
         bundle: {
             files: {
-                "<%%= folders.dist %>/<%%= folders.client %>/bundle.js": ["<%%= folders.app %>/main.js"]
+                "<%= folders.dist %>/<%= folders.client %>/bundle.js": ["<%= folders.app %>/main.js"]
             }
         }
     }`,
@@ -74,8 +74,8 @@ module.exports = {
             files: [{
                 expand: true,
                 flatten: true,
-                src: ["<%%= folders.assets %>/<%%= files.fonts %>"],
-                dest: "<%%= folders.dist %>/<%%= deployed.assets %>/<%%= deployed.fonts %>",
+                src: ["<%= folders.assets %>/<%= files.fonts %>"],
+                dest: "<%= folders.dist %>/<%= deployed.assets %>/<%= deployed.fonts %>",
                 filter: "isFile"
             }]
         }
@@ -87,7 +87,7 @@ module.exports = {
     coveralls: `{
         options: {
             // LCOV coverage file relevant to every target
-            coverageDir: "<%%= folders.reports %>/<%%= folders.coverage %>/",
+            coverageDir: "<%= folders.reports %>/<%= folders.coverage %>/",
             recursive: true,
             force: true
         }
@@ -110,7 +110,7 @@ module.exports = {
                 }
             },
             files: {
-                "<%%= folders.app %>/templates.js": ["<%%= folders.assets %>/<%%= files.templates %>"]
+                "<%= folders.app %>/templates.js": ["<%= folders.assets %>/<%= files.templates %>"]
             }
         }
     }`,
@@ -121,8 +121,8 @@ module.exports = {
     htmlhintplus: `{
         app: {
             src: [
-              "<%%= folders.assets %>/<%%= files.templates %>",
-              "<%%= folders.app %>/<%%= files.index %>"
+              "<%= folders.assets %>/<%= files.templates %>",
+              "<%= folders.app %>/<%= files.index %>"
             ]
         }
     }`,
@@ -138,8 +138,8 @@ module.exports = {
         build: {
             files: [
                 {
-                    src:  "<%%= folders.app %>/<%%= files.index %>",
-                    dest: "<%%= folders.dist %>/<%%= folders.client %>/<%%= files.index %>"
+                    src:  "<%= folders.app %>/<%= files.index %>",
+                    dest: "<%= folders.dist %>/<%= folders.client %>/<%= files.index %>"
                 }
             ]
         }
@@ -154,8 +154,8 @@ module.exports = {
                 expand: true,
                 flatten: true,
                 cwd: "./",
-                src: ["<%%= folders.assets %>/<%%= files.images %>"],
-                dest: "<%%= folders.dist %>/<%%= deployed.assets %>/<%%= deployed.images %>"
+                src: ["<%= folders.assets %>/<%= files.images %>"],
+                dest: "<%= folders.dist %>/<%= deployed.assets %>/<%= deployed.images %>"
             }]
         }
     }`,
@@ -164,10 +164,10 @@ module.exports = {
      * @see {@link https://github.com/stefanjudis/grunt-jsinspect}
     **/
     jsinspect: `{
-        app:         {src: ["<%%= folders.app %>/<%%= files.scripts %>"]},
-        models:      {src: ["<%%= folders.app %>/<%%= files.models %>"]},
-        views:       {src: ["<%%= folders.app %>/<%%= files.views %>"]},
-        controllers: {src: ["<%%= folders.app %>/<%%= files.controllers %>"]}
+        app:         {src: ["<%= folders.app %>/<%= files.scripts %>"]},
+        models:      {src: ["<%= folders.app %>/<%= files.models %>"]},
+        views:       {src: ["<%= folders.app %>/<%= files.views %>"]},
+        controllers: {src: ["<%= folders.app %>/<%= files.controllers %>"]}
     }`,
     /**
      * Pre-compile underscore templates
@@ -190,7 +190,7 @@ module.exports = {
                 }
             },
             files: {
-                "<%%= folders.app %>/templates.js": ["<%%= folders.assets %>/<%%= files.templates %>"]
+                "<%= folders.app %>/templates.js": ["<%= folders.assets %>/<%= files.templates %>"]
             }
         }
     }`,
@@ -203,10 +203,10 @@ module.exports = {
             options: {
                 sourceMap: true,
                 sourceMapFileInline: true,
-                paths: ["<%%= folders.assets %>/<%%= files.styles %>"]
+                paths: ["<%= folders.assets %>/<%= files.styles %>"]
             },
             files: {
-                "<%%= folders.app %>/style.css": "<%%= folders.assets %>/less/style.less"
+                "<%= folders.app %>/style.css": "<%= folders.assets %>/less/style.less"
             }
         }
     }`,
@@ -214,39 +214,42 @@ module.exports = {
      * Apply several post-processors to your CSS using PostCSS
      * @see {@link https://github.com/nDmitry/grunt-postcss}
     **/
-    postcss: `{
-        options: {
-            parser: require("postcss-safe-parser"),
-            processors: [
-                require("autoprefixer")({browsers: "last 2 versions"}),
-                require("cssnano")()
-            ]
-        },
-        dev: {
+    postcss: function(appDir) {
+        var str = `{
             options: {
-                map: {
-                    inline: false,
-                    annotation: "<%%= folders.app %>"
-                }
+                parser: require("postcss-safe-parser"),
+                processors: [
+                    require("autoprefixer")({browsers: "last 2 versions"}),
+                    require("cssnano")()
+                ]
             },
-            src: ["<%%= folders.app %>/*.css", "../<%= appDir %>assets/css/style.css"],
-            dest: "<%%= folders.app %>/style.css"
-        },
-        prod: {
-            src:  "<%%= folders.app %>/*.css",
-            dest: "<%%= folders.dist %>/<%%= folders.client %>/style.css"
-        },
-        styleguide: {
-            options: {
-                processors: [require("mdcss")({
-                    examples: {
-                        css: ["../<%= appDir %>app/style.css", "../<%= appDir %>assets/css/style.css"],
+            dev: {
+                options: {
+                    map: {
+                        inline: false,
+                        annotation: "<%= folders.app %>"
                     }
-                })],
+                },
+                src: ["<%= folders.app %>/*.css", "../${appDir}assets/css/style.css"],
+                dest: "<%= folders.app %>/style.css"
             },
-            src:  ["<%%= folders.app %>/*.css", "../<%= appDir %>assets/css/style.css"]
-        }
-    }`,
+            prod: {
+                src:  "<%= folders.app %>/*.css",
+                dest: "<%= folders.dist %>/<%= folders.client %>/style.css"
+            },
+            styleguide: {
+                options: {
+                    processors: [require("mdcss")({
+                        examples: {
+                            css: ["../${appDir}app/style.css", "../${appDir}assets/css/style.css"],
+                        }
+                    })],
+                },
+                src:  ["<%= folders.app %>/*.css", "../${appDir}assets/css/style.css"]
+            }
+        }`;
+        return str;
+    },
     /**
      * Use Applause to replace link to bundled scripts if using browserify
      * @see {@link https://github.com/outaTiME/grunt-replace}
@@ -260,8 +263,8 @@ module.exports = {
                 }]
             },
             files: [{
-                src:  "<%%= folders.dist %>/<%%= folders.client %>/<%%= files.index %>",
-                dest: "<%%= folders.dist %>/<%%= folders.client %>/<%%= files.index %>"
+                src:  "<%= folders.dist %>/<%= folders.client %>/<%= files.index %>",
+                dest: "<%= folders.dist %>/<%= folders.client %>/<%= files.index %>"
             }]
         }
     }`,
@@ -276,7 +279,7 @@ module.exports = {
                 sourcemap: "inline"
             },
             files: {
-                "<%%= folders.app %>/style.css": "<%%= folders.assets %>/sass/style.scss"
+                "<%= folders.app %>/style.css": "<%= folders.assets %>/sass/style.scss"
             }
         }
     }`,
@@ -292,10 +295,10 @@ module.exports = {
                 compress: {
                     drop_console: true //discard calls to console.* functions
                 },
-                banner: "/* <%%= package.name %> - v<%%= package.version %> - 2016-02-07 */"
+                banner: "/* <%= package.name %> - v<%= package.version %> - 2016-02-07 */"
             },
             files: {
-                "<%%= folders.dist %>/<%%= folders.client %>/bundle.min.js": ["<%%= folders.dist %>/<%%= folders.client %>/bundle.js"]
+                "<%= folders.dist %>/<%= folders.client %>/bundle.min.js": ["<%= folders.dist %>/<%= folders.client %>/bundle.js"]
             }
         }
     }`

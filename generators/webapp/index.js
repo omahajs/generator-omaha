@@ -233,7 +233,7 @@ module.exports = yeoman.generators.Base.extend({
     end: function() {
         var generator = this;
         var appDir = (generator.appDir !== './') ? generator.appDir : '';
-        var editor = new GruntfileEditor(fs.readFileSync(__dirname + '/templates/_Gruntfile.js').toString());
+        var editor = new GruntfileEditor(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
         utils.json.extend(generator.destinationPath('package.json'), {
             scripts: {
                 'test-ci': 'npm test' + (generator.use.coveralls ? ' && grunt coveralls' : '')
@@ -317,7 +317,7 @@ module.exports = yeoman.generators.Base.extend({
                 }
             });
         }
-        editor.insertConfig('postcss', tasks.postcss);
+        editor.insertConfig('postcss', tasks.postcss(appDir));
         fs.writeFileSync(generator.destinationPath('Gruntfile.js'), editor.toString());
         generator.log(footer(generator));
     }
