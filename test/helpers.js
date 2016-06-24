@@ -68,21 +68,21 @@ function createPlugin(options) {
 }
 
 function verifyFiles(appDir) {
-    // assert.file(configFiles);
-    // assert.file(projectFiles);
-    // assert.file(appFiles.map(function(file) {return appDir + file;}));
-    // assert.file('tasks/build.js');
-    // assert.file('tasks/app.js');
-    // assert.fileContent('.gitignore', 'app/templates.js');
-    // assert.fileContent('.gitignore', 'app/style.css');
+    assert.file(configFiles);
+    assert.file(projectFiles);
+    assert.file(appFiles.map(function(file) {return appDir + file;}));
+    assert.file('tasks/build.js');
+    assert.file('tasks/app.js');
+    assert.fileContent('.gitignore', 'app/templates.js');
+    assert.fileContent('.gitignore', 'app/style.css');
     // assert.fileContent('package.json', '"deploy": "cp -a dist/. dist/."');
 }
 
 function verifyConfiguration(options) {
     var appDir = options.appDirectory ? options.appDirectory : './';
-    // verifyWorkflowDependencies(options.workflow);
-    //verifyGruntfilePlugins(options.workflow);
-    //verifyBenchmarkJs(options.workflow);
+    verifyWorkflowDependencies(options.workflow);
+    // verifyGruntfilePlugins(options.workflow);
+    // verifyBenchmarkJs(options.workflow);
     // verifyBrowserifySupport(options.scriptBundler === 'browserify', appDir);
     // if (options.styleProcessor === 'less') {
     //     verifyLessSupport(true, appDir);
@@ -120,9 +120,9 @@ function verifyBenchmarkJs(configured) {
 
 function verifyCoveralls(configured) {
     var verify = configured ? assert.fileContent : assert.noFileContent;
-    //verify('Gruntfile.js', 'coveralls: {');
+    // verify('Gruntfile.js', '\'coveralls\': {');
     if (configured) {
-        //assert.fileContent('package.json', '"test-ci": "npm test && grunt coveralls"');
+        // assert.fileContent('package.json', '"test-ci": "npm test && grunt coveralls"');
     } else {
         assert.fileContent('package.json', '"test-ci": "npm test"');
     }
@@ -135,17 +135,17 @@ function verifyHandlebarsSupport(exists, appDir) {
         verify =  assert.fileContent;
         assert.file(appDir + '/app/helpers/handlebars.helpers.js');
         assert.noFileContent('Gruntfile.js', 'jst: {');
-        //assert.noFileContent('package.json', '"grunt-contrib-jst": ');
+        assert.noFileContent('package.json', '"grunt-contrib-jst": ');
         assert.noFileContent('tasks/build.js', 'jst:main');
     } else {
         verify = assert.noFileContent;
         assert.noFile(appDir + '/app/helpers/handlebars.helpers.js');
         assert.fileContent('Gruntfile.js', 'jst: {');
-        //assert.fileContent('package.json', '"grunt-contrib-jst": ');
+        assert.fileContent('package.json', '"grunt-contrib-jst": ');
         assert.fileContent('tasks/build.js', 'jst:main');
     }
-    //verify('package.json', '"handlebars": ');
-    //verify('package.json', '"grunt-contrib-handlebars": ');
+    verify('package.json', '"handlebars": ');
+    verify('package.json', '"grunt-contrib-handlebars": ');
     verify(appDir + '/app/app.js', './helpers/handlebars.helpers');
 }
 
@@ -160,8 +160,8 @@ function verifyBrowserifySupport(exists, appDir) {
         assert.fileContent('tasks/build.js', 'requirejs:bundle');
     }
     verify('package.json', '"browserify": {');
-    // verify('package.json', 'grunt-browserify');
-    // verify('package.json', 'grunt-replace');
+    verify('package.json', 'grunt-browserify');
+    verify('package.json', 'grunt-replace');
     verify('package.json', 'deamdify');
     verify('package.json', 'aliasify');
     verify('Gruntfile.js', 'replace: {');
@@ -187,7 +187,7 @@ function verifyLessSupport(exists, appDir) {
         verify = assert.noFileContent;
     }
     verify('config/default.json', 'less/**/*.less');
-    //verify('package.json', 'grunt-contrib-less');
+    verify('package.json', 'grunt-contrib-less');
     verify('Gruntfile.js', 'less: {');
 }
 
@@ -207,7 +207,7 @@ function verifySassSupport(exists, appDir) {
         verify = assert.noFileContent;
     }
     verify('config/default.json', 'sass/**/*.scss');
-    //verify('package.json', 'grunt-contrib-sass');
+    verify('package.json', 'grunt-contrib-sass');
     verify('Gruntfile.js', 'sass: {');
 }
 

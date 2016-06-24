@@ -1,10 +1,7 @@
-var config       = require('config').grunt;//Load external parameters using config node module
-var parser       = require('postcss-safe-parser');
-var autoprefixer = require('autoprefixer');
-var cssnano      = require('cssnano');
-var mdcss        = require('mdcss');
+var config = require('config').grunt;//Load external parameters using config node module
 module.exports = function(grunt) {
     'use strict';
+
     grunt.initConfig({
         package: grunt.file.readJSON('package.json'),
         ports:   config.ports,

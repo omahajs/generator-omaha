@@ -239,14 +239,10 @@ module.exports = yeoman.generators.Base.extend({
                 'test-ci': 'npm test' + (generator.use.coveralls ? ' && grunt coveralls' : '')
             }
         });
-        if (generator.use.jsinspect) {
-            utils.json.extend(generator.destinationPath('package.json'), {
-                scripts: {
-                    inspect: 'grunt jsinspect:app'
-                }
-            });
-        }
         if (generator.useBrowserify) {
+            editor.insertConfig('browserify', tasks.browserify);
+            editor.insertConfig('replace', tasks.replace);
+            editor.insertConfig('uglify', tasks.uglify);
             utils.json.extend(generator.destinationPath('package.json'), {
                 browser: {
                     underscore: './node_modules/underscore/underscore-min.js'
@@ -273,7 +269,7 @@ module.exports = yeoman.generators.Base.extend({
             });
         }
         if (generator.useLess) {
-            editor.insertConfig('less', JSON.stringify(tasks.less, null, 4));
+            editor.insertConfig('less', tasks.less);
             utils.json.extend(generator.destinationPath('config/default.json'), {
                 grunt: {
                     files: {
@@ -283,7 +279,7 @@ module.exports = yeoman.generators.Base.extend({
             });
         }
         if (generator.useSass) {
-            editor.insertConfig('sass', JSON.stringify(tasks.sass, null, 4));
+            editor.insertConfig('sass', tasks.sass);
             utils.json.extend(generator.destinationPath('config/default.json'), {
                 grunt: {
                     files: {
@@ -292,11 +288,36 @@ module.exports = yeoman.generators.Base.extend({
                 }
             });
         }
-        editor.insertConfig('postcss', tasks.postcss);
-        if (generator.use.imagemin) {
-            editor.insertConfig('copy', JSON.stringify(tasks.copy, null, 4));
+        if (generator.use.a11y) {
+            editor.insertConfig('a11y', tasks.a11y);
+            editor.insertConfig('accessibility', tasks.accessibility);
         }
-        editor.insertConfig('a11y', JSON.stringify(tasks.a11y, null, 4));
+        if (generator.use.benchmarks) {
+            editor.insertConfig('benchmark', tasks.benchmark);
+        }
+        if (generator.use.coveralls) {
+            editor.insertConfig('coveralls', tasks.coveralls)
+        }
+        if (generator.useHandlebars) {
+            editor.insertConfig('handlebars', tasks.handlebars);
+        } else {
+            editor.insertConfig('jst', tasks.jst);
+        }
+        if (generator.use.imagemin) {
+            editor.insertConfig('imagemin', tasks.imagemin);
+            editor.insertConfig('copy', tasks.copy);
+        }
+        editor.insertConfig('htmlhintplus', tasks.htmlhintplus);
+        editor.insertConfig('htmlmin', tasks.htmlmin);
+        if (generator.use.jsinspect) {
+            editor.insertConfig('jsinspect', tasks.jsinspect);
+            utils.json.extend(generator.destinationPath('package.json'), {
+                scripts: {
+                    inspect: 'grunt jsinspect:app'
+                }
+            });
+        }
+        editor.insertConfig('postcss', tasks.postcss);
         fs.writeFileSync(generator.destinationPath('Gruntfile.js'), editor.toString());
         generator.log(footer(generator));
     }

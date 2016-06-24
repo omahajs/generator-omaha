@@ -11,7 +11,7 @@ var verifyApplicationFiles  = helpers.verifyFiles;
 var verifyConfiguration     = helpers.verifyConfiguration;
 var verifyCoverallsSupport  = helpers.verifyCoveralls;
 
-xdescribe('Webapp generator (with command line options)', function() {
+describe('Webapp generator (with command line options)', function() {
     this.timeout(0)
     var stub;
     var APPDIR;
