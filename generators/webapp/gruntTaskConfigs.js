@@ -215,7 +215,7 @@ module.exports = {
      * @see {@link https://github.com/nDmitry/grunt-postcss}
     **/
     postcss: function(appDir) {
-        var str = `{
+        return `{
             options: {
                 parser: require("postcss-safe-parser"),
                 processors: [
@@ -248,7 +248,6 @@ module.exports = {
                 src:  ["<%= folders.app %>/*.css", "../${appDir}assets/css/style.css"]
             }
         }`;
-        return str;
     },
     /**
      * Use Applause to replace link to bundled scripts if using browserify

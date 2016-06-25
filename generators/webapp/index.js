@@ -16,8 +16,13 @@ var commandLineOptions = {
         desc: 'Scaffold app with no user input using default settings',
         defaults: false
     },
-    scriptBundler: {desc: 'Choose script bundler'},
+    scriptBundler: {
+        type: 'String',
+        desc: 'Choose script bundler',
+        defaults: 'requirejs'
+    },
     cssPreprocessor: {
+        type: 'String',
         desc: 'Choose CSS pre-processor',
         defaults: 'less'
     },
@@ -97,52 +102,18 @@ module.exports = yeoman.generators.Base.extend({
                 done();
             }.bind(generator));
         }
+        generator.userName = generator.config.get('userName');
+        generator.deployDirectory = generator.options.deployDirectory;
         generator.config.set('appDir', generator.appDir);
     },
     writing: {
-        workflowFiles: function() {
+        projectFiles: function() {
             var generator = this;
-            generator.userName = generator.config.get('userName');
-            generator.deployDirectory = generator.options.deployDirectory;
             generator.template('_README.md', 'README.md');
-            generator.template('_Gruntfile.js', 'Gruntfile.js');
             generator.template('tasks/build.js', 'tasks/build.js');
             generator.template('tasks/app.js', 'tasks/app.js');
         },
-        testFiles: function() {
-            var generator = this;
-            generator.template('test/config.js', 'test/config.js');
-            generator.fs.copy(
-                generator.templatePath('test/data/**/*.*'),
-                generator.destinationPath('test/data')
-            );
-            generator.fs.copy(
-                generator.templatePath('test/jasmine/**/*.*'),
-                generator.destinationPath('test/jasmine')
-            );
-            if (generator.use.benchmarks) {
-                generator.template('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js');
-            }
-        },
         appFiles: function() {
-            mkdirp(this.appDir + 'assets/fonts');
-            mkdirp(this.appDir + 'assets/images');
-            if (this.useLess) {
-                mkdirp(this.appDir + 'assets/less');
-            }
-            if (this.useSass) {
-                mkdirp(this.appDir + 'assets/sass');
-            }
-            mkdirp(this.appDir + 'assets/library');
-            this.fs.copy(
-                this.templatePath('library/require.min.js'),
-                this.destinationPath(this.appDir + 'assets/library/require.min.js')
-            );
-            mkdirp(this.appDir + 'assets/templates');
-            this.fs.copy(
-                this.templatePath('shims/*.js'),
-                this.destinationPath(this.appDir + 'app/shims')
-            );
             if (this.useHandlebars) {
                 this.template('helpers/handlebars.helpers.js', this.appDir + 'app/helpers/handlebars.helpers.js');
             }
@@ -152,10 +123,36 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('plugins/*.js'),
                 this.destinationPath(this.appDir + 'app/plugins')
             );
+            this.fs.copy(
+                this.templatePath('shims/*.js'),
+                this.destinationPath(this.appDir + 'app/shims')
+            );
+            this.template('_config.js', this.appDir + 'app/config.js');
+        },
+        assets: function() {
+            if (this.useLess) {
+                mkdirp(this.appDir + 'assets/less');
+            }
+            if (this.useSass) {
+                mkdirp(this.appDir + 'assets/sass');
+            }
+            mkdirp(this.appDir + 'assets/fonts');
+            mkdirp(this.appDir + 'assets/images');
+            mkdirp(this.appDir + 'assets/templates');
+            mkdirp(this.appDir + 'assets/library');
+            this.fs.copy(
+                this.templatePath('library/require.min.js'),
+                this.destinationPath(this.appDir + 'assets/library/require.min.js')
+            );
+            this.fs.copy(
+                this.templatePath('techtonic.png'),
+                this.destinationPath(this.appDir + 'assets/images/logo.png')
+            );
+        },
+        boilerplate: function() {
             this.template('_index.html', this.appDir + 'app/index.html');
             this.template('_app.js', this.appDir + 'app/app.js');
             this.template('_main.js', this.appDir + 'app/main.js');
-            this.template('_config.js', this.appDir + 'app/config.js');
             this.template('_router.js', this.appDir + 'app/router.js');
             this.template('example.model.js', this.appDir + 'app/models/example.js');
             this.template('example.view.js', this.appDir + 'app/views/example.js');
@@ -173,62 +170,56 @@ module.exports = yeoman.generators.Base.extend({
             if (!(this.useLess || this.useSass)) {
                 this.template('_style.css', this.appDir + 'assets/css/style.css');
             }
-            this.fs.copy(
-                this.templatePath('techtonic.png'),
-                this.destinationPath(this.appDir + 'assets/images/logo.png')
-            );
         }
     },
-    install: {
-        appDependencies: function() {
-            var generator = this;
-            var htmlDevDependencies = [
-                'grunt-contrib-htmlmin',
-                'grunt-htmlhint-plus'
-            ];
-            var cssDevDependencies = [
-                'grunt-contrib-csslint',
-                'grunt-postcss',
-                'autoprefixer',
-                'cssnano',
-                'postcss-safe-parser'
-            ];
-            var requirejsDevDependencies = [
-                'grunt-contrib-requirejs',
-                'karma-requirejs'
-            ];
-            var dependencies = [
-                'requirejs',
-                'jquery',
-                'underscore',
-                'backbone',
-                'backbone.marionette',
-                'backbone.radio'
-            ];
-            var devDependencies = [].concat(
-                htmlDevDependencies,
-                cssDevDependencies,
-                requirejsDevDependencies,
-                generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [],
-                generator.use.benchmarks ? ['grunt-benchmark'] : [],
-                generator.use.jsinspect ? ['jsinspect', 'grunt-jsinspect'] : [],
-                generator.use.styleguide ? ['mdcss', 'mdcss-theme-github'] : [],
-                generator.use.coveralls ? ['grunt-karma-coveralls'] : [],
-                generator.use.a11y ? ['grunt-a11y', 'grunt-accessibility'] : [],
-                generator.use.imagemin ? ['grunt-contrib-imagemin'] :[]
-            );
+    install: function() {
+        var generator = this;
+        var htmlDevDependencies = [
+            'grunt-contrib-htmlmin',
+            'grunt-htmlhint-plus'
+        ];
+        var cssDevDependencies = [
+            'grunt-contrib-csslint',
+            'grunt-postcss',
+            'autoprefixer',
+            'cssnano',
+            'postcss-safe-parser'
+        ];
+        var requirejsDevDependencies = [
+            'grunt-contrib-requirejs',
+            'karma-requirejs'
+        ];
+        var dependencies = [
+            'requirejs',
+            'jquery',
+            'underscore',
+            'backbone',
+            'backbone.marionette',
+            'backbone.radio'
+        ];
+        var devDependencies = [].concat(
+            htmlDevDependencies,
+            cssDevDependencies,
+            requirejsDevDependencies,
+            generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [],
+            generator.use.benchmarks ? ['grunt-benchmark'] : [],
+            generator.use.jsinspect ? ['jsinspect', 'grunt-jsinspect'] : [],
+            generator.use.styleguide ? ['mdcss', 'mdcss-theme-github'] : [],
+            generator.use.coveralls ? ['grunt-karma-coveralls'] : [],
+            generator.use.a11y ? ['grunt-a11y', 'grunt-accessibility'] : [],
+            generator.use.imagemin ? ['grunt-contrib-imagemin'] :[]
+        );
 
-            devDependencies = devDependencies.concat(
-                generator.useLess ? ['grunt-contrib-less'] : [],
-                generator.useSass ? ['grunt-contrib-sass'] : [],
-                generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']
-            );
-            generator.useHandlebars && dependencies.push('handlebars');
+        devDependencies = devDependencies.concat(
+            generator.useLess ? ['grunt-contrib-less'] : [],
+            generator.useSass ? ['grunt-contrib-sass'] : [],
+            generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']
+        );
+        generator.useHandlebars && dependencies.push('handlebars');
 
-            generator.npmInstall();
-            generator.npmInstall(dependencies, {save: true});
-            generator.npmInstall(devDependencies, {saveDev: true});
-        }
+        generator.npmInstall();
+        generator.npmInstall(dependencies, {save: true});
+        generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;
