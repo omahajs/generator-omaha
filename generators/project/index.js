@@ -1,9 +1,12 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
-var utils  = require('../app/utils');
-var banner = require('../app/banner');
-var prompt = require('../app/prompts').project;
+var fs        = require('fs');
+var yeoman    = require('yeoman-generator');
+var Gruntfile = require('gruntfile-editor');
+var utils     = require('../app/utils');
+var banner    = require('../app/banner');
+var prompt    = require('../app/prompts').project;
+var tasks     = require('../app/gruntTaskConfigs');
 
 var commandLineOptions = {
     defaults: {
@@ -15,27 +18,42 @@ var commandLineOptions = {
         type: 'String',
         desc: 'Designate path of directory for production app files.',
         defaults: 'dist/.'
+    },
+    noBenchmark: {
+        type: 'Boolean',
+        desc: 'DO NOT add benchmark.js code and dependencies to project',
+        defaults: false
+    },
+    noCoveralls: {
+        type: 'Boolean',
+        desc: 'DO NOT add coveralls tasks and dependencies to project',
+        defaults: false
+    },
+    noJsinspect: {
+        type: 'Boolean',
+        desc: 'DO NOT add JSInspect tasks and dependencies to project',
+        defaults: false
     }
 };
 
 module.exports = yeoman.generators.Base.extend({
-    initializing: function() {
+    constructor: function() {
         var generator = this;
-        generator.config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'John Doe');
+        yeoman.generators.Base.apply(generator, arguments);
+        Object.keys(commandLineOptions).forEach(function(option) {
+            generator.option(option, commandLineOptions[option]);
+        });
+        generator.config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'A. Developer');
     },
     prompting: function() {
         var done = this.async();
         var generator = this;
+        generator.userName = generator.config.get('userName');
+        generator.use = prompt.defaults;
         !generator.config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
-            generator.use = prompt.defaults;
-            Object.keys(prompt.defaults).forEach(function(option) {
-                generator[option] = prompt.defaults[option];
-            });
-            var options = {};
-            Object.keys(options).forEach(function(option) {
-                generator[option] = options[option];
-            });
+            generator.projectName = generator.use.projectName;
+            generator.appDir = (!/\/$/.test(generator.use.appDir)) ? generator.use.appDir + '/' : generator.use.appDir;
             done();
         } else {
             function isUnAnswered(option) {
@@ -43,10 +61,6 @@ module.exports = yeoman.generators.Base.extend({
             }
             generator.prompt(prompt.questions.filter(isUnAnswered), function (props) {
                 generator.use = props;
-                var options = {};
-                Object.keys(options).forEach(function(option) {
-                    generator[option] = options[option];
-                });
                 generator.projectName = props.projectName;
                 generator.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
                 done();
@@ -56,16 +70,16 @@ module.exports = yeoman.generators.Base.extend({
         generator.config.set('appDir', generator.appDir);
     },
     writing: {
-        projectFiles: function() {
+        configFiles: function() {
             var generator = this;
-            generator.userName = generator.config.get('userName');
-            generator.appDir = './';
+            generator.useBenchmark = generator.use.benchmark && !generator.options.noBenchmark;
+            generator.useCoveralls = generator.use.coveralls && !generator.options.noCoveralls;
+            generator.useJsinspect = generator.use.jsinspect && !generator.options.noJsinspect;
             generator.template('_LICENSE', 'LICENSE');
             generator.template('_package.json', 'package.json');
             generator.template('_Gruntfile.js', 'Gruntfile.js');
             generator.template('config/_gitignore', '.gitignore');
             generator.template('config/_default.json', 'config/default.json');
-            generator.template('config/_csslintrc', 'config/.csslintrc');
             generator.template('config/_eslintrc.js', 'config/.eslintrc.js');
             generator.template('config/_karma.conf.js', 'config/karma.conf.js');
         },
@@ -80,9 +94,48 @@ module.exports = yeoman.generators.Base.extend({
                 generator.templatePath('test/jasmine/**/*.*'),
                 generator.destinationPath('test/jasmine')
             );
-            if (generator.use.benchmarks) {
+            if (generator.useBenchmark) {
                 generator.template('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js');
             }
         },
+    },
+    install: function() {
+        var generator = this;
+        var devDependencies = [].concat(
+            generator.useBenchmark ? ['grunt-benchmark'] : [],
+            generator.useCoveralls ? ['grunt-karma-coveralls'] : [],
+            generator.useJsinspect ? ['jsinspect', 'grunt-jsinspect'] : []
+        );
+        generator.npmInstall();
+        generator.npmInstall(devDependencies, {saveDev: true});
+    },
+    end: function() {
+        var generator = this;
+        var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
+        utils.json.extend(generator.destinationPath('package.json'), {
+            scripts: {
+                'test-ci': 'npm test'
+            }
+        });
+        if (generator.useBenchmark) {
+            gruntfile.insertConfig('benchmark', tasks.benchmark);
+        }
+        if (generator.useCoveralls) {
+            gruntfile.insertConfig('coveralls', tasks.coveralls);
+            utils.json.extend(generator.destinationPath('package.json'), {
+                scripts: {
+                    'test-ci': 'npm test && grunt coveralls'
+                }
+            });
+        }
+        if (generator.useJsinspect) {
+            gruntfile.insertConfig('jsinspect', tasks.jsinspect);
+            utils.json.extend(generator.destinationPath('package.json'), {
+                scripts: {
+                    inspect: 'grunt jsinspect:app'
+                }
+            });
+        }
+        fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
     }
 });

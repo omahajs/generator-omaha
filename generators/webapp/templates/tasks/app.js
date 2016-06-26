@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
     'use strict';
 
+    // Default Task
     grunt.registerTask('serve', 'Start a live-reload enabled browser (no tests)', [
         'compile',
         'express',
@@ -21,11 +22,7 @@ module.exports = function(grunt) {
         'process-styles',
         'csslint',
         'watch:style'
-    ]);<% if (use.a11y) { %>
-    grunt.registerTask('aria', 'Perform an accessibility audit on your code', [
-        'accessibility',
-        'a11y'
-    ]);<% } %>
+    ]);
     grunt.registerTask('test', 'Run full test and validation battery', [
         'compile',
         'lint',
@@ -42,5 +39,45 @@ module.exports = function(grunt) {
         'clean:compile',
         'precompile-templates',
         'karma:covering'
+    ]);
+    grunt.registerTask('precompile-templates', [
+        <% if (useHandlebars) { %>'handlebars:main'<% } else { %>'jst:main'<% } %>
+    ]);
+    grunt.registerTask('process-styles', [<% if (useLess) { %>
+        'less:main',/*pre-process */<% } %><% if (useSass) { %>
+        'sass:main',/*pre-process */<% } %>
+        'postcss'   /*post-process*/
+    ]);
+    grunt.registerTask('bundle-scripts', [<% if (useBrowserify) { %>
+        'browserify:bundle',
+        'uglify:bundle'<% } else { %>
+        'requirejs:bundle'<% } %>
+    ]);
+    grunt.registerTask('compile', [
+        'clean:compile',
+        'process-styles',
+        'precompile-templates'
+    ]);
+    grunt.registerTask('build', [
+        'clean:build',
+        'compile',
+        'bundle-scripts',
+        'htmlmin',<% if (useBrowserify) { %>
+        'replace:bundle-url',<% } %>
+        <% if (use.imagemin) { %>'imagemin:build',<% } else { %>'copy:images',<% } %>
+        'copy:fonts'
+    ]);
+    grunt.registerTask('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
+        'clean:docs',
+        'jsdoc:app',<% if (styleguide) { %><% if (useLess) { %>
+        'less:main',/*pre-process */<% } %><% if (useSass) { %>
+        'sass:main',/*pre-process */<% } %>
+        'postcss:styleguide'<% } %>
+    ]);
+    grunt.registerTask('reports', 'Generate code coverage and plato report - then open both in browser', [
+        'plato',
+        'cover',
+        'open:plato',
+        'open:coverage'
     ]);
 };

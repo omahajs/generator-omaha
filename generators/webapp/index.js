@@ -1,14 +1,14 @@
 'use strict';
 
-var fs              = require('fs');
-var mkdirp          = require('mkdirp');
-var yeoman          = require('yeoman-generator');
-var GruntfileEditor = require('gruntfile-editor');
-var utils           = require('../app/utils');
-var banner          = require('../app/banner');
-var prompt          = require('../app/prompts').webapp;
-var tasks           = require('./gruntTaskConfigs');
-var footer          = require('./doneMessage');
+var fs        = require('fs');
+var mkdirp    = require('mkdirp');
+var yeoman    = require('yeoman-generator');
+var Gruntfile = require('gruntfile-editor');
+var utils     = require('../app/utils');
+var banner    = require('../app/banner');
+var prompt    = require('../app/prompts').webapp;
+var tasks     = require('../app/gruntTaskConfigs');
+var footer    = require('./doneMessage');
 
 var commandLineOptions = {
     defaults: {
@@ -103,22 +103,32 @@ module.exports = yeoman.generators.Base.extend({
             }.bind(generator));
         }
         generator.userName = generator.config.get('userName');
-        generator.deployDirectory = generator.options.deployDirectory;
         generator.config.set('appDir', generator.appDir);
     },
     writing: {
-        projectFiles: function() {
+        configFiles: function() {
             var generator = this;
             generator.template('_README.md', 'README.md');
+            generator.template('config/_csslintrc', 'config/.csslintrc');
             generator.template('tasks/build.js', 'tasks/build.js');
             generator.template('tasks/app.js', 'tasks/app.js');
+            generator.template('_config.js', generator.appDir + 'app/config.js');
         },
         appFiles: function() {
             if (this.useHandlebars) {
-                this.template('helpers/handlebars.helpers.js', this.appDir + 'app/helpers/handlebars.helpers.js');
+                this.fs.copy(
+                    this.templatePath('helpers/handlebars.helpers.js'),
+                    this.destinationPath(this.appDir + 'app/helpers/handlebars.helpers.js')
+                );
             }
-            this.template('helpers/jquery.extensions.js', this.appDir + 'app/helpers/jquery.extensions.js');
-            this.template('helpers/underscore.mixins.js', this.appDir + 'app/helpers/underscore.mixins.js');
+            this.fs.copy(
+                this.templatePath('helpers/jquery.extensions.js'),
+                this.destinationPath(this.appDir + 'app/helpers/jquery.extensions.js')
+            );
+            this.fs.copy(
+                this.templatePath('helpers/underscore.mixins.js'),
+                this.destinationPath(this.appDir + 'app/helpers/underscore.mixins.js')
+            );
             this.fs.copy(
                 this.templatePath('plugins/*.js'),
                 this.destinationPath(this.appDir + 'app/plugins')
@@ -127,7 +137,6 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('shims/*.js'),
                 this.destinationPath(this.appDir + 'app/shims')
             );
-            this.template('_config.js', this.appDir + 'app/config.js');
         },
         assets: function() {
             if (this.useLess) {
@@ -163,17 +172,24 @@ module.exports = yeoman.generators.Base.extend({
                 this.template('_reset.css', this.appDir + 'assets/less/reset.less');
                 this.template('_style.less', this.appDir + 'assets/less/style.less');
             }
-            if (this.useSass) {
+            else if (this.useSass) {
                 this.template('_reset.css', this.appDir + 'assets/sass/reset.scss');
                 this.template('_style.scss', this.appDir + 'assets/sass/style.scss');
-            }
-            if (!(this.useLess || this.useSass)) {
+            } else{
                 this.template('_style.css', this.appDir + 'assets/css/style.css');
             }
         }
     },
     install: function() {
         var generator = this;
+        var dependencies = [
+            'requirejs',
+            'jquery',
+            'underscore',
+            'backbone',
+            'backbone.marionette',
+            'backbone.radio'
+        ];
         var htmlDevDependencies = [
             'grunt-contrib-htmlmin',
             'grunt-htmlhint-plus'
@@ -189,51 +205,36 @@ module.exports = yeoman.generators.Base.extend({
             'grunt-contrib-requirejs',
             'karma-requirejs'
         ];
-        var dependencies = [
-            'requirejs',
-            'jquery',
-            'underscore',
-            'backbone',
-            'backbone.marionette',
-            'backbone.radio'
-        ];
         var devDependencies = [].concat(
             htmlDevDependencies,
             cssDevDependencies,
             requirejsDevDependencies,
             generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [],
-            generator.use.benchmarks ? ['grunt-benchmark'] : [],
-            generator.use.jsinspect ? ['jsinspect', 'grunt-jsinspect'] : [],
             generator.use.styleguide ? ['mdcss', 'mdcss-theme-github'] : [],
-            generator.use.coveralls ? ['grunt-karma-coveralls'] : [],
             generator.use.a11y ? ['grunt-a11y', 'grunt-accessibility'] : [],
-            generator.use.imagemin ? ['grunt-contrib-imagemin'] :[]
-        );
-
-        devDependencies = devDependencies.concat(
+            generator.use.imagemin ? ['grunt-contrib-imagemin'] :[],
             generator.useLess ? ['grunt-contrib-less'] : [],
             generator.useSass ? ['grunt-contrib-sass'] : [],
             generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']
         );
         generator.useHandlebars && dependencies.push('handlebars');
 
-        generator.npmInstall();
         generator.npmInstall(dependencies, {save: true});
         generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;
         var appDir = (generator.appDir !== './') ? generator.appDir : '';
-        var editor = new GruntfileEditor(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
-        utils.json.extend(generator.destinationPath('package.json'), {
-            scripts: {
-                'test-ci': 'npm test' + (generator.use.coveralls ? ' && grunt coveralls' : '')
-            }
-        });
+        var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
+        if (generator.use.a11y) {
+            gruntfile.insertConfig('a11y', tasks.a11y);
+            gruntfile.insertConfig('accessibility', tasks.accessibility);
+            gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
+        }
         if (generator.useBrowserify) {
-            editor.insertConfig('browserify', tasks.browserify);
-            editor.insertConfig('replace', tasks.replace);
-            editor.insertConfig('uglify', tasks.uglify);
+            gruntfile.insertConfig('browserify', tasks.browserify);
+            gruntfile.insertConfig('replace', tasks.replace);
+            gruntfile.insertConfig('uglify', tasks.uglify);
             utils.json.extend(generator.destinationPath('package.json'), {
                 browser: {
                     underscore: './node_modules/underscore/underscore-min.js'
@@ -259,8 +260,17 @@ module.exports = yeoman.generators.Base.extend({
                 }
             });
         }
+        if (generator.useHandlebars) {
+            gruntfile.insertConfig('handlebars', tasks.handlebars);
+        } else {
+            gruntfile.insertConfig('jst', tasks.jst);
+        }
+        if (generator.use.imagemin) {
+            gruntfile.insertConfig('imagemin', tasks.imagemin);
+            gruntfile.insertConfig('copy', tasks.copy);
+        }
         if (generator.useLess) {
-            editor.insertConfig('less', tasks.less);
+            gruntfile.insertConfig('less', tasks.less);
             utils.json.extend(generator.destinationPath('config/default.json'), {
                 grunt: {
                     files: {
@@ -270,7 +280,7 @@ module.exports = yeoman.generators.Base.extend({
             });
         }
         if (generator.useSass) {
-            editor.insertConfig('sass', tasks.sass);
+            gruntfile.insertConfig('sass', tasks.sass);
             utils.json.extend(generator.destinationPath('config/default.json'), {
                 grunt: {
                     files: {
@@ -279,37 +289,10 @@ module.exports = yeoman.generators.Base.extend({
                 }
             });
         }
-        if (generator.use.a11y) {
-            editor.insertConfig('a11y', tasks.a11y);
-            editor.insertConfig('accessibility', tasks.accessibility);
-        }
-        if (generator.use.benchmarks) {
-            editor.insertConfig('benchmark', tasks.benchmark);
-        }
-        if (generator.use.coveralls) {
-            editor.insertConfig('coveralls', tasks.coveralls)
-        }
-        if (generator.useHandlebars) {
-            editor.insertConfig('handlebars', tasks.handlebars);
-        } else {
-            editor.insertConfig('jst', tasks.jst);
-        }
-        if (generator.use.imagemin) {
-            editor.insertConfig('imagemin', tasks.imagemin);
-            editor.insertConfig('copy', tasks.copy);
-        }
-        editor.insertConfig('htmlhintplus', tasks.htmlhintplus);
-        editor.insertConfig('htmlmin', tasks.htmlmin);
-        if (generator.use.jsinspect) {
-            editor.insertConfig('jsinspect', tasks.jsinspect);
-            utils.json.extend(generator.destinationPath('package.json'), {
-                scripts: {
-                    inspect: 'grunt jsinspect:app'
-                }
-            });
-        }
-        editor.insertConfig('postcss', tasks.postcss(appDir));
-        fs.writeFileSync(generator.destinationPath('Gruntfile.js'), editor.toString());
+        gruntfile.insertConfig('htmlhintplus', tasks.htmlhintplus);
+        gruntfile.insertConfig('htmlmin', tasks.htmlmin);
+        gruntfile.insertConfig('postcss', tasks.postcss(appDir));
+        fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
         generator.log(footer(generator));
     }
 });

@@ -17,7 +17,7 @@ var projectQuestions = [
         type: 'input',
         name: 'projectName',
         message: 'What do you want to name this project?',
-        default: 'techtonicApp'
+        default: 'tech'
     },
     {
         type: 'input',
@@ -27,7 +27,7 @@ var projectQuestions = [
     },
     {
         type: 'confirm',
-        name: 'benchmarks',
+        name: 'benchmark',
         message: 'Add benchmarking support using Benchmark.js?',
         default: true
     },
@@ -35,7 +35,7 @@ var projectQuestions = [
         type: 'confirm',
         name: 'coveralls',
         message: 'Integrate with Coveralls.io?',
-        default: false
+        default: true
     },
     {
         type: 'confirm',

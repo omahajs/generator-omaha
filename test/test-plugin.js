@@ -56,7 +56,7 @@ describe('Plugin generator', function() {
             done();
         });
     });
-    it('can create an Backbone.js plugin', function(done) {
+    it('can create a Backbone.js plugin', function(done) {
         createPlugin({
             name: pluginName,
             dependencies: ['backbone']
