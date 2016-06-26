@@ -14,10 +14,10 @@ var commandLineOptions = {
         desc: 'Scaffold app with no user input using default settings',
         defaults: false
     },
-    deployDirectory: {
+    sourceDirectory: {
         type: 'String',
-        desc: 'Designate path of directory for production app files.',
-        defaults: 'dist/.'
+        desc: 'Designate path of directory for project source code',
+        defaults: './src'
     },
     noBenchmark: {
         type: 'Boolean',
@@ -66,7 +66,6 @@ module.exports = yeoman.generators.Base.extend({
                 done();
             }.bind(generator));
         }
-        generator.deployDirectory = 'dist/.'
         generator.config.set('appDir', generator.appDir);
     },
     writing: {

@@ -57,6 +57,6 @@
     "prestart": "nohup npm run rest-api &",<% } %>
     "start": " grunt",
     "predeploy": "npm run build",
-    "deploy": "cp -a dist/. <%= deployDirectory %>"
+    "deploy": "cp -a dist/. dist/."
   }
 }

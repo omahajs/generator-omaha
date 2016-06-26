@@ -29,11 +29,6 @@ var commandLineOptions = {
     templateTechnology: {
         desc: 'Choose technology to use when pre-compiling templates',
         defaults: 'handlebars'
-    },
-    deployDirectory: {
-        type: 'String',
-        desc: 'Designate path of directory for production app files.',
-        defaults: 'dist/.'
     }
 };
 
