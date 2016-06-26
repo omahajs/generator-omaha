@@ -38,7 +38,7 @@ function verifyProjectConfiguration(useBenchmark, useCoveralls, useJsinspect) {
 }
 
 describe('Project generator', function() {
-    this.timeout(300);
+    this.timeout(500);
     var stub;
     var SKIP_INSTALL = {skipInstall: true};
     describe('can create and configure files with prompt choices', function() {
