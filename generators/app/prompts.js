@@ -80,12 +80,6 @@ var webappQuestions = [
         name: 'imagemin',
         message: 'Use image compression for deployed application?',
         default: true
-    },
-    {
-        type: 'confirm',
-        name: 'styleguide',
-        message: 'Generate styleguide from Markdown comments inside your stylesheeets with mdcss?',
-        default: true
     }
 ];
 var TOTAL_STEPS = projectQuestions.length + webappQuestions.length;

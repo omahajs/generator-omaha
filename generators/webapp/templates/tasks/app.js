@@ -69,10 +69,10 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
         'clean:docs',
-        'jsdoc:app',<% if (styleguide) { %><% if (useLess) { %>
+        'jsdoc:app',<% if (useLess) { %>
         'less:main',/*pre-process */<% } %><% if (useSass) { %>
         'sass:main',/*pre-process */<% } %>
-        'postcss:styleguide'<% } %>
+        'postcss:styleguide'
     ]);
     grunt.registerTask('reports', 'Generate code coverage and plato report - then open both in browser', [
         'plato',

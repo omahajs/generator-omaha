@@ -1,9 +1,12 @@
-var chai   = require('chai');
-var assert = chai.assert;
+'use strict';
+
 var path   = require('path');
 var fs     = require('fs');
-var utils  = require('../generators/app/utils').json;
+var chai   = require('chai');
+var assert = chai.assert;
 chai.use(require('chai-shallow-deep-equal'));
+
+var utils  = require('../generators/app/utils').json;
 
 function removeJSON(fileName) {fs.unlinkSync(fileName);}
 

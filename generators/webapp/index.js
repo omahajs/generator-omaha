@@ -93,7 +93,6 @@ module.exports = yeoman.generators.Base.extend({
                 Object.keys(options).forEach(function(option) {
                     generator[option] = options[option];
                 });
-                generator.styleguide = props.styleguide;
                 generator.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
                 done();
             }.bind(generator));
@@ -193,7 +192,9 @@ module.exports = yeoman.generators.Base.extend({
             'grunt-postcss',
             'autoprefixer',
             'cssnano',
-            'postcss-safe-parser'
+            'postcss-safe-parser',
+            'mdcss',
+            'mdcss-theme-github'
         ];
         var requirejsDevDependencies = [
             'grunt-contrib-requirejs',
@@ -204,7 +205,6 @@ module.exports = yeoman.generators.Base.extend({
             cssDevDependencies,
             requirejsDevDependencies,
             generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [],
-            generator.use.styleguide ? ['mdcss', 'mdcss-theme-github'] : [],
             generator.use.a11y ? ['grunt-a11y', 'grunt-accessibility'] : [],
             generator.use.imagemin ? ['grunt-contrib-imagemin'] :[],
             generator.useLess ? ['grunt-contrib-less'] : [],

@@ -6,14 +6,27 @@ var base    = require('yeoman-generator').generators.Base;
 var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
 
-var createPlugin = require('./helpers').createPlugin;
-
-var appDir = './';
-var pluginName= 'pluginName';
-var pluginDirectory = 'app/plugins/';
-var pluginPath = pluginDirectory + pluginName + '.js';
+function createPlugin(options) {
+    var testOptions = {};
+    if (options.customDependency && options.alias) {
+        testOptions.customDependency = options.customDependency;
+        testOptions.alias = options.alias;
+    } else {
+        options.dependencies.forEach(function(dep) {
+            testOptions[dep] = true;
+        });
+    }
+    return helpers.run(path.join(__dirname, '../generators/plugin'))
+        .withLocalConfig({appDir: './'})
+        .withArguments([options.name])
+        .withPrompts({dependencies: options.dependencies})
+        .withOptions(options.useCommandLineOptions ? testOptions : {})
+        .toPromise();
+}
 
 describe('Plugin generator', function() {
+    var pluginName = 'pluginName';
+    var pluginPath = 'app/plugins/' + pluginName + '.js';
     it('can create a vanilla JavaScript plugin', function(done) {
         createPlugin({
             name: pluginName,

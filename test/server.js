@@ -4,7 +4,7 @@ var path    = require('path');
 var assert  = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
-function verifyFiles() {
+function verifyCoreFiles() {
     var ALWAYS_INCLUDED = [
         'package.json',
         'app.json',
@@ -43,7 +43,7 @@ describe('Server generator', function() {
                 })
                 .toPromise()
                 .then(function() {
-                    verifyFiles();
+                    verifyCoreFiles();
                     verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
                     verifyMarkdownSupport(true);
                 });
@@ -58,7 +58,7 @@ describe('Server generator', function() {
                 })
                 .toPromise()
                 .then(function() {
-                    verifyFiles();
+                    verifyCoreFiles();
                     verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
                     verifyMarkdownSupport(false);
                 });
@@ -71,7 +71,7 @@ describe('Server generator', function() {
                 })
                 .toPromise()
                 .then(function() {
-                    verifyFiles();
+                    verifyCoreFiles();
                     verifyPorts(8111, 8443, 13337);
                     verifyMarkdownSupport(false);
                 });
@@ -82,7 +82,7 @@ describe('Server generator', function() {
                 .withPrompts({markdownSupport: true})
                 .toPromise()
                 .then(function() {
-                    verifyFiles();
+                    verifyCoreFiles();
                     verifyPorts(8111, 8443, 13337);
                     verifyMarkdownSupport(true);
                 });
@@ -92,7 +92,7 @@ describe('Server generator', function() {
                 .withOptions({skipInstall: true})
                 .toPromise()
                 .then(function() {
-                    verifyFiles();
+                    verifyCoreFiles();
                     verifyPorts(8111, 8443, 13337);
                     verifyMarkdownSupport(false);
                 });

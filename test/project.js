@@ -9,7 +9,7 @@ var base    = require('yeoman-generator').generators.Base;
 
 var prompts = require('../generators/app/prompts');
 
-function verifyProjectDetails() {
+function verifyCoreFiles() {
     var ALWAYS_INCLUDED = [
         'LICENSE',
         'package.json',
@@ -54,7 +54,7 @@ describe('Project generator', function() {
                 .withPrompts(prompts.project.defaults)
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(true, true, true);
                 });
         });
@@ -68,7 +68,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(false, false, false);
                 });
         });
@@ -80,7 +80,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(false, true, true);
                 });
         });
@@ -92,7 +92,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(true, false, true);
                 });
         });
@@ -104,7 +104,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(true, true, false);
                 });
         });
@@ -124,7 +124,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(true, true, true);
                 });
         });
@@ -136,7 +136,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(false, true, true);
                 });
         });
@@ -148,7 +148,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(true, false, true);
                 });
         });
@@ -160,7 +160,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(true, true, false);
                 });
         });
@@ -174,7 +174,7 @@ describe('Project generator', function() {
                 }))
                 .toPromise()
                 .then(function() {
-                    verifyProjectDetails();
+                    verifyCoreFiles();
                     verifyProjectConfigs(false, false, false);
                 });
         });
