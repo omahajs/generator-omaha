@@ -133,6 +133,10 @@ webappQuestions.forEach(function(question) {
 });
 defaults.useSass = !defaults.useLess;
 
+defaults.webapp.scriptBundler = 'requirejs';
+defaults.webapp.cssPreprocessor = 'less';
+defaults.webapp.templateTechnology = 'handlebars';
+
 exports.project = {
     defaults: defaults.project,
     questions: projectQuestions.map(addStepNumber)
@@ -141,7 +145,38 @@ exports.webapp = {
     defaults: defaults.webapp,
     questions: webappQuestions.map(addStepNumber)
 };
-
+exports.choose = function() {
+    var choices = {
+        scriptBundler: 'requirejs',
+        cssPreprocessor: 'less',
+        templateTechnology: 'handlebars'
+    };
+    Array.prototype.slice.call(arguments)
+        .map(function(item) {return Array.isArray(item) ? item : [item];})
+        .reduce(function(a, b) {return a.concat(b);})
+        .forEach(function(choice) {
+            switch (choice) {
+                case 'less':
+                    break;
+                case 'handlebars':
+                    break;
+                case 'browserify':
+                    choices.scriptBundler = 'browserify';
+                    break;
+                case 'sass':
+                    choices.cssPreprocessor = 'sass';
+                    break;
+                case 'just-css':
+                    choices.cssPreprocessor = 'none';
+                    break;
+                case 'underscore':
+                    choices.templateTechnology = 'underscore';
+                    break;
+                default:
+            }
+        });
+    return choices;
+}
 function addStepNumber(question, index, array) {
     var step = index + 1;
     step = (step < 10) ? ('0' + step) : step;

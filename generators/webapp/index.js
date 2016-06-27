@@ -39,12 +39,14 @@ module.exports = yeoman.generators.Base.extend({
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
-        generator.config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'John Doe');
     },
     prompting: function() {
         var done = this.async();
         var generator = this;
         !generator.config.get('hideBanner') && generator.log(banner);
+        generator.projectName = generator.config.get('projectName');
+        generator.userName = generator.config.get('userName') || generator.user.git.name();
+        generator.config.set('appDir', generator.appDir);
         if (generator.options.defaults) {
             generator.use = prompt.defaults;
             Object.keys(prompt.defaults).forEach(function(option) {
@@ -91,14 +93,11 @@ module.exports = yeoman.generators.Base.extend({
                 Object.keys(options).forEach(function(option) {
                     generator[option] = options[option];
                 });
-                generator.projectName = props.projectName;
                 generator.styleguide = props.styleguide;
                 generator.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
                 done();
             }.bind(generator));
         }
-        generator.userName = generator.config.get('userName');
-        generator.config.set('appDir', generator.appDir);
     },
     writing: {
         configFiles: function() {

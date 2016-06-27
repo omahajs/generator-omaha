@@ -53,6 +53,7 @@ module.exports = yeoman.generators.Base.extend({
         !generator.config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
             generator.projectName = generator.use.projectName;
+            generator.config.set('projectName', generator.projectName);
             generator.appDir = (!/\/$/.test(generator.use.appDir)) ? generator.use.appDir + '/' : generator.use.appDir;
             done();
         } else {
@@ -66,11 +67,11 @@ module.exports = yeoman.generators.Base.extend({
                 done();
             }.bind(generator));
         }
-        generator.config.set('appDir', generator.appDir);
     },
     writing: {
         configFiles: function() {
             var generator = this;
+            generator.config.set('appDir', generator.appDir);
             generator.useBenchmark = generator.use.benchmark && !generator.options.noBenchmark;
             generator.useCoveralls = generator.use.coveralls && !generator.options.noCoveralls;
             generator.useJsinspect = generator.use.jsinspect && !generator.options.noJsinspect;

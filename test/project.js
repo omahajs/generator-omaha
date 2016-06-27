@@ -7,25 +7,24 @@ var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
 var base    = require('yeoman-generator').generators.Base;
 
-var prompts = require('../generators/app/prompts').project;
-
-var ALWAYS_INCLUDED = [
-    'LICENSE',
-    'package.json',
-    'Gruntfile.js',
-    '.gitignore',
-    'config/default.json',
-    'config/.eslintrc.js',
-    'config/karma.conf.js',
-    'test/config.js'
-];
+var prompts = require('../generators/app/prompts');
 
 function verifyProjectDetails() {
+    var ALWAYS_INCLUDED = [
+        'LICENSE',
+        'package.json',
+        'Gruntfile.js',
+        '.gitignore',
+        'config/default.json',
+        'config/.eslintrc.js',
+        'config/karma.conf.js',
+        'test/config.js'
+    ];
     assert.fileContent('package.json', '"name": "tech"');
     assert.fileContent('package.json', '"author": "A. Developer"');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
-function verifyProjectConfiguration(useBenchmark, useCoveralls, useJsinspect) {
+function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
     var verifyBenchmark = useBenchmark ? assert.fileContent : assert.noFileContent;
     var verifyCoveralls = useCoveralls ? assert.fileContent : assert.noFileContent;
     var verifyJsinspect = useJsinspect ? assert.fileContent : assert.noFileContent;
@@ -52,17 +51,17 @@ describe('Project generator', function() {
         it('all prompts TRUE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(prompts.defaults)
+                .withPrompts(prompts.project.defaults)
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(true, true, true);
+                    verifyProjectConfigs(true, true, true);
                 });
         });
         it('all prompts FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(prompts.defaults), {
+                .withPrompts(_.extend(_.clone(prompts.project.defaults), {
                     benchmark: false,
                     coveralls: false,
                     jsinspect: false
@@ -70,43 +69,43 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(false, false, false);
+                    verifyProjectConfigs(false, false, false);
                 });
         });
         it('only benchmark FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(prompts.defaults), {
+                .withPrompts(_.extend(_.clone(prompts.project.defaults), {
                     benchmark: false
                 }))
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(false, true, true);
+                    verifyProjectConfigs(false, true, true);
                 });
         });
         it('only coveralls FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(prompts.defaults), {
+                .withPrompts(_.extend(_.clone(prompts.project.defaults), {
                     coveralls: false
                 }))
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(true, false, true);
+                    verifyProjectConfigs(true, false, true);
                 });
         });
         it('only jsinspect FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(prompts.defaults), {
+                .withPrompts(_.extend(_.clone(prompts.project.defaults), {
                     jsinspect: false
                 }))
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(true, true, false);
+                    verifyProjectConfigs(true, true, false);
                 });
         });
     });
@@ -126,7 +125,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(true, true, true);
+                    verifyProjectConfigs(true, true, true);
                 });
         });
         it('--defaults --no-benchmark', function() {
@@ -138,7 +137,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(false, true, true);
+                    verifyProjectConfigs(false, true, true);
                 });
         });
         it('--defaults --no-coveralls', function() {
@@ -150,7 +149,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(true, false, true);
+                    verifyProjectConfigs(true, false, true);
                 });
         });
         it('--defaults --no-jsinspect', function() {
@@ -162,7 +161,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(true, true, false);
+                    verifyProjectConfigs(true, true, false);
                 });
         });
         it('--defaults --no-benchmark --no-coveralls --no-jsinspect', function() {
@@ -176,7 +175,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyProjectDetails();
-                    verifyProjectConfiguration(false, false, false);
+                    verifyProjectConfigs(false, false, false);
                 });
         });
     });
