@@ -1,11 +1,11 @@
 'use strict';
 
 var path    = require('path');
-var assert  = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
+var assert  = require('yeoman-assert');
+var helpers = require('yeoman-test');
 
 function verifyFiles() {
-    assert.file([
+    var ALWAYS_INCLUDED = [
         'package.json',
         'app.json',
         'index.js',
@@ -14,49 +14,26 @@ function verifyFiles() {
         'web/server.js',
         'web/client/index.html',
         'favicon.ico'
-    ]);
+    ];
+    ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
-
 function verifyPorts(http, https, ws) {
     assert.fileContent('config/default.js', 'port: process.env.PORT || ' + http);
     assert.fileContent('config/default.js', 'port: ' + https);
     assert.fileContent('config/default.js', 'port: ' + ws);
 }
-
 function verifyMarkdownSupport(exists) {
-    var verify = exists ? assert.fileContent : assert.noFileContent;
-    if (exists) {
-        assert.file('web/markdown/example.md');
-    } else {
-        assert.noFile('web/markdown/example.md');
-    }
-    verify('web/server.js', 'engine(\'md\', ');
+    (exists ? assert.file : assert.noFile)('web/markdown/example.md');
+    (exists ? assert.fileContent : assert.noFileContent)('web/server.js', 'engine(\'md\', ');
 }
 
 describe('Server generator', function() {
     var HTTP_PORT  = 123;
     var HTTPS_PORT = 456;
     var WS_PORT    = 789;
-    describe('with custom ports set as options', function() {
-        before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/server'))
-                .withOptions({
-                    skipInstall: true,
-                    http: HTTP_PORT,
-                    https: HTTPS_PORT,
-                    ws: WS_PORT
-                })
-                .on('end', done);
-        });
-        it('can create and configure files', function() {
-            verifyFiles();
-            verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
-            verifyMarkdownSupport(false);
-        });
-    });
-    describe('with custom ports set from prompt', function() {
-        before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/server'))
+    describe('can create and configure files', function() {
+        it('with custom ports set via prompt choices', function() {
+            return helpers.run(path.join(__dirname, '../generators/server'))
                 .withOptions({skipInstall: true})
                 .withPrompts({
                     httpPort:      HTTP_PORT,
@@ -64,52 +41,61 @@ describe('Server generator', function() {
                     websocketPort: WS_PORT,
                     markdownSupport: true
                 })
-                .on('end', done);
+                .toPromise()
+                .then(function() {
+                    verifyFiles();
+                    verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
+                    verifyMarkdownSupport(true);
+                });
         });
-        it('can create and configure files', function() {
-            verifyFiles();
-            verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
-            verifyMarkdownSupport(true);
+        it('with custom ports set via command line options', function() {
+            return helpers.run(path.join(__dirname, '../generators/server'))
+                .withOptions({
+                    skipInstall: true,
+                    http:  HTTP_PORT,
+                    https: HTTPS_PORT,
+                    ws:    WS_PORT
+                })
+                .toPromise()
+                .then(function() {
+                    verifyFiles();
+                    verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
+                    verifyMarkdownSupport(false);
+                });
         });
-    });
-    describe('with default options', function() {
-        before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/server'))
+        it('with default command line options', function() {
+            return helpers.run(path.join(__dirname, '../generators/server'))
                 .withOptions({
                     skipInstall: true,
                     defaults: true
                 })
-                .on('end', done);
+                .toPromise()
+                .then(function() {
+                    verifyFiles();
+                    verifyPorts(8111, 8443, 13337);
+                    verifyMarkdownSupport(false);
+                });
         });
-        it('can create and configure files', function() {
-            verifyFiles();
-            verifyPorts(8111, 8443, 13337);
-            verifyMarkdownSupport(false);
-        });
-    });
-    describe('with Markdown support', function() {
-        before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/server'))
+        it('with Markdown support', function() {
+            return helpers.run(path.join(__dirname, '../generators/server'))
                 .withOptions({skipInstall: true})
                 .withPrompts({markdownSupport: true})
-                .on('end', done);
+                .toPromise()
+                .then(function() {
+                    verifyFiles();
+                    verifyPorts(8111, 8443, 13337);
+                    verifyMarkdownSupport(true);
+                });
         });
-        it('can create and configure files', function() {
-            verifyFiles();
-            verifyPorts(8111, 8443, 13337);
-            verifyMarkdownSupport(true);
-        });
-    });
-    describe('without Markdown support', function() {
-        before(function(done) {
-            helpers.run(path.join(__dirname, '../generators/server'))
+        it('without Markdown support', function() {
+            return helpers.run(path.join(__dirname, '../generators/server'))
                 .withOptions({skipInstall: true})
-                .on('end', done);
-        });
-        it('can create and configure files', function() {
-            verifyFiles();
-            verifyPorts(8111, 8443, 13337);
-            verifyMarkdownSupport(false);
+                .toPromise()
+                .then(function() {
+                    verifyFiles();
+                    verifyPorts(8111, 8443, 13337);
+                    verifyMarkdownSupport(false);
+                });
         });
     });
 });
