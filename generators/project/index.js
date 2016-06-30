@@ -55,6 +55,7 @@ module.exports = yeoman.generators.Base.extend({
             generator.projectName = generator.use.projectName;
             generator.config.set('projectName', generator.projectName);
             generator.appDir = (!/\/$/.test(generator.use.appDir)) ? generator.use.appDir + '/' : generator.use.appDir;
+            generator.config.set('appDir', generator.appDir);
             done();
         } else {
             function isUnAnswered(option) {
@@ -64,6 +65,7 @@ module.exports = yeoman.generators.Base.extend({
                 generator.use = props;
                 generator.projectName = props.projectName;
                 generator.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
+                generator.config.set('appDir', generator.appDir);
                 done();
             }.bind(generator));
         }
@@ -71,10 +73,13 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         configFiles: function() {
             var generator = this;
-            generator.config.set('appDir', generator.appDir);
             generator.useBenchmark = generator.use.benchmark && !generator.options.noBenchmark;
             generator.useCoveralls = generator.use.coveralls && !generator.options.noCoveralls;
             generator.useJsinspect = generator.use.jsinspect && !generator.options.noJsinspect;
+            generator.config.set('projectName', generator.projectName);
+            generator.config.set('useBenchmark', generator.useBenchmark);
+            generator.config.set('useCoveralls', generator.useCoveralls);
+            generator.config.set('useJsinspect', generator.useJsinspect);
             generator.template('_LICENSE', 'LICENSE');
             generator.template('_package.json', 'package.json');
             generator.template('_Gruntfile.js', 'Gruntfile.js');
@@ -106,8 +111,8 @@ module.exports = yeoman.generators.Base.extend({
             generator.useCoveralls ? ['grunt-karma-coveralls'] : [],
             generator.useJsinspect ? ['jsinspect', 'grunt-jsinspect'] : []
         );
-        generator.npmInstall();
-        generator.npmInstall(devDependencies, {saveDev: true});
+        // generator.npmInstall();
+        // generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;

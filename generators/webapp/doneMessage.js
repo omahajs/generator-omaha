@@ -19,11 +19,11 @@ var doneMessage = function(generator) {
         '\nCSS pre-processor: ' + cssPreprocessor +
         '\nTemplate renderer: ' + chalk[generator.useHandlebars ? 'yellow' : 'blue'].bold(generator.useHandlebars ? 'Handlebars' : 'Underscore') +
         '\n' +
-        '\n' + (generator.use.benchmarks ? yes : no)('Install benchmarks.js support') +
-        '\n' + (generator.use.coveralls  ? yes : no)('Integrate Coveralls.io support') +
-        '\n' + (generator.use.jsinspect  ? yes : no)('Find duplicate code with JSInspect') +
-        '\n' + (generator.use.a11y       ? yes : no)('Lint HTML with a11y') +
-        '\n' + (generator.use.imagemin   ? yes : no)('Compress production images with imagemin') +
+        '\n' + (generator.config.get('useBenchmark') ? yes : no)('Install benchmarks.js support') +
+        '\n' + (generator.config.get('useCoveralls') ? yes : no)('Integrate Coveralls.io support') +
+        '\n' + (generator.config.get('useJsinspect') ? yes : no)('Find duplicate code with JSInspect') +
+        '\n' + (generator.use.a11y                   ? yes : no)('Lint HTML with a11y') +
+        '\n' + (generator.use.imagemin               ? yes : no)('Compress production images with imagemin') +
         '\n' +
         '\n' + chalk.green.bold('All done!') +
         '\n' + chalk.white('Try out your shiny new app by running ') + chalk.bgBlack.white(SPACE + LETS_GET_STARTED + SPACE) +

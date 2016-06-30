@@ -19,7 +19,7 @@ var commandLineOptions = {
     scriptBundler: {
         type: 'String',
         desc: 'Choose script bundler',
-        defaults: 'requirejs'
+        defaults: ''
     },
     cssPreprocessor: {
         type: 'String',
@@ -44,9 +44,6 @@ module.exports = yeoman.generators.Base.extend({
         var done = this.async();
         var generator = this;
         !generator.config.get('hideBanner') && generator.log(banner);
-        generator.projectName = generator.config.get('projectName');
-        generator.userName = generator.config.get('userName') || generator.user.git.name();
-        generator.config.set('appDir', generator.appDir);
         if (generator.options.defaults) {
             generator.use = prompt.defaults;
             Object.keys(prompt.defaults).forEach(function(option) {
@@ -101,6 +98,8 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         configFiles: function() {
             var generator = this;
+            generator.projectName = generator.config.get('projectName');
+            generator.userName = generator.config.get('userName') || generator.user.git.name();
             generator.template('_README.md', 'README.md');
             generator.template('config/_csslintrc', 'config/.csslintrc');
             generator.template('tasks/build.js', 'tasks/build.js');
@@ -213,8 +212,8 @@ module.exports = yeoman.generators.Base.extend({
         );
         generator.useHandlebars && dependencies.push('handlebars');
 
-        generator.npmInstall(dependencies, {save: true});
-        generator.npmInstall(devDependencies, {saveDev: true});
+        // generator.npmInstall(dependencies, {save: true});
+        // generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;
