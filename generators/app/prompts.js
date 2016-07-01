@@ -85,26 +85,7 @@ var webappQuestions = [
 var TOTAL_STEPS = projectQuestions.length + webappQuestions.length;
 var questions = projectQuestions.concat(webappQuestions)
 
-projectQuestions.forEach(function(question) {
-    defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
-    promptOption = {};
-    switch (question.name) {
-        case 'scriptBundler':
-            promptOption.useBrowserify = (defaultValue === 'browserify');
-            break;
-        case 'cssPreprocessor':
-            promptOption.useLess = (defaultValue === 'less');
-            break;
-        case 'templateTechnology':
-            promptOption.useHandlebars = (defaultValue === 'handlebars');
-            break;
-        default:
-            promptOption[question.name] = defaultValue;
-    }
-    for (var key in promptOption) {
-        defaults.project[key] = promptOption[key];
-    }
-});
+projectQuestions.forEach(function(question) {defaults.project[question.name] = question.default;});
 webappQuestions.forEach(function(question) {
     defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
     promptOption = {};
@@ -139,45 +120,9 @@ exports.webapp = {
     defaults: defaults.webapp,
     questions: webappQuestions.map(addStepNumber)
 };
-exports.choose = function() {
-    var choices = {
-        scriptBundler: 'requirejs',
-        cssPreprocessor: 'less',
-        templateTechnology: 'handlebars'
-    };
-    Array.prototype.slice.call(arguments)
-        .map(function(item) {return Array.isArray(item) ? item : [item];})
-        .reduce(function(a, b) {return a.concat(b);})
-        .forEach(function(choice) {
-            switch (choice) {
-                case 'less':
-                    break;
-                case 'handlebars':
-                    break;
-                case 'browserify':
-                    choices.scriptBundler = 'browserify';
-                    break;
-                case 'sass':
-                    choices.cssPreprocessor = 'sass';
-                    break;
-                case 'just-css':
-                    choices.cssPreprocessor = 'none';
-                    break;
-                case 'underscore':
-                    choices.templateTechnology = 'underscore';
-                    break;
-                default:
-            }
-        });
-    return choices;
-}
 function addStepNumber(question, index, array) {
     var step = index + 1;
     step = (step < 10) ? ('0' + step) : step;
     question.message = chalk[step === TOTAL_STEPS ? 'green' : 'gray']('('+ step + '/' + TOTAL_STEPS + ') ') + question.message;
     return question;
-}
-function select(arr, items) {
-    function isSelectedItem(item) {return items.indexOf(item.name) > -1;}
-    return arr.filter(isSelectedItem);
 }
