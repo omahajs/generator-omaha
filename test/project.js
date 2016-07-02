@@ -30,7 +30,7 @@ function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
     var verifyJsinspect = useJsinspect ? assert.fileContent : assert.noFileContent;
     (useBenchmark ? assert.file : assert.noFile)('test/benchmarks/example.benchmark.js');
     verifyBenchmark('Gruntfile.js','benchmark: ');
-    verifyCoveralls('package.json', '"test-ci": "npm test && grunt coveralls"');
+    verifyCoveralls('package.json', '"test:ci": "npm test && grunt coveralls"');
     verifyCoveralls('Gruntfile.js','coveralls: ');
     verifyJsinspect('package.json', '"inspect": "grunt jsinspect:app"');
     verifyJsinspect('Gruntfile.js','jsinspect: ');
@@ -132,7 +132,7 @@ describe('Project generator', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(_.extend(_.clone(SKIP_INSTALL), {
                     defaults: true,
-                    noBenchmark: true
+                    skipBenchmark: true
                 }))
                 .toPromise()
                 .then(function() {
@@ -144,7 +144,7 @@ describe('Project generator', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(_.extend(_.clone(SKIP_INSTALL), {
                     defaults: true,
-                    noCoveralls: true
+                    skipCoveralls: true
                 }))
                 .toPromise()
                 .then(function() {
@@ -156,7 +156,7 @@ describe('Project generator', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(_.extend(_.clone(SKIP_INSTALL), {
                     defaults: true,
-                    noJsinspect: true
+                    skipJsinspect: true
                 }))
                 .toPromise()
                 .then(function() {
@@ -168,9 +168,9 @@ describe('Project generator', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(_.extend(_.clone(SKIP_INSTALL), {
                     defaults: true,
-                    noBenchmark: true,
-                    noCoveralls: true,
-                    noJsinspect: true
+                    skipBenchmark: true,
+                    skipCoveralls: true,
+                    skipJsinspect: true
                 }))
                 .toPromise()
                 .then(function() {

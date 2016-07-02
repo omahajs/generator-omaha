@@ -64,7 +64,7 @@ module.exports = function(grunt) {
         'bundle-scripts',
         'htmlmin',<% if (useBrowserify) { %>
         'replace:bundle-url',<% } %>
-        <% if (use.imagemin) { %>'imagemin:build',<% } else { %>'copy:images',<% } %>
+        <% if (useImagemin) { %>'imagemin:build',<% } else { %>'copy:images',<% } %>
         'copy:fonts'
     ]);
     grunt.registerTask('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [

@@ -55,7 +55,7 @@
     "postversion": "git push && git push --tags",
     "rest-api": "json-server --port 8080 --watch test/data/db.json",<% if (/^linux/.test(process.platform)) { %>
     "prestart": "nohup npm run rest-api &",<% } %>
-    "start": " grunt",
+    "start": " grunt serve",
     "predeploy": "npm run build",
     "deploy": "cp -a dist/. dist/."
   }

@@ -18,7 +18,7 @@ var browserifyContent = [
     ['Gruntfile.js', 'replace:'],
     ['Gruntfile.js', 'uglify:']
 ];
-var a11yContent = [
+var ariaContent = [
     ['Gruntfile.js', 'a11y: '],
     ['Gruntfile.js', 'accessibility: '],
     ['Gruntfile.js', 'aria-audit']
@@ -33,8 +33,7 @@ function verifyCoreFiles() {
     var ALWAYS_INCLUDED = [
         'README.md',
         'config/.csslintrc',
-        'tasks/build.js',
-        'tasks/app.js'
+        'tasks/webapp.js'
     ];
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
@@ -53,18 +52,14 @@ function verifyBoilerplateFiles(appDir) {
         .forEach(file => assert.file(file));
 }
 function verifyDefaultConfiguration() {
-    // a11y
-    assert.fileContent(a11yContent);
-    // imagemin
-    assert.fileContent('Gruntfile.js', 'imagemin: ');
-    // script bundler
-    assert.noFileContent(browserifyContent);
-    // css pre-processor
-    assert.fileContent('Gruntfile.js', 'less: ');
-    assert.noFileContent('Gruntfile.js', 'sass: ');
-    // template technology
-    assert.noFileContent('Gruntfile.js', 'jst');
-    assert.fileContent('Gruntfile.js', 'handlebars');
+    verifyCoreFiles();
+    assert.fileContent(ariaContent);                 // aria
+    assert.fileContent('Gruntfile.js', 'imagemin: ');// imagemin
+    assert.noFileContent(browserifyContent);         // script bundler
+    assert.fileContent('Gruntfile.js', 'less: ');    // css pre-processor
+    assert.noFileContent('Gruntfile.js', 'sass: ');  // css pre-processor
+    assert.noFileContent('Gruntfile.js', 'jst');     // template technology
+    assert.fileContent('Gruntfile.js', 'handlebars');// template technology
 }
 
 describe('Webapp generator', function() {
@@ -85,8 +80,8 @@ describe('Webapp generator', function() {
             .withLocalConfig({projectName: 'tech'})
             .toPromise()
             .then(function() {
-                verifyCoreFiles();
                 verifyBoilerplateFiles('./');
+                verifyDefaultConfiguration();
             });
     });
 });
@@ -112,7 +107,7 @@ describe('Default generator', function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
                     assert.noFileContent(browserifyContent);
-                    assert.noFileContent(a11yContent);
+                    assert.noFileContent(ariaContent);
                     assert.noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
@@ -122,7 +117,6 @@ describe('Default generator', function() {
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
-                    verifyCoreFiles();
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
                 });
@@ -136,7 +130,7 @@ describe('Default generator', function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
                     assert.fileContent(browserifyContent);
-                    assert.fileContent(a11yContent);
+                    assert.fileContent(ariaContent);
                     assert.fileContent('Gruntfile.js', 'imagemin: ');
 
                 });
@@ -165,18 +159,42 @@ describe('Default generator', function() {
                     assert.noFileContent('Gruntfile.js', 'handlebars');
                 });
         });
-        it('only a11y option FALSE', function() {
+        it('all prompts TRUE (--skip-aria)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {a11y: false}))
+                .withOptions(_.extend({}, SKIP_INSTALL, {skipAria: true}))
+                .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
-                    assert.noFileContent(a11yContent);
+                    assert.noFileContent(ariaContent);
+                    assert.fileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
-        it('only imagemin option FALSE', function() {
+        it('all prompts TRUE (--skip-imagemin)', function() {
+            return helpers.run(path.join(__dirname, '../generators/app'))
+                .withOptions(_.extend({}, SKIP_INSTALL, {skipImagemin: true}))
+                .withPrompts(ALL_TRUE)
+                .toPromise()
+                .then(function() {
+                    verifyCoreFiles();
+                    verifyBoilerplateFiles('./');
+                    assert.fileContent(ariaContent);
+                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                });
+        });
+        it('only aria prompt FALSE', function() {
+            return helpers.run(path.join(__dirname, '../generators/app'))
+                .withOptions(SKIP_INSTALL)
+                .withPrompts(_.extend({}, ALL_TRUE, {aria: false}))
+                .toPromise()
+                .then(function() {
+                    verifyCoreFiles();
+                    verifyBoilerplateFiles('./');
+                    assert.noFileContent(ariaContent);
+                });
+        });
+        it('only imagemin prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(_.extend({}, ALL_TRUE, {imagemin: false}))
@@ -196,9 +214,33 @@ describe('Default generator', function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
                     assert.fileContent(browserifyContent);
-                    assert.fileContent(a11yContent);
+                    assert.fileContent(ariaContent);
                     assert.fileContent('Gruntfile.js', 'imagemin: ');
 
+                });
+        });
+        it('select sass via prompt', function() {
+            return helpers.run(path.join(__dirname, '../generators/app'))
+                .withOptions(SKIP_INSTALL)
+                .withPrompts(_.extend({}, ALL_TRUE, {cssPreprocessor: 'sass'}))
+                .toPromise()
+                .then(function() {
+                    verifyCoreFiles();
+                    verifyBoilerplateFiles('./');
+                    assert.fileContent('Gruntfile.js', 'sass: ');
+                    assert.noFileContent('Gruntfile.js', 'less: ');
+                });
+        });
+        it('select no CSS pre-processor via prompt', function() {
+            return helpers.run(path.join(__dirname, '../generators/app'))
+                .withOptions(SKIP_INSTALL)
+                .withPrompts(_.extend({}, ALL_TRUE, {cssPreprocessor: 'none'}))
+                .toPromise()
+                .then(function() {
+                    verifyCoreFiles();
+                    verifyBoilerplateFiles('./');
+                    assert.noFileContent('Gruntfile.js', 'sass: ');
+                    assert.noFileContent('Gruntfile.js', 'less: ');
                 });
         });
     });
@@ -215,7 +257,6 @@ describe('Default generator', function() {
                 .withOptions(_.extend({}, SKIP_INSTALL, {defaults: true}))
                 .toPromise()
                 .then(function() {
-                    verifyCoreFiles();
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
                 });
@@ -263,6 +304,56 @@ describe('Default generator', function() {
                     assert.noFileContent('Gruntfile.js', 'handlebars');
                 });
         });
+        it('--defaults --skip-aria --skip-imagemin', function() {
+            return helpers.run(path.join(__dirname, '../generators/app'))
+                .withOptions(_.extend({}, SKIP_INSTALL, {
+                    defaults: true,
+                    skipAria: true,
+                    skipImagemin: true}))
+                .toPromise()
+                .then(function() {
+                    verifyCoreFiles();
+                    verifyBoilerplateFiles('./');
+                    assert.noFileContent(ariaContent);
+                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                });
+        });
+        it('--defaults --skip-aria --skip-imagemin --script-bundler browserify', function() {
+            return helpers.run(path.join(__dirname, '../generators/app'))
+                .withOptions(_.extend({}, SKIP_INSTALL, {
+                    defaults: true,
+                    skipAria: true,
+                    skipImagemin: true,
+                    scriptBundler: 'browserify'}))
+                .toPromise()
+                .then(function() {
+                    verifyCoreFiles();
+                    verifyBoilerplateFiles('./');
+                    assert.fileContent(browserifyContent);
+                    assert.noFileContent(ariaContent);
+                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                });
+        });
+        it('--defaults --script-bundler browserify --css-preprocessor sass --template-technology underscore', function() {
+            return helpers.run(path.join(__dirname, '../generators/app'))
+                .withOptions(_.extend({}, SKIP_INSTALL, {
+                    defaults: true,
+                    scriptBundler: 'browserify',
+                    cssPreprocessor: 'sass',
+                    templateTechnology: 'underscore'}))
+                .toPromise()
+                .then(function() {
+                    verifyCoreFiles();
+                    verifyBoilerplateFiles('./');
+                    assert.fileContent(browserifyContent);
+                    assert.fileContent('Gruntfile.js', 'sass: ');
+                    assert.noFileContent('Gruntfile.js', 'less: ');
+                    assert.fileContent('Gruntfile.js', 'jst');
+                    assert.noFileContent('Gruntfile.js', 'handlebars');
+                    assert.fileContent(ariaContent);
+                    assert.fileContent('Gruntfile.js', 'imagemin: ');
+                });
+        });
     });
 });
 describe('Default generator (with custom source directory)', function() {
@@ -285,7 +376,6 @@ describe('Default generator (with custom source directory)', function() {
                 .withPrompts(_.extend(ALL_TRUE, {appDir: sourceDirectory}))
                 .toPromise()
                 .then(function() {
-                    verifyCoreFiles();
                     verifyBoilerplateFiles(sourceDirectory);
                     verifyDefaultConfiguration();
                 });
@@ -299,24 +389,24 @@ describe('Default generator (with custom source directory)', function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles(sourceDirectory);
                     assert.noFileContent(browserifyContent);
-                    assert.noFileContent(a11yContent);
+                    assert.noFileContent(ariaContent);
                     assert.noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
-        it('only a11y option FALSE', function() {
+        it('only aria prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {appDir: sourceDirectory, a11y: false}))
+                .withPrompts(_.extend({}, ALL_TRUE, {appDir: sourceDirectory, aria: false}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles(sourceDirectory);
                     assert.noFileContent(browserifyContent);
-                    assert.noFileContent(a11yContent);
+                    assert.noFileContent(ariaContent);
                     assert.fileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
-        it('only imagemin option FALSE', function() {
+        it('only imagemin prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(_.extend({}, ALL_TRUE, {appDir: sourceDirectory, imagemin: false}))
@@ -325,7 +415,7 @@ describe('Default generator (with custom source directory)', function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles(sourceDirectory);
                     assert.noFileContent(browserifyContent);
-                    assert.fileContent(a11yContent);
+                    assert.fileContent(ariaContent);
                     assert.noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });

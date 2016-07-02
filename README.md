@@ -42,12 +42,12 @@ Typical Workflows
 -----------------
 > After scaffolding a new project with `yo techtonic` ...
 
-- Serve live-reload enabled app with companion RESTful API using `npm start`
-- Demo your bundled project in a browser with `npm run demo`
-- Start a live-reload enabled server and open a browser with `grunt`, then...
+- Serve live-reload enabled app with companion RESTful API using `npm start`, then...
   - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
   - :sparkles: lint your code in real-time with a second terminal running `grunt linting`
-  - :100: run tests and calculate code coverage with `grunt covering`
+  - :100: run tests and calculate code coverage in real-time with `grunt covering`
+- Demo your bundled project in a browser with `npm run demo`
+- Run tests with `npm test`
 - View reports, documentation and styleguide:
   - code coverage: `grunt cover open:coverage`
   - Plato report: `grunt plato open:plato`
@@ -55,7 +55,7 @@ Typical Workflows
   - Living styleguide: `grunt docs open:styleguide`
 - [Review the code](/generators/app/templates/tasks) to see all the available tasks
 
-> View the [technologies used by the app generator](generators/app/README.md) and the [lint rules that make your code more secure](generators/app/templates/config/README.md)
+> View the [technologies used](generators/app/README.md) and the [lint rules that make your code more secure](generators/app/templates/config/README.md)
 
 Command Line Options
 --------------------
@@ -76,10 +76,12 @@ yo techtonic --defaults --script-bundler browserify
 **Available options**
 > Default in **bold**
 
-- `defaults`: scaffold app with no user input using defaults
-- `script-bundler`: **`requirejs`** | `browserify`
-- `css-preprocessor`: **`less`** | `sass` | `none`
-- `template-technology`: **`handlebars`** | `underscore`
+- `--defaults`: scaffold app with no user input using defaults
+- `--skip-a11y`: use with `--defaults`
+- `--skip-imagemin`: use with `--defaults`
+- `--script-bundler`: **`requirejs`** | `browserify`
+- `--css-preprocessor`: **`less`** | `sass` | `none`
+- `--template-technology`: **`handlebars`** | `underscore`
 
 **But wait, there's more!** Read about [all the available generators!](GENERATORS.md)
 

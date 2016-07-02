@@ -19,17 +19,17 @@ var commandLineOptions = {
         desc: 'Designate path of directory for project source code',
         defaults: './src'
     },
-    noBenchmark: {
+    skipBenchmark: {
         type: 'Boolean',
         desc: 'DO NOT add benchmark.js code and dependencies to project',
         defaults: false
     },
-    noCoveralls: {
+    skipCoveralls: {
         type: 'Boolean',
         desc: 'DO NOT add coveralls tasks and dependencies to project',
         defaults: false
     },
-    noJsinspect: {
+    skipJsinspect: {
         type: 'Boolean',
         desc: 'DO NOT add JSInspect tasks and dependencies to project',
         defaults: false
@@ -73,9 +73,9 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         configFiles: function() {
             var generator = this;
-            generator.useBenchmark = generator.use.benchmark && !generator.options.noBenchmark;
-            generator.useCoveralls = generator.use.coveralls && !generator.options.noCoveralls;
-            generator.useJsinspect = generator.use.jsinspect && !generator.options.noJsinspect;
+            generator.useBenchmark = generator.use.benchmark && !generator.options.skipBenchmark;
+            generator.useCoveralls = generator.use.coveralls && !generator.options.skipCoveralls;
+            generator.useJsinspect = generator.use.jsinspect && !generator.options.skipJsinspect;
             generator.config.set('projectName', generator.projectName);
             generator.config.set('useBenchmark', generator.useBenchmark);
             generator.config.set('useCoveralls', generator.useCoveralls);
@@ -111,15 +111,15 @@ module.exports = yeoman.generators.Base.extend({
             generator.useCoveralls ? ['grunt-karma-coveralls'] : [],
             generator.useJsinspect ? ['jsinspect', 'grunt-jsinspect'] : []
         );
-        // generator.npmInstall();
-        // generator.npmInstall(devDependencies, {saveDev: true});
+        generator.npmInstall();
+        generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
         utils.json.extend(generator.destinationPath('package.json'), {
             scripts: {
-                'test-ci': 'npm test'
+                'test:ci': 'npm test'
             }
         });
         if (generator.useBenchmark) {
@@ -129,7 +129,7 @@ module.exports = yeoman.generators.Base.extend({
             gruntfile.insertConfig('coveralls', tasks.coveralls);
             utils.json.extend(generator.destinationPath('package.json'), {
                 scripts: {
-                    'test-ci': 'npm test && grunt coveralls'
+                    'test:ci': 'npm test && grunt coveralls'
                 }
             });
         }

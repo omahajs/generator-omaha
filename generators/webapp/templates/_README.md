@@ -34,8 +34,8 @@ Folder Structure
     |   |- default.js
     |   \- karma.conf.js
     +- tasks
-    |   |- app.js
-    |   \- build.js
+    |   |- main.js
+    |   \- webapp.js
     +- test
     |   +- data
     |   +- jasmine

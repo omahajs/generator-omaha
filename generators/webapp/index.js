@@ -29,6 +29,16 @@ var commandLineOptions = {
     templateTechnology: {
         desc: 'Choose technology to use when pre-compiling templates',
         defaults: 'handlebars'
+    },
+    skipImagemin: {
+        type: 'Boolean',
+        desc: 'DO NOT add image minification to project deploy pipeline',
+        defaults: false
+    },
+    skipAria: {
+        type: 'Boolean',
+        desc: 'DO NOT add ARIA auditing tasks and dependencies to project',
+        defaults: false
     }
 };
 
@@ -100,10 +110,11 @@ module.exports = yeoman.generators.Base.extend({
             var generator = this;
             generator.projectName = generator.config.get('projectName');
             generator.userName = generator.config.get('userName') || generator.user.git.name();
+            generator.useAria = generator.use.aria && !generator.options.skipAria;
+            generator.useImagemin = generator.use.imagemin && !generator.options.skipImagemin;
             generator.template('_README.md', 'README.md');
             generator.template('config/_csslintrc', 'config/.csslintrc');
-            generator.template('tasks/build.js', 'tasks/build.js');
-            generator.template('tasks/app.js', 'tasks/app.js');
+            generator.template('tasks/webapp.js', 'tasks/webapp.js');
             generator.template('_config.js', generator.appDir + 'app/config.js');
         },
         appFiles: function() {
@@ -204,22 +215,22 @@ module.exports = yeoman.generators.Base.extend({
             cssDevDependencies,
             requirejsDevDependencies,
             generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [],
-            generator.use.a11y ? ['grunt-a11y', 'grunt-accessibility'] : [],
-            generator.use.imagemin ? ['grunt-contrib-imagemin'] :[],
+            generator.useAria ? ['grunt-a11y', 'grunt-accessibility'] : [],
+            generator.useImagemin ? ['grunt-contrib-imagemin'] :[],
             generator.useLess ? ['grunt-contrib-less'] : [],
             generator.useSass ? ['grunt-contrib-sass'] : [],
             generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']
         );
         generator.useHandlebars && dependencies.push('handlebars');
 
-        // generator.npmInstall(dependencies, {save: true});
-        // generator.npmInstall(devDependencies, {saveDev: true});
+        generator.npmInstall(dependencies, {save: true});
+        generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;
         var appDir = (generator.appDir !== './') ? generator.appDir : '';
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
-        if (generator.use.a11y) {
+        if (generator.useAria) {
             gruntfile.insertConfig('a11y', tasks.a11y);
             gruntfile.insertConfig('accessibility', tasks.accessibility);
             gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
@@ -258,7 +269,7 @@ module.exports = yeoman.generators.Base.extend({
         } else {
             gruntfile.insertConfig('jst', tasks.jst);
         }
-        if (generator.use.imagemin) {
+        if (generator.useImagemin) {
             gruntfile.insertConfig('imagemin', tasks.imagemin);
             gruntfile.insertConfig('copy', tasks.copy);
         }

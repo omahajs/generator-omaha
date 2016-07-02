@@ -71,7 +71,7 @@ var webappQuestions = [
     },
     {
         type: 'confirm',
-        name: 'a11y',
+        name: 'aria',
         message: 'Enforce ARIA and Section 508 standards?',
         default: true
     },
