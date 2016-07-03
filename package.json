@@ -47,6 +47,7 @@
   "scripts": {
     "mocha": "mocha -R mocha-unfunk-reporter",
     "test": "istanbul cover _mocha",
+    "test:builds": "sh test/run.sh",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
     "travis": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
