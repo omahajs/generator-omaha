@@ -6,12 +6,16 @@ rebirth() {
     mkdir $TEST_DIRECTORY
     cd $TEST_DIRECTORY
 }
-next_step() {
+prepare() {
+    BUILD_DIR=$1
+    mkdir $TEST_DIRECTORY/$BUILD_DIR
+    cd $TEST_DIRECTORY/$BUILD_DIR
+}
+build() {
     read CONTINUE
     if echo "$CONTINUE" | grep -iq "^y" ;then
         npm run build
     fi
-    rebirth
 }
 
 if [ -d "$TEST_DIRECTORY" ]; then
@@ -21,12 +25,20 @@ else
     cd $TEST_DIRECTORY
 fi
 
-#RLH-_____
-yo techtonic --defaults --skip-benchmark --skip-coveralls --skip-jsinspect --skip-aria --skip-imagemin
-echo "NO benchmark, coveralls, JSInspect, ARIA, imagemin? Build code? (y/n)"
-next_step
+#RLH-BCJAI
+prepare RLH-BCJAI
+yo techtonic --defaults
+echo "RequireJS, Less, Handlebars? Build code? (y/n)"
+build
 
 #BSU-BCJAI
+prepare BSU-BCJAI
 yo techtonic --defaults --script-bundler browserify --css-preprocessor sass --template-technology underscore
 echo "Browserify, Sass, and Underscore? Build code? (y/n)"
-next_step
+build
+
+#RLH-_____
+prepare RLH-_____
+yo techtonic --defaults --skip-benchmark --skip-coveralls --skip-jsinspect --skip-aria --skip-imagemin
+echo "NO benchmark, coveralls, JSInspect, ARIA, imagemin? Build code? (y/n)"
+build
