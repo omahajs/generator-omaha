@@ -128,11 +128,11 @@ describe('Project generator', function() {
                     verifyProjectConfigs(true, true, true);
                 });
         });
-        it('--defaults --no-benchmark', function() {
+        it('--defaults --skip-benchmark', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(_.extend(_.clone(SKIP_INSTALL), {
                     defaults: true,
-                    skipBenchmark: true
+                    'skip-benchmark': true
                 }))
                 .toPromise()
                 .then(function() {
@@ -140,11 +140,11 @@ describe('Project generator', function() {
                     verifyProjectConfigs(false, true, true);
                 });
         });
-        it('--defaults --no-coveralls', function() {
+        it('--defaults --skip-coveralls', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(_.extend(_.clone(SKIP_INSTALL), {
                     defaults: true,
-                    skipCoveralls: true
+                    'skip-coveralls': true
                 }))
                 .toPromise()
                 .then(function() {
@@ -152,11 +152,11 @@ describe('Project generator', function() {
                     verifyProjectConfigs(true, false, true);
                 });
         });
-        it('--defaults --no-jsinspect', function() {
+        it('--defaults --skip-jsinspect', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(_.extend(_.clone(SKIP_INSTALL), {
                     defaults: true,
-                    skipJsinspect: true
+                    'skip-jsinspect': true
                 }))
                 .toPromise()
                 .then(function() {
@@ -164,13 +164,13 @@ describe('Project generator', function() {
                     verifyProjectConfigs(true, true, false);
                 });
         });
-        it('--defaults --no-benchmark --no-coveralls --no-jsinspect', function() {
+        it('--defaults --skip-benchmark --skip-coveralls --skip-jsinspect', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(_.extend(_.clone(SKIP_INSTALL), {
                     defaults: true,
-                    skipBenchmark: true,
-                    skipCoveralls: true,
-                    skipJsinspect: true
+                    'skip-benchmark': true,
+                    'skip-coveralls': true,
+                    'skip-jsinspect': true
                 }))
                 .toPromise()
                 .then(function() {

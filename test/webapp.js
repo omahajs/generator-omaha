@@ -161,7 +161,7 @@ describe('Default generator', function() {
         });
         it('all prompts TRUE (--skip-aria)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {skipAria: true}))
+                .withOptions(_.extend({}, SKIP_INSTALL, {'skip-aria': true}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
@@ -173,7 +173,7 @@ describe('Default generator', function() {
         });
         it('all prompts TRUE (--skip-imagemin)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {skipImagemin: true}))
+                .withOptions(_.extend({}, SKIP_INSTALL, {'skip-imagemin': true}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
@@ -308,8 +308,8 @@ describe('Default generator', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(_.extend({}, SKIP_INSTALL, {
                     defaults: true,
-                    skipAria: true,
-                    skipImagemin: true}))
+                    'skip-aria': true,
+                    'skip-imagemin': true}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -322,8 +322,8 @@ describe('Default generator', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(_.extend({}, SKIP_INSTALL, {
                     defaults: true,
-                    skipAria: true,
-                    skipImagemin: true,
+                    'skip-aria': true,
+                    'skip-imagemin': true,
                     scriptBundler: 'browserify'}))
                 .toPromise()
                 .then(function() {
