@@ -117,11 +117,6 @@ module.exports = yeoman.generators.Base.extend({
     end: function() {
         var generator = this;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
-        utils.json.extend(generator.destinationPath('package.json'), {
-            scripts: {
-                'test:ci': 'npm test'
-            }
-        });
         if (generator.useBenchmark) {
             gruntfile.insertConfig('benchmark', tasks.benchmark);
         }

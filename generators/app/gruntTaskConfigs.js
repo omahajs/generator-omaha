@@ -230,7 +230,7 @@ module.exports = {
                         annotation: "<%= folders.app %>"
                     }
                 },
-                src: ["<%= folders.app %>/*.css", "../${appDir}assets/css/style.css"],
+                src: ["<%= folders.app %>/*.css", "<%= folders.assets %>/css/style.css"],
                 dest: "<%= folders.app %>/style.css"
             },
             prod: {
@@ -245,7 +245,7 @@ module.exports = {
                         }
                     })],
                 },
-                src:  ["<%= folders.app %>/*.css", "../${appDir}assets/css/style.css"]
+                src:  ["<%= folders.app %>/*.css", "<%= folders.assets %>/css/*.css"]
             }
         }`;
     },

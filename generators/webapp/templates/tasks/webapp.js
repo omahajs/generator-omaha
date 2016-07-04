@@ -44,9 +44,10 @@ module.exports = function(grunt) {
         <% if (useHandlebars) { %>'handlebars:main'<% } else { %>'jst:main'<% } %>
     ]);
     grunt.registerTask('process-styles', [<% if (useLess) { %>
-        'less:main',/*pre-process */<% } %><% if (useSass) { %>
-        'sass:main',/*pre-process */<% } %>
-        'postcss'   /*post-process*/
+        'less:main',   /*pre-process */<% } %><% if (useSass) { %>
+        'sass:main',   /*pre-process */<% } %>
+        'postcss:dev', /*post-process*/
+        'postcss:prod'
     ]);
     grunt.registerTask('bundle-scripts', [<% if (useBrowserify) { %>
         'browserify:bundle',

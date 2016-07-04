@@ -1,46 +1,9 @@
 Generators
 ==========
-- [Web Application](#web-application)
 - **coming soon** Electron
 - **coming soon** Project
 - [Plugin](#plugin)
 - [Server](#server)
-
-Web Application
----------------
-> Scaffold boilerplate web application files and configure work-flow settings
-
-**Usage:**
-```sh
-yo techtonic
-```
-**Options:**
-- `--defaults`: scaffold app with no user input using defaults
-- `--skip-aria`: use with `--defaults`
-- `--skip-imagemin`: use with `--defaults`
-- `--script-bundler`: **`requirejs`** | `browserify`
-- `--css-preprocessor`: **`less`** | `sass` | `none`
-- `--template-technology`: **`handlebars`** | `underscore`
-
-**Examples:**
-
-Scaffold web app with pre-selected answers:
-```sh
-yo techtonic --css-preprocessor sass
-```
-
-Scaffold techtonic web app with default settings and no user interaction:
-```sh
-yo techtonic --defaults
-```
-
-Scaffold techtonic web app with customized default settings and no user interaction:
-```sh
-# Default configuration with Browserify as the script bundler
-yo techtonic --defaults --script-bundler browserify
-# Default configuration without imagemin
-yo techtonic --defaults --skip-imagemin
-```
 
 Plugin
 ------

@@ -20,10 +20,10 @@ module.exports = function(grunt) {
             options: {
                 force: true
             },
-            docs:     ['<%%= folders.reports %>/<%%= folders.docs %>/*'],
-            coverage: ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
-            compile:  ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css', '<%%= folders.app %>/style.css.map'],
-            build:    ['<%%= folders.dist %>/<%%= folders.client %>', '<%%= folders.dist %>/<%%= deployed.assets %>']
+            docs:       ['<%%= folders.reports %>/<%%= folders.docs %>/*', './styleguide'],
+            coverage:   ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
+            compile:    ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css', '<%%= folders.app %>/style.css.map'],
+            build:      ['<%%= folders.dist %>/<%%= folders.client %>', '<%%= folders.dist %>/<%%= deployed.assets %>']
         },
         /**
          * Copy files and folders (used here to copy font files to deployment directory)
