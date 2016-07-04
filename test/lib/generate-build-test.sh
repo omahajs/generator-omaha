@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-. "$(dirname "$0")"/lib/functions.sh
+. "$(dirname "$0")"/functions.sh
 TEST_DIRECTORY=~/appdev/techtonic-test-directory
 init_test_directory $TEST_DIRECTORY
 

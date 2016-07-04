@@ -41,13 +41,15 @@
     "mocha": "*",
     "mocha-lcov-reporter": "^1.0.0",
     "mocha-unfunk-reporter": "^0.4.0",
+    "nightmare": "^2.5.2",
+    "node-resemble": "^1.1.3",
     "sinon": "^1.17.2",
     "yeoman-test": "^1.4.0"
   },
   "scripts": {
     "mocha": "mocha -R mocha-unfunk-reporter",
     "test": "istanbul cover _mocha",
-    "test:builds": "sh test/run.sh",
+    "test:builds": "sh test/lib/generate-build-test.sh",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
     "travis": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
