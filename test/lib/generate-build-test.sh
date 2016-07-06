@@ -1,35 +1,20 @@
 #!/usr/bin/env bash
-. "$(dirname "$0")"/functions.sh
-TEST_DIRECTORY=~/appdev/techtonic-test-directory
+
+TEST_DIRECTORY=~/techtonic-test-directory
+TEST_LIB_DIRECTORY=$PWD/"$(dirname "$0")"
+BUILDS_FILE=$TEST_LIB_DIRECTORY/builds
+BUILDS=$(cut -c-3 $BUILDS_FILE)
+
+# Source utility functions such as run
+. $TEST_LIB_DIRECTORY/functions.sh
+
+# Prepare directory to store builds
 init_test_directory $TEST_DIRECTORY
 
-RLH_BCJAI="yo techtonic --defaults"
-RSH_BCJAI="yo techtonic --defaults --css-preprocessor sass"
-RSU_BCJAI="yo techtonic --defaults --css-preprocessor sass --template-technology underscore"
-RNH_BCJAI="yo techtonic --defaults --css-preprocessor none"
-RNU_BCJAI="yo techtonic --defaults --css-preprocessor none --template-technology underscore"
-RLU_BCJAI="yo techtonic --defaults --template-technology underscore"
-BLH_BCJAI="yo techtonic --defaults --script-bundler browserify"
-BLU_BCJAI="yo techtonic --defaults --script-bundler browserify --template-technology underscore"
-BSU_BCJAI="yo techtonic --defaults --script-bundler browserify --css-preprocessor sass --template-technology underscore"
-BSH_BCJAI="yo techtonic --defaults --script-bundler browserify --css-preprocessor sass --template-technology handlebars"
-BNU_BCJAI="yo techtonic --defaults --script-bundler browserify --css-preprocessor none --template-technology underscore"
-BNH_BCJAI="yo techtonic --defaults --script-bundler browserify --css-preprocessor none --template-technology handlebars"
+# Declare variables for build commands
+eval $(cat $BUILDS_FILE)
 
-BUILDS="
-RLH_BCJAI
-RSH_BCJAI
-RSU_BCJAI
-RNH_BCJAI
-RNU_BCJAI
-RLU_BCJAI
-BLH_BCJAI
-BLU_BCJAI
-BSU_BCJAI
-BSH_BCJAI
-BNU_BCJAI
-BNH_BCJAI
-"
+# Run builds
 for i in $BUILDS
 do
     run $i
