@@ -10,7 +10,7 @@ function createFilePath(name, ext) {
     return filePath;
 }
 
-function screenshot(name, url, element) {
+function ScreenshotPlugin(url, name, element) {
     element = element ? element : 5000;
     return function(nightmare) {
         if (url) {
@@ -22,26 +22,33 @@ function screenshot(name, url, element) {
     };
 };
 
-var ELEM = '#main';
+function saveScreenshot(url, name, element) {
+    return Nightmare({show: true})
+        .viewport(1000, 800)
+        .use(ScreenshotPlugin(url, name))
+        .end();
+}
 
+function compare(imgA, imgB) {
+    resemble(imgA).compareTo(imgB).onComplete(function(data) {
+        console.log(data.misMatchPercentage);
+        comparisonData[name] = data;
+    });
+}
+
+var ELEM = '#main';
+var reference = './images/reference.png';
+var comparisonData = {};
 fs.readFile(path.join(__dirname, 'builds'), 'utf8', function (err, data) {
-  if (err) {
-    return console.log(err);
-  }
-  data.split('\n')
-    .map(function(str) {return str.substring(0, 3);})
-    .filter(function(str) {return str.length !== 0;})
-    .forEach(function(name) {
+    if (err) {
+        return console.log(err);
+    }
+    var builds = data.split('\n')
+        .map(function(str) {return str.substring(0, 3);})
+        .filter(function(str) {return str.length !== 0;});
+    builds.slice(1, 2).forEach(function(name, index) {
         var URL  = 'http://localhost:1235/' + name + '/dist/client/';
-        var SNAP = './images/' + name + '.png';
-        Nightmare({show: true})
-            .viewport(1000, 800)
-            .use(screenshot(name, URL))
-            .end()
-            .then(function(data) {
-                resemble('./images/reference.png').compareTo(SNAP).onComplete(function(data) {
-                    console.log(data.misMatchPercentage);
-                });
-            });
+        var testImage = './images/' + name + '.png';
+        saveScreenshot(URL, name).then(function() {compare(reference, testImage);});
     });
 });

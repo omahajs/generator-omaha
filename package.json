@@ -42,10 +42,12 @@
     "mocha": "*",
     "mocha-lcov-reporter": "^1.0.0",
     "mocha-unfunk-reporter": "^0.4.0",
-    "nightmare": "^2.5.2",
-    "node-resemble": "^1.1.3",
     "sinon": "^1.17.2",
     "yeoman-test": "^1.4.0"
+  },
+  "optionalDependencies": {
+    "nightmare": "^2.5.2",
+    "node-resemble": "^1.1.3"
   },
   "scripts": {
     "mocha": "mocha -R mocha-unfunk-reporter",
