@@ -35,6 +35,7 @@
     "yosay": "^1.0.2"
   },
   "devDependencies": {
+    "bluebird": "^3.4.1",
     "chai": "^3.5.0",
     "chai-shallow-deep-equal": "^1.4.0",
     "coveralls": "^2.11.6",
