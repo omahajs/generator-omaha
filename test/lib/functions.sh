@@ -11,7 +11,6 @@ log() {
 }
 PASS() {
     BUILD_ID=$1
-    log "${BUILD_ID}: SUCCESS"
     echo "✔ ${BUILD_ID} build SUCCESS" >> $TEST_DIRECTORY/results.txt
 }
 FAIL() {
@@ -38,13 +37,12 @@ prepare() {
     SILENT=" > ${TEST_DIRECTORY}/${BUILD_ID}/log-setup.txt 2>&1"
     mkdir $TEST_DIRECTORY/$BUILD_ID
     cd $TEST_DIRECTORY/$BUILD_ID
-    log "$BUILD_ID: start setup"
+    log "$BUILD_ID: start"
     eval "COMMAND=\${"$BUILD_ID"}"
     eval ${COMMAND}${SILENT}
 }
 build() {
     BUILD_ID=$1
-    log "${BUILD_ID}: start build and test"
     npm run build --silent > $TEST_DIRECTORY/$BUILD_ID/log-build.txt
     npm test --silent > $TEST_DIRECTORY/$BUILD_ID/log-test.txt
 }
