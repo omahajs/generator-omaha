@@ -53,6 +53,9 @@
   "scripts": {
     "mocha": "mocha -R mocha-unfunk-reporter",
     "test": "istanbul cover _mocha",
+    "pretest:suite": "npm run test:builds",
+    "test:suite": "echo ",
+    "posttest:suite": "npm run test:visual",
     "test:builds": "bash test/lib/generate-build-test.sh",
     "test:visual": "node test/lib/visual-regression-check",
     "preversion": "npm test",
