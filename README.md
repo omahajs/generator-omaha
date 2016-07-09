@@ -77,7 +77,10 @@ yo techtonic --defaults --script-bundler browserify
 > Default in **bold**
 
 - `--defaults`: scaffold app with no user input using defaults
-- `--skip-a11y`: use with `--defaults`
+- `--skip-benchmark`: use with `--defaults`
+- `--skip-coveralls`: use with `--defaults`
+- `--skip-jsinspect`: use with `--defaults`
+- `--skip-aria`: use with `--defaults`
 - `--skip-imagemin`: use with `--defaults`
 - `--script-bundler`: **`requirejs`** | `browserify`
 - `--css-preprocessor`: **`less`** | `sass` | `none`

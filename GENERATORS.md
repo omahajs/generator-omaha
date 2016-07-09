@@ -1,9 +1,38 @@
 Generators
 ==========
-- **coming soon** Electron
 - **coming soon** Project
 - [Plugin](#plugin)
 - [Server](#server)
+- **coming soon** DesktopApp
+
+Project
+-------
+> Scaffold a general ECMAScript project with linting and testing capabilities
+
+**Usage:**
+```sh
+yo techtonic:project
+```
+
+**Options**
+> Default in **bold**
+
+- `--defaults`: scaffold app with no user input using defaults
+- `--skip-benchmark`: use with `--defaults`
+- `--skip-coveralls`: use with `--defaults`
+- `--skip-jsinspect`: use with `--defaults`
+
+**Examples:**
+
+Create a project with default options:
+```sh
+yo techtonic:project --defaults
+```
+
+Create a project without Coveralls.io support:
+```sh
+yo techtonic:project --defaults --skip-coveralls
+```
 
 Plugin
 ------
@@ -46,7 +75,12 @@ yo techtonic:plugin --jquery
 
 Server
 ------
-> Scaffold a Node.js Express server
+> Scaffold a Node.js Express server (use inside empty directory)
+
+**Usage:**
+```sh
+yo techtonic:server
+```
 
 **Features:**
 - HTTP and HTTPS support
@@ -55,9 +89,3 @@ Server
 - Optional Markdown rendering support
 
 > **TIP:** techtonic server works well with Heroku!
-
-**Usage:**
-```sh
-#inside an empty directory
-yo techtonic:server
-```

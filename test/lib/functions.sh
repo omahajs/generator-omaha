@@ -37,7 +37,7 @@ prepare() {
     SILENT=" > ${TEST_DIRECTORY}/${BUILD_ID}/log-setup.txt 2>&1"
     mkdir $TEST_DIRECTORY/$BUILD_ID
     cd $TEST_DIRECTORY/$BUILD_ID
-    log "$BUILD_ID: start"
+    log $BUILD_ID
     eval "COMMAND=\${"$BUILD_ID"}"
     eval ${COMMAND}${SILENT}
 }

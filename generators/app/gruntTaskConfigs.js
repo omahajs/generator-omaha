@@ -5,7 +5,7 @@ module.exports = {
     **/
     a11y: `{
         index: {
-            options: {urls: ["<%= folders.appxxx %>/<%= files.index %>"]}
+            options: {urls: ["<%= folders.app %>/<%= files.index %>"]}
         }
     }`,
     /**

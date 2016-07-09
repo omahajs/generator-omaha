@@ -73,14 +73,15 @@ describe('Webapp generator', function() {
         stub.restore();
     });
     it('can create and configure files with default prompt choices', function() {
+        var sourceDirectory = './';
         return helpers.run(path.join(__dirname, '../generators/webapp'))
             .inTmpDir(createProject)
             .withOptions(SKIP_INSTALL)
             .withPrompts(prompts.webapp.defaults)
-            .withLocalConfig({projectName: 'tech'})
+            .withLocalConfig({projectName: 'tech', appDir: sourceDirectory})
             .toPromise()
             .then(function() {
-                verifyBoilerplateFiles('./');
+                verifyBoilerplateFiles(sourceDirectory);
                 verifyDefaultConfiguration();
             });
     });

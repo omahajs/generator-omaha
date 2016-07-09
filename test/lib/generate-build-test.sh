@@ -3,7 +3,7 @@
 TEST_DIRECTORY=~/techtonic-test-directory
 TEST_LIB_DIRECTORY=$PWD/"$(dirname "$0")"
 BUILDS_FILE=$TEST_LIB_DIRECTORY/builds
-BUILDS=$(cut -c-3 $BUILDS_FILE)
+BUILDS=$(cut -d'=' -f1 $BUILDS_FILE)
 
 # Source utility functions such as run
 . $TEST_LIB_DIRECTORY/functions.sh

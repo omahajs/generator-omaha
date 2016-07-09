@@ -100,7 +100,6 @@ module.exports = yeoman.generators.Base.extend({
                 Object.keys(options).forEach(function(option) {
                     generator[option] = options[option];
                 });
-                generator.appDir = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
                 done();
             }.bind(generator));
         }
@@ -110,6 +109,7 @@ module.exports = yeoman.generators.Base.extend({
             var generator = this;
             generator.projectName = generator.config.get('projectName');
             generator.userName = generator.config.get('userName') || generator.user.git.name();
+            generator.appDir = generator.config.get('appDir');
             generator.useAria = generator.use.aria && !generator.options.skipAria;
             generator.useImagemin = generator.use.imagemin && !generator.options.skipImagemin;
             generator.template('_README.md', 'README.md');
@@ -228,8 +228,16 @@ module.exports = yeoman.generators.Base.extend({
     },
     end: function() {
         var generator = this;
-        var appDir = (generator.appDir !== './') ? generator.appDir : '';
+        var appDir = generator.appDir;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
+        utils.json.extend(generator.destinationPath('config/default.json'), {
+            grunt: {
+                folders: {
+                    app:    appDir + 'app',
+                    assets: appDir + 'assets'
+                }
+            }
+        });
         if (generator.useAria) {
             gruntfile.insertConfig('a11y', tasks.a11y);
             gruntfile.insertConfig('accessibility', tasks.accessibility);
