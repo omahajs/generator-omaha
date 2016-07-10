@@ -1,13 +1,14 @@
 'use strict';
 
 var path    = require('path');
-var _       = require('underscore');
 var sinon   = require('sinon');
 var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
 var base    = require('yeoman-generator').generators.Base;
-
 var prompts = require('../generators/app/prompts');
+var utils   = require('../generators/app/utils');
+var extend  = utils.object.extend;
+var clone   = utils.object.clone;
 
 function verifyCoreFiles() {
     var ALWAYS_INCLUDED = [
@@ -37,7 +38,6 @@ function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
 }
 
 describe('Project generator', function() {
-    this.timeout(500);
     var stub;
     var SKIP_INSTALL = {skipInstall: true};
     describe('can create and configure files with prompt choices', function() {
@@ -61,7 +61,7 @@ describe('Project generator', function() {
         it('all prompts FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(prompts.project.defaults), {
+                .withPrompts(extend(clone(prompts.project.defaults), {
                     benchmark: false,
                     coveralls: false,
                     jsinspect: false
@@ -75,7 +75,7 @@ describe('Project generator', function() {
         it('only benchmark FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(prompts.project.defaults), {
+                .withPrompts(extend(clone(prompts.project.defaults), {
                     benchmark: false
                 }))
                 .toPromise()
@@ -87,7 +87,7 @@ describe('Project generator', function() {
         it('only coveralls FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(prompts.project.defaults), {
+                .withPrompts(extend(clone(prompts.project.defaults), {
                     coveralls: false
                 }))
                 .toPromise()
@@ -99,7 +99,7 @@ describe('Project generator', function() {
         it('only jsinspect FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(_.clone(prompts.project.defaults), {
+                .withPrompts(extend(clone(prompts.project.defaults), {
                     jsinspect: false
                 }))
                 .toPromise()
@@ -119,7 +119,7 @@ describe('Project generator', function() {
         });
         it('--defaults', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(_.extend(_.clone(SKIP_INSTALL), {
+                .withOptions(extend(clone(SKIP_INSTALL), {
                     defaults: true
                 }))
                 .toPromise()
@@ -130,7 +130,7 @@ describe('Project generator', function() {
         });
         it('--defaults --skip-benchmark', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(_.extend(_.clone(SKIP_INSTALL), {
+                .withOptions(extend(clone(SKIP_INSTALL), {
                     defaults: true,
                     'skip-benchmark': true
                 }))
@@ -142,7 +142,7 @@ describe('Project generator', function() {
         });
         it('--defaults --skip-coveralls', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(_.extend(_.clone(SKIP_INSTALL), {
+                .withOptions(extend(clone(SKIP_INSTALL), {
                     defaults: true,
                     'skip-coveralls': true
                 }))
@@ -154,7 +154,7 @@ describe('Project generator', function() {
         });
         it('--defaults --skip-jsinspect', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(_.extend(_.clone(SKIP_INSTALL), {
+                .withOptions(extend(clone(SKIP_INSTALL), {
                     defaults: true,
                     'skip-jsinspect': true
                 }))
@@ -166,7 +166,7 @@ describe('Project generator', function() {
         });
         it('--defaults --skip-benchmark --skip-coveralls --skip-jsinspect', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(_.extend(_.clone(SKIP_INSTALL), {
+                .withOptions(extend(clone(SKIP_INSTALL), {
                     defaults: true,
                     'skip-benchmark': true,
                     'skip-coveralls': true,

@@ -12,11 +12,18 @@ function writeJSON(fileName, content) {
 function extendJSON(fileName, obj) {
     writeJSON(fileName, extend(readJSON(fileName), obj));
 }
+function cloneObject(value) {
+    return JSON.parse(JSON.stringify(value));
+}
 
 module.exports = {
     json: {
         read:   readJSON,
         write:  writeJSON,
         extend: extendJSON
+    },
+    object: {
+        clone:  cloneObject,
+        extend: extend
     }
 };

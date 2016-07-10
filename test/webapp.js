@@ -1,13 +1,18 @@
 'use strict';
 
 var path    = require('path');
-var _       = require('underscore');
+var _       = require('lodash');
 var sinon   = require('sinon');
 var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
 var base    = require('yeoman-generator').generators.Base;
+var utils   = require('../generators/app/utils');
+var extend  = utils.object.extend;
+var clone   = utils.object.clone;
 
 var prompts = require('../generators/app/prompts');
+var ALL_TRUE = extend({}, prompts.project.defaults, prompts.webapp.defaults);
+var ALL_FALSE = _.mapValues(ALL_TRUE, function(option) {return _.isBoolean(option) ? false : option;});
 
 var SKIP_INSTALL = {skipInstall: true};
 var browserifyContent = [
@@ -63,7 +68,6 @@ function verifyDefaultConfiguration() {
 }
 
 describe('Webapp generator', function() {
-    this.timeout(800);
     var stub;
     before(function() {
         stub = sinon.stub(base.prototype.user.git, 'name');
@@ -87,10 +91,7 @@ describe('Webapp generator', function() {
     });
 });
 describe('Default generator', function() {
-    this.timeout(800);
     var stub;
-    var ALL_TRUE = _.extend({}, prompts.project.defaults, prompts.webapp.defaults);
-    var ALL_FALSE = _.mapObject(ALL_TRUE, function(option) {return _.isBoolean(option) ? false : option;});
     describe('can create and configure files with prompt choices', function() {
         before(function() {
             stub = sinon.stub(base.prototype.user.git, 'name');
@@ -124,7 +125,7 @@ describe('Default generator', function() {
         });
         it('all prompts TRUE (--script-bundler browserify)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {scriptBundler: 'browserify'}))
+                .withOptions(extend({}, SKIP_INSTALL, {scriptBundler: 'browserify'}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
@@ -138,7 +139,7 @@ describe('Default generator', function() {
         });
         it('all prompts TRUE (--css-preprocessor sass)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {cssPreprocessor: 'sass'}))
+                .withOptions(extend({}, SKIP_INSTALL, {cssPreprocessor: 'sass'}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
@@ -150,7 +151,7 @@ describe('Default generator', function() {
         });
         it('all prompts TRUE (--template-technology underscore)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {templateTechnology: 'underscore'}))
+                .withOptions(extend({}, SKIP_INSTALL, {templateTechnology: 'underscore'}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
@@ -162,7 +163,7 @@ describe('Default generator', function() {
         });
         it('all prompts TRUE (--skip-aria)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {'skip-aria': true}))
+                .withOptions(extend({}, SKIP_INSTALL, {'skip-aria': true}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
@@ -174,7 +175,7 @@ describe('Default generator', function() {
         });
         it('all prompts TRUE (--skip-imagemin)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {'skip-imagemin': true}))
+                .withOptions(extend({}, SKIP_INSTALL, {'skip-imagemin': true}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
@@ -187,7 +188,7 @@ describe('Default generator', function() {
         it('only aria prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {aria: false}))
+                .withPrompts(extend({}, ALL_TRUE, {aria: false}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -198,7 +199,7 @@ describe('Default generator', function() {
         it('only imagemin prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {imagemin: false}))
+                .withPrompts(extend({}, ALL_TRUE, {imagemin: false}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -209,7 +210,7 @@ describe('Default generator', function() {
         it('select browserify via prompt', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {scriptBundler: 'browserify'}))
+                .withPrompts(extend({}, ALL_TRUE, {scriptBundler: 'browserify'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -223,7 +224,7 @@ describe('Default generator', function() {
         it('select sass via prompt', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {cssPreprocessor: 'sass'}))
+                .withPrompts(extend({}, ALL_TRUE, {cssPreprocessor: 'sass'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -235,7 +236,7 @@ describe('Default generator', function() {
         it('select no CSS pre-processor via prompt', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {cssPreprocessor: 'none'}))
+                .withPrompts(extend({}, ALL_TRUE, {cssPreprocessor: 'none'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -255,7 +256,7 @@ describe('Default generator', function() {
         });
         it('--defaults', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {defaults: true}))
+                .withOptions(extend({}, SKIP_INSTALL, {defaults: true}))
                 .toPromise()
                 .then(function() {
                     verifyBoilerplateFiles('./');
@@ -264,7 +265,7 @@ describe('Default generator', function() {
         });
         it('--defaults --script-bundler browserify', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {defaults: true, scriptBundler: 'browserify'}))
+                .withOptions(extend({}, SKIP_INSTALL, {defaults: true, scriptBundler: 'browserify'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -274,7 +275,7 @@ describe('Default generator', function() {
         });
         it('--defaults --css-preprocessor sass', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {defaults: true, cssPreprocessor: 'sass'}))
+                .withOptions(extend({}, SKIP_INSTALL, {defaults: true, cssPreprocessor: 'sass'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -285,7 +286,7 @@ describe('Default generator', function() {
         });
         it('--defaults --css-preprocessor none', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {defaults: true, cssPreprocessor: 'none'}))
+                .withOptions(extend({}, SKIP_INSTALL, {defaults: true, cssPreprocessor: 'none'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -296,7 +297,7 @@ describe('Default generator', function() {
         });
         it('--defaults --template-technology underscore', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {defaults: true, templateTechnology: 'underscore'}))
+                .withOptions(extend({}, SKIP_INSTALL, {defaults: true, templateTechnology: 'underscore'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -307,7 +308,7 @@ describe('Default generator', function() {
         });
         it('--defaults --skip-aria --skip-imagemin', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {
+                .withOptions(extend({}, SKIP_INSTALL, {
                     defaults: true,
                     'skip-aria': true,
                     'skip-imagemin': true}))
@@ -321,7 +322,7 @@ describe('Default generator', function() {
         });
         it('--defaults --skip-aria --skip-imagemin --script-bundler browserify', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {
+                .withOptions(extend({}, SKIP_INSTALL, {
                     defaults: true,
                     'skip-aria': true,
                     'skip-imagemin': true,
@@ -337,7 +338,7 @@ describe('Default generator', function() {
         });
         it('--defaults --script-bundler browserify --css-preprocessor sass --template-technology underscore', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(_.extend({}, SKIP_INSTALL, {
+                .withOptions(extend({}, SKIP_INSTALL, {
                     defaults: true,
                     scriptBundler: 'browserify',
                     cssPreprocessor: 'sass',
@@ -358,10 +359,7 @@ describe('Default generator', function() {
     });
 });
 describe('Default generator (with custom source directory)', function() {
-    this.timeout(800);
     var stub;
-    var ALL_TRUE = _.extend({}, prompts.project.defaults, prompts.webapp.defaults);
-    var ALL_FALSE = _.mapObject(ALL_TRUE, function(option) {return _.isBoolean(option) ? false : option;});
     var sourceDirectory = 'webapp/';
     describe('can create and configure files with prompt choices', function() {
         before(function() {
@@ -374,7 +372,7 @@ describe('Default generator (with custom source directory)', function() {
         it('all prompts TRUE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(ALL_TRUE, {appDir: sourceDirectory}))
+                .withPrompts(extend(ALL_TRUE, {appDir: sourceDirectory}))
                 .toPromise()
                 .then(function() {
                     verifyBoilerplateFiles(sourceDirectory);
@@ -384,7 +382,7 @@ describe('Default generator (with custom source directory)', function() {
         it('all prompts FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend(ALL_FALSE, {appDir: sourceDirectory}))
+                .withPrompts(extend(ALL_FALSE, {appDir: sourceDirectory}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -397,7 +395,7 @@ describe('Default generator (with custom source directory)', function() {
         it('only aria prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {appDir: sourceDirectory, aria: false}))
+                .withPrompts(extend({}, ALL_TRUE, {appDir: sourceDirectory, aria: false}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -410,7 +408,7 @@ describe('Default generator (with custom source directory)', function() {
         it('only imagemin prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(_.extend({}, ALL_TRUE, {appDir: sourceDirectory, imagemin: false}))
+                .withPrompts(extend({}, ALL_TRUE, {appDir: sourceDirectory, imagemin: false}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
