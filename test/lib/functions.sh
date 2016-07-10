@@ -11,7 +11,7 @@ log() {
 }
 PASS() {
     BUILD_ID=$1
-    echo "✔ ${BUILD_ID} build SUCCESS" >> $TEST_DIRECTORY/results.txt
+    echo "✔ SUCCESS ${BUILD_ID}" >> $TEST_DIRECTORY/results.txt
 }
 FAIL() {
     BUILD_ID=$1
@@ -19,7 +19,7 @@ FAIL() {
     if type toilet >/dev/null 2>&1; then
         toilet -f pagga FAILURE
     fi
-    echo "✗ ${BUILD_ID} build FAILURE" >> $TEST_DIRECTORY/results.txt
+    echo "✗ FAILURE ${BUILD_ID}" >> $TEST_DIRECTORY/results.txt
 }
 init_test_directory() {
     TEST_DIRECTORY=$1
