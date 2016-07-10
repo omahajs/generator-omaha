@@ -1,17 +1,3 @@
-
-var path  = require('path');
-var chalk = require('chalk');
-
-var defaults = {
-    project: {},
-    webapp: {}
-};
-var defaultValue;
-var promptOption;
-var cssPreprocessors = ['less', 'Sass', 'none'];
-var scriptBundlers = ['requirejs', 'browserify'];
-var templateTechnologies = ['handlebars', 'underscore'];
-
 var projectQuestions = [
     {
         type: 'input',
@@ -46,28 +32,22 @@ var projectQuestions = [
 ];
 var webappQuestions = [
     {
-        type: 'input',
-        name: 'appDir',
-        message: 'Where do you want to put the application directory?',
-        default: './'
-    },
-    {
         type: 'list',
         name: 'scriptBundler',
         message: 'Which technology for bundling scripts before deployment?',
-        choices: scriptBundlers
+        choices: ['requirejs', 'browserify']
     },
     {
         type: 'list',
         name: 'cssPreprocessor',
         message: 'Which CSS pre-processor?',
-        choices: cssPreprocessors
+        choices: ['less', 'Sass', 'none']
     },
     {
         type: 'list',
         name: 'templateTechnology',
         message: 'Which technology for templates?',
-        choices: templateTechnologies
+        choices: ['handlebars', 'underscore']
     },
     {
         type: 'confirm',
@@ -82,13 +62,14 @@ var webappQuestions = [
         default: true
     }
 ];
-var TOTAL_STEPS = projectQuestions.length + webappQuestions.length;
-var questions = projectQuestions.concat(webappQuestions)
 
-projectQuestions.forEach(function(question) {defaults.project[question.name] = question.default;});
+var defaults = {project: {}, webapp: {}};
+projectQuestions.forEach(function(question) {
+    defaults.project[question.name] = question.default;
+});
 webappQuestions.forEach(function(question) {
-    defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
-    promptOption = {};
+    var defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
+    var promptOption = {};
     switch (question.name) {
         case 'scriptBundler':
             promptOption.useBrowserify = (defaultValue === 'browserify');
@@ -112,17 +93,21 @@ defaults.webapp.scriptBundler = 'requirejs';
 defaults.webapp.cssPreprocessor = 'less';
 defaults.webapp.templateTechnology = 'handlebars';
 
+function promptMessageFormat(type) {
+    function addLeadingZero(step) {return (step < 10) ? ('0' + step) : step;}
+    var total = projectQuestions.length + webappQuestions.length;
+    return function(question, index) {
+        var step = index + 1 + (type === 'webapp' ? projectQuestions.length : 0);
+        question.message = require('chalk')[step === total ? 'green' : 'gray']('('+ addLeadingZero(step) + '/' + total + ') ') + question.message;
+        return question;
+    }
+}
+
 exports.project = {
     defaults: defaults.project,
-    questions: projectQuestions.map(addStepNumber)
+    questions: projectQuestions.map(promptMessageFormat('project'))
 };
 exports.webapp = {
     defaults: defaults.webapp,
-    questions: webappQuestions.map(addStepNumber)
+    questions: webappQuestions.map(promptMessageFormat('webapp'))
 };
-function addStepNumber(question, index, array) {
-    var step = index + 1;
-    step = (step < 10) ? ('0' + step) : step;
-    question.message = chalk[step === TOTAL_STEPS ? 'green' : 'gray']('('+ step + '/' + TOTAL_STEPS + ') ') + question.message;
-    return question;
-}
