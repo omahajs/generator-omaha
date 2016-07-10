@@ -61,16 +61,22 @@ Command Line Options
 --------------------
 > Beyond `yo techtonic --help`
 
-- Scaffold app "auto-magically" with defaults and no user input
+- Scaffold a web app "auto-magically" with defaults and no user input
 
 ```bash
 yo techtonic --defaults
 ```
 
-- Use "silent" defaults with non-default scritpt bundler, css pre-processor, and/or template technology
+- Use "silent" web app defaults with browserify
 
 ```bash
 yo techtonic --defaults --script-bundler browserify
+```
+
+- Use "silent" web app defaults with custom modifications
+
+```bash
+yo techtonic --defaults --template-technology underscore --skip-coveralls
 ```
 
 **Available options**

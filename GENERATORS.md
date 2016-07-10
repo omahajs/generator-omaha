@@ -1,9 +1,9 @@
 Generators
 ==========
-- **coming soon** Project
+- [Project](#project)
 - [Plugin](#plugin)
 - [Server](#server)
-- **coming soon** DesktopApp
+- **coming soon** DesktopApp ("NativeApp"?)
 
 Project
 -------
