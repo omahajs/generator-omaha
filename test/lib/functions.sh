@@ -40,6 +40,7 @@ prepare() {
 }
 build() {
     BUILD_ID=$1
+    cd $TEST_DIRECTORY/$BUILD_ID
     npm run build --silent > $TEST_DIRECTORY/$BUILD_ID/log-build.txt
     npm test --silent > $TEST_DIRECTORY/$BUILD_ID/log-test.txt
 }
