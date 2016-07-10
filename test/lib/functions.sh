@@ -24,12 +24,9 @@ FAIL() {
 init_test_directory() {
     TEST_DIRECTORY=$1
     if [ -d "$TEST_DIRECTORY" ]; then
-        cd ~/appdev
-        rm -frd $TEST_DIRECTORY
-        mkdir $TEST_DIRECTORY
+        rm -frd $TEST_DIRECTORY/*
     else
         mkdir -p $TEST_DIRECTORY
-        cd $TEST_DIRECTORY
     fi
 }
 prepare() {
