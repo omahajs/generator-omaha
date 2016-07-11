@@ -23,7 +23,6 @@ function verifyCoreFiles() {
     ];
     assert.fileContent('package.json', '"name": "tech-project"');
     assert.fileContent('package.json', '"author": "A. Developer"');
-    assert.fileContent('package.json', '"url": "https://github.com/some-user/tech-project.git"');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
 function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
