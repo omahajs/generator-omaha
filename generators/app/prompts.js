@@ -8,7 +8,7 @@ var projectQuestions = [
     {
         type: 'input',
         name: 'appDir',
-        message: 'Where do you want to put the application directory?',
+        message: 'Where do you want to put the source code?',
         default: './'
     },
     {
