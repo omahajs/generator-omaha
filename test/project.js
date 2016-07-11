@@ -21,9 +21,8 @@ function verifyCoreFiles() {
         'config/karma.conf.js',
         'test/config.js'
     ];
-    assert.fileContent('package.json', '"name": "tech-project"');
+    assert.fileContent('package.json', '"name": "tech"');
     assert.fileContent('package.json', '"author": "A. Developer"');
-    assert.fileContent('package.json', '"url": "https://github.com/some-user/tech-project.git"');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
 function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
@@ -40,18 +39,14 @@ function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
 
 describe('Project generator', function() {
     var stub;
-    var githubStub;
     var SKIP_INSTALL = {skipInstall: true};
     describe('can create and configure files with prompt choices', function() {
         before(function() {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
-            githubStub = sinon.stub(base.prototype.user.github, 'username');
-            githubStub.returns(null);
         });
         after(function() {
             stub.restore();
-            githubStub.restore();
         });
         it('all prompts TRUE', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))
@@ -118,12 +113,9 @@ describe('Project generator', function() {
         before(function() {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
-            githubStub = sinon.stub(base.prototype.user.github, 'username');
-            githubStub.returns(null);
         });
         after(function() {
             stub.restore();
-            githubStub.restore();
         });
         it('--defaults', function() {
             return helpers.run(path.join(__dirname, '../generators/project'))

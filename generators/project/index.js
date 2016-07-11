@@ -39,7 +39,6 @@ module.exports = yeoman.generators.Base.extend({
             generator.option(option, commandLineOptions[option]);
         });
         generator.config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'A. Developer');
-        generator.config.set('githubUsername', generator.user.github.username() ? generator.user.github.username() : 'some-user');
     },
     prompting: function() {
         var done = this.async();
@@ -69,7 +68,6 @@ module.exports = yeoman.generators.Base.extend({
     writing: {
         configFiles: function() {
             var generator = this;
-            generator.githubUsername = generator.config.get('githubUsername');
             generator.useBenchmark = generator.use.benchmark && !generator.options.skipBenchmark;
             generator.useCoveralls = generator.use.coveralls && !generator.options.skipCoveralls;
             generator.useJsinspect = generator.use.jsinspect && !generator.options.skipJsinspect;

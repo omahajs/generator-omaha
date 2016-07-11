@@ -6,13 +6,10 @@ var sinon   = require('sinon');
 var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
 var base    = require('yeoman-generator').generators.Base;
-var prompts = require('../generators/app/prompts');
 var utils   = require('../generators/app/utils');
 var extend  = utils.object.extend;
 var clone   = utils.object.clone;
 
-var stub;
-var githubStub;
 var prompts = require('../generators/app/prompts');
 var ALL_TRUE = extend({}, prompts.project.defaults, prompts.webapp.defaults);
 var ALL_FALSE = _.mapValues(ALL_TRUE, function(option) {return _.isBoolean(option) ? false : option;});
@@ -71,15 +68,13 @@ function verifyDefaultConfiguration() {
 }
 
 describe('Webapp generator', function() {
+    var stub;
     before(function() {
         stub = sinon.stub(base.prototype.user.git, 'name');
         stub.returns(null);
-        githubStub = sinon.stub(base.prototype.user.github, 'username');
-        githubStub.returns(null);
     });
     after(function() {
         stub.restore();
-        githubStub.restore();
     });
     it('can create and configure files with default prompt choices', function() {
         var sourceDirectory = './';
@@ -87,10 +82,7 @@ describe('Webapp generator', function() {
             .inTmpDir(createProject)
             .withOptions(SKIP_INSTALL)
             .withPrompts(prompts.webapp.defaults)
-            .withLocalConfig({
-                projectName: prompts.project.defaults.projectName,
-                sourceDirectory: sourceDirectory
-            })
+            .withLocalConfig({projectName: 'tech', sourceDirectory: sourceDirectory})
             .toPromise()
             .then(function() {
                 verifyBoilerplateFiles(sourceDirectory);
@@ -99,16 +91,14 @@ describe('Webapp generator', function() {
     });
 });
 describe('Default generator', function() {
+    var stub;
     describe('can create and configure files with prompt choices', function() {
         before(function() {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
-            githubStub = sinon.stub(base.prototype.user.github, 'username');
-            githubStub.returns(null);
         });
         after(function() {
             stub.restore();
-            githubStub.restore();
         });
         it('all prompts FALSE (default configuration)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
@@ -369,17 +359,15 @@ describe('Default generator', function() {
     });
 });
 describe('Default generator (with custom source directory)', function() {
+    var stub;
     var sourceDirectory = 'webapp/';
     describe('can create and configure files with prompt choices', function() {
         before(function() {
             stub = sinon.stub(base.prototype.user.git, 'name');
             stub.returns(null);
-            githubStub = sinon.stub(base.prototype.user.github, 'username');
-            githubStub.returns(null);
         });
         after(function() {
             stub.restore();
-            githubStub.restore();
         });
         it('all prompts TRUE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
