@@ -7,7 +7,7 @@ var projectQuestions = [
     },
     {
         type: 'input',
-        name: 'appDir',
+        name: 'sourceDirectory',
         message: 'Where do you want to put the source code?',
         default: './'
     },

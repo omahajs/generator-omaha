@@ -14,11 +14,6 @@ var commandLineOptions = {
         desc: 'Scaffold app with no user input using default settings',
         defaults: false
     },
-    sourceDirectory: {
-        type: 'String',
-        desc: 'Designate path of directory for project source code',
-        defaults: './src'
-    },
     skipBenchmark: {
         type: 'Boolean',
         desc: 'DO NOT add benchmark.js code and dependencies to project',
@@ -54,10 +49,8 @@ module.exports = yeoman.generators.Base.extend({
         if (generator.options.defaults) {
             generator.projectName = generator.use.projectName;
             generator.config.set('projectName', generator.projectName);
-            generator.sourceDirectory = (!/\/$/.test(generator.use.appDir)) ? generator.use.appDir + '/' : generator.use.appDir;
+            generator.sourceDirectory = (!/\/$/.test(generator.use.sourceDirectory)) ? generator.use.sourceDirectory + '/' : generator.use.sourceDirectory;
             generator.config.set('sourceDirectory', generator.sourceDirectory);
-            generator.appDir = generator.sourceDirectory;
-            generator.config.set('appDir', generator.sourceDirectory);
             done();
         } else {
             function isUnAnswered(option) {
@@ -66,10 +59,8 @@ module.exports = yeoman.generators.Base.extend({
             generator.prompt(prompt.questions.filter(isUnAnswered), function (props) {
                 generator.use = props;
                 generator.projectName = props.projectName;
-                generator.sourceDirectory = (!/\/$/.test(props.appDir)) ? props.appDir + '/' : props.appDir;
+                generator.sourceDirectory = (!/\/$/.test(props.sourceDirectory)) ? props.sourceDirectory + '/' : props.sourceDirectory;
                 generator.config.set('sourceDirectory', generator.sourceDirectory);
-                generator.appDir = generator.sourceDirectory;
-                generator.config.set('appDir', generator.sourceDirectory);
                 done();
             }.bind(generator));
         }

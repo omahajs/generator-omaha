@@ -110,7 +110,6 @@ module.exports = yeoman.generators.Base.extend({
             generator.projectName = generator.config.get('projectName');
             generator.userName = generator.config.get('userName') || generator.user.git.name();
             generator.sourceDirectory = generator.config.get('sourceDirectory');
-            generator.appDir = generator.sourceDirectory;
             generator.useAria = generator.use.aria && !generator.options.skipAria;
             generator.useImagemin = generator.use.imagemin && !generator.options.skipImagemin;
             generator.template('_README.md', 'README.md');

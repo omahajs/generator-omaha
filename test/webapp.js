@@ -372,7 +372,7 @@ describe('Default generator (with custom source directory)', function() {
         it('all prompts TRUE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(extend(ALL_TRUE, {appDir: sourceDirectory}))
+                .withPrompts(extend(ALL_TRUE, {sourceDirectory: sourceDirectory}))
                 .toPromise()
                 .then(function() {
                     verifyBoilerplateFiles(sourceDirectory);
@@ -382,7 +382,7 @@ describe('Default generator (with custom source directory)', function() {
         it('all prompts FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(extend(ALL_FALSE, {appDir: sourceDirectory}))
+                .withPrompts(extend(ALL_FALSE, {sourceDirectory: sourceDirectory}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -395,7 +395,7 @@ describe('Default generator (with custom source directory)', function() {
         it('only aria prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(extend({}, ALL_TRUE, {appDir: sourceDirectory, aria: false}))
+                .withPrompts(extend({}, ALL_TRUE, {sourceDirectory: sourceDirectory, aria: false}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -408,7 +408,7 @@ describe('Default generator (with custom source directory)', function() {
         it('only imagemin prompt FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(extend({}, ALL_TRUE, {appDir: sourceDirectory, imagemin: false}))
+                .withPrompts(extend({}, ALL_TRUE, {sourceDirectory: sourceDirectory, imagemin: false}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
