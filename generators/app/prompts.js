@@ -3,7 +3,7 @@ var projectQuestions = [
         type: 'input',
         name: 'projectName',
         message: 'What do you want to name this project?',
-        default: 'tech'
+        default: 'tech-project'
     },
     {
         type: 'input',
