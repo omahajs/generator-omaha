@@ -4,11 +4,11 @@
   "author": "<%= userName %>",
   "license": "MIT",
   "description": "Slightly opinionated boilerplate and workflow for creating web applications",
-  "main": "<%= sourceDirectory %>app/main.js",
+  "main": "path to module entry point",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourGithubUsername/techtonic-app.git"
+    "url": "https://github.com/<%= userName %>/<%= projectName %>.git"
   },
   "engines": {
     "node": "*"

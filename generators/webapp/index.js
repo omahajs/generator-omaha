@@ -230,6 +230,9 @@ module.exports = yeoman.generators.Base.extend({
         var generator = this;
         var sourceDirectory = generator.sourceDirectory;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
+        utils.json.extend(generator.destinationPath('package.json'), {
+            main: sourceDirectory + 'app/main.js'
+        });
         utils.json.extend(generator.destinationPath('config/default.json'), {
             grunt: {
                 folders: {
