@@ -93,8 +93,8 @@ module.exports = yeoman.generators.NamedBase.extend({
     },
     writing: function() {
         var generator = this;
-        var appDir = generator.config.get('appDir');
-        var pathBase = appDir ? appDir + '/app/plugins/' : './';
+        var sourceDirectory = generator.config.get('sourceDirectory');
+        var pathBase = sourceDirectory ? sourceDirectory + '/app/plugins/' : './';
         if (generator.use.marionette && !generator.use.backbone) {
             generator.depList.unshift('\'backbone\'');
             generator.use.backbone = true;

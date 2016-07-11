@@ -109,77 +109,78 @@ module.exports = yeoman.generators.Base.extend({
             var generator = this;
             generator.projectName = generator.config.get('projectName');
             generator.userName = generator.config.get('userName') || generator.user.git.name();
-            generator.appDir = generator.config.get('appDir');
+            generator.sourceDirectory = generator.config.get('sourceDirectory');
+            generator.appDir = generator.sourceDirectory;
             generator.useAria = generator.use.aria && !generator.options.skipAria;
             generator.useImagemin = generator.use.imagemin && !generator.options.skipImagemin;
             generator.template('_README.md', 'README.md');
             generator.template('config/_csslintrc', 'config/.csslintrc');
             generator.template('tasks/webapp.js', 'tasks/webapp.js');
-            generator.template('_config.js', generator.appDir + 'app/config.js');
+            generator.template('_config.js', generator.sourceDirectory + 'app/config.js');
         },
         appFiles: function() {
             if (this.useHandlebars) {
                 this.fs.copy(
                     this.templatePath('helpers/handlebars.helpers.js'),
-                    this.destinationPath(this.appDir + 'app/helpers/handlebars.helpers.js')
+                    this.destinationPath(this.sourceDirectory + 'app/helpers/handlebars.helpers.js')
                 );
             }
             this.fs.copy(
                 this.templatePath('helpers/jquery.extensions.js'),
-                this.destinationPath(this.appDir + 'app/helpers/jquery.extensions.js')
+                this.destinationPath(this.sourceDirectory + 'app/helpers/jquery.extensions.js')
             );
             this.fs.copy(
                 this.templatePath('helpers/underscore.mixins.js'),
-                this.destinationPath(this.appDir + 'app/helpers/underscore.mixins.js')
+                this.destinationPath(this.sourceDirectory + 'app/helpers/underscore.mixins.js')
             );
             this.fs.copy(
                 this.templatePath('plugins/*.js'),
-                this.destinationPath(this.appDir + 'app/plugins')
+                this.destinationPath(this.sourceDirectory + 'app/plugins')
             );
             this.fs.copy(
                 this.templatePath('shims/*.js'),
-                this.destinationPath(this.appDir + 'app/shims')
+                this.destinationPath(this.sourceDirectory + 'app/shims')
             );
         },
         assets: function() {
             if (this.useLess) {
-                mkdirp(this.appDir + 'assets/less');
+                mkdirp(this.sourceDirectory + 'assets/less');
             }
             if (this.useSass) {
-                mkdirp(this.appDir + 'assets/sass');
+                mkdirp(this.sourceDirectory + 'assets/sass');
             }
-            mkdirp(this.appDir + 'assets/fonts');
-            mkdirp(this.appDir + 'assets/images');
-            mkdirp(this.appDir + 'assets/templates');
-            mkdirp(this.appDir + 'assets/library');
+            mkdirp(this.sourceDirectory + 'assets/fonts');
+            mkdirp(this.sourceDirectory + 'assets/images');
+            mkdirp(this.sourceDirectory + 'assets/templates');
+            mkdirp(this.sourceDirectory + 'assets/library');
             this.fs.copy(
                 this.templatePath('library/require.min.js'),
-                this.destinationPath(this.appDir + 'assets/library/require.min.js')
+                this.destinationPath(this.sourceDirectory + 'assets/library/require.min.js')
             );
             this.fs.copy(
                 this.templatePath('techtonic.png'),
-                this.destinationPath(this.appDir + 'assets/images/logo.png')
+                this.destinationPath(this.sourceDirectory + 'assets/images/logo.png')
             );
         },
         boilerplate: function() {
-            this.template('_index.html', this.appDir + 'app/index.html');
-            this.template('_app.js', this.appDir + 'app/app.js');
-            this.template('_main.js', this.appDir + 'app/main.js');
-            this.template('_router.js', this.appDir + 'app/router.js');
-            this.template('example.model.js', this.appDir + 'app/models/example.js');
-            this.template('example.view.js', this.appDir + 'app/views/example.js');
-            this.template('example.controller.js', this.appDir + 'app/controllers/example.js');
-            this.template('example.webworker.js', this.appDir + 'app/controllers/example.webworker.js');
-            this.template('example.template.hbs', this.appDir + 'assets/templates/example.hbs');
+            this.template('_index.html', this.sourceDirectory + 'app/index.html');
+            this.template('_app.js', this.sourceDirectory + 'app/app.js');
+            this.template('_main.js', this.sourceDirectory + 'app/main.js');
+            this.template('_router.js', this.sourceDirectory + 'app/router.js');
+            this.template('example.model.js', this.sourceDirectory + 'app/models/example.js');
+            this.template('example.view.js', this.sourceDirectory + 'app/views/example.js');
+            this.template('example.controller.js', this.sourceDirectory + 'app/controllers/example.js');
+            this.template('example.webworker.js', this.sourceDirectory + 'app/controllers/example.webworker.js');
+            this.template('example.template.hbs', this.sourceDirectory + 'assets/templates/example.hbs');
             if (this.useLess) {
-                this.template('_reset.css', this.appDir + 'assets/less/reset.less');
-                this.template('_style.less', this.appDir + 'assets/less/style.less');
+                this.template('_reset.css', this.sourceDirectory + 'assets/less/reset.less');
+                this.template('_style.less', this.sourceDirectory + 'assets/less/style.less');
             }
             else if (this.useSass) {
-                this.template('_reset.css', this.appDir + 'assets/sass/reset.scss');
-                this.template('_style.scss', this.appDir + 'assets/sass/style.scss');
+                this.template('_reset.css', this.sourceDirectory + 'assets/sass/reset.scss');
+                this.template('_style.scss', this.sourceDirectory + 'assets/sass/style.scss');
             } else{
-                this.template('_style.css', this.appDir + 'assets/css/style.css');
+                this.template('_style.css', this.sourceDirectory + 'assets/css/style.css');
             }
         }
     },
@@ -228,13 +229,13 @@ module.exports = yeoman.generators.Base.extend({
     },
     end: function() {
         var generator = this;
-        var appDir = generator.appDir;
+        var sourceDirectory = generator.sourceDirectory;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
         utils.json.extend(generator.destinationPath('config/default.json'), {
             grunt: {
                 folders: {
-                    app:    appDir + 'app',
-                    assets: appDir + 'assets'
+                    app:    sourceDirectory + 'app',
+                    assets: sourceDirectory + 'assets'
                 }
             }
         });
@@ -259,15 +260,15 @@ module.exports = yeoman.generators.Base.extend({
                 },
                 aliasify: {
                     aliases: {
-                        app:       './' + appDir + 'app/app',
-                        router:    './' + appDir + 'app/router',
-                        templates: './' + appDir + 'app/templates'
+                        app:       './' + sourceDirectory + 'app/app',
+                        router:    './' + sourceDirectory + 'app/router',
+                        templates: './' + sourceDirectory + 'app/templates'
                     },
                     replacements: {
-                        'models/(\\w+)':      './' + appDir + 'app/models/$1',
-                        'views/(\\w+)':       './' + appDir + 'app/views/$1',
-                        'controllers/(\\w+)': './' + appDir + 'app/controllers/$1',
-                        'plugins/(\\w+)':     './' + appDir + 'app/plugins/$1'
+                        'models/(\\w+)':      './' + sourceDirectory + 'app/models/$1',
+                        'views/(\\w+)':       './' + sourceDirectory + 'app/views/$1',
+                        'controllers/(\\w+)': './' + sourceDirectory + 'app/controllers/$1',
+                        'plugins/(\\w+)':     './' + sourceDirectory + 'app/plugins/$1'
                     }
                 }
             });
@@ -303,7 +304,7 @@ module.exports = yeoman.generators.Base.extend({
         }
         gruntfile.insertConfig('htmlhintplus', tasks.htmlhintplus);
         gruntfile.insertConfig('htmlmin', tasks.htmlmin);
-        gruntfile.insertConfig('postcss', tasks.postcss(appDir));
+        gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory));
         fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
         generator.log(footer(generator));
     }

@@ -42,7 +42,7 @@ function verifyCoreFiles() {
     ];
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
-function verifyBoilerplateFiles(appDir) {
+function verifyBoilerplateFiles(sourceDirectory) {
     var files = [
         'app/index.html',
         'app/app.js',
@@ -53,7 +53,7 @@ function verifyBoilerplateFiles(appDir) {
         'app/controllers/example.webworker.js'
     ];
     files
-        .map(function(fileName) {return appDir + fileName;})
+        .map(function(fileName) {return sourceDirectory + fileName;})
         .forEach(file => assert.file(file));
 }
 function verifyDefaultConfiguration() {
@@ -82,7 +82,7 @@ describe('Webapp generator', function() {
             .inTmpDir(createProject)
             .withOptions(SKIP_INSTALL)
             .withPrompts(prompts.webapp.defaults)
-            .withLocalConfig({projectName: 'tech', appDir: sourceDirectory})
+            .withLocalConfig({projectName: 'tech', sourceDirectory: sourceDirectory})
             .toPromise()
             .then(function() {
                 verifyBoilerplateFiles(sourceDirectory);

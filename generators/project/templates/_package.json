@@ -4,7 +4,7 @@
   "author": "<%= userName %>",
   "license": "MIT",
   "description": "Slightly opinionated boilerplate and workflow for creating web applications",
-  "main": "<%= appDir %>app/main.js",
+  "main": "<%= sourceDirectory %>app/main.js",
   "keywords": [],
   "repository": {
     "type": "git",

@@ -214,7 +214,7 @@ module.exports = {
      * Apply several post-processors to your CSS using PostCSS
      * @see {@link https://github.com/nDmitry/grunt-postcss}
     **/
-    postcss: function(appDir) {
+    postcss: function(sourceDirectory) {
         return `{
             options: {
                 parser: require("postcss-safe-parser"),
@@ -241,7 +241,10 @@ module.exports = {
                 options: {
                     processors: [require("mdcss")({
                         examples: {
-                            css: ["../${appDir}app/style.css", "../${appDir}assets/css/style.css"],
+                            css: [
+                                "../${sourceDirectory}app/style.css",
+                                "../${sourceDirectory}assets/css/style.css"
+                            ],
                         }
                     })],
                 },
