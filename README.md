@@ -53,9 +53,9 @@ Typical Workflows
   - Plato report: `grunt plato open:plato`
   - JSDocs documentation: `grunt docs open:docs`
   - Living styleguide: `grunt docs open:styleguide`
-- [Review the code](/generators/app/templates/tasks) to see all the available tasks
+- [Review the code](/generators/webapp/templates/tasks) to see all the available tasks
 
-> View the [technologies used](generators/app/README.md) and the [lint rules that make your code more secure](generators/app/templates/config/README.md)
+> View the [technologies used](generators/app/README.md) and the [lint rules that make your code more secure](generators/project/templates/config/README.md)
 
 Command Line Options
 --------------------

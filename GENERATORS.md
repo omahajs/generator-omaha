@@ -48,14 +48,14 @@ yo techtonic:plugin name
 - `name`: **(required)** The name of the plugin
 
 **Options:**
-- `jquery`
-- `underscore`
-- `backbone` (automatically includes underscore as a dependency)
-- `marionette` (automatically includes underscore and backbone as dependencies)
-- `lodash`
-- `ramda`
-- `custom-dependency`: Specify custom dependency name (must be used with `alias` option)
-- `alias`: Used in tandem with `custom-dependency` to define a custom dependency
+- `--jquery`
+- `--underscore`
+- `--backbone` (automatically includes underscore as a dependency)
+- `--marionette` (automatically includes underscore and backbone as dependencies)
+- `--lodash`
+- `--ramda`
+- `--custom-dependency`: Specify custom dependency name (must be used with `alias` option)
+- `--alias`: Used in tandem with `custom-dependency` to define a custom dependency
 
 **Examples:**
 
@@ -89,3 +89,26 @@ yo techtonic:server
 - Optional Markdown rendering support
 
 > **TIP:** techtonic server works well with Heroku!
+
+**Options:**
+- `--defaults`: scaffold server with no user input using defaults
+- `--http`: set HTTP port (auto applies `--defaults`)
+- `--https`: set HTTPS port (auto applies `--defaults`)
+- `--ws`: set websocket port (auto applies `--defaults`)
+
+**Examples:**
+
+Create a server with default ports (no markdown support):
+```sh
+yo techtonic:server --defaults
+```
+
+Create a server with custom HTTP port (all other ports use default value):
+```sh
+yo techtonic:server --http 1234
+```
+
+Create a server with all custom ports (no markdown support):
+```sh
+yo techtonic:server --http 1234 --https 5678 --ws 9101
+```
