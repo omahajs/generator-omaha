@@ -91,6 +91,7 @@ describe('Webapp generator', function() {
     });
 });
 describe('Default generator', function() {
+    this.timeout(5000);
     var stub;
     describe('can create and configure files with prompt choices', function() {
         before(function() {
