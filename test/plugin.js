@@ -17,7 +17,7 @@ function createPlugin(options) {
         });
     }
     return helpers.run(path.join(__dirname, '../generators/plugin'))
-        .withLocalConfig({sourceDirectory: './'})
+        .withLocalConfig({pluginDirectory: './'})
         .withArguments([options.name])
         .withPrompts({dependencies: options.dependencies})
         .withOptions(options.useCommandLineOptions ? testOptions : {})

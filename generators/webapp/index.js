@@ -112,6 +112,9 @@ module.exports = yeoman.generators.Base.extend({
             generator.sourceDirectory = generator.config.get('sourceDirectory');
             generator.useAria = generator.use.aria && !generator.options.skipAria;
             generator.useImagemin = generator.use.imagemin && !generator.options.skipImagemin;
+            generator.config.set('useAria', generator.useAria);
+            generator.config.set('useImagemin', generator.useImagemin);
+            generator.config.set('pluginDirectory', generator.sourceDirectory);
             generator.template('_README.md', 'README.md');
             generator.template('config/_csslintrc', 'config/.csslintrc');
             generator.template('tasks/webapp.js', 'tasks/webapp.js');
