@@ -1,6 +1,6 @@
 {
   "name": "generator-techtonic",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Yeoman generator designed to help you craft maintainable code for the modern web",
   "license": "MIT",
   "main": "generators/app/index.js",
