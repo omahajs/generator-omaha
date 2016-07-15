@@ -13,6 +13,9 @@
   "engines": {
     "node": "*"
   },
+  "dependencies": {
+    "requirejs": "^2.2.0"
+  },
   "devDependencies": {
     "config": "^1.14.0",
     "eslint-plugin-backbone": "^2.0.1",
@@ -39,6 +42,7 @@
     "karma-jasmine": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-firefox-launcher": "^1.0.0",
+    "karma-requirejs": "^1.0.0",
     "karma-spec-reporter": "*",
     "load-grunt-tasks": "^3.1.0",
     "lodash": "*",

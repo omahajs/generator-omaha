@@ -189,7 +189,6 @@ module.exports = yeoman.generators.Base.extend({
     install: function() {
         var generator = this;
         var dependencies = [
-            'requirejs',
             'jquery',
             'underscore',
             'backbone',
