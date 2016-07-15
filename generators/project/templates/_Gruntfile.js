@@ -39,6 +39,15 @@ module.exports = function(grunt) {
                     filter: 'isFile'
                 }]
             },
+            library: {
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    src: ["<%%= folders.assets %>/library/*.js"],
+                    dest: "<%%= folders.dist %>/library",
+                    filter: "isFile"
+                }]
+            },
             images: {
                 files: [{
                     expand: true,
