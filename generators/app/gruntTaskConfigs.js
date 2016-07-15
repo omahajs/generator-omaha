@@ -78,6 +78,15 @@ module.exports = {
                 dest: "<%= folders.dist %>/<%= deployed.assets %>/<%= deployed.fonts %>",
                 filter: "isFile"
             }]
+        },
+        library: {
+            files: [{
+                expand: true,
+                flatten: true,
+                src: ["<%= folders.assets %>/library/*.js"],
+                dest: "<%= folders.dist %>/library",
+                filter: "isFile"
+            }]
         }
     }`,
     /**
