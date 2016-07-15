@@ -360,6 +360,7 @@ describe('Default generator', function() {
     });
 });
 describe('Default generator (with custom source directory)', function() {
+    this.timeout(5000);
     var stub;
     var sourceDirectory = 'webapp/';
     describe('can create and configure files with prompt choices', function() {
