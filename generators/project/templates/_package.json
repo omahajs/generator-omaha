@@ -47,17 +47,11 @@
     "time-grunt": "^1.1.0"
   },
   "scripts": {
-    "build": "grunt build",
-    "predemo": "npm run build",
-    "demo": "grunt open:demo express:demo",
-    "test": "grunt test",
+    "test": "grunt karma:coverage",
     "test:ci": "npm test",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
-    "rest-api": "json-server --port 8080 --watch test/data/db.json",<% if (/^linux/.test(process.platform)) { %>
-    "prestart": "nohup npm run rest-api &",<% } %>
-    "start": " grunt serve",
-    "predeploy": "npm run build",
+    "rest-api": "json-server --port 8080 --watch test/data/db.json",
     "deploy": "cp -a dist/. dist/."
   }
 }

@@ -10,9 +10,10 @@
             "client":   "client",
             "dist":     "dist",
             "app":      "<%= sourceDirectory %>",
-            "reports":  "<%= sourceDirectory %>reports",
+            "assets":   "",
             "tasks":    "./tasks",
             "test":     "./test",
+            "reports":  "./reports",
             "specs":    "jasmine/specs",
             "coverage": "coverage",
             "docs":     "docs"

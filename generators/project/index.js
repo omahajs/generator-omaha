@@ -1,6 +1,7 @@
 'use strict';
 
 var fs        = require('fs');
+var mkdirp    = require('mkdirp');
 var yeoman    = require('yeoman-generator');
 var Gruntfile = require('gruntfile-editor');
 var utils     = require('../app/utils');
@@ -82,6 +83,7 @@ module.exports = yeoman.generators.Base.extend({
             generator.template('config/_default.json', 'config/default.json');
             generator.template('config/_eslintrc.js', 'config/.eslintrc.js');
             generator.template('config/_karma.conf.js', 'config/karma.conf.js');
+            mkdirp('tasks');
         },
         testFiles: function() {
             var generator = this;

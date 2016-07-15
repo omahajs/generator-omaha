@@ -231,8 +231,23 @@ module.exports = yeoman.generators.Base.extend({
         var sourceDirectory = generator.sourceDirectory;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
         utils.json.extend(generator.destinationPath('package.json'), {
-            main: sourceDirectory + 'app/main.js'
+            main: sourceDirectory + 'app/main.js',
+            scripts: {
+                build:     'grunt build',
+                test:      'grunt test',
+                predemo:   'npm run build',
+                demo:      'grunt open:demo express:demo',
+                start:     'grunt serve',
+                predeploy: 'npm run build'
+            }
         });
+        if (/^linux/.test(process.platform)) {
+            utils.json.extend(generator.destinationPath('package.json'), {
+                scripts: {
+                    prestart: 'nohup npm run rest-api &'
+                }
+            });
+        }
         utils.json.extend(generator.destinationPath('config/default.json'), {
             grunt: {
                 folders: {

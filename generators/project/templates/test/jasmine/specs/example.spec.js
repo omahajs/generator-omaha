@@ -8,7 +8,6 @@ define(function(require) {
     describe('When using this web app template', function() {
         it('should be awesome.', function() {
             expect(true).toBeTruthy();
-            console.log(app.model.get('name') + ' is awesome');
         });
         it('should be able to parse JSON objects', function() {
             var data = JSON.parse('{"foo": "bar"}');

@@ -253,10 +253,10 @@ module.exports = function(grunt) {
             }
         }
     });
-    require('time-grunt')(grunt);            //Display execution times for tasks in console
-    require('load-grunt-tasks')(grunt);      //Plugin for loading external task files
-    grunt.loadTasks(config.folders.tasks);   //Load external task files
-    grunt.registerTask('default', ['serve']);//Set default Grunt task
+    require('time-grunt')(grunt);
+    require('load-grunt-tasks')(grunt);
+    grunt.loadTasks(config.folders.tasks);
+    grunt.registerTask('default', ['serve']);
     grunt.registerTask('eslinting', 'Watch task for real-time linting with ESLint', [
         'eslint:ing',
         'watch:eslint'
