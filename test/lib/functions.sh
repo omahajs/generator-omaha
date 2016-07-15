@@ -15,9 +15,10 @@ PASS() {
 }
 FAIL() {
     BUILD_ID=$1
-    log "${BUILD_ID}: FAILURE"
     if type toilet >/dev/null 2>&1; then
         toilet -f pagga FAILURE
+    else
+        log "${BUILD_ID}: FAILURE"
     fi
     echo "✗ FAILURE ${BUILD_ID}" >> $TEST_DIRECTORY/results.txt
 }
