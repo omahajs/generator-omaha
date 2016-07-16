@@ -84,7 +84,7 @@ module.exports = {
                 expand: true,
                 flatten: true,
                 src: ["<%= folders.assets %>/library/*.js"],
-                dest: "<%= folders.dist %>/library",
+                dest: "<%= folders.dist %>/<%= deployed.assets %>/library",
                 filter: "isFile"
             }]
         }
