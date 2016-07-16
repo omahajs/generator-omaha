@@ -12,7 +12,9 @@ module.exports = {
         jquery: true
     },
     globals: {
-        Promise: true
+        Promise: true,
+        module: true,
+        exports: true
     },
     plugins: [
         'backbone'
