@@ -1,3 +1,5 @@
+'use strict';
+
 var config = require('config').get('grunt');
 var scripts = config.folders.app + '/' + config.files.scripts;       //app source
 var templates = config.folders.assets + '/' + config.files.templates;//templates

@@ -2,9 +2,6 @@
     <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/techtonic/logo.png?v=1" alt="techtonic"/></a>
 </div>
 <div align="center">
-    <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic">
-        <img src="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
-    </a>
     <a href="https://ci.appveyor.com/project/jhwohlgemuth/generator-techtonic">
         <img src="https://ci.appveyor.com/api/projects/status/n7tv489wdlkuyi0i?svg=true" alt="AppVeyor CI Build Status" title="AppVeyor CI Build Status"/>
     </a>
@@ -13,6 +10,17 @@
     </a>
     <a href="https://coveralls.io/github/jhwohlgemuth/generator-techtonic?branch=master">
         <img src="https://coveralls.io/repos/jhwohlgemuth/generator-techtonic/badge.svg?branch=master&service=github" alt="Coveralls.io Coverage Status" title="Coveralls.io Coverage Status"/>
+    </a>
+</div>
+<div align="center">
+    <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic">
+        <img src="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
+    </a>
+    <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/master/dependencies/npm">
+        <img src="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/badges/dependencies.svg" alt="bitHound Dependencies" title="bitHound Dependencies">
+    </a>
+    <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic">
+        <img src="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/badges/code.svg" alt="bitHound Code" title="bitHound Code">
     </a>
 </div>
 

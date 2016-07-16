@@ -369,6 +369,12 @@ describe('Default generator', function() {
 });
 describe('Default generator (with custom source directory)', function() {
     this.timeout(5000);
+    function createWebappProject() {
+        return helpers.run(path.join(__dirname, '../generators/app'))
+            .withOptions(SKIP_INSTALL)
+            .withPrompts(extend(ALL_TRUE, {sourceDirectory: sourceDirectory}))
+            .toPromise();
+    }
     var stub;
     var sourceDirectory = 'webapp/';
     describe('can create and configure files with prompt choices', function() {
@@ -380,14 +386,10 @@ describe('Default generator (with custom source directory)', function() {
             stub.restore();
         });
         it('all prompts TRUE', function() {
-            return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(extend(ALL_TRUE, {sourceDirectory: sourceDirectory}))
-                .toPromise()
-                .then(function() {
-                    verifyBoilerplateFiles(sourceDirectory);
-                    verifyDefaultConfiguration();
-                });
+            return createWebappProject().then(function() {
+                verifyBoilerplateFiles(sourceDirectory);
+                verifyDefaultConfiguration();
+            });
         });
         it('all prompts FALSE', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
