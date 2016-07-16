@@ -1,4 +1,4 @@
-Technologies
+Technologies [![Dependency Status](https://www.versioneye.com/user/projects/578ac002c3d40f004685247d/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/578ac002c3d40f004685247d)
 ------------
 | Task                  | Tool                                                                                         | Status              |
 | --------------------- | -------------------------------------------------------------------------------------------- | ------------------- |
