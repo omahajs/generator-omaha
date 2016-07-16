@@ -4,7 +4,7 @@ var yeoman = require('yeoman-generator');
 var utils  = require('../app/utils');
 var banner = require('./banner');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.Base.extend({
     initializing: function() {
         var generator = this;
         generator.log(banner);

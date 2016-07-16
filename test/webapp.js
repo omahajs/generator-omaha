@@ -1,11 +1,12 @@
 'use strict';
 
 var path    = require('path');
+var fs      = require('fs-extra');
 var _       = require('lodash');
 var sinon   = require('sinon');
 var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
-var base    = require('yeoman-generator').generators.Base;
+var base    = require('yeoman-generator').Base;
 var utils   = require('../generators/app/utils');
 var extend  = utils.object.extend;
 var clone   = utils.object.clone;
@@ -28,12 +29,6 @@ var ariaContent = [
     ['Gruntfile.js', 'accessibility: '],
     ['Gruntfile.js', 'aria-audit']
 ];
-function createProject() {
-    return helpers.run(path.join(__dirname, '../generators/project'))
-        .withOptions({skipInstall: true})
-        .withPrompts(prompts.project.defaults)
-        .toPromise();
-}
 function verifyCoreFiles() {
     var ALWAYS_INCLUDED = [
         'README.md',
@@ -78,8 +73,21 @@ describe('Webapp generator', function() {
     });
     it('can create and configure files with default prompt choices', function() {
         var sourceDirectory = './';
+        function createDummyProject(dir) {
+            var projectTemplatesDirectory = '../generators/project/templates/';
+            ['_Gruntfile.js', '_package.json'].forEach(function(file) {
+                fs.copySync(
+                    path.join(__dirname, `${projectTemplatesDirectory}${file}`),
+                    path.join(dir, file.split('_')[1])
+                );
+            });
+            fs.copySync(
+                path.join(__dirname, `${projectTemplatesDirectory}config/_default.json`),
+                path.join(dir, 'config', 'default.json')
+            );
+        }
         return helpers.run(path.join(__dirname, '../generators/webapp'))
-            .inTmpDir(createProject)
+            .inTmpDir(createDummyProject)
             .withOptions(SKIP_INSTALL)
             .withPrompts(prompts.webapp.defaults)
             .withLocalConfig({projectName: 'tech-project', sourceDirectory: sourceDirectory})

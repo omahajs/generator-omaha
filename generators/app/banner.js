@@ -1,3 +1,5 @@
+'use strict';
+
 var chalk = require('chalk');
 var color = 'black';
 var techtonic = '\n' + chalk[color].bgYellow(

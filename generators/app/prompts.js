@@ -1,3 +1,5 @@
+'use strict';
+
 var projectQuestions = [
     {
         type: 'input',

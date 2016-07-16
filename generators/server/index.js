@@ -53,31 +53,30 @@ var prompts = [
     }
 ];
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.Base.extend({
     constructor: function() {
         var generator = this;
-        yeoman.generators.Base.apply(generator, arguments);
+        yeoman.Base.apply(generator, arguments);
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
     },
     prompting: function() {
-        var done = this.async();
         var options = this.options;
         var customPortSelected = (options.http || options.https || options.ws);
         if (options.defaults || customPortSelected) {
+            var done = this.async();
             this.httpPort        = options.http  || prompts[0].default;
             this.httpsPort       = options.https || prompts[1].default;
             this.websocketPort   = options.ws    || prompts[2].default;
             this.markdownSupport = prompts[3].default;
             done();
         } else {
-            this.prompt(prompts, function (props) {
-                this.httpPort        = props.httpPort;
-                this.httpsPort       = props.httpsPort;
-                this.websocketPort   = props.websocketPort;
-                this.markdownSupport = props.markdownSupport;
-                done();
+            return this.prompt(prompts).then(function (answers) {
+                this.httpPort        = answers.httpPort;
+                this.httpsPort       = answers.httpsPort;
+                this.websocketPort   = answers.websocketPort;
+                this.markdownSupport = answers.markdownSupport;
             }.bind(this));
         }
     },

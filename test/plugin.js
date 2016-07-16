@@ -2,7 +2,7 @@
 
 var sinon   = require('sinon');
 var path    = require('path');
-var base    = require('yeoman-generator').generators.Base;
+var base    = require('yeoman-generator').Base;
 var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
 
@@ -27,8 +27,8 @@ function createPlugin(options) {
 describe('Plugin generator', function() {
     var pluginName = 'pluginName';
     var pluginPath = 'app/plugins/' + pluginName + '.js';
-    it('can create a vanilla JavaScript plugin', function(done) {
-        createPlugin({
+    it('can create a vanilla JavaScript plugin', function() {
+        return createPlugin({
             name: pluginName,
             dependencies: []
         }).then(function() {
@@ -40,11 +40,10 @@ describe('Plugin generator', function() {
             ['jquery', 'underscore', 'backbone', 'marionette'].forEach(function(alias) {
                 assert.noFileContent(pluginPath, 'var ' + alias + ' = require(\')');
             });
-            done();
         });
     });
-    it('can create a jQuery plugin', function(done) {
-        createPlugin({
+    it('can create a jQuery plugin', function() {
+        return createPlugin({
             name: pluginName,
             dependencies: ['jquery']
         }).then(function() {
@@ -53,11 +52,10 @@ describe('Plugin generator', function() {
             assert.fileContent(pluginPath, 'module.exports = factory(root, $);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, $);')
             assert.fileContent(pluginPath, '}(this, function(root, $) {');
-            done();
         });
     });
-    it('can create an Underscore.js plugin', function(done) {
-        createPlugin({
+    it('can create an Underscore.js plugin', function() {
+        return createPlugin({
             name: pluginName,
             dependencies: ['underscore']
         }).then(function() {
@@ -66,11 +64,10 @@ describe('Plugin generator', function() {
             assert.fileContent(pluginPath, 'module.exports = factory(root, _);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _);')
             assert.fileContent(pluginPath, '}(this, function(root, _) {');
-            done();
         });
     });
-    it('can create a Backbone.js plugin', function(done) {
-        createPlugin({
+    it('can create a Backbone.js plugin', function() {
+        return createPlugin({
             name: pluginName,
             dependencies: ['backbone']
         }).then(function() {
@@ -79,11 +76,10 @@ describe('Plugin generator', function() {
             assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone);')
             assert.fileContent(pluginPath, '}(this, function(root, _, Backbone) {');
-            done();
         });
     });
     it('can create a MarionetteJS plugin', function() {
-        createPlugin({
+        return createPlugin({
             name: pluginName,
             dependencies: ['marionette']
         }).then(function() {
@@ -92,11 +88,10 @@ describe('Plugin generator', function() {
             assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone, Marionette);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone, Marionette);')
             assert.fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
-            done();
         });
     });
-    it('can create a MarionetteJS plugin using command line options', function(done) {
-        createPlugin({
+    it('can create a MarionetteJS plugin using command line options', function() {
+        return createPlugin({
             name: pluginName,
             dependencies: ['marionette'],
             useCommandLineOptions: true
@@ -106,11 +101,10 @@ describe('Plugin generator', function() {
             assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone, Marionette);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone, Marionette);')
             assert.fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
-            done();
         });
     });
-    it('can create a plugin with a custom dependency', function(done) {
-        createPlugin({
+    it('can create a plugin with a custom dependency', function() {
+        return createPlugin({
             name: pluginName,
             dependencies: [],
             customDependency: 'FooBar',
@@ -122,7 +116,6 @@ describe('Plugin generator', function() {
             assert.fileContent(pluginPath, 'module.exports = factory(root, foo);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, foo);')
             assert.fileContent(pluginPath, '}(this, function(root, foo) {');
-            done();
         });
     });
 });

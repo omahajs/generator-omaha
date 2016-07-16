@@ -6,7 +6,7 @@
 (function(root, factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
-        define([<%= depList %>], function(<%= defineArguments %>) {
+        define([<%- depList %>], function(<%= defineArguments %>) {
             return (root.<%= pluginName %> = factory(<%= iifeArguments %>));
         });
     } else if (typeof exports === 'object') {

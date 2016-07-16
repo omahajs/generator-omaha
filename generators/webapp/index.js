@@ -1,7 +1,6 @@
 'use strict';
 
-var fs        = require('fs');
-var mkdirp    = require('mkdirp');
+var fs        = require('fs-extra');
 var yeoman    = require('yeoman-generator');
 var Gruntfile = require('gruntfile-editor');
 var utils     = require('../app/utils');
@@ -42,19 +41,19 @@ var commandLineOptions = {
     }
 };
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.Base.extend({
     constructor: function() {
         var generator = this;
-        yeoman.generators.Base.apply(generator, arguments);
+        yeoman.Base.apply(generator, arguments);
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
     },
     prompting: function() {
-        var done = this.async();
         var generator = this;
         !generator.config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
+            var done = this.async();
             generator.use = prompt.defaults;
             Object.keys(prompt.defaults).forEach(function(option) {
                 generator[option] = prompt.defaults[option];
@@ -76,8 +75,8 @@ module.exports = yeoman.generators.Base.extend({
             function isUnAnswered(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
-            generator.prompt(prompt.questions.filter(isUnAnswered), function (props) {
-                generator.use = props;
+            return generator.prompt(prompt.questions.filter(isUnAnswered)).then(function (answers) {
+                generator.use = answers;
                 var bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
                 var preprocessor;
                 if (generator.options.cssPreprocessor === commandLineOptions.cssPreprocessor.defaults) {
@@ -100,7 +99,6 @@ module.exports = yeoman.generators.Base.extend({
                 Object.keys(options).forEach(function(option) {
                     generator[option] = options[option];
                 });
-                done();
             }.bind(generator));
         }
     },
@@ -146,15 +144,15 @@ module.exports = yeoman.generators.Base.extend({
         },
         assets: function() {
             if (this.useLess) {
-                mkdirp(this.sourceDirectory + 'assets/less');
+                fs.mkdirp(this.sourceDirectory + 'assets/less');
             }
             if (this.useSass) {
-                mkdirp(this.sourceDirectory + 'assets/sass');
+                fs.mkdirp(this.sourceDirectory + 'assets/sass');
             }
-            mkdirp(this.sourceDirectory + 'assets/fonts');
-            mkdirp(this.sourceDirectory + 'assets/images');
-            mkdirp(this.sourceDirectory + 'assets/templates');
-            mkdirp(this.sourceDirectory + 'assets/library');
+            fs.mkdirp(this.sourceDirectory + 'assets/fonts');
+            fs.mkdirp(this.sourceDirectory + 'assets/images');
+            fs.mkdirp(this.sourceDirectory + 'assets/templates');
+            fs.mkdirp(this.sourceDirectory + 'assets/library');
             this.fs.copy(
                 this.templatePath('library/require.min.js'),
                 this.destinationPath(this.sourceDirectory + 'assets/library/require.min.js')

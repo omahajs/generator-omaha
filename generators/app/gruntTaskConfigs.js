@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
     /**
      * Accessibility audit with a11y

@@ -1,7 +1,6 @@
 'use strict';
 
 var yeoman             = require('yeoman-generator');
-var mkdirp             = require('mkdirp');
 var commandLineOptions = require('./commandLineOptions');
 
 var globalNameLookup = {
@@ -50,10 +49,11 @@ var questions = [{
     ]
 }];
 
-module.exports = yeoman.generators.NamedBase.extend({
+module.exports = yeoman.Base.extend({
     constructor: function() {
         var generator = this;
-        yeoman.generators.NamedBase.apply(generator, arguments);
+        yeoman.Base.apply(generator, arguments);
+        generator.argument('name', {type: String, required: true});
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
@@ -61,7 +61,6 @@ module.exports = yeoman.generators.NamedBase.extend({
     prompting: function() {
         var generator = this;
         var options = generator.options;
-        var done = generator.async();
         if (options.customDependency && options.alias) {
             commandLineOptions[options.customDependency] = true;
             options[options.customDependency] = true;
@@ -69,25 +68,25 @@ module.exports = yeoman.generators.NamedBase.extend({
         }
         var dependencySelected = Object.keys(commandLineOptions).map(function(key) {return options[key];}).indexOf(true) > -1;
         generator.pluginName = generator.name.substring(generator.name.charAt(0) === '/' ? 1 : 0).replace('.', '_');
-        generator.userName = generator.user.git.name() ? generator.user.git.name() : 'John Doe';
+        generator.userName = generator.user.git.name() ? generator.user.git.name() : 'A.Developer';
         generator.use = {};
         if(dependencySelected) {
             function isSelectedDependency(name) {return options[name] === true;}
+            var done = generator.async();
             generator.dependencies = Object.keys(commandLineOptions).filter(isSelectedDependency);
-            generator.depList = generator.dependencies.map(function(dep) {return '\'' + dep + '\'';});
+            generator.depList = generator.dependencies.map(function(dep) {return `'${dep}'`;});
             generator.dependencies.forEach(function(dep) {
                 generator.use[dep] = true;
                 return dep;
             });
             done();
         } else {
-            generator.prompt(questions, function (props) {
-                generator.depList = props.dependencies.map(function(dep) {return '\'' + dep + '\'';});
-                generator.dependencies = props.dependencies.map(function(dep) {
+            return generator.prompt(questions).then(function (answers) {
+                generator.depList = answers.dependencies.map(function(dep) {return `'${dep}'`;});
+                generator.dependencies = answers.dependencies.map(function(dep) {
                     generator.use[dep] = true;
                     return dep;
                 });
-                done();
             }.bind(generator));
         }
     },
@@ -95,12 +94,13 @@ module.exports = yeoman.generators.NamedBase.extend({
         var generator = this;
         var pluginDirectory = generator.config.get('pluginDirectory');
         var pathBase = pluginDirectory ? pluginDirectory + '/app/plugins/' : generator.config.get('sourceDirectory');
+        pathBase = pathBase ? pathBase : './';
         if (generator.use.marionette && !generator.use.backbone) {
-            generator.depList.unshift('\'backbone\'');
+            generator.depList.unshift(`'backbone'`);
             generator.use.backbone = true;
         }
         if (generator.use.backbone && !generator.use.underscore) {
-            generator.depList.unshift('\'underscore\'');
+            generator.depList.unshift(`'underscore'`);
             generator.use.underscore = true;
         }
         generator.dependencies = generator.depList.map(removeSingleQuotes);

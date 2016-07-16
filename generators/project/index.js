@@ -1,7 +1,6 @@
 'use strict';
 
-var fs        = require('fs');
-var mkdirp    = require('mkdirp');
+var fs        = require('fs-extra');
 var yeoman    = require('yeoman-generator');
 var Gruntfile = require('gruntfile-editor');
 var utils     = require('../app/utils');
@@ -32,22 +31,22 @@ var commandLineOptions = {
     }
 };
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.Base.extend({
     constructor: function() {
         var generator = this;
-        yeoman.generators.Base.apply(generator, arguments);
+        yeoman.Base.apply(generator, arguments);
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
         generator.config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'A. Developer');
     },
     prompting: function() {
-        var done = this.async();
         var generator = this;
         generator.userName = generator.config.get('userName');
         generator.use = prompt.defaults;
         !generator.config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
+            var done = this.async();
             generator.projectName = generator.use.projectName;
             generator.config.set('projectName', generator.projectName);
             generator.sourceDirectory = (!/\/$/.test(generator.use.sourceDirectory)) ? generator.use.sourceDirectory + '/' : generator.use.sourceDirectory;
@@ -57,12 +56,11 @@ module.exports = yeoman.generators.Base.extend({
             function isUnAnswered(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
-            generator.prompt(prompt.questions.filter(isUnAnswered), function (props) {
-                generator.use = props;
-                generator.projectName = props.projectName;
-                generator.sourceDirectory = (!/\/$/.test(props.sourceDirectory)) ? props.sourceDirectory + '/' : props.sourceDirectory;
+            return generator.prompt(prompt.questions.filter(isUnAnswered)).then(function (answers) {
+                generator.use = answers;
+                generator.projectName = answers.projectName;
+                generator.sourceDirectory = (!/\/$/.test(answers.sourceDirectory)) ? answers.sourceDirectory + '/' : answers.sourceDirectory;
                 generator.config.set('sourceDirectory', generator.sourceDirectory);
-                done();
             }.bind(generator));
         }
     },
@@ -83,7 +81,7 @@ module.exports = yeoman.generators.Base.extend({
             generator.template('config/_default.json', 'config/default.json');
             generator.template('config/_eslintrc.js', 'config/.eslintrc.js');
             generator.template('config/_karma.conf.js', 'config/karma.conf.js');
-            mkdirp('tasks');
+            fs.mkdirp('tasks');
         },
         testFiles: function() {
             var generator = this;

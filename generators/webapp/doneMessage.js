@@ -1,3 +1,5 @@
+'use strict';
+
 var chalk = require('chalk');
 var LETS_GET_STARTED = 'npm start';
 var doneMessage = function(generator) {
