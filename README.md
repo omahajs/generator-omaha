@@ -5,9 +5,6 @@
     <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic">
         <img src="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
     </a>
-    <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic">
-        <img src="https://ci.appveyor.com/api/projects/status/n7tv489wdlkuyi0i?svg=true" alt="AppVeyor CI Build Status" title="AppVeyor CI Build Status"/>
-    </a>
     <a href="https://ci.appveyor.com/project/jhwohlgemuth/generator-techtonic">
         <img src="https://ci.appveyor.com/api/projects/status/n7tv489wdlkuyi0i?svg=true" alt="AppVeyor CI Build Status" title="AppVeyor CI Build Status"/>
     </a>
