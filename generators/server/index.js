@@ -6,22 +6,22 @@ var yosay  = require('yosay');
 
 var commandLineOptions = {
     defaults: {
-        type: 'Boolean',
+        type: Boolean,
         desc: 'Scaffold server with defaults settings and no user interaction',
         defaults: false
     },
     http: {
-        type: 'String',
+        type: String,
         desc: 'HTTP server port',
         defaults: false
     },
     https: {
-        type: 'String',
+        type: String,
         desc: 'HTTPS server port',
         defaults: false
     },
     ws: {
-        type: 'String',
+        type: String,
         desc: 'WebSocket server port',
         defaults: false
     }

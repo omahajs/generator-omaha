@@ -11,17 +11,17 @@ var footer    = require('./doneMessage');
 
 var commandLineOptions = {
     defaults: {
-        type: 'Boolean',
+        type: Boolean,
         desc: 'Scaffold app with no user input using default settings',
         defaults: false
     },
     scriptBundler: {
-        type: 'String',
+        type: String,
         desc: 'Choose script bundler',
         defaults: ''
     },
     cssPreprocessor: {
-        type: 'String',
+        type: String,
         desc: 'Choose CSS pre-processor',
         defaults: 'less'
     },
@@ -30,12 +30,12 @@ var commandLineOptions = {
         defaults: 'handlebars'
     },
     skipImagemin: {
-        type: 'Boolean',
+        type: Boolean,
         desc: 'DO NOT add image minification to project deploy pipeline',
         defaults: false
     },
     skipAria: {
-        type: 'Boolean',
+        type: Boolean,
         desc: 'DO NOT add ARIA auditing tasks and dependencies to project',
         defaults: false
     }
@@ -51,7 +51,6 @@ module.exports = yeoman.Base.extend({
     },
     prompting: function() {
         var generator = this;
-        !generator.config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
             var done = this.async();
             generator.use = prompt.defaults;

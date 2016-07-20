@@ -10,22 +10,22 @@ var tasks     = require('../app/gruntTaskConfigs');
 
 var commandLineOptions = {
     defaults: {
-        type: 'Boolean',
+        type: Boolean,
         desc: 'Scaffold app with no user input using default settings',
         defaults: false
     },
     skipBenchmark: {
-        type: 'Boolean',
+        type: Boolean,
         desc: 'DO NOT add benchmark.js code and dependencies to project',
         defaults: false
     },
     skipCoveralls: {
-        type: 'Boolean',
+        type: Boolean,
         desc: 'DO NOT add coveralls tasks and dependencies to project',
         defaults: false
     },
     skipJsinspect: {
-        type: 'Boolean',
+        type: Boolean,
         desc: 'DO NOT add JSInspect tasks and dependencies to project',
         defaults: false
     }
