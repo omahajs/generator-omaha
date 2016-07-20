@@ -53,9 +53,9 @@ module.exports = yeoman.Base.extend({
             generator.config.set('sourceDirectory', generator.sourceDirectory);
             done();
         } else {
-            function isUnAnswered(option) {
+            var isUnAnswered = function(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
-            }
+            };
             return generator.prompt(prompt.questions.filter(isUnAnswered)).then(function (answers) {
                 generator.use = answers;
                 generator.projectName = answers.projectName;
