@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="http://images.jhwohlgemuth.com/techtonic/logo.png?v=1" alt="techtonic"/></a>
+    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="https://jhwohlgemuth.github.io/images/logo.png?v=1.0" alt="techtonic"/></a>
 </div>
 <div align="center">
     <a href="https://ci.appveyor.com/project/jhwohlgemuth/generator-techtonic">
@@ -44,7 +44,7 @@ yo techtonic
 ```
 ✔ Make some choices
 <div align="center">
-    <img width="100%" type="image/svg+xml" src="http://images.jhwohlgemuth.com/techtonic/generator-rail-diagram.svg?v=8.0" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
+    <img width="100%" type="image/svg+xml" src="https://jhwohlgemuth.github.io/images/generator-rail-diagram.svg?v=1.0" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
 </div>
 </br>
 ✔ Start creating your app!
