@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').config({path: './config/.env'});
+require('dotenv').config();
 
 var config = require('config');
 var log    = require('npmlog');
