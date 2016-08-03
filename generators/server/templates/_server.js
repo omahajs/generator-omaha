@@ -48,7 +48,7 @@ var app = express()<% if (markdownSupport) { %>
     .set('view engine', 'md')<% } %>
     .use(session(config.get('session')))
     .use(function (req, res, next) {
-        res.set('X-CSRF', config.get('session').secret);
+        res.set('X-CSRF', req.sessionID);
         return next();
     })
     .disable('x-powered-by')                /** Do not advertise Express **/
@@ -67,7 +67,7 @@ var app = express()<% if (markdownSupport) { %>
     .use(compress())                        /** Use gzip compression **/
     .use(express.static(__dirname));        /** Serve static files **/
 app.get('/', function(req, res) {
-    if (res.get('X-CSRF') === config.get('session').secret) {
+    if (res.get('X-CSRF') === req.sessionID) {
         res.redirect('/client');
     } else {
         res.status(412).end();

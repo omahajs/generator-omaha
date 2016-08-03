@@ -7,9 +7,12 @@ module.exports = {
         rb: 'ruby'
     },
     session: {
-        secret: uuid.v1(),
+        name: 'customSessionId',
+        secret: 'Quidquid latine dictum, altum videtur',
+        genid: function(req) {return uuid.v1();},
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+        cookie: {httpOnly: true, secure: true}
     },
     websocket: {
         port: <%= websocketPort %>
