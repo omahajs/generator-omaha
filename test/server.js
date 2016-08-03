@@ -7,7 +7,6 @@ var helpers = require('yeoman-test');
 function verifyCoreFiles() {
     var ALWAYS_INCLUDED = [
         'package.json',
-        'app.json',
         'index.js',
         'config/default.js',
         'web/socket.js',
