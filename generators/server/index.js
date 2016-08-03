@@ -86,9 +86,8 @@ module.exports = yeoman.Base.extend({
                 this.log(yosay('Place Markdown files in ' + chalk.blue('./web/markdown/')));
             }
             this.template('_package.json', 'package.json');
-            this.template('_app.json', 'app.json');
             this.template('config/_gitignore', '.gitignore');
-            this.template('config/_env', 'config/.env');
+            this.template('config/_env', '.env');
             this.template('config/_default.js', 'config/default.js');
         }
     },
