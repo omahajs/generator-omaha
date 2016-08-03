@@ -32,7 +32,8 @@ var md = new Remarkable({
 
 var NINETY_DAYS_IN_MILLISECONDS = 7776000000;
 
-var app = express()<% if (markdownSupport) { %>
+var app = express()
+    .engine('html', require('ejs').renderFile)<% if (markdownSupport) { %>
     .engine('md', function(path, options, fn) {
         fs.readFile(path, 'utf8', function(err, str) {
             if (err) return fn(err);
@@ -43,9 +44,9 @@ var app = express()<% if (markdownSupport) { %>
                 fn(err);
               }
         });
-    })
-    .set('views', __dirname + '/markdown')
-    .set('view engine', 'md')<% } %>
+    })<% } %>
+    .set('view engine', 'html')
+    .set('views', __dirname + '/client')
     .use(session(config.get('session')))
     .use(function (req, res, next) {
         res.set('X-CSRF', req.sessionID);
@@ -68,13 +69,10 @@ var app = express()<% if (markdownSupport) { %>
     .use(express.static(__dirname));        /** Serve static files **/
 app.get('/', function(req, res) {
     if (res.get('X-CSRF') === req.sessionID) {
-        res.redirect('/client');
+        res.render('index', {message: 'The server is functioning properly!'});
     } else {
         res.status(412).end();
     }
-});
-app.get('/markdown/:page', function(req, res) {
-    res.render(req.params.page, {title: 'Markdown Example'});
 });
 
 module.exports = app;

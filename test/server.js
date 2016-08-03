@@ -22,7 +22,7 @@ function verifyPorts(http, https, ws) {
     assert.fileContent('config/default.js', 'port: ' + ws);
 }
 function verifyMarkdownSupport(exists) {
-    (exists ? assert.file : assert.noFile)('web/markdown/example.md');
+    (exists ? assert.file : assert.noFile)('web/client/example.md');
     (exists ? assert.fileContent : assert.noFileContent)('web/server.js', 'engine(\'md\', ');
 }
 

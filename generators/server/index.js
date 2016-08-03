@@ -83,7 +83,7 @@ module.exports = yeoman.Base.extend({
     configuring: {
         projectfiles: function() {
             if (this.markdownSupport) {
-                this.log(yosay('Place Markdown files in ' + chalk.blue('./web/markdown/')));
+                this.log(yosay('Place Markdown files in ' + chalk.blue('./web/client/')));
             }
             this.template('_package.json', 'package.json');
             this.template('config/_gitignore', '.gitignore');
@@ -105,7 +105,7 @@ module.exports = yeoman.Base.extend({
         boilerplate: function() {
             this.template('_index.html', 'web/client/index.html');
             if (this.markdownSupport) {
-                this.template('example.md', 'web/markdown/example.md');
+                this.template('example.md', 'web/client/example.md');
             }
         }
     },
