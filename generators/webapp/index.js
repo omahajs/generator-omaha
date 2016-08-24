@@ -189,7 +189,7 @@ module.exports = yeoman.Base.extend({
             'jquery',
             'underscore',
             'backbone',
-            'backbone.marionette',
+            'backbone.marionette@^2.4.7',
             'backbone.radio'
         ];
         var htmlDevDependencies = [
