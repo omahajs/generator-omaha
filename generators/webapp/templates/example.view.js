@@ -1,9 +1,9 @@
 /**
- * @file Example MarionetteJS ItemView module
+ * @file Example MarionetteJS View module
  * @author <%= userName %>
  * @module views/example
  * @requires models/example
- */
+**/
 define(function(require, exports, module) {
     'use strict';
 
@@ -15,9 +15,9 @@ define(function(require, exports, module) {
      * @name ExampleView
      * @description Example view
      * @constructor
-     * @extends Marionette.ItemView
+     * @extends Marionette.View
     **/
-    var ExampleView = Marionette.ItemView.extend({
+    var ExampleView = Marionette.View.extend({
         //view code goes here
         template: JST.example,
         model: new Example.model()

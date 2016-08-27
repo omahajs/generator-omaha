@@ -21,20 +21,23 @@ define(function(require, exports, module) {
      * @class ApplicationModel
      * @extends Backbone.Model
      * @prop {object} default
-     * @prop {string} default.name='<%= projectName %>'
+     * @prop {string} default.name='tech-project'
     **/
     var ApplicationModel = Backbone.Model.extend({
         defaults: {
-            name: '<%= projectName %>'
+            name: 'tech-project'
         }
     });
-    var App = new Marionette.Application();
-    App.model = new ApplicationModel();
-    App.regions = new Marionette.RegionManager({
-        regions: {
-            'root': 'body'
-        }
+    /**
+     * @class Application
+     * @extends Marionette.Application
+     * @prop {string} region='body'
+     * @prop {ApplicationModel} model
+    **/
+    var Application = Marionette.Application.extend({
+        region: 'body',
+        model: new ApplicationModel()
     });
 
-    module.exports = App;
+    module.exports = new Application();
 });
