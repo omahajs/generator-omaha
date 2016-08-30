@@ -66,7 +66,7 @@ Typical Workflows
   - Living styleguide: `grunt docs open:styleguide`
 - [Review the code](/generators/webapp/templates/tasks) to see all the available tasks
 
-> View the [technologies used](generators/app/README.md) and the [lint rules that make your code more secure](generators/project/templates/config/README.md)
+> View the [technologies used](generators/app/README.md) and the [lint rules that make your code more secure](https://github.com/omahajs/eslint-config-omaha-prime-grade/blob/master/RULES_FOR_SECURITY.md)
 
 Command Line Options
 --------------------
