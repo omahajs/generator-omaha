@@ -15,7 +15,7 @@ define(function(require) {
 
     WebApp.on('before:start', function() {
         console.info(WebApp.model.get('name') + ' is starting...');
-        WebApp.router = new Example.router();
+        WebApp.router = new Example.Router();
     });
     WebApp.on('start', function() {
         Backbone.history.start();

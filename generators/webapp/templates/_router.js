@@ -13,10 +13,10 @@ define(function(require, exports) {
      * @constructor
      * @extends Marionette.Object
      * @prop {function} foo Example callback function to be called by ExampleAppRouter
-     */
+    **/
     var RouterController = Marionette.Object.extend({
         foo: function() {
-            console.log('bar');
+            //code to be executed for 'foo' route
         }
     });
     /**
@@ -34,6 +34,6 @@ define(function(require, exports) {
         controller: new RouterController()
     });
 
-    exports.controller = RouterController;
-    exports.router     = ExampleAppRouter;
+    exports.Controller = RouterController;
+    exports.Router     = ExampleAppRouter;
 });

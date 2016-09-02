@@ -34,6 +34,6 @@ define(function(require, exports) {
         model: ExampleModel
     });
 
-    exports.model      = ExampleModel;
-    exports.collection = ExampleCollection;
+    exports.Model      = ExampleModel;
+    exports.Collection = ExampleCollection;
 });

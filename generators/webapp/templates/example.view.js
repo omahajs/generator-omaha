@@ -20,7 +20,7 @@ define(function(require, exports, module) {
     var ExampleView = Marionette.View.extend({
         //view code goes here
         template: JST.example,
-        model: new Example.model()
+        model: new Example.Model()
     });
 
     module.exports = ExampleView;
