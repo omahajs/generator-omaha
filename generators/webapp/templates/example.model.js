@@ -3,7 +3,7 @@
  * @author <%= userName %>
  * @module models/example
  * @requires app
- */
+**/
 define(function(require, exports) {
     'use strict';
 
