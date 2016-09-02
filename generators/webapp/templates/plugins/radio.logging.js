@@ -1,4 +1,5 @@
 /* eslint strict: 0 */
+/* eslint no-console: 0 */
 /**
  * @file Logging module that leverages Backbone.Radio
  * @module plugins/logging
