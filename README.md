@@ -3,7 +3,7 @@
 </div>
 <div align="center" style="padding-top: 16px;">
     <a href="https://ci.appveyor.com/project/omahajs/generator-omaha">
-        <img src="https://ci.appveyor.com/api/projects/status/n7tv489wdlkuyi0i?svg=true" alt="AppVeyor CI Build Status" title="AppVeyor CI Build Status"/>
+        <img src="https://ci.appveyor.com/api/projects/status/bdn9ssxexnax2dx5?svg=true" alt="AppVeyor CI Build Status" title="AppVeyor CI Build Status"/>
     </a>
     <a href="https://travis-ci.org/omahajs/generator-omaha">
         <img src="https://travis-ci.org/omahajs/generator-omaha.svg?branch=master" alt="Travis-CI Build Status" title="Travis-CI Build Status"/>
@@ -17,10 +17,10 @@
         <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
     </a>
     <a href="https://www.bithound.io/github/omahajs/generator-omaha/master/dependencies/npm">
-        <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/dependencies.svg" alt="bitHound Dependencies" title="bitHound Dependencies">
+        <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/dependencies.svg" alt="bitHound Dependencies">
     </a>
     <a href="https://www.bithound.io/github/omahajs/generator-omaha">
-        <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/code.svg" alt="bitHound Code" title="bitHound Code">
+        <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/code.svg" alt="bitHound Code">
     </a>
 </div>
 
