@@ -1,6 +1,6 @@
 {
   "name": "generator-omaha",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Yeoman generator designed to help you craft maintainable code for the modern web",
   "license": "MIT",
   "main": "generators/app/index.js",
