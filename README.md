@@ -1,7 +1,7 @@
 <div align="center">
     <a href="https://omaha.js.org/"><img src="https://omaha.js.org/assets/images/logo.png?v=1.0" alt="OMAHA JS" height="225"/></a>
 </div>
-<div align="center" style="padding: 16px 0;">
+<div align="center" style="padding-top: 16px;">
     <a href="https://travis-ci.org/omahajs/generator-omaha">
         <img src="https://travis-ci.org/omahajs/generator-omaha.svg?branch=master" alt="Travis-CI Build Status" title="Travis-CI Build Status"/>
     </a>
@@ -12,6 +12,7 @@
         <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
     </a>
 </div>
+<br/>
 
 > A [Yeoman](http://yeoman.io) generator for the modern front-end artisan designed to help you craft maintainable code for the web.
 
