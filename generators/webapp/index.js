@@ -157,7 +157,7 @@ module.exports = yeoman.Base.extend({
                 this.destinationPath(this.sourceDirectory + 'assets/library/require.min.js')
             );
             this.fs.copy(
-                this.templatePath('techtonic.png'),
+                this.templatePath('omaha.png'),
                 this.destinationPath(this.sourceDirectory + 'assets/images/logo.png')
             );
         },

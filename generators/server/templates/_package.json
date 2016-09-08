@@ -1,5 +1,5 @@
 {
-  "name": "techtonic-server",
+  "name": "omaha-server",
   "version": "1.0.0",
   "license": "MIT",
   "description": "Node.js WebSocket and HTTP servers with an 80% solution for security 'baked in'",

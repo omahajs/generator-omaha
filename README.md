@@ -1,26 +1,26 @@
 <div align="center">
-    <a href="http://jhwohlgemuth.github.com/techtonic"><img src="https://jhwohlgemuth.github.io/images/logo.png?v=1.0" alt="techtonic"/></a>
+    <a href="https://omaha.js.org/"><img src="https://omaha.js.org/assets/images/logo.png?v=1.0" alt="OMAHA JS" height="225"/></a>
 </div>
-<div align="center">
-    <a href="https://ci.appveyor.com/project/jhwohlgemuth/generator-techtonic">
+<div align="center" style="padding-top: 16px;">
+    <a href="https://ci.appveyor.com/project/omahajs/generator-omaha">
         <img src="https://ci.appveyor.com/api/projects/status/n7tv489wdlkuyi0i?svg=true" alt="AppVeyor CI Build Status" title="AppVeyor CI Build Status"/>
     </a>
-    <a href="https://travis-ci.org/jhwohlgemuth/generator-techtonic">
-        <img src="https://travis-ci.org/jhwohlgemuth/generator-techtonic.svg?branch=master" alt="Travis-CI Build Status" title="Travis-CI Build Status"/>
+    <a href="https://travis-ci.org/omahajs/generator-omaha">
+        <img src="https://travis-ci.org/omahajs/generator-omaha.svg?branch=master" alt="Travis-CI Build Status" title="Travis-CI Build Status"/>
     </a>
-    <a href="https://coveralls.io/github/jhwohlgemuth/generator-techtonic?branch=master">
-        <img src="https://coveralls.io/repos/jhwohlgemuth/generator-techtonic/badge.svg?branch=master&service=github" alt="Coveralls.io Coverage Status" title="Coveralls.io Coverage Status"/>
+    <a href="https://coveralls.io/github/omahajs/generator-omaha?branch=master">
+        <img src="https://coveralls.io/repos/omahajs/generator-omaha/badge.svg?branch=master&service=github" alt="Coveralls.io Coverage Status" title="Coveralls.io Coverage Status"/>
     </a>
 </div>
 <div align="center">
-    <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic">
-        <img src="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
+    <a href="https://www.bithound.io/github/omahajs/generator-omaha">
+        <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
     </a>
-    <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/master/dependencies/npm">
-        <img src="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/badges/dependencies.svg" alt="bitHound Dependencies" title="bitHound Dependencies">
+    <a href="https://www.bithound.io/github/omahajs/generator-omaha/master/dependencies/npm">
+        <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/dependencies.svg" alt="bitHound Dependencies" title="bitHound Dependencies">
     </a>
-    <a href="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic">
-        <img src="https://www.bithound.io/github/jhwohlgemuth/generator-techtonic/badges/code.svg" alt="bitHound Code" title="bitHound Code">
+    <a href="https://www.bithound.io/github/omahajs/generator-omaha">
+        <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/code.svg" alt="bitHound Code" title="bitHound Code">
     </a>
 </div>
 
@@ -28,19 +28,19 @@
 
 > A [Yeoman](http://yeoman.io) generator for the modern front-end artisan designed to help you craft maintainable code for the web.
 
-Getting Started  [![Gitter](https://img.shields.io/gitter/room/jhwohlgemuth/techtonic.svg)](https://gitter.im/jhwohlgemuth/techtonic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+Getting Started
 ---------------
-✔ Install [Yeoman](http://yeoman.io/) CLI tool, [Grunt](http://gruntjs.com/) CLI tool,  and [generator-techtonic node module](https://www.npmjs.com/package/generator-techtonic) globally
+✔ Install [Yeoman](http://yeoman.io/) CLI tool, [Grunt](http://gruntjs.com/) CLI tool,  and [generator-omaha node module](https://www.npmjs.com/package/generator-omaha) globally
 ```bash
-npm install --global yo grunt-cli generator-techtonic
+npm install --global yo grunt-cli generator-omaha
 ```
 ✔ Create an empty directory and cd into it
 ```bash
 mkdir my-project && cd my-project
 ```
-✔ Run techtonic generator
+✔ Run omaha generator
 ```bash
-yo techtonic
+yo omaha
 ```
 ✔ Make some choices
 <div align="center">
@@ -51,7 +51,7 @@ yo techtonic
 
 Typical Workflows
 -----------------
-> After scaffolding a new project with `yo techtonic` ...
+> After scaffolding a new project with `yo omaha` ...
 
 - Serve live-reload enabled app with companion RESTful API using `npm start`, then...
   - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
@@ -70,24 +70,24 @@ Typical Workflows
 
 Command Line Options
 --------------------
-> Beyond `yo techtonic --help`
+> Beyond `yo omaha --help`
 
 - Scaffold a web app "auto-magically" with defaults and no user input
 
 ```bash
-yo techtonic --defaults
+yo omaha --defaults
 ```
 
 - Use "silent" web app defaults with browserify
 
 ```bash
-yo techtonic --defaults --script-bundler browserify
+yo omaha --defaults --script-bundler browserify
 ```
 
 - Use "silent" web app defaults with custom modifications
 
 ```bash
-yo techtonic --defaults --template-technology underscore --skip-coveralls
+yo omaha --defaults --template-technology underscore --skip-coveralls
 ```
 
 **Available options**
@@ -105,19 +105,6 @@ yo techtonic --defaults --template-technology underscore --skip-coveralls
 
 **But wait, there's more!** Read about [all the available generators!](GENERATORS.md)
 
-Why "techtonic"?
-----------------
-> **techtonic** comes from the Ancient Greek noun, [tektōn (τέκτων)](https://en.wikipedia.org/wiki/Tekt%C5%8Dn),
-> (term for a carpenter or **_builder_**)
-
-Tools, References & Resources
------------------------------
-- See wiki page: [Front-end Link Library](https://github.com/jhwohlgemuth/techtonic/wiki/Front-end-Link-Library)
-
-Future
-------
-- See [techtonic Trello board](https://trello.com/b/WEMB9CEL/techtonic)
-
 Alternatives
 ------------
-- See wiki page: [Tools for Creating Web Apps](https://github.com/jhwohlgemuth/techtonic/wiki/Tools-for-Creating-Web-Apps)
+- See wiki page: [Tools for Creating Web Apps](https://github.com/omahajs/omahajs.github.io/wiki/Tools-for-Creating-Web-Apps)

@@ -1,10 +1,10 @@
 {
-  "name": "generator-techtonic",
+  "name": "generator-omaha",
   "version": "4.2.2",
   "description": "Yeoman generator designed to help you craft maintainable code for the modern web",
   "license": "MIT",
   "main": "generators/app/index.js",
-  "repository": "jhwohlgemuth/generator-techtonic",
+  "repository": "omahajs/generator-omaha",
   "author": {
     "name": "Jason Wohlgemuth",
     "email": "jhwohlgemuth@gmail.com",

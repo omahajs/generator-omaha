@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TEST_DIRECTORY=~/techtonic-test-directory
+TEST_DIRECTORY=~/omaha-test-directory
 TEST_LIB_DIRECTORY=$PWD/"$(dirname "$0")"
 BUILDS_FILE=$TEST_LIB_DIRECTORY/builds
 BUILDS=$(cut -d'=' -f1 $BUILDS_FILE)

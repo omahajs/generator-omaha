@@ -9,10 +9,10 @@ module.exports = yeoman.Base.extend({
         var generator = this;
         generator.log(banner);
         generator.config.set('hideBanner', true);
-        generator.composeWith('techtonic:project',
+        generator.composeWith('omaha:project',
             {options: generator.options},
             {local: require.resolve('../project')});
-        generator.composeWith('techtonic:webapp',
+        generator.composeWith('omaha:webapp',
             {options: generator.options},
             {local: require.resolve('../webapp')}
         );

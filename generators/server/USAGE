@@ -17,7 +17,7 @@ Options:
         (MD extension not required in page path)
 
 Example:
-    yo techtonic:server
+    yo omaha:server
 
         This will create:
             package.json          - Development packages installed by npm
