@@ -58,6 +58,7 @@
     "test:suite": "npm test && npm run test:builds",
     "posttest:suite": "npm run test:visual",
     "test:builds": "bash test/lib/generate-build-test.sh",
+    "pretest:visual": "rm -f test/lib/screenshots/*.png",
     "test:visual": "node test/lib/visual-regression-check",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
