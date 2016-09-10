@@ -1,7 +1,11 @@
 @import "reset";
 
 body {
-    background-color: lighten(#CCC, 10);
+    background-color: white;
+    background-image: url("../assets/images/logo.png");
+    background-position: 50% -50%;
+    background-repeat: no-repeat;
+    background-size: 250px;
     font-family: sans-serif;
     font-size: 87.5%;
     margin: 0;
@@ -32,29 +36,6 @@ footer {
 }
 
 /*---
-title:   Headers
-section: Base CSS
----
-
-```example:html
-<h1>Sample h1 Header</h1>
-<h2>Sample h2 Header</h2>
-<h3>Sample h3 Header</h3>
-```
-
-*/
-h1 {
-    font-size: 150%;
-    font-variant: small-caps;
-}
-h2 {
-    font-size: 125%;
-}
-h3 {
-    font-size: 100%;
-}
-
-/*---
 title:   Links
 section: Base CSS
 ---
@@ -66,13 +47,15 @@ section: Base CSS
 ```
 
 */
-a {
+a,
+a:visited {
+    color: black;
     padding: 5px;
     text-decoration: none;
     text-transform: uppercase;
 }
 a:hover {
-    background-color: blue;
+    background-color: red;
     color: white;
 }
 
