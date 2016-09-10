@@ -54,12 +54,12 @@
   "scripts": {
     "mocha": "mocha -R mocha-unfunk-reporter",
     "test": "istanbul cover _mocha",
-    "pretest:suite": "cd ./test/lib",
-    "test:suite": "npm test && npm run test:builds",
-    "posttest:suite": "npm run test:visual",
-    "test:builds": "bash test/lib/generate-build-test.sh",
-    "pretest:visual": "rm -f test/lib/screenshots/*.png",
-    "test:visual": "node test/lib/visual-regression-check",
+    "test:suite": "npm test && npm run test:builds && npm run test:visual",
+    "pretest:builds": "mkdir -p ./test/lib/test-builds-directory",
+    "test:builds": "bash ./test/lib/generate-build-test.sh",
+    "pretest:visual": "rm -f ./test/lib/screenshots/*.png && nohup http-server ./test/lib/test-builds-directory -p 1234 &",
+    "test:visual": "node ./test/lib/visual-regression-check",
+    "posttest:visual": "kill $(echo `ps -ef | grep -m 1 http-server` | awk -F \" \" '{print $2}')",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
     "travis": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-TEST_DIRECTORY=~/omaha-test-directory
 TEST_LIB_DIRECTORY=$PWD/"$(dirname "$0")"
+TEST_DIRECTORY=$TEST_LIB_DIRECTORY/test-builds-directory
 BUILDS_FILE=$TEST_LIB_DIRECTORY/builds
 BUILDS=$(cut -d'=' -f1 $BUILDS_FILE)
 

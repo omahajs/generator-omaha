@@ -1,3 +1,4 @@
+nohup.out
 node_modules/
 /coverage
 test/lib/screenshots/*.png
