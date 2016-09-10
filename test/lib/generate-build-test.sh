@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-TEST_LIB_DIRECTORY=$PWD/"$(dirname "$0")"
-TEST_DIRECTORY=$TEST_LIB_DIRECTORY/builds-output-directory
+TEST_DIRECTORY=~/.omahajs-builds-output-directory
+TEST_LIB_DIRECTORY=$PWD/test/lib
 BUILDS_FILE=$TEST_LIB_DIRECTORY/builds
 BUILDS=$(cut -d'=' -f1 $BUILDS_FILE)
 
@@ -10,6 +10,7 @@ BUILDS=$(cut -d'=' -f1 $BUILDS_FILE)
 
 # Prepare directory to store builds
 init_test_directory $TEST_DIRECTORY
+cd $TEST_DIRECTORY
 
 # Declare variables for build commands
 eval $(cat $BUILDS_FILE)
