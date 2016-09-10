@@ -21,7 +21,7 @@ function verifyCoreFiles() {
         'config/karma.conf.js',
         'test/config.js'
     ];
-    assert.fileContent('package.json', '"name": "tech-project"');
+    assert.fileContent('package.json', '"name": "omaha-project"');
     assert.fileContent('package.json', '"author": "A. Developer"');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }

@@ -21,11 +21,11 @@ define(function(require, exports, module) {
      * @class ApplicationModel
      * @extends Backbone.Model
      * @prop {object} default
-     * @prop {string} default.name='tech-project'
+     * @prop {string} default.name='omaha-project'
     **/
     var ApplicationModel = Backbone.Model.extend({
         defaults: {
-            name: 'tech-project'
+            name: 'omaha-project'
         }
     });
     /**

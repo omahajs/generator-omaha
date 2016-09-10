@@ -90,7 +90,7 @@ describe('Webapp generator', function() {
             .inTmpDir(createDummyProject)
             .withOptions(SKIP_INSTALL)
             .withPrompts(prompts.webapp.defaults)
-            .withLocalConfig({projectName: 'tech-project', sourceDirectory: sourceDirectory})
+            .withLocalConfig({projectName: 'omaha-project', sourceDirectory: sourceDirectory})
             .toPromise()
             .then(function() {
                 verifyBoilerplateFiles(sourceDirectory);
