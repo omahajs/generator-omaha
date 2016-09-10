@@ -1,4 +1,5 @@
 nohup.out
+builds-output-directory/
 node_modules/
 /coverage
 test/lib/screenshots/*.png
