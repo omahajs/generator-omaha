@@ -14,7 +14,7 @@
 </div>
 <br/>
 
-> A [Yeoman](http://yeoman.io) generator for the modern front-end artisan designed to help you craft maintainable code for the web.
+> A [Yeoman](http://yeoman.io) generator for the modern front-end artisan designed to help you craft sustainable code for the web.
 
 Getting Started
 ---------------
