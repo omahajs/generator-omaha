@@ -51,9 +51,9 @@ module.exports = function(grunt) {
             images: {
                 files: [{
                     expand: true,
-                    flatten: true,
+                    flatten: false,
                     src: ['<%%= folders.assets %>/<%%= files.images %>'],
-                    dest: '<%%= folders.dist %>/<%%= deployed.assets %>/<%%= deployed.images %>',
+                    dest: '<%%= folders.dist %>',
                     filter: 'isFile'
                 }]
             }
