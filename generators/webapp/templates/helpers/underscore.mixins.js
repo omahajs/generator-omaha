@@ -8,6 +8,7 @@ define(function(require) {
     var _ = require('underscore');
 
     _.mixin({
+        zipObject: _.object,
         capitalize: function(string) {
             return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
         },

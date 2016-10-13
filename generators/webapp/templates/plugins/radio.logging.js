@@ -51,7 +51,7 @@ define(function(require, exports) {
     var APP_LOGGING = true;  //Show & Hide Application console messages
     var MSG_PREFIX  = '%c APP ❱❱ %c';
     var MSG_TYPES   = ['error', 'warn', 'info', 'log', 'trace'];
-    var MSG_DICT    = _.object(MSG_TYPES, MSG_TYPES.map(function(type, i) {return i;}));
+    var MSG_DICT    = _.zipObject(MSG_TYPES, MSG_TYPES.map(function(type, i) {return i;}));
 
     var STYLE = {
         none:  'background:inherit;color:inherit;',
