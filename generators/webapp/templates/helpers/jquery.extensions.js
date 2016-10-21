@@ -11,7 +11,7 @@ define(function(require) {
         var outer = document.createElement('div');
         outer.style.visibility = 'hidden';
         outer.style.width = '100px';
-        outer.style.msOverflowStyle = 'scrollbar';// needed for WinJS apps
+        outer.style.msOverflowStyle = 'scrollbar';
         document.body.appendChild(outer);
         var widthNoScroll = outer.offsetWidth;
         outer.style.overflow = 'scroll';
@@ -46,6 +46,9 @@ define(function(require) {
             return this.each(function() {
                 this.checked = false;
             });
+        },
+        events: function() {
+            return $._data(this[0]).events;
         }
     });
 });
