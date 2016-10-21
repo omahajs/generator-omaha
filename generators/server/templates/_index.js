@@ -4,7 +4,7 @@ require('dotenv').config();
 
 var config = require('config');
 var log    = require('npmlog');
-var fs     = require('fs');
+var fs     = require('fs-extra');
 var https  = require('https');
 
 var privateKey  = fs.readFileSync('web/ssl/server.key', 'utf8');
