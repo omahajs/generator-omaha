@@ -5,6 +5,8 @@
  * @see [krakenjs/lusca]{@link https://github.com/krakenjs/lusca}
  * @see [helmetjs/helmet]{@link https://github.com/helmetjs/helmet}
 **/
+'use strict';
+
 var fs         = require('fs-extra');
 var config     = require('config');
 var express    = require('express');
