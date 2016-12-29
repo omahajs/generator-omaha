@@ -1,7 +1,9 @@
 'use strict';
 
-var yeoman             = require('yeoman-generator');
+var _                  = require('lodash');
+var Generator          = require('yeoman-generator');
 var commandLineOptions = require('./commandLineOptions');
+var copyTpl            = require('../app/utils').copyTpl;
 
 var globalNameLookup = {
     root: 'root',
@@ -49,10 +51,10 @@ var questions = [{
     ]
 }];
 
-module.exports = yeoman.Base.extend({
+module.exports = Generator.extend({
     constructor: function() {
+        Generator.apply(this, arguments);
         var generator = this;
-        yeoman.Base.apply(generator, arguments);
         generator.argument('name', {type: String, required: true});
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
@@ -67,7 +69,7 @@ module.exports = yeoman.Base.extend({
             globalNameLookup[options.customDependency] = options.alias;
         }
         var dependencySelected = Object.keys(commandLineOptions).map(function(key) {return options[key];}).indexOf(true) > -1;
-        generator.pluginName = generator.name.substring(generator.name.charAt(0) === '/' ? 1 : 0).replace('.', '_');
+        generator.pluginName = generator.options.name.substring(generator.options.name.charAt(0) === '/' ? 1 : 0).replace('.', '_');
         generator.userName = generator.user.git.name() ? generator.user.git.name() : 'A.Developer';
         generator.use = {};
         if(dependencySelected) {
@@ -107,7 +109,7 @@ module.exports = yeoman.Base.extend({
         generator.defineArguments = generator.dependencies.map(aliasFor).join(', ');
         generator.iifeArguments = ['root'].concat(generator.dependencies).map(aliasFor).join(', ');
         generator.requireStatements = generator.dependencies.map(requireStatementFor).join('\n\t\t');
-        generator.template('umd.template.js', pathBase + generator.pluginName + '.js');
+        copyTpl('umd.template.js', pathBase + generator.pluginName + '.js', generator);
         function aliasFor(dep) {return globalNameLookup[dep];}
         function requireStatementFor(dep) {return 'var ' + aliasFor(dep) + ' = require(\'' + npmModuleNameLookup[dep] + '\');';}
         function removeSingleQuotes(str) {return str.replace(/'/g, '');}

@@ -2,7 +2,6 @@
 
 var sinon   = require('sinon');
 var path    = require('path');
-var base    = require('yeoman-generator').Base;
 var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
 

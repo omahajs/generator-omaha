@@ -1,8 +1,8 @@
 'use strict';
 
+var _      = require('lodash');
 var path   = require('path');
 var fs     = require('fs-extra');
-var _      = require('lodash');
 var extend = require('deep-extend');
 
 function readJSON(fileName) {
@@ -18,7 +18,14 @@ function cloneObject(value) {
     return JSON.parse(JSON.stringify(value));
 }
 
+function copyTpl(from, to, context) {
+    var source = context.templatePath(from);
+    var dest = context.destinationPath(to);
+    context.fs.copyTpl(source, dest, context);
+}
+
 module.exports = {
+    copyTpl,
     json: {
         read:   readJSON,
         write:  writeJSON,
