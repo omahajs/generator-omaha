@@ -1,12 +1,13 @@
 'use strict';
 
 var fs        = require('fs-extra');
-var yeoman    = require('yeoman-generator');
+var Yeoman    = require('yeoman-generator');
 var Gruntfile = require('gruntfile-editor');
 var utils     = require('../app/utils');
 var banner    = require('../app/banner');
 var prompt    = require('../app/prompts').project;
 var tasks     = require('../app/gruntTaskConfigs');
+var copyTpl   = utils.copyTpl;
 
 var commandLineOptions = {
     defaults: {
@@ -31,10 +32,10 @@ var commandLineOptions = {
     }
 };
 
-module.exports = yeoman.Base.extend({
+module.exports = Yeoman.extend({
     constructor: function() {
+        Yeoman.apply(this, arguments);
         var generator = this;
-        yeoman.Base.apply(generator, arguments);
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
@@ -74,18 +75,18 @@ module.exports = yeoman.Base.extend({
             generator.config.set('useBenchmark', generator.useBenchmark);
             generator.config.set('useCoveralls', generator.useCoveralls);
             generator.config.set('useJsinspect', generator.useJsinspect);
-            generator.template('_LICENSE', 'LICENSE');
-            generator.template('_package.json', 'package.json');
-            generator.template('_Gruntfile.js', 'Gruntfile.js');
-            generator.template('config/_gitignore', '.gitignore');
-            generator.template('config/_default.json', 'config/default.json');
-            generator.template('config/_eslintrc.js', 'config/.eslintrc.js');
-            generator.template('config/_karma.conf.js', 'config/karma.conf.js');
+            copyTpl('_LICENSE', 'LICENSE', generator);
+            copyTpl('_package.json', 'package.json', generator);
+            copyTpl('_Gruntfile.js', 'Gruntfile.js', generator);
+            copyTpl('config/_gitignore', '.gitignore', generator);
+            copyTpl('config/_default.json', 'config/default.json', generator);
+            copyTpl('config/_eslintrc.js', 'config/.eslintrc.js', generator);
+            copyTpl('config/_karma.conf.js', 'config/karma.conf.js', generator);
             fs.mkdirp('tasks');
         },
         testFiles: function() {
             var generator = this;
-            generator.template('test/config.js', 'test/config.js');
+            copyTpl('test/config.js', 'test/config.js', generator);
             generator.fs.copy(
                 generator.templatePath('test/data/**/*.*'),
                 generator.destinationPath('test/data')
@@ -95,7 +96,7 @@ module.exports = yeoman.Base.extend({
                 generator.destinationPath('test/jasmine')
             );
             if (generator.useBenchmark) {
-                generator.template('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js');
+                copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
             }
         },
     },

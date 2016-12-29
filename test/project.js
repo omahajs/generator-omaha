@@ -4,7 +4,7 @@ var path    = require('path');
 var sinon   = require('sinon');
 var helpers = require('yeoman-test');
 var assert  = require('yeoman-assert');
-var base    = require('yeoman-generator').Base;
+var Yeoman  = require('yeoman-generator');
 var prompts = require('../generators/app/prompts');
 var utils   = require('../generators/app/utils');
 var extend  = utils.object.extend;
@@ -42,7 +42,7 @@ describe('Project generator', function() {
     var SKIP_INSTALL = {skipInstall: true};
     describe('can create and configure files with prompt choices', function() {
         before(function() {
-            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub = sinon.stub(Yeoman.prototype.user.git, 'name');
             stub.returns(null);
         });
         after(function() {
@@ -111,7 +111,7 @@ describe('Project generator', function() {
     });
     describe('can create and configure files with command line options', function() {
         before(function() {
-            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub = sinon.stub(Yeoman.prototype.user.git, 'name');
             stub.returns(null);
         });
         after(function() {

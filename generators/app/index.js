@@ -1,21 +1,16 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
+var Yeoman = require('yeoman-generator');
 var utils  = require('../app/utils');
 var banner = require('./banner');
 
-module.exports = yeoman.Base.extend({
+module.exports = Yeoman.extend({
     initializing: function() {
         var generator = this;
         generator.log(banner);
         generator.config.set('hideBanner', true);
-        generator.composeWith('omaha:project',
-            {options: generator.options},
-            {local: require.resolve('../project')});
-        generator.composeWith('omaha:webapp',
-            {options: generator.options},
-            {local: require.resolve('../webapp')}
-        );
+        generator.composeWith(require.resolve('../project'), generator.options);
+        generator.composeWith(require.resolve('../webapp'), generator.options);
     },
     end: function() {
         this.config.set('hideBanner', false);
