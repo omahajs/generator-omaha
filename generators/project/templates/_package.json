@@ -20,6 +20,7 @@
     "config": "^1.14.0",
     "eslint-config-omaha-prime-grade": "^1.0.0",
     "eslint-plugin-backbone": "^2.0.1",
+    "fs-promise": "^1.0.0",
     "globby": "^6.0.0",
     "grunt": "^1.0.0",
     "grunt-cli": "^1.0.0",
