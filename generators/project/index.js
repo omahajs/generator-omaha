@@ -1,7 +1,7 @@
 'use strict';
 
 var fs        = require('fs-extra');
-var Yeoman    = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var Gruntfile = require('gruntfile-editor');
 var utils     = require('../app/utils');
 var banner    = require('../app/banner');
@@ -32,9 +32,9 @@ var commandLineOptions = {
     }
 };
 
-module.exports = Yeoman.extend({
+module.exports = Generator.extend({
     constructor: function() {
-        Yeoman.apply(this, arguments);
+        Generator.apply(this, arguments);
         var generator = this;
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
