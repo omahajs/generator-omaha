@@ -1,15 +1,15 @@
 'use strict';
 
-var path    = require('path');
-var fs      = require('fs-extra');
-var _       = require('lodash');
-var sinon   = require('sinon');
-var helpers = require('yeoman-test');
-var assert  = require('yeoman-assert');
-var base    = require('yeoman-generator').Base;
-var utils   = require('../generators/app/utils');
-var extend  = utils.object.extend;
-var clone   = utils.object.clone;
+var path      = require('path');
+var fs        = require('fs-extra');
+var _         = require('lodash');
+var sinon     = require('sinon');
+var helpers   = require('yeoman-test');
+var assert    = require('yeoman-assert');
+var Generator = require('yeoman-generator');
+var utils     = require('../generators/app/utils');
+var extend    = utils.object.extend;
+var clone     = utils.object.clone;
 
 var prompts = require('../generators/app/prompts');
 var ALL_TRUE = extend({}, prompts.project.defaults, prompts.webapp.defaults);
@@ -65,7 +65,7 @@ function verifyDefaultConfiguration() {
 describe('Webapp generator', function() {
     var stub;
     before(function() {
-        stub = sinon.stub(base.prototype.user.git, 'name');
+        stub = sinon.stub(Generator.prototype.user.git, 'name');
         stub.returns(null);
     });
     after(function() {
@@ -103,7 +103,7 @@ describe('Default generator', function() {
     var stub;
     describe('can create and configure files with prompt choices', function() {
         before(function() {
-            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub = sinon.stub(Generator.prototype.user.git, 'name');
             stub.returns(null);
         });
         after(function() {
@@ -257,7 +257,7 @@ describe('Default generator', function() {
     });
     describe('can create and configure files with with command line options', function() {
         before(function() {
-            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub = sinon.stub(Generator.prototype.user.git, 'name');
             stub.returns(null);
         });
         after(function() {
@@ -379,7 +379,7 @@ describe('Default generator (with custom source directory)', function() {
     var sourceDirectory = 'webapp/';
     describe('can create and configure files with prompt choices', function() {
         before(function() {
-            stub = sinon.stub(base.prototype.user.git, 'name');
+            stub = sinon.stub(Generator.prototype.user.git, 'name');
             stub.returns(null);
         });
         after(function() {

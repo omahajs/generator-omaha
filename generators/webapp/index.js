@@ -1,13 +1,14 @@
 'use strict';
 
 var fs        = require('fs-extra');
-var yeoman    = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var Gruntfile = require('gruntfile-editor');
 var utils     = require('../app/utils');
 var banner    = require('../app/banner');
 var prompt    = require('../app/prompts').webapp;
 var tasks     = require('../app/gruntTaskConfigs');
 var footer    = require('./doneMessage');
+var copyTpl   = utils.copyTpl;
 
 var commandLineOptions = {
     defaults: {
@@ -26,6 +27,7 @@ var commandLineOptions = {
         defaults: 'less'
     },
     templateTechnology: {
+        type: String,
         desc: 'Choose technology to use when pre-compiling templates',
         defaults: 'handlebars'
     },
@@ -41,10 +43,10 @@ var commandLineOptions = {
     }
 };
 
-module.exports = yeoman.Base.extend({
+module.exports = Generator.extend({
     constructor: function() {
+        Generator.apply(this, arguments);
         var generator = this;
-        yeoman.Base.apply(generator, arguments);
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
@@ -112,10 +114,10 @@ module.exports = yeoman.Base.extend({
             generator.config.set('useAria', generator.useAria);
             generator.config.set('useImagemin', generator.useImagemin);
             generator.config.set('pluginDirectory', generator.sourceDirectory);
-            generator.template('_README.md', 'README.md');
-            generator.template('config/_csslintrc', 'config/.csslintrc');
-            generator.template('tasks/webapp.js', 'tasks/webapp.js');
-            generator.template('_config.js', generator.sourceDirectory + 'app/config.js');
+            copyTpl('_README.md', 'README.md', generator);
+            copyTpl('config/_csslintrc', 'config/.csslintrc', generator);
+            copyTpl('tasks/webapp.js', 'tasks/webapp.js', generator);
+            copyTpl('_config.js', generator.sourceDirectory + 'app/config.js', generator);
         },
         appFiles: function() {
             if (this.useHandlebars) {
@@ -162,24 +164,24 @@ module.exports = yeoman.Base.extend({
             );
         },
         boilerplate: function() {
-            this.template('_index.html', this.sourceDirectory + 'app/index.html');
-            this.template('_app.js', this.sourceDirectory + 'app/app.js');
-            this.template('_main.js', this.sourceDirectory + 'app/main.js');
-            this.template('_router.js', this.sourceDirectory + 'app/router.js');
-            this.template('example.model.js', this.sourceDirectory + 'app/models/example.js');
-            this.template('example.view.js', this.sourceDirectory + 'app/views/example.js');
-            this.template('example.controller.js', this.sourceDirectory + 'app/controllers/example.js');
-            this.template('example.webworker.js', this.sourceDirectory + 'app/controllers/example.webworker.js');
-            this.template('example.template.hbs', this.sourceDirectory + 'assets/templates/example.hbs');
+            copyTpl('_index.html', this.sourceDirectory + 'app/index.html', this);
+            copyTpl('_app.js', this.sourceDirectory + 'app/app.js', this);
+            copyTpl('_main.js', this.sourceDirectory + 'app/main.js', this);
+            copyTpl('_router.js', this.sourceDirectory + 'app/router.js', this);
+            copyTpl('example.model.js', this.sourceDirectory + 'app/models/example.js', this);
+            copyTpl('example.view.js', this.sourceDirectory + 'app/views/example.js', this);
+            copyTpl('example.controller.js', this.sourceDirectory + 'app/controllers/example.js', this);
+            copyTpl('example.webworker.js', this.sourceDirectory + 'app/controllers/example.webworker.js', this);
+            copyTpl('example.template.hbs', this.sourceDirectory + 'assets/templates/example.hbs', this);
             if (this.useLess) {
-                this.template('_reset.css', this.sourceDirectory + 'assets/less/reset.less');
-                this.template('_style.less', this.sourceDirectory + 'assets/less/style.less');
+                copyTpl('_reset.css', this.sourceDirectory + 'assets/less/reset.less', this);
+                copyTpl('_style.less', this.sourceDirectory + 'assets/less/style.less', this);
             }
             else if (this.useSass) {
-                this.template('_reset.css', this.sourceDirectory + 'assets/sass/reset.scss');
-                this.template('_style.scss', this.sourceDirectory + 'assets/sass/style.scss');
+                copyTpl('_reset.css', this.sourceDirectory + 'assets/sass/reset.scss', this);
+                copyTpl('_style.scss', this.sourceDirectory + 'assets/sass/style.scss', this);
             } else{
-                this.template('_style.css', this.sourceDirectory + 'assets/css/style.css');
+                copyTpl('_style.css', this.sourceDirectory + 'assets/css/style.css', this);
             }
         }
     },
