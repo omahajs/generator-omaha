@@ -1,8 +1,9 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
-var chalk  = require('chalk');
-var yosay  = require('yosay');
+var Generator = require('yeoman-generator');
+var chalk     = require('chalk');
+var yosay     = require('yosay');
+var copyTpl   = require('../app/utils').copyTpl;
 
 var commandLineOptions = {
     defaults: {
@@ -12,18 +13,15 @@ var commandLineOptions = {
     },
     http: {
         type: String,
-        desc: 'HTTP server port',
-        defaults: false
+        desc: 'HTTP server port'
     },
     https: {
         type: String,
-        desc: 'HTTPS server port',
-        defaults: false
+        desc: 'HTTPS server port'
     },
     ws: {
         type: String,
-        desc: 'WebSocket server port',
-        defaults: false
+        desc: 'WebSocket server port'
     }
 };
 var prompts = [
@@ -53,10 +51,10 @@ var prompts = [
     }
 ];
 
-module.exports = yeoman.Base.extend({
+module.exports = Generator.extend({
     constructor: function() {
+        Generator.apply(this, arguments);
         var generator = this;
-        yeoman.Base.apply(generator, arguments);
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
@@ -85,27 +83,27 @@ module.exports = yeoman.Base.extend({
             if (this.markdownSupport) {
                 this.log(yosay('Place Markdown files in ' + chalk.blue('./web/client/')));
             }
-            this.template('_package.json', 'package.json');
-            this.template('config/_gitignore', '.gitignore');
-            this.template('config/_env', '.env');
-            this.template('config/_default.js', 'config/default.js');
+            copyTpl('_package.json', 'package.json', this);
+            copyTpl('config/_gitignore', '.gitignore', this);
+            copyTpl('config/_env', '.env', this);
+            copyTpl('config/_default.js', 'config/default.js', this);
         }
     },
     writing: {
         serverFiles: function() {
-            this.template('_index.js', 'index.js');
-            this.template('_socket.js', 'web/socket.js'); //WebSocket server
-            this.template('_server.js', 'web/server.js'); //HTTP server
-            this.template('favicon.ico', 'favicon.ico');  //empty favicon
+            copyTpl('_index.js', 'index.js', this);
+            copyTpl('_socket.js', 'web/socket.js', this); //WebSocket server
+            copyTpl('_server.js', 'web/server.js', this); //HTTP server
+            copyTpl('favicon.ico', 'favicon.ico', this);  //empty favicon
             this.fs.copy(
                 this.templatePath('ssl/**/*.*'),
                 this.destinationPath('web/ssl')
             );
         },
         boilerplate: function() {
-            this.template('_index.html', 'web/client/index.html');
+            copyTpl('_index.html', 'web/client/index.html', this);
             if (this.markdownSupport) {
-                this.template('example.md', 'web/client/example.md');
+                copyTpl('example.md', 'web/client/example.md', this);
             }
         }
     },
