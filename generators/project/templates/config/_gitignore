@@ -6,9 +6,12 @@ node_modules/
 .grunt/
 _SpecRunner.html
 
-# Dynamically generated files and folders
+# Dynamically generated workflow files and folders
 reports/
 dist
 app/templates.js
 app/style.css
 app/style.css.map
+
+# SASS projects
+.sass-cache/
