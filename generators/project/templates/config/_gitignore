@@ -13,5 +13,8 @@ app/templates.js
 app/style.css
 app/style.css.map
 
+# Symlink to normalize "npm start" and "npm run demo"
+app/assets
+
 # SASS projects
 .sass-cache/
