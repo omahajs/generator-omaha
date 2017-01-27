@@ -76,7 +76,8 @@ module.exports = Generator.extend({
             function isUnAnswered(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
-            return generator.prompt(prompt.questions.filter(isUnAnswered)).then(function (answers) {
+            var isComposed = true;
+            return generator.prompt(prompt.getQuestions(isComposed).filter(isUnAnswered)).then(function (answers) {
                 generator.use = answers;
                 var bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
                 var preprocessor;

@@ -57,7 +57,8 @@ module.exports = Generator.extend({
             var isUnAnswered = function(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             };
-            return generator.prompt(prompt.questions.filter(isUnAnswered)).then(function (answers) {
+            var isComposed = generator.config.get('isComposed');
+            return generator.prompt(prompt.getQuestions(isComposed).filter(isUnAnswered)).then(function (answers) {
                 generator.use = answers;
                 generator.projectName = answers.projectName;
                 generator.sourceDirectory = (!/\/$/.test(answers.sourceDirectory)) ? answers.sourceDirectory + '/' : answers.sourceDirectory;
