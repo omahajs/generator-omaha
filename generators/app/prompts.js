@@ -97,9 +97,10 @@ defaults.webapp.templateTechnology = 'handlebars';
 
 function promptMessageFormat(type) {
     function addLeadingZero(step) {return (step < 10) ? ('0' + step) : step;}
-    var total = projectQuestions.length + webappQuestions.length;
+    var isWebapp = (type === 'webapp');
+    var total = projectQuestions.length + (isWebapp ? webappQuestions.length : 0);
     return function(question, index) {
-        var step = index + 1 + (type === 'webapp' ? projectQuestions.length : 0);
+        var step = index + 1 + (isWebapp ? projectQuestions.length : 0);
         question.message = require('chalk')[step === total ? 'green' : 'gray']('('+ addLeadingZero(step) + '/' + total + ') ') + question.message;
         return question;
     }
