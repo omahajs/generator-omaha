@@ -27,7 +27,7 @@
 
     <%= pluginName %>.prototype.foo = function() {
         console.log(this._foo);
-    }
+    };
 
     function privateFunction() {
         console.log('"Well begun is half done"');
