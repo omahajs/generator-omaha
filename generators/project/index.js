@@ -83,7 +83,6 @@ module.exports = Generator.extend({
             copyTpl('config/_default.json', 'config/default.json', generator);
             copyTpl('config/_eslintrc.js', 'config/.eslintrc.js', generator);
             copyTpl('config/_karma.conf.js', 'config/karma.conf.js', generator);
-            fs.mkdirp('tasks');
         },
         testFiles: function() {
             var generator = this;
