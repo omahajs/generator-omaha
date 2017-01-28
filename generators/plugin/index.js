@@ -63,10 +63,12 @@ module.exports = Generator.extend({
     prompting: function() {
         var generator = this;
         var options = generator.options;
-        if (options.customDependency && options.alias) {
-            commandLineOptions[options.customDependency] = true;
-            options[options.customDependency] = true;
-            globalNameLookup[options.customDependency] = options.alias;
+        var customDepName = options.customDependency;
+        if (customDepName && options.alias) {
+            commandLineOptions[customDepName] = true;
+            options[customDepName] = true;
+            globalNameLookup[customDepName] = options.alias;
+            npmModuleNameLookup[customDepName] = customDepName;
         }
         var dependencySelected = Object.keys(commandLineOptions).map(function(key) {return options[key];}).indexOf(true) > -1;
         generator.pluginName = generator.options.name.substring(generator.options.name.charAt(0) === '/' ? 1 : 0).replace('.', '_');

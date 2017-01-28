@@ -37,7 +37,7 @@ describe('Plugin generator', function() {
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root);')
             assert.fileContent(pluginPath, '}(this, function(root) {');
             ['jquery', 'underscore', 'backbone', 'marionette'].forEach(function(alias) {
-                assert.noFileContent(pluginPath, 'var ' + alias + ' = require(\')');
+                assert.noFileContent(pluginPath, 'var ' + alias + ' = require(\'');
             });
         });
     });
@@ -48,6 +48,7 @@ describe('Plugin generator', function() {
         }).then(function() {
             assert.fileContent(pluginPath, '* @exports ' + pluginName);
             assert.fileContent(pluginPath, 'define([\'jquery\'], function($) {');
+            assert.fileContent(pluginPath, 'var $ = require(\'jquery\');');
             assert.fileContent(pluginPath, 'module.exports = factory(root, $);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, $);')
             assert.fileContent(pluginPath, '}(this, function(root, $) {');
@@ -60,6 +61,7 @@ describe('Plugin generator', function() {
         }).then(function() {
             assert.fileContent(pluginPath, '* @exports ' + pluginName);
             assert.fileContent(pluginPath, 'define([\'underscore\'], function(_) {');
+            assert.fileContent(pluginPath, 'var _ = require(\'underscore\');');
             assert.fileContent(pluginPath, 'module.exports = factory(root, _);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _);')
             assert.fileContent(pluginPath, '}(this, function(root, _) {');
@@ -112,6 +114,7 @@ describe('Plugin generator', function() {
         }).then(function() {
             assert.fileContent(pluginPath, '* @exports ' + pluginName);
             assert.fileContent(pluginPath, 'define([\'FooBar\'], function(foo) {');
+            assert.fileContent(pluginPath, 'var foo = require(\'FooBar\');');
             assert.fileContent(pluginPath, 'module.exports = factory(root, foo);');
             assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, foo);')
             assert.fileContent(pluginPath, '}(this, function(root, foo) {');
