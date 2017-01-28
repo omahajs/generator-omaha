@@ -235,20 +235,21 @@ module.exports = Generator.extend({
         utils.json.extend(generator.destinationPath('package.json'), {
             main: sourceDirectory + 'app/main.js',
             scripts: {
-                presymlink: 'if [ -L `pwd`/app/assets ]; then rm `pwd`/app/assets ; fi',
-                symlink:    'ln -s `pwd`/assets `pwd`/app/assets',
-                build:      'grunt build',
-                test:       'grunt test',
-                predemo:    'npm run build',
-                demo:       'grunt open:demo express:demo',
-                start:      'npm run symlink && grunt serve',
-                predeploy:  'npm run build'
+                build:     'grunt build',
+                test:      'grunt test',
+                predemo:   'npm run build',
+                demo:      'grunt open:demo express:demo',
+                start:     'grunt serve',
+                predeploy: 'npm run build'
             }
         });
         if (/^linux/.test(process.platform)) {
             utils.json.extend(generator.destinationPath('package.json'), {
                 scripts: {
-                    prestart: 'nohup npm run rest-api &'
+                    presymlink: 'if [ -L `pwd`/app/assets ]; then rm `pwd`/app/assets ; fi',
+                    symlink:    'ln -s `pwd`/assets `pwd`/app/assets',
+                    prestart:   'nohup npm run rest-api &',
+                    start:      'npm run symlink && grunt serve',
                 }
             });
         }
