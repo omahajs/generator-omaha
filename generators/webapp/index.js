@@ -4,6 +4,7 @@ var fs        = require('fs-extra');
 var Generator = require('yeoman-generator');
 var Gruntfile = require('gruntfile-editor');
 var utils     = require('../app/utils');
+var banner    = require('../app/banner');
 var prompt    = require('../app/prompts').webapp;
 var tasks     = require('../app/gruntTaskConfigs');
 var footer    = require('./doneMessage');
@@ -75,7 +76,7 @@ module.exports = Generator.extend({
             function isUnAnswered(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
-            return generator.prompt(prompt.questions.filter(isUnAnswered)).then(function(answers) {
+            return generator.prompt(prompt.questions.filter(isUnAnswered)).then(function (answers) {
                 generator.use = answers;
                 var bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
                 var preprocessor;
@@ -175,10 +176,11 @@ module.exports = Generator.extend({
             if (this.useLess) {
                 copyTpl('_reset.css', this.sourceDirectory + 'assets/less/reset.less', this);
                 copyTpl('_style.less', this.sourceDirectory + 'assets/less/style.less', this);
-            } else if (this.useSass) {
+            }
+            else if (this.useSass) {
                 copyTpl('_reset.css', this.sourceDirectory + 'assets/sass/reset.scss', this);
                 copyTpl('_style.scss', this.sourceDirectory + 'assets/sass/style.scss', this);
-            } else {
+            } else{
                 copyTpl('_style.css', this.sourceDirectory + 'assets/css/style.css', this);
             }
         }
@@ -215,7 +217,7 @@ module.exports = Generator.extend({
             requirejsDevDependencies,
             generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [],
             generator.useAria ? ['grunt-a11y', 'grunt-accessibility'] : [],
-            generator.useImagemin ? ['grunt-contrib-imagemin'] : [],
+            generator.useImagemin ? ['grunt-contrib-imagemin'] :[],
             generator.useLess ? ['grunt-contrib-less'] : [],
             generator.useSass ? ['grunt-contrib-sass'] : [],
             generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']
@@ -305,7 +307,7 @@ module.exports = Generator.extend({
             utils.json.extend(generator.destinationPath('config/default.json'), {
                 grunt: {
                     files: {
-                        styles: 'less/**/*.less'
+                        styles: "less/**/*.less"
                     }
                 }
             });
@@ -315,7 +317,7 @@ module.exports = Generator.extend({
             utils.json.extend(generator.destinationPath('config/default.json'), {
                 grunt: {
                     files: {
-                        styles: 'sass/**/*.scss'
+                        styles: "sass/**/*.scss"
                     }
                 }
             });

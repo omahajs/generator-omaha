@@ -1,5 +1,6 @@
 'use strict';
 
+var _                  = require('lodash');
 var Generator          = require('yeoman-generator');
 var commandLineOptions = require('./commandLineOptions');
 var copyTpl            = require('../app/utils').copyTpl;
@@ -71,7 +72,7 @@ module.exports = Generator.extend({
         generator.pluginName = generator.options.name.substring(generator.options.name.charAt(0) === '/' ? 1 : 0).replace('.', '_');
         generator.userName = generator.user.git.name() ? generator.user.git.name() : 'A.Developer';
         generator.use = {};
-        if (dependencySelected) {
+        if(dependencySelected) {
             function isSelectedDependency(name) {return options[name] === true;}
             var done = generator.async();
             generator.dependencies = Object.keys(commandLineOptions).filter(isSelectedDependency);
@@ -82,7 +83,7 @@ module.exports = Generator.extend({
             });
             done();
         } else {
-            return generator.prompt(questions).then(function(answers) {
+            return generator.prompt(questions).then(function (answers) {
                 generator.depList = answers.dependencies.map(function(dep) {return `'${dep}'`;});
                 generator.dependencies = answers.dependencies.map(function(dep) {
                     generator.use[dep] = true;
@@ -97,11 +98,11 @@ module.exports = Generator.extend({
         var pathBase = pluginDirectory ? pluginDirectory + '/app/plugins/' : generator.config.get('sourceDirectory');
         pathBase = pathBase ? pathBase : './';
         if (generator.use.marionette && !generator.use.backbone) {
-            generator.depList.unshift('\'backbone\'');
+            generator.depList.unshift(`'backbone'`);
             generator.use.backbone = true;
         }
         if (generator.use.backbone && !generator.use.underscore) {
-            generator.depList.unshift('\'underscore\'');
+            generator.depList.unshift(`'underscore'`);
             generator.use.underscore = true;
         }
         generator.dependencies = generator.depList.map(removeSingleQuotes);

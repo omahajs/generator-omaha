@@ -7,6 +7,7 @@ var doneMessage = function(generator) {
     function yes(str) {return chalk.green.bold('✔ ') + chalk.white.bold(str);}
     function no(str) {return chalk.gray.bold('✗ ' + str);}
     var cssPreprocessor;
+    var scriptBundler;
     if (generator.useSass) {
         cssPreprocessor = chalk.magenta.bold('Sass');
     } else if (generator.useLess) {
@@ -23,8 +24,8 @@ var doneMessage = function(generator) {
         '\n' + (generator.config.get('useBenchmark') ? yes : no)('Install benchmarks.js support') +
         '\n' + (generator.config.get('useCoveralls') ? yes : no)('Integrate Coveralls.io support') +
         '\n' + (generator.config.get('useJsinspect') ? yes : no)('Find duplicate code with JSInspect') +
-        '\n' + (generator.useAria ? yes : no)('Perform accessibility audit on HTML code') +
-        '\n' + (generator.useImagemin ? yes : no)('Compress production images with imagemin') +
+        '\n' + (generator.useAria                    ? yes : no)('Perform accessibility audit on HTML code') +
+        '\n' + (generator.useImagemin                ? yes : no)('Compress production images with imagemin') +
         '\n' +
         '\n' + chalk.green.bold('All done!') +
         '\n' + chalk.white('Try out your shiny new app by running ') + chalk.bgBlack.white(SPACE + LETS_GET_STARTED + SPACE) +

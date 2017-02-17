@@ -1,5 +1,7 @@
 'use strict';
 
+var _      = require('lodash');
+var path   = require('path');
 var fs     = require('fs-extra');
 var extend = require('deep-extend');
 
@@ -7,8 +9,7 @@ function readJSON(fileName) {
     return JSON.parse(fs.readFileSync(fileName).toString());
 }
 function writeJSON(fileName, content) {
-    var INDENT_SPACES = 4;
-    fs.writeFileSync(fileName, JSON.stringify(content, null, INDENT_SPACES) + '\n');
+    fs.writeFileSync(fileName, JSON.stringify(content, null, 4) + '\n');
 }
 function extendJSON(fileName, obj) {
     writeJSON(fileName, extend(readJSON(fileName), obj));
