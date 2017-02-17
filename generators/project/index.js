@@ -48,9 +48,10 @@ module.exports = Generator.extend({
         !generator.config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
             var done = this.async();
+            var sourceDirectory = generator.use.sourceDirectory;
             generator.projectName = generator.use.projectName;
             generator.config.set('projectName', generator.projectName);
-            generator.sourceDirectory = (!/\/$/.test(generator.use.sourceDirectory)) ? generator.use.sourceDirectory + '/' : generator.use.sourceDirectory;
+            generator.sourceDirectory = (!/\/$/.test(sourceDirectory)) ? sourceDirectory + '/' : sourceDirectory;
             generator.config.set('sourceDirectory', generator.sourceDirectory);
             done();
         } else {
@@ -99,7 +100,7 @@ module.exports = Generator.extend({
             if (generator.useBenchmark) {
                 copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
             }
-        },
+        }
     },
     install: function() {
         var generator = this;
