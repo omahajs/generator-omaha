@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 var projectQuestions = [
     {
         type: 'input',
@@ -95,21 +97,29 @@ defaults.webapp.scriptBundler = 'requirejs';
 defaults.webapp.cssPreprocessor = 'less';
 defaults.webapp.templateTechnology = 'handlebars';
 
-function promptMessageFormat(type) {
+function promptMessageFormat(type, isWebapp) {
     function addLeadingZero(step) {return (step < 10) ? ('0' + step) : step;}
-    var total = projectQuestions.length + webappQuestions.length;
+    var total = projectQuestions.length;
+    total += isWebapp ? webappQuestions.length : 0;
     return function(question, index) {
-        var step = index + 1 + (type === 'webapp' ? projectQuestions.length : 0);
+        var step = index + 1 + ((type === 'webapp') ? projectQuestions.length : 0);
         question.message = require('chalk')[step === total ? 'green' : 'gray']('('+ addLeadingZero(step) + '/' + total + ') ') + question.message;
         return question;
     }
 }
+var getPromptQuestions = _.curry(function(type, isWebapp) {
+    var questionLookup = {
+        project: projectQuestions,
+        webapp: webappQuestions
+    };
+    return questionLookup[type].map(promptMessageFormat(type, isWebapp));
+});
 
 exports.project = {
     defaults: defaults.project,
-    questions: projectQuestions.map(promptMessageFormat('project'))
+    getQuestions: getPromptQuestions('project')
 };
 exports.webapp = {
     defaults: defaults.webapp,
-    questions: webappQuestions.map(promptMessageFormat('webapp'))
+    getQuestions: getPromptQuestions('webapp')
 };

@@ -57,7 +57,8 @@ module.exports = Generator.extend({
             var isUnAnswered = function(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             };
-            return generator.prompt(prompt.questions.filter(isUnAnswered)).then(function (answers) {
+            var isComposed = generator.config.get('isComposed');
+            return generator.prompt(prompt.getQuestions(isComposed).filter(isUnAnswered)).then(function (answers) {
                 generator.use = answers;
                 generator.projectName = answers.projectName;
                 generator.sourceDirectory = (!/\/$/.test(answers.sourceDirectory)) ? answers.sourceDirectory + '/' : answers.sourceDirectory;
@@ -82,7 +83,7 @@ module.exports = Generator.extend({
             copyTpl('config/_default.json', 'config/default.json', generator);
             copyTpl('config/_eslintrc.js', 'config/.eslintrc.js', generator);
             copyTpl('config/_karma.conf.js', 'config/karma.conf.js', generator);
-            fs.mkdirp('tasks');
+            fs.mkdirp(generator.sourceDirectory);
         },
         testFiles: function() {
             var generator = this;

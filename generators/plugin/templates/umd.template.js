@@ -10,10 +10,12 @@
             return (root.<%= pluginName %> = factory(<%= iifeArguments %>));
         });
     } else if (typeof exports === 'object') {
-        <%= requireStatements %>
+        <%- requireStatements %>
         module.exports = factory(<%= iifeArguments %>);
     } else {
+        /* eslint-disable block-scoped-var */
         root.<%= pluginName %> = factory(<%= iifeArguments %>);
+        /* eslint-enable block-scoped-var */
     }
 }(this, function(<%= iifeArguments %>) {
     'use strict';
@@ -25,7 +27,7 @@
 
     <%= pluginName %>.prototype.foo = function() {
         console.log(this._foo);
-    }
+    };
 
     function privateFunction() {
         console.log('"Well begun is half done"');
