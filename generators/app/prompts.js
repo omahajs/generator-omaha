@@ -103,7 +103,7 @@ function promptMessageFormat(type, isWebapp) {
     total += isWebapp ? webappQuestions.length : 0;
     return function(question, index) {
         var step = index + 1 + ((type === 'webapp') ? projectQuestions.length : 0);
-        question.message = require('chalk')[step === total ? 'green' : 'gray']('('+ addLeadingZero(step) + '/' + total + ') ') + question.message;
+        question.message = require('chalk')[step === total ? 'green' : 'gray']('(' + addLeadingZero(step) + '/' + total + ') ') + question.message;
         return question;
     };
 }

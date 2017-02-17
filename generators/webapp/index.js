@@ -76,7 +76,7 @@ module.exports = Generator.extend({
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
             var isComposed = true;
-            return generator.prompt(prompt.getQuestions(isComposed).filter(isUnAnswered)).then(function (answers) {
+            return generator.prompt(prompt.getQuestions(isComposed).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
                 var bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
                 var preprocessor;
@@ -247,7 +247,7 @@ module.exports = Generator.extend({
                     presymlink: 'if [ -L `pwd`/app/assets ]; then rm `pwd`/app/assets ; fi',
                     symlink:    'ln -s `pwd`/assets `pwd`/app/assets',
                     prestart:   'nohup npm run rest-api &',
-                    start:      'npm run symlink && grunt serve',
+                    start:      'npm run symlink && grunt serve'
                 }
             });
         }
