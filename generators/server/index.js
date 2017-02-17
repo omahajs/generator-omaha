@@ -64,16 +64,16 @@ module.exports = Generator.extend({
         var customPortSelected = (options.http || options.https || options.ws);
         if (options.defaults || customPortSelected) {
             var done = this.async();
-            this.httpPort        = options.http  || prompts[0].default;
-            this.httpsPort       = options.https || prompts[1].default;
-            this.websocketPort   = options.ws    || prompts[2].default;
+            this.httpPort = options.http || prompts[0].default;
+            this.httpsPort = options.https || prompts[1].default;
+            this.websocketPort = options.ws || prompts[2].default;
             this.markdownSupport = prompts[3].default;
             done();
         } else {
-            return this.prompt(prompts).then(function (answers) {
-                this.httpPort        = answers.httpPort;
-                this.httpsPort       = answers.httpsPort;
-                this.websocketPort   = answers.websocketPort;
+            return this.prompt(prompts).then(function(answers) {
+                this.httpPort = answers.httpPort;
+                this.httpsPort = answers.httpsPort;
+                this.websocketPort = answers.websocketPort;
                 this.markdownSupport = answers.markdownSupport;
             }.bind(this));
         }
@@ -107,7 +107,7 @@ module.exports = Generator.extend({
             }
         }
     },
-    install: function () {
+    install: function() {
         this.npmInstall();
     }
 });
