@@ -35,5 +35,5 @@ define(function(require, exports) {
     });
 
     exports.Controller = RouterController;
-    exports.Router     = ExampleAppRouter;
+    exports.Router = ExampleAppRouter;
 });

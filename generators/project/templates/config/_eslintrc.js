@@ -15,4 +15,4 @@ module.exports = {
         'backbone/no-model-attributes': ['warn']
     },
     extends: 'omaha-prime-grade'
-}
+};

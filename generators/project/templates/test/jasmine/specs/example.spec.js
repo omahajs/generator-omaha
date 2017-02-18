@@ -16,7 +16,7 @@ define(function(require) {
             server.restore();
         });
         it('should be able to use SinonJS spies', function() {
-            var object = {method: function () {}};
+            var object = {method: function() {}};
             var spy = sinon.spy(object, 'method');
             spy.withArgs(42);
             spy.withArgs(1);

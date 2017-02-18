@@ -43,9 +43,9 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     flatten: true,
-                    src: ["<%%= folders.assets %>/library/*.js"],
-                    dest: "<%%= folders.dist %>/<%%= deployed.assets %>/library",
-                    filter: "isFile"
+                    src: ['<%%= folders.assets %>/library/*.js'],
+                    dest: '<%%= folders.dist %>/<%%= deployed.assets %>/library',
+                    filter: 'isFile'
                 }]
             },
             images: {
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
          * Generate documentation from JS comments using JSDoc3
          * @see {@link https://github.com/krampstudio/grunt-jsdoc}
         **/
-        jsdoc : {
+        jsdoc: {
             app: {
                 src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
                 dest: '<%%= folders.reports %>/<%%= folders.docs %>',
@@ -248,10 +248,10 @@ module.exports = function(grunt) {
             },
             browser: {
                 files: [
-                    '<%%= folders.app %>/<%%= files.index %>',//index.html
-                    '<%%= folders.assets %>/css/*.css',//CSS
-                    '<%%= folders.app %>/style.css',//CSS (less/sass)
-                    '<%%= folders.app %>/<%%= files.scripts %>',//Scripts
+                    '<%%= folders.app %>/<%%= files.index %>', //index.html
+                    '<%%= folders.assets %>/css/*.css', //CSS
+                    '<%%= folders.app %>/style.css', //CSS (less/sass)
+                    '<%%= folders.app %>/<%%= files.scripts %>', //Scripts
                     '<%%= folders.assets %>/<%%= files.templates %>'//Templates
                 ],
                 tasks: ['compile'],

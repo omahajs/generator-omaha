@@ -22,7 +22,7 @@ define(function(require) {
         console.info(WebApp.model.get('name') + ' is started!');
         WebApp.getRegion().show(new View());
     });
-    if (typeof(define) === 'undefined') {
+    if (typeof (define) === 'undefined') {
         //Not AMD ==> Bundled with Browserify
         document.addEventListener('DOMContentLoaded', function() {
             WebApp.start();

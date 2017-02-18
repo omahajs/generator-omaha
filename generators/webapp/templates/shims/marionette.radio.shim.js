@@ -10,7 +10,7 @@ define(function(require) {
     var Marionette = require('backbone.marionette');
 
     Marionette.Application.prototype._initChannel = function() {
-        this.channelName =  _.result(this, 'channelName') || 'global';
-        this.channel     =  _.result(this, 'channel') || Radio.channel(this.channelName);
+        this.channelName = _.result(this, 'channelName') || 'global';
+        this.channel = _.result(this, 'channel') || Radio.channel(this.channelName);
     };
 });
