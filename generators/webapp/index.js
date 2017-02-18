@@ -1,5 +1,6 @@
 'use strict';
 
+var _         = require('lodash');
 var fs        = require('fs-extra');
 var Generator = require('yeoman-generator');
 var Gruntfile = require('gruntfile-editor');
@@ -185,14 +186,16 @@ module.exports = Generator.extend({
         }
     },
     install: function() {
+        function maybeInclude(bool, val, defaultValue) {return (_.isBoolean(bool) && bool) ? val : (defaultValue || []);}
         var generator = this;
-        var dependencies = [
+        var dependencies = [].concat(
             'jquery',
             'underscore',
             'backbone',
             'backbone.marionette',
-            'backbone.radio'
-        ];
+            'backbone.radio',
+            generator.useHandlebars ? 'handlebars' : []
+        );
         var htmlDevDependencies = [
             'grunt-contrib-htmlmin',
             'grunt-htmlhint-plus'
@@ -210,19 +213,25 @@ module.exports = Generator.extend({
             'grunt-contrib-requirejs',
             'karma-requirejs'
         ];
+        var browserifyDependencies = [
+            'browserify',
+            'browserify-shim',
+            'aliasify',
+            'deamdify',
+            'grunt-browserify',
+            'grunt-replace'
+        ];
         var devDependencies = [].concat(
             htmlDevDependencies,
             cssDevDependencies,
             requirejsDevDependencies,
-            generator.useBrowserify ? ['browserify', 'browserify-shim', 'aliasify', 'deamdify', 'grunt-browserify', 'grunt-replace'] : [],
-            generator.useAria ? ['grunt-a11y', 'grunt-accessibility'] : [],
-            generator.useImagemin ? ['grunt-contrib-imagemin'] : [],
-            generator.useLess ? ['grunt-contrib-less'] : [],
-            generator.useSass ? ['grunt-contrib-sass'] : [],
-            generator.useHandlebars ? ['grunt-contrib-handlebars'] : ['grunt-contrib-jst']
+            maybeInclude(generator.useBrowserify, browserifyDependencies),
+            maybeInclude(generator.useAria, ['grunt-a11y', 'grunt-accessibility']),
+            maybeInclude(generator.useImagemin, 'grunt-contrib-imagemin'),
+            maybeInclude(generator.useLess, 'grunt-contrib-less'),
+            maybeInclude(generator.useSass, 'grunt-contrib-sass'),
+            maybeInclude(generator.useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
         );
-        generator.useHandlebars && dependencies.push('handlebars');
-
         generator.npmInstall(dependencies, {save: true});
         generator.npmInstall(devDependencies, {saveDev: true});
     },
