@@ -66,36 +66,28 @@ var webappQuestions = [
         default: true
     }
 ];
-
-var defaults = {project: {}, webapp: {}};
-projectQuestions.forEach(function(question) {
-    defaults.project[question.name] = question.default;
+var getPromptQuestions = _.curry(function(type, isWebapp) {
+    var questionLookup = {
+        project: projectQuestions,
+        webapp: webappQuestions
+    };
+    return questionLookup[type].map(promptMessageFormat(type, isWebapp));
 });
-webappQuestions.forEach(function(question) {
-    var defaultValue = (question.type === 'list') ? question.choices[0].toLowerCase() : question.default;
-    var promptOption = {};
-    switch (question.name) {
-        case 'scriptBundler':
-            promptOption.useBrowserify = (defaultValue === 'browserify');
-            break;
-        case 'cssPreprocessor':
-            promptOption.useLess = (defaultValue === 'less');
-            break;
-        case 'templateTechnology':
-            promptOption.useHandlebars = (defaultValue === 'handlebars');
-            break;
-        default:
-            promptOption[question.name] = defaultValue;
-    }
-    for (var key in promptOption) {
-        defaults.webapp[key] = promptOption[key];
-    }
-});
-defaults.useSass = !defaults.useLess;
-
-defaults.webapp.scriptBundler = 'requirejs';
-defaults.webapp.cssPreprocessor = 'less';
-defaults.webapp.templateTechnology = 'handlebars';
+var webappDefaults = webappQuestions
+    .map(question => _.pick(question, ['name', 'default', 'choices']))
+    .map(i =>_.set({}, i.name, Array.isArray(i.choices) ? _.head(i.choices) : i.default))
+    .reduce(_.extend);
+var defaults = {
+    project: projectQuestions
+        .map(question => _.set({}, question.name, question.default))
+        .reduce(_.extend),
+    webapp: _.extend(webappDefaults, {
+        useBrowserify: webappDefaults.scriptBundler === 'browserify',
+        useLess: webappDefaults.cssPreprocessor === 'less',
+        useSass: webappDefaults.cssPreprocessor !== 'less',
+        useHandlebars: webappDefaults.templateTechnology === 'handlebars'
+    })
+};
 
 function promptMessageFormat(type, isWebapp) {
     function addLeadingZero(step) {return (step < 10) ? ('0' + step) : step;}
@@ -107,13 +99,6 @@ function promptMessageFormat(type, isWebapp) {
         return question;
     };
 }
-var getPromptQuestions = _.curry(function(type, isWebapp) {
-    var questionLookup = {
-        project: projectQuestions,
-        webapp: webappQuestions
-    };
-    return questionLookup[type].map(promptMessageFormat(type, isWebapp));
-});
 
 exports.project = {
     defaults: defaults.project,
