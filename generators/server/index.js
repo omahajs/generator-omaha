@@ -1,5 +1,6 @@
 'use strict';
 
+var _         = require('lodash');
 var Generator = require('yeoman-generator');
 var chalk     = require('chalk');
 var yosay     = require('yosay');
@@ -64,20 +65,19 @@ module.exports = Generator.extend({
         var customPortSelected = (options.http || options.https || options.ws);
         if (options.defaults || customPortSelected) {
             var done = this.async();
-            var defaultHttpPort = prompts[0].default;
-            var defaultHttpsPort = prompts[1].default;
-            var defaultWebsocketPort = prompts[2].default;
-            this.httpPort = options.http || defaultHttpPort;
-            this.httpsPort = options.https || defaultHttpsPort;
-            this.websocketPort = options.ws || defaultWebsocketPort;
+            this.httpPort = _.defaultTo(options.http, prompts[0].default);
+            this.httpsPort = _.defaultTo(options.https, prompts[1].default);
+            this.websocketPort = _.defaultTo(options.ws, prompts[2].default);
             this.markdownSupport = prompts[3].default;
             done();
         } else {
             return this.prompt(prompts).then(function(answers) {
-                this.httpPort = answers.httpPort;
-                this.httpsPort = answers.httpsPort;
-                this.websocketPort = answers.websocketPort;
-                this.markdownSupport = answers.markdownSupport;
+                _.extend(this, _.pick(answers, [
+                    'httpPort',
+                    'httpsPort',
+                    'websocketPort',
+                    'markdownSupport'
+                ]));
             }.bind(this));
         }
     },
