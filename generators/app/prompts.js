@@ -75,7 +75,7 @@ var getPromptQuestions = _.curry(function(type, isWebapp) {
 });
 var webappDefaults = webappQuestions
     .map(question => _.pick(question, ['name', 'default', 'choices']))
-    .map(i =>_.set({}, i.name, Array.isArray(i.choices) ? _.head(i.choices) : i.default))
+    .map(item =>_.set({}, item.name, Array.isArray(item.choices) ? _(item.choices).map(_.toLower).head() : item.default))
     .reduce(_.extend);
 var defaults = {
     project: projectQuestions
@@ -84,7 +84,7 @@ var defaults = {
     webapp: _.extend(webappDefaults, {
         useBrowserify: webappDefaults.scriptBundler === 'browserify',
         useLess: webappDefaults.cssPreprocessor === 'less',
-        useSass: webappDefaults.cssPreprocessor !== 'less',
+        useSass: webappDefaults.cssPreprocessor === 'sass',
         useHandlebars: webappDefaults.templateTechnology === 'handlebars'
     })
 };
