@@ -11,6 +11,7 @@ module.exports = {
     },
     rules: {
         'max-nested-callbacks': ['warn', 4],
-        'valid-jsdoc': 'off'
+        'valid-jsdoc': 'off',
+        'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2, 3, 10, 100]}]
     }
 };

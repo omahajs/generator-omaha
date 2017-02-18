@@ -64,9 +64,12 @@ module.exports = Generator.extend({
         var customPortSelected = (options.http || options.https || options.ws);
         if (options.defaults || customPortSelected) {
             var done = this.async();
-            this.httpPort = options.http || prompts[0].default;
-            this.httpsPort = options.https || prompts[1].default;
-            this.websocketPort = options.ws || prompts[2].default;
+            var defaultHttpPort = prompts[0].default;
+            var defaultHttpsPort = prompts[1].default;
+            var defaultWebsocketPort = prompts[2].default;
+            this.httpPort = options.http || defaultHttpPort;
+            this.httpsPort = options.https || defaultHttpsPort;
+            this.websocketPort = options.ws || defaultWebsocketPort;
             this.markdownSupport = prompts[3].default;
             done();
         } else {
