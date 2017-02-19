@@ -8,6 +8,7 @@ var utils     = require('../app/utils');
 var prompt    = require('../app/prompts').webapp;
 var tasks     = require('../app/gruntTaskConfigs');
 var footer    = require('./doneMessage');
+var copy      = utils.copy;
 var copyTpl   = utils.copyTpl;
 
 var commandLineOptions = {
@@ -107,81 +108,65 @@ module.exports = Generator.extend({
     writing: {
         configFiles: function() {
             var generator = this;
-            generator.projectName = generator.config.get('projectName');
-            generator.userName = generator.config.get('userName') || generator.user.git.name();
-            generator.sourceDirectory = generator.config.get('sourceDirectory');
-            generator.useAria = generator.use.aria && !generator.options.skipAria;
-            generator.useImagemin = generator.use.imagemin && !generator.options.skipImagemin;
+            var _copyTpl = _.partial(copyTpl, _, _, generator);
+            _.extend(generator, {
+                projectName:     generator.config.get('projectName'),
+                userName:        generator.config.get('userName') || generator.user.git.name(),
+                sourceDirectory: generator.config.get('sourceDirectory'),
+                useAria:         generator.use.aria && !generator.options.skipAria,
+                useImagemin:     generator.use.imagemin && !generator.options.skipImagemin
+            });
             generator.config.set('useAria', generator.useAria);
             generator.config.set('useImagemin', generator.useImagemin);
             generator.config.set('pluginDirectory', generator.sourceDirectory);
-            copyTpl('_README.md', 'README.md', generator);
-            copyTpl('config/_csslintrc', 'config/.csslintrc', generator);
-            copyTpl('tasks/webapp.js', 'tasks/webapp.js', generator);
-            copyTpl('_config.js', generator.sourceDirectory + 'app/config.js', generator);
+            _copyTpl('_README.md', 'README.md');
+            _copyTpl('config/_csslintrc', 'config/.csslintrc');
+            _copyTpl('tasks/webapp.js', 'tasks/webapp.js');
+            _copyTpl('_config.js', generator.sourceDirectory + 'app/config.js');
         },
         appFiles: function() {
+            var srcDir = this.sourceDirectory;
+            var _copyTpl = _.partial(copyTpl, _, _, this);
             if (this.useHandlebars) {
-                this.fs.copy(
-                    this.templatePath('helpers/handlebars.helpers.js'),
-                    this.destinationPath(this.sourceDirectory + 'app/helpers/handlebars.helpers.js')
-                );
+                _copyTpl('helpers/handlebars.helpers.js', srcDir + 'app/helpers/handlebars.helpers.js');
             }
-            this.fs.copy(
-                this.templatePath('helpers/jquery.extensions.js'),
-                this.destinationPath(this.sourceDirectory + 'app/helpers/jquery.extensions.js')
-            );
-            this.fs.copy(
-                this.templatePath('helpers/underscore.mixins.js'),
-                this.destinationPath(this.sourceDirectory + 'app/helpers/underscore.mixins.js')
-            );
-            this.fs.copy(
-                this.templatePath('plugins/*.js'),
-                this.destinationPath(this.sourceDirectory + 'app/plugins')
-            );
-            this.fs.copy(
-                this.templatePath('shims/*.js'),
-                this.destinationPath(this.sourceDirectory + 'app/shims')
-            );
+            _copyTpl('helpers/jquery.extensions.js', srcDir + 'app/helpers/jquery.extensions.js');
+            _copyTpl('helpers/underscore.mixins.js', srcDir + 'app/helpers/underscore.mixins.js');
+            _copyTpl('plugins/*.js', srcDir + 'app/plugins');
+            _copyTpl('shims/*.js', srcDir + 'app/shims');
         },
         assets: function() {
-            if (this.useLess) {
-                fs.mkdirp(this.sourceDirectory + 'assets/less');
-            }
-            if (this.useSass) {
-                fs.mkdirp(this.sourceDirectory + 'assets/sass');
-            }
-            fs.mkdirp(this.sourceDirectory + 'assets/fonts');
-            fs.mkdirp(this.sourceDirectory + 'assets/images');
-            fs.mkdirp(this.sourceDirectory + 'assets/templates');
-            fs.mkdirp(this.sourceDirectory + 'assets/library');
-            this.fs.copy(
-                this.templatePath('library/require.min.js'),
-                this.destinationPath(this.sourceDirectory + 'assets/library/require.min.js')
-            );
-            this.fs.copy(
-                this.templatePath('omaha.png'),
-                this.destinationPath(this.sourceDirectory + 'assets/images/logo.png')
-            );
+            var srcDir = this.sourceDirectory;
+            fs.mkdirp(srcDir + 'assets/fonts');
+            fs.mkdirp(srcDir + 'assets/images');
+            fs.mkdirp(srcDir + 'assets/templates');
+            fs.mkdirp(srcDir + 'assets/library');
+            copy('library/require.min.js', srcDir + 'assets/library/require.min.js', this);
+            copy('omaha.png', srcDir + 'assets/images/logo.png', this);
         },
         boilerplate: function() {
-            copyTpl('_index.html', this.sourceDirectory + 'app/index.html', this);
-            copyTpl('_app.js', this.sourceDirectory + 'app/app.js', this);
-            copyTpl('_main.js', this.sourceDirectory + 'app/main.js', this);
-            copyTpl('_router.js', this.sourceDirectory + 'app/router.js', this);
-            copyTpl('example.model.js', this.sourceDirectory + 'app/models/example.js', this);
-            copyTpl('example.view.js', this.sourceDirectory + 'app/views/example.js', this);
-            copyTpl('example.controller.js', this.sourceDirectory + 'app/controllers/example.js', this);
-            copyTpl('example.webworker.js', this.sourceDirectory + 'app/controllers/example.webworker.js', this);
-            copyTpl('example.template.hbs', this.sourceDirectory + 'assets/templates/example.hbs', this);
-            if (this.useLess) {
-                copyTpl('_reset.css', this.sourceDirectory + 'assets/less/reset.less', this);
-                copyTpl('_style.less', this.sourceDirectory + 'assets/less/style.less', this);
-            } else if (this.useSass) {
-                copyTpl('_reset.css', this.sourceDirectory + 'assets/sass/reset.scss', this);
-                copyTpl('_style.scss', this.sourceDirectory + 'assets/sass/style.scss', this);
+            var srcDir = this.sourceDirectory;
+            var _copyTpl = _.partial(copyTpl, _, _, this);
+            _copyTpl('_index.html', srcDir + 'app/index.html');
+            _copyTpl('_app.js', srcDir + 'app/app.js');
+            _copyTpl('_main.js', srcDir + 'app/main.js');
+            _copyTpl('_router.js', srcDir + 'app/router.js');
+            _copyTpl('example.model.js', srcDir + 'app/models/example.js');
+            _copyTpl('example.view.js', srcDir + 'app/views/example.js');
+            _copyTpl('example.controller.js', srcDir + 'app/controllers/example.js');
+            _copyTpl('example.webworker.js', srcDir + 'app/controllers/example.webworker.js');
+            _copyTpl('example.template.hbs', srcDir + 'assets/templates/example.hbs');
+            var type = this.useLess ? 'less' : (this.useSass ? 'sass' : 'none');
+            var ext = {
+                less: 'less',
+                sass: 'scss',
+                none: 'css'
+            }[type];
+            if (!(this.useLess || this.useSass)) {
+                _copyTpl('_style.css', srcDir + 'assets/css/style.css');
             } else {
-                copyTpl('_style.css', this.sourceDirectory + 'assets/css/style.css', this);
+                _copyTpl('_reset.css', srcDir + `assets/${type}/reset.${ext}`);
+                _copyTpl('_style.' + ext, srcDir + `assets/${type}/style.${ext}`);
             }
         }
     },

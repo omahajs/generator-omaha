@@ -4,6 +4,7 @@ var fs     = require('fs-extra');
 var extend = require('deep-extend');
 
 module.exports = {
+    copy,
     copyTpl,
     json: {
         read:   readJSON,
@@ -16,6 +17,16 @@ module.exports = {
     }
 };
 
+function copy(from, to, context) {
+    var source = context.templatePath(from);
+    var dest = context.destinationPath(to);
+    context.fs.copy(source, dest);
+}
+function copyTpl(from, to, context) {
+    var source = context.templatePath(from);
+    var dest = context.destinationPath(to);
+    context.fs.copyTpl(source, dest, context);
+}
 function readJSON(fileName) {
     return JSON.parse(fs.readFileSync(fileName).toString());
 }
@@ -28,10 +39,4 @@ function extendJSON(fileName, obj) {
 }
 function cloneObject(value) {
     return JSON.parse(JSON.stringify(value));
-}
-
-function copyTpl(from, to, context) {
-    var source = context.templatePath(from);
-    var dest = context.destinationPath(to);
-    context.fs.copyTpl(source, dest, context);
 }

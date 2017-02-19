@@ -45,7 +45,11 @@ function verifyBoilerplateFiles(sourceDirectory) {
         'app/config.js',
         'app/router.js',
         'assets/images/logo.png',
-        'app/controllers/example.webworker.js'
+        'app/controllers/example.webworker.js',
+        'app/helpers/jquery.extensions.js',
+        'app/helpers/underscore.mixins.js',
+        'app/plugins/radio.logging.js',
+        'app/shims/marionette.handlebars.shim.js'
     ];
     files
         .map(function(fileName) {return sourceDirectory + fileName;})
@@ -130,6 +134,9 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
+                    assert.file('assets/less/reset.less');
+                    assert.file('assets/less/style.less');
+                    assert.noFile('assets/sass/style.scss');
                 });
         });
         it('all prompts TRUE (--script-bundler browserify)', function() {
@@ -154,6 +161,9 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
+                    assert.file('assets/sass/reset.scss');
+                    assert.file('assets/sass/style.scss');
+                    assert.noFile('assets/less/style.less');
                     assert.fileContent('Gruntfile.js', 'sass: ');
                     assert.noFileContent('Gruntfile.js', 'less: ');
                 });
@@ -238,6 +248,9 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
+                    assert.file('assets/sass/reset.scss');
+                    assert.file('assets/sass/style.scss');
+                    assert.noFile('assets/less/style.less');
                     assert.fileContent('Gruntfile.js', 'sass: ');
                     assert.noFileContent('Gruntfile.js', 'less: ');
                 });
@@ -250,6 +263,9 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
+                    assert.noFile('assets/css/reset.css');
+                    assert.noFile('assets/less/style.less');
+                    assert.noFile('assets/sass/style.scss');
                     assert.noFileContent('Gruntfile.js', 'sass: ');
                     assert.noFileContent('Gruntfile.js', 'less: ');
                 });
@@ -270,6 +286,9 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
+                    assert.file('assets/less/reset.less');
+                    assert.file('assets/less/style.less');
+                    assert.noFile('assets/sass/style.scss');
                 });
         });
         it('--defaults --script-bundler browserify', function() {
@@ -289,6 +308,9 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
+                    assert.file('assets/sass/reset.scss');
+                    assert.file('assets/sass/style.scss');
+                    assert.noFile('assets/less/style.less');
                     assert.fileContent('Gruntfile.js', 'sass: ');
                     assert.noFileContent('Gruntfile.js', 'less: ');
                 });
@@ -300,6 +322,9 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
+                    assert.noFile('assets/css/reset.css');
+                    assert.noFile('assets/less/style.less');
+                    assert.noFile('assets/sass/style.scss');
                     assert.noFileContent('Gruntfile.js', 'sass: ');
                     assert.noFileContent('Gruntfile.js', 'less: ');
                 });
