@@ -43,6 +43,18 @@ var commandLineOptions = {
         defaults: false
     }
 };
+var CSS_PREPROCESSOR_EXT_LOOKUP = {
+    less: 'less',
+    sass: 'scss',
+    none: 'css'
+};
+
+function maybeInclude(bool, val, defaultValue) {
+    return (_.isBoolean(bool) && bool) ? val : (defaultValue || []);
+}
+function resolveCssPreprocessor(generator) {
+    return generator.useLess ? 'less' : (generator.useSass ? 'sass' : 'none');
+}
 
 module.exports = Generator.extend({
     constructor: function() {
@@ -156,13 +168,9 @@ module.exports = Generator.extend({
             _copyTpl('example.controller.js', srcDir + 'app/controllers/example.js');
             _copyTpl('example.webworker.js', srcDir + 'app/controllers/example.webworker.js');
             _copyTpl('example.template.hbs', srcDir + 'assets/templates/example.hbs');
-            var type = this.useLess ? 'less' : (this.useSass ? 'sass' : 'none');
-            var ext = {
-                less: 'less',
-                sass: 'scss',
-                none: 'css'
-            }[type];
-            if (!(this.useLess || this.useSass)) {
+            var type = resolveCssPreprocessor(this);
+            var ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
+            if (type === 'none') {
                 _copyTpl('_style.css', srcDir + 'assets/css/style.css');
             } else {
                 _copyTpl('_reset.css', srcDir + `assets/${type}/reset.${ext}`);
@@ -171,7 +179,6 @@ module.exports = Generator.extend({
         }
     },
     install: function() {
-        function maybeInclude(bool, val, defaultValue) {return (_.isBoolean(bool) && bool) ? val : (defaultValue || []);}
         var generator = this;
         var dependencies = [].concat(
             'jquery',
@@ -222,9 +229,35 @@ module.exports = Generator.extend({
     },
     end: function() {
         var generator = this;
+        var extend = utils.json.extend;
         var sourceDirectory = generator.sourceDirectory;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
-        utils.json.extend(generator.destinationPath('package.json'), {
+        //
+        // Configure default.json
+        //
+        var type = resolveCssPreprocessor(generator);
+        var ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
+        if (type !== 'none') {
+            extend(generator.destinationPath('config/default.json'), {
+                grunt: {
+                    files: {
+                        styles: `${type}/**/*.${ext}`
+                    }
+                }
+            });
+        }
+        extend(generator.destinationPath('config/default.json'), {
+            grunt: {
+                folders: {
+                    app:    sourceDirectory + 'app',
+                    assets: sourceDirectory + 'assets'
+                }
+            }
+        });
+        //
+        // Configure package.json
+        //
+        extend(generator.destinationPath('package.json'), {
             main: sourceDirectory + 'app/main.js',
             scripts: {
                 build:     'grunt build',
@@ -236,7 +269,7 @@ module.exports = Generator.extend({
             }
         });
         if (/^linux/.test(process.platform)) {
-            utils.json.extend(generator.destinationPath('package.json'), {
+            extend(generator.destinationPath('package.json'), {
                 scripts: {
                     presymlink: 'if [ -L `pwd`/app/assets ]; then rm `pwd`/app/assets ; fi',
                     symlink:    'ln -s `pwd`/assets `pwd`/app/assets',
@@ -245,24 +278,8 @@ module.exports = Generator.extend({
                 }
             });
         }
-        utils.json.extend(generator.destinationPath('config/default.json'), {
-            grunt: {
-                folders: {
-                    app:    sourceDirectory + 'app',
-                    assets: sourceDirectory + 'assets'
-                }
-            }
-        });
-        if (generator.useAria) {
-            gruntfile.insertConfig('a11y', tasks.a11y);
-            gruntfile.insertConfig('accessibility', tasks.accessibility);
-            gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
-        }
         if (generator.useBrowserify) {
-            gruntfile.insertConfig('browserify', tasks.browserify);
-            gruntfile.insertConfig('replace', tasks.replace);
-            gruntfile.insertConfig('uglify', tasks.uglify);
-            utils.json.extend(generator.destinationPath('package.json'), {
+            extend(generator.destinationPath('package.json'), {
                 browser: {
                     underscore: './node_modules/underscore/underscore-min.js'
                 },
@@ -287,38 +304,27 @@ module.exports = Generator.extend({
                 }
             });
         }
-        if (generator.useHandlebars) {
-            gruntfile.insertConfig('handlebars', tasks.handlebars);
-        } else {
-            gruntfile.insertConfig('jst', tasks.jst);
-        }
-        if (generator.useImagemin) {
-            gruntfile.insertConfig('imagemin', tasks.imagemin);
-            gruntfile.insertConfig('copy', tasks.copy);
-        }
-        if (generator.useLess) {
-            gruntfile.insertConfig('less', tasks.less);
-            utils.json.extend(generator.destinationPath('config/default.json'), {
-                grunt: {
-                    files: {
-                        styles: 'less/**/*.less'
-                    }
-                }
-            });
-        }
-        if (generator.useSass) {
-            gruntfile.insertConfig('sass', tasks.sass);
-            utils.json.extend(generator.destinationPath('config/default.json'), {
-                grunt: {
-                    files: {
-                        styles: 'sass/**/*.scss'
-                    }
-                }
-            });
-        }
-        gruntfile.insertConfig('htmlhintplus', tasks.htmlhintplus);
-        gruntfile.insertConfig('htmlmin', tasks.htmlmin);
+        //
+        //  Configure workflow tasks
+        //
+        [// Tasks enabled by default
+            'htmlhintplus',
+            'htmlmin'
+        ].concat(// Tasks enabled by user
+            maybeInclude(generator.useAria, ['a11y', 'accessibility']),
+            maybeInclude(generator.useBrowserify, ['browserify', 'replace', 'uglify']),
+            maybeInclude(generator.useHandlebars, 'handlebars', 'jst'),
+            maybeInclude(generator.useImagemin, ['imagemin', 'copy']),
+            maybeInclude(generator.useLess, 'less'),
+            maybeInclude(generator.useSass, 'sass')
+        ).forEach(name => gruntfile.insertConfig(name, tasks[name]));
         gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory));
+        if (generator.useAria) {
+            gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
+        }
+        //
+        // Write to file and display footer
+        //
         fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
         generator.log(footer(generator));
     }

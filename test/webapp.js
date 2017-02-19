@@ -134,6 +134,7 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
+                    assert.fileContent('Gruntfile.js', 'postcss: ');
                     assert.file('assets/less/reset.less');
                     assert.file('assets/less/style.less');
                     assert.noFile('assets/sass/style.scss');
