@@ -10,33 +10,6 @@ var utils   = require('../generators/app/utils');
 var extend  = utils.object.extend;
 var clone   = utils.object.clone;
 
-function verifyCoreFiles() {
-    var ALWAYS_INCLUDED = [
-        'LICENSE',
-        'package.json',
-        'Gruntfile.js',
-        '.gitignore',
-        'config/default.json',
-        'config/.eslintrc.js',
-        'config/karma.conf.js',
-        'test/config.js'
-    ];
-    assert.fileContent('package.json', '"name": "omaha-project"');
-    assert.fileContent('package.json', '"author": "A. Developer"');
-    ALWAYS_INCLUDED.forEach(file => assert.file(file));
-}
-function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
-    var verifyBenchmark = useBenchmark ? assert.fileContent : assert.noFileContent;
-    var verifyCoveralls = useCoveralls ? assert.fileContent : assert.noFileContent;
-    var verifyJsinspect = useJsinspect ? assert.fileContent : assert.noFileContent;
-    (useBenchmark ? assert.file : assert.noFile)('test/benchmarks/example.benchmark.js');
-    verifyBenchmark('Gruntfile.js','benchmark: ');
-    verifyCoveralls('package.json', '"test:ci": "npm test && grunt coveralls"');
-    verifyCoveralls('Gruntfile.js','coveralls: ');
-    verifyJsinspect('package.json', '"inspect": "grunt jsinspect:app"');
-    verifyJsinspect('Gruntfile.js','jsinspect: ');
-}
-
 describe('Project generator', function() {
     var stub;
     var SKIP_INSTALL = {skipInstall: true};
@@ -180,3 +153,30 @@ describe('Project generator', function() {
         });
     });
 });
+
+function verifyCoreFiles() {
+    var ALWAYS_INCLUDED = [
+        'LICENSE',
+        'package.json',
+        'Gruntfile.js',
+        '.gitignore',
+        'config/default.json',
+        'config/.eslintrc.js',
+        'config/karma.conf.js',
+        'test/config.js'
+    ];
+    assert.fileContent('package.json', '"name": "omaha-project"');
+    assert.fileContent('package.json', '"author": "A. Developer"');
+    ALWAYS_INCLUDED.forEach(file => assert.file(file));
+}
+function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
+    var verifyBenchmark = useBenchmark ? assert.fileContent : assert.noFileContent;
+    var verifyCoveralls = useCoveralls ? assert.fileContent : assert.noFileContent;
+    var verifyJsinspect = useJsinspect ? assert.fileContent : assert.noFileContent;
+    (useBenchmark ? assert.file : assert.noFile)('test/benchmarks/example.benchmark.js');
+    verifyBenchmark('Gruntfile.js', 'benchmark: ');
+    verifyCoveralls('package.json', '"test:ci": "npm test && grunt coveralls"');
+    verifyCoveralls('Gruntfile.js', 'coveralls: ');
+    verifyJsinspect('package.json', '"inspect": "grunt jsinspect:app"');
+    verifyJsinspect('Gruntfile.js', 'jsinspect: ');
+}

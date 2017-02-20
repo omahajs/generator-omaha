@@ -4,27 +4,9 @@ var path    = require('path');
 var assert  = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
-function verifyCoreFiles() {
-    var ALWAYS_INCLUDED = [
-        'package.json',
-        'index.js',
-        'config/default.js',
-        'web/socket.js',
-        'web/server.js',
-        'web/client/index.html',
-        'favicon.ico'
-    ];
-    ALWAYS_INCLUDED.forEach(file => assert.file(file));
-}
-function verifyPorts(http, https, ws) {
-    assert.fileContent('config/default.js', 'port: process.env.PORT || ' + http);
-    assert.fileContent('config/default.js', 'port: ' + https);
-    assert.fileContent('config/default.js', 'port: ' + ws);
-}
-function verifyMarkdownSupport(exists) {
-    (exists ? assert.file : assert.noFile)('web/client/example.md');
-    (exists ? assert.fileContent : assert.noFileContent)('web/server.js', 'engine(\'md\', ');
-}
+var DEFAULT_HTTP_PORT = 8111;
+var DEFAULT_HTTPS_PORT = 8443;
+var DEFAULT_WS_PORT = 13337;
 
 describe('Server generator', function() {
     var HTTP_PORT  = 123;
@@ -71,7 +53,7 @@ describe('Server generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyPorts(8111, 8443, 13337);
+                    verifyPorts(DEFAULT_HTTP_PORT, DEFAULT_HTTPS_PORT, DEFAULT_WS_PORT);
                     verifyMarkdownSupport(false);
                 });
         });
@@ -82,7 +64,7 @@ describe('Server generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyPorts(8111, 8443, 13337);
+                    verifyPorts(DEFAULT_HTTP_PORT, DEFAULT_HTTPS_PORT, DEFAULT_WS_PORT);
                     verifyMarkdownSupport(true);
                 });
         });
@@ -92,9 +74,31 @@ describe('Server generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyPorts(8111, 8443, 13337);
+                    verifyPorts(DEFAULT_HTTP_PORT, DEFAULT_HTTPS_PORT, DEFAULT_WS_PORT);
                     verifyMarkdownSupport(false);
                 });
         });
     });
 });
+
+function verifyCoreFiles() {
+    var ALWAYS_INCLUDED = [
+        'package.json',
+        'index.js',
+        'config/default.js',
+        'web/socket.js',
+        'web/server.js',
+        'web/client/index.html',
+        'favicon.ico'
+    ];
+    ALWAYS_INCLUDED.forEach(file => assert.file(file));
+}
+function verifyPorts(http, https, ws) {
+    assert.fileContent('config/default.js', 'port: process.env.PORT || ' + http);
+    assert.fileContent('config/default.js', 'port: ' + https);
+    assert.fileContent('config/default.js', 'port: ' + ws);
+}
+function verifyMarkdownSupport(exists) {
+    (exists ? assert.file : assert.noFile)('web/client/example.md');
+    (exists ? assert.fileContent : assert.noFileContent)('web/server.js', 'engine(\'md\', ');
+}
