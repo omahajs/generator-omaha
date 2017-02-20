@@ -27,11 +27,11 @@
     "chalk": "^1.0.0",
     "config": "^1.17.1",
     "deep-extend": "^0.4.1",
-    "fs-extra": "^1.0.0",
+    "fs-extra": "^2.0.0",
     "gruntfile-editor": "^1.2.0",
     "lodash": "^4.13.1",
     "yeoman-generator": "^1.0.1",
-    "yosay": "^1.0.2"
+    "yosay": "^2.0.0"
   },
   "devDependencies": {
     "bluebird": "^3.4.1",
