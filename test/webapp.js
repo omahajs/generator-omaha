@@ -29,6 +29,25 @@ var ariaContent = [
     ['Gruntfile.js', 'accessibility: '],
     ['Gruntfile.js', 'aria-audit']
 ];
+var verifyPreprocessorConfigured = _.curry(function(type, sourceDirectory) {
+    var EXT_LOOKUP = {
+        less: 'less',
+        sass: 'scss'
+    };
+    var ext = EXT_LOOKUP[type];
+    var notType = _.keys(_.omit(EXT_LOOKUP, type))[0];
+    var notExt = EXT_LOOKUP[notType];
+    var customPath = sourceDirectory  || '';
+    console.log(type, ext);
+    assert.fileContent('Gruntfile.js', 'postcss: ');
+    assert.file(`${customPath}assets/${type}/reset.${ext}`);
+    assert.file(`${customPath}assets/${type}/style.${ext}`);
+    assert.fileContent('Gruntfile.js', `${type}: `);
+    assert.noFile(`${customPath}assets/${notType}/style.${notExt}`);
+    assert.noFileContent('Gruntfile.js', `${notType}: `);
+});
+var verifyLessConfigured = verifyPreprocessorConfigured('less');
+var verifySassConfigured = verifyPreprocessorConfigured('sass');
 function verifyCoreFiles() {
     var ALWAYS_INCLUDED = [
         'README.md',
@@ -38,7 +57,7 @@ function verifyCoreFiles() {
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
 function verifyBoilerplateFiles(sourceDirectory) {
-    var files = [
+    [
         'app/index.html',
         'app/app.js',
         'app/main.js',
@@ -50,18 +69,16 @@ function verifyBoilerplateFiles(sourceDirectory) {
         'app/helpers/underscore.mixins.js',
         'app/plugins/radio.logging.js',
         'app/shims/marionette.handlebars.shim.js'
-    ];
-    files
-        .map(function(fileName) {return sourceDirectory + fileName;})
-        .forEach(file => assert.file(file));
+    ]
+    .map(fileName => sourceDirectory + fileName)
+    .forEach(file => assert.file(file));
 }
-function verifyDefaultConfiguration() {
+function verifyDefaultConfiguration(sourceDirectory) {
     verifyCoreFiles();
+    verifyLessConfigured(sourceDirectory);
     assert.fileContent(ariaContent);                 // aria
     assert.fileContent('Gruntfile.js', 'imagemin: ');// imagemin
     assert.noFileContent(browserifyContent);         // script bundler
-    assert.fileContent('Gruntfile.js', 'less: ');    // css pre-processor
-    assert.noFileContent('Gruntfile.js', 'sass: ');  // css pre-processor
     assert.noFileContent('Gruntfile.js', 'jst');     // template technology
     assert.fileContent('Gruntfile.js', 'handlebars');// template technology
 }
@@ -134,10 +151,6 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
-                    assert.fileContent('Gruntfile.js', 'postcss: ');
-                    assert.file('assets/less/reset.less');
-                    assert.file('assets/less/style.less');
-                    assert.noFile('assets/sass/style.scss');
                 });
         });
         it('all prompts TRUE (--script-bundler browserify)', function() {
@@ -162,11 +175,7 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
-                    assert.file('assets/sass/reset.scss');
-                    assert.file('assets/sass/style.scss');
-                    assert.noFile('assets/less/style.less');
-                    assert.fileContent('Gruntfile.js', 'sass: ');
-                    assert.noFileContent('Gruntfile.js', 'less: ');
+                    verifySassConfigured();
                 });
         });
         it('all prompts TRUE (--template-technology underscore)', function() {
@@ -249,11 +258,7 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
-                    assert.file('assets/sass/reset.scss');
-                    assert.file('assets/sass/style.scss');
-                    assert.noFile('assets/less/style.less');
-                    assert.fileContent('Gruntfile.js', 'sass: ');
-                    assert.noFileContent('Gruntfile.js', 'less: ');
+                    verifySassConfigured();
                 });
         });
         it('select no CSS pre-processor via prompt', function() {
@@ -287,9 +292,6 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
-                    assert.file('assets/less/reset.less');
-                    assert.file('assets/less/style.less');
-                    assert.noFile('assets/sass/style.scss');
                 });
         });
         it('--defaults --script-bundler browserify', function() {
@@ -309,11 +311,7 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
-                    assert.file('assets/sass/reset.scss');
-                    assert.file('assets/sass/style.scss');
-                    assert.noFile('assets/less/style.less');
-                    assert.fileContent('Gruntfile.js', 'sass: ');
-                    assert.noFileContent('Gruntfile.js', 'less: ');
+                    verifySassConfigured();
                 });
         });
         it('--defaults --css-preprocessor none', function() {
@@ -382,9 +380,8 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyCoreFiles();
                     verifyBoilerplateFiles('./');
+                    verifySassConfigured();
                     assert.fileContent(browserifyContent);
-                    assert.fileContent('Gruntfile.js', 'sass: ');
-                    assert.noFileContent('Gruntfile.js', 'less: ');
                     assert.fileContent('Gruntfile.js', 'jst');
                     assert.noFileContent('Gruntfile.js', 'handlebars');
                     assert.fileContent(ariaContent);
@@ -414,7 +411,7 @@ describe('Default generator (with custom source directory)', function() {
         it('all prompts TRUE', function() {
             return createWebappProject().then(function() {
                 verifyBoilerplateFiles(sourceDirectory);
-                verifyDefaultConfiguration();
+                verifyDefaultConfiguration(sourceDirectory);
             });
         });
         it('all prompts FALSE', function() {
