@@ -46,7 +46,7 @@
     "mocha-unfunk-reporter": "^0.4.0",
     "sinon": "^1.17.2",
     "watch": "^1.0.1",
-    "yeoman-assert": "^2.2.1",
+    "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.4.0"
   },
   "optionalDependencies": {
