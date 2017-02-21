@@ -104,6 +104,14 @@ module.exports = {
         }
     }`,
     /**
+     * Lint compiled CSS output file
+     * @see {@link https://github.com/gruntjs/grunt-contrib-csslint}
+    **/
+    csslint: `{
+        options: {csslintrc: '<%%= files.config.csslint %>'},
+        src: ['<%%= folders.app %>/style.css']
+    }`,
+    /**
      * Pre-compile Handlebars templates
      * @see {@link https://github.com/gruntjs/grunt-contrib-handlebars}
     **/

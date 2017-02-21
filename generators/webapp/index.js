@@ -309,15 +309,19 @@ module.exports = Generator.extend({
         //
         [// Tasks enabled by default
             'htmlhintplus',
-            'htmlmin'
-        ].concat(// Tasks enabled by user
+            'htmlmin',
+            'csslint'
+        ]
+        .concat(// Tasks enabled by user
             maybeInclude(generator.useAria, ['a11y', 'accessibility']),
             maybeInclude(generator.useBrowserify, ['browserify', 'replace', 'uglify']),
             maybeInclude(generator.useHandlebars, 'handlebars', 'jst'),
             maybeInclude(generator.useImagemin, ['imagemin', 'copy']),
             maybeInclude(generator.useLess, 'less'),
             maybeInclude(generator.useSass, 'sass')
-        ).forEach(name => gruntfile.insertConfig(name, tasks[name]));
+        )
+        .sort()
+        .forEach(name => gruntfile.insertConfig(name, tasks[name]));
         gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory));
         if (generator.useAria) {
             gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
