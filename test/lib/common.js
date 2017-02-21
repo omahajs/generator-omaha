@@ -54,9 +54,9 @@ function verifyBoilerplateFiles(sourceDirectory) {
 function verifyDefaultConfiguration(sourceDirectory) {
     verifyCoreFiles();
     verifyLessConfigured(sourceDirectory);
-    assert.fileContent('Gruntfile.js', 'csslint: ');// imagemin
-    assert.fileContent(ariaContent);                 // aria
-    assert.fileContent('Gruntfile.js', 'imagemin: ');// imagemin
+    assert.fileContent('Gruntfile.js', 'csslint: ');
+    assert.fileContent(ariaContent);
+    assert.fileContent('Gruntfile.js', 'imagemin: ');
     assert.noFileContent(browserifyContent);         // script bundler
     assert.noFileContent('Gruntfile.js', 'jst');     // template technology
     assert.fileContent('Gruntfile.js', 'handlebars');// template technology

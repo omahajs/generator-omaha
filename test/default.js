@@ -66,6 +66,16 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
+                    assert.fileContent('Gruntfile.js', `configFile: '<%%= files.config.eslint %>'`);
+                    assert.fileContent('Gruntfile.js', 'eslint: require(config.files.config.eslint)');
+                    assert.fileContent('Gruntfile.js', 'requirejs: {');
+                    assert.fileContent('Gruntfile.js', 'jsdoc: {');
+                    assert.fileContent('Gruntfile.js', 'jsonlint: {');
+                    assert.fileContent('Gruntfile.js', 'express: {');
+                    assert.fileContent('Gruntfile.js', 'clean: {');
+                    assert.fileContent('Gruntfile.js', 'karma: {');
+                    assert.fileContent('Gruntfile.js', 'open: {');
+                    assert.fileContent('Gruntfile.js', 'options: { spawn: false }');
                 });
         });
         it('all prompts TRUE (--script-bundler browserify)', function() {

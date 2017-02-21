@@ -1,15 +1,16 @@
 'use strict';
 
-var _         = require('lodash');
-var fs        = require('fs-extra');
-var Generator = require('yeoman-generator');
-var Gruntfile = require('gruntfile-editor');
-var utils     = require('../app/utils');
-var prompt    = require('../app/prompts').webapp;
-var tasks     = require('../app/gruntTaskConfigs');
-var footer    = require('./doneMessage');
-var copy      = utils.copy;
-var copyTpl   = utils.copyTpl;
+var _            = require('lodash');
+var fs           = require('fs-extra');
+var Generator    = require('yeoman-generator');
+var Gruntfile    = require('gruntfile-editor');
+var utils        = require('../app/utils');
+var prompt       = require('../app/prompts').webapp;
+var tasks        = require('../app/gruntTaskConfigs');
+var footer       = require('./doneMessage');
+var copy         = utils.copy;
+var copyTpl      = utils.copyTpl;
+var maybeInclude = utils.maybeInclude;
 
 var commandLineOptions = {
     defaults: {
@@ -49,9 +50,6 @@ var CSS_PREPROCESSOR_EXT_LOOKUP = {
     none: 'css'
 };
 
-function maybeInclude(bool, val, defaultValue) {
-    return (_.isBoolean(bool) && bool) ? val : (defaultValue || []);
-}
 function resolveCssPreprocessor(generator) {
     return generator.useLess ? 'less' : (generator.useSass ? 'sass' : 'none');
 }
@@ -326,6 +324,7 @@ module.exports = Generator.extend({
         if (generator.useAria) {
             gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
         }
+        gruntfile.registerTask('default', ['serve']);
         //
         // Write to file and display footer
         //

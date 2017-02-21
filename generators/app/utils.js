@@ -1,9 +1,11 @@
 'use strict';
 
 var fs     = require('fs-extra');
+var _      = require('lodash');
 var extend = require('deep-extend');
 
 module.exports = {
+    maybeInclude,
     copy,
     copyTpl,
     json: {
@@ -17,6 +19,9 @@ module.exports = {
     }
 };
 
+function maybeInclude(bool, val, defaultValue) {
+    return (_.isBoolean(bool) && bool) ? val : (defaultValue || []);
+}
 function copy(from, to, context) {
     var source = context.templatePath(from);
     var dest = context.destinationPath(to);

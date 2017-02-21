@@ -1,13 +1,14 @@
 'use strict';
 
-var fs        = require('fs-extra');
-var Generator = require('yeoman-generator');
-var Gruntfile = require('gruntfile-editor');
-var utils     = require('../app/utils');
-var banner    = require('../app/banner');
-var prompt    = require('../app/prompts').project;
-var tasks     = require('../app/gruntTaskConfigs');
-var copyTpl   = utils.copyTpl;
+var fs           = require('fs-extra');
+var Generator    = require('yeoman-generator');
+var Gruntfile    = require('gruntfile-editor');
+var utils        = require('../app/utils');
+var banner       = require('../app/banner');
+var prompt       = require('../app/prompts').project;
+var tasks        = require('../app/gruntTaskConfigs');
+var copyTpl      = utils.copyTpl;
+var maybeInclude = utils.maybeInclude;
 
 var commandLineOptions = {
     defaults: {
@@ -105,9 +106,9 @@ module.exports = Generator.extend({
     install: function() {
         var generator = this;
         var devDependencies = [].concat(
-            generator.useBenchmark ? ['grunt-benchmark'] : [],
-            generator.useCoveralls ? ['grunt-karma-coveralls'] : [],
-            generator.useJsinspect ? ['jsinspect', 'grunt-jsinspect'] : []
+            maybeInclude(generator.useBenchmark, 'grunt-benchmark'),
+            maybeInclude(generator.useCoveralls, 'grunt-karma-coveralls'),
+            maybeInclude(generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
         );
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
@@ -115,11 +116,10 @@ module.exports = Generator.extend({
     end: function() {
         var generator = this;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
-        if (generator.useBenchmark) {
-            gruntfile.insertConfig('benchmark', tasks.benchmark);
-        }
+        //
+        // Configure package.json
+        //
         if (generator.useCoveralls) {
-            gruntfile.insertConfig('coveralls', tasks.coveralls);
             utils.json.extend(generator.destinationPath('package.json'), {
                 scripts: {
                     'test:ci': 'npm test && grunt coveralls'
@@ -127,13 +127,38 @@ module.exports = Generator.extend({
             });
         }
         if (generator.useJsinspect) {
-            gruntfile.insertConfig('jsinspect', tasks.jsinspect);
             utils.json.extend(generator.destinationPath('package.json'), {
                 scripts: {
                     inspect: 'grunt jsinspect:app'
                 }
             });
         }
+        //
+        //  Configure workflow tasks
+        //
+        [// Tasks enabled by default
+            'clean',
+            'eslint',
+            'express',
+            'jsdoc',
+            'jsonlint',
+            'karma',
+            'open',
+            'plato',
+            'requirejs',
+            'watch'
+        ]
+        .concat(// Tasks enabled by user
+            maybeInclude(generator.useBenchmark, 'benchmark'),
+            maybeInclude(generator.useCoveralls, 'coveralls'),
+            maybeInclude(generator.useJsinspect, 'jsinspect')
+        )
+        .sort()
+        .forEach(name => gruntfile.insertConfig(name, tasks[name]));
+        gruntfile.registerTask('eslinting', ['eslint:ing', 'watch:eslint']);
+        //
+        // Write to file
+        //
         fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
     }
 });

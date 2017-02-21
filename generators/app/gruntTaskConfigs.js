@@ -67,6 +67,19 @@ module.exports = {
         }
     }`,
     /**
+     * Clear files and folders
+     * @see {@link https://github.com/gruntjs/grunt-contrib-clean}
+    **/
+    clean: `{
+        options: {
+            force: true
+        },
+        docs:       ['<%%= folders.reports %>/<%%= folders.docs %>/*', './styleguide'],
+        coverage:   ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
+        compile:    ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css', '<%%= folders.app %>/style.css.map'],
+        build:      ['<%%= folders.dist %>/<%%= folders.client %>', '<%%= folders.dist %>/<%%= deployed.assets %>']
+    }`,
+    /**
      * Copy files and folders (used here to copy font files to deployment directory)
      * @see {@link https://github.com/gruntjs/grunt-contrib-copy}
      * WITH IMAGEMIN
@@ -110,6 +123,49 @@ module.exports = {
     csslint: `{
         options: {csslintrc: '<%%= files.config.csslint %>'},
         src: ['<%%= folders.app %>/style.css']
+    }`,
+    /**
+     * Validate files with ESLint
+     * @see {@link https://www.npmjs.com/package/grunt-eslint}
+    **/
+    eslint: `{
+        options: {
+            configFile: '<%%= files.config.eslint %>'
+        },
+        ing: {
+            options: {
+                fix: true
+            },
+            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']
+        },
+        app: {
+            options: {
+                fix: false
+            },
+            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']
+        }
+    }`,
+    /**
+     * Start an Express.js web server
+     * @see {@link https://github.com/blai/grunt-express}
+    **/
+    express: `{
+        main: {
+            options: {
+                bases: [__dirname],
+                port: '<%%= ports.server %>',
+                hostname: '0.0.0.0',
+                livereload: '<%%= ports.livereload %>'
+            }
+        },
+        demo: {
+            options: {
+                bases: [__dirname],
+                port: '<%%= ports.server %>',
+                hostname: '0.0.0.0',
+                serverreload: true
+            }
+        }
     }`,
     /**
      * Pre-compile Handlebars templates
@@ -179,6 +235,19 @@ module.exports = {
         }
     }`,
     /**
+     * Generate documentation from JS comments using JSDoc3
+     * @see {@link https://github.com/krampstudio/grunt-jsdoc}
+    **/
+    jsdoc: `{
+        app: {
+            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
+            dest: '<%%= folders.reports %>/<%%= folders.docs %>',
+            options: {
+                readme: 'README.md'
+            }
+        }
+    }`,
+    /**
      * Detect copy-pasted and structurally similar code
      * @see {@link https://github.com/stefanjudis/grunt-jsinspect}
     **/
@@ -187,6 +256,13 @@ module.exports = {
         models:      {src: ["<%= folders.app %>/<%= files.models %>"]},
         views:       {src: ["<%= folders.app %>/<%= files.views %>"]},
         controllers: {src: ["<%= folders.app %>/<%= files.controllers %>"]}
+    }`,
+    /**
+     * Lint project JSON files
+     * @see {@link https://github.com/brandonramirez/grunt-jsonlint}
+    **/
+    jsonlint: `{
+        project: {src: ['./*.json', '<%%= files.config.csslint %>']}
     }`,
     /**
      * Pre-compile underscore templates
@@ -214,6 +290,35 @@ module.exports = {
         }
     }`,
     /**
+     * Run tests and generate code coverage with the Karma test runner
+     * @see {@link https://github.com/karma-runner/grunt-karma}
+    **/
+    karma: `{
+        options: {
+            configFile: '<%%= files.config.karma %>',
+            port: '<%%= ports.karma %>'
+        },
+        watch: {
+            background: true,
+            singleRun: false,
+            coverageReporter: {
+                dir: '<%%= folders.reports %>/<%%= folders.coverage %>/',
+                includeAllSources: true
+            }
+        },
+        coverage: {
+            autoWatch: false,
+            browsers: ['PhantomJS'],
+            reporters: ['spec', 'coverage']
+        },
+        covering: {
+            autoWatch: true,
+            singleRun: false,
+            browsers: ['Firefox'],
+            reporters: ['progress', 'coverage']
+        }
+    }`,
+    /**
      * Transpile LESS to CSS (with autoprefixed and minimized output)
      * @see {@link https://github.com/gruntjs/grunt-contrib-less}
     **/
@@ -226,6 +331,43 @@ module.exports = {
             },
             files: {
                 "<%= folders.app %>/style.css": "<%= folders.assets %>/less/style.less"
+            }
+        }
+    }`,
+    /**
+     * Open files in browsers for review
+     * @see {@link https://github.com/jsoverson/grunt-open}
+    **/
+    open: `{
+        browser: {
+            path: 'http://localhost:<%%= ports.server %>/<%%= folders.app %>'
+        },
+        demo: {
+            path: 'http://localhost:<%%= ports.server %>/<%%= folders.dist %>/<%%= folders.client %>'
+        },
+        coverage: {
+            path: __dirname + '/<%%= folders.reports %>/<%%= folders.coverage %>/report-html/index.html'
+        },
+        plato: {
+            path: __dirname + '/<%%= folders.reports %>/plato/index.html'
+        },
+        docs: {
+            path: __dirname + '/<%%= folders.reports %>/<%%= folders.docs %>/index.html'
+        },
+        styleguide: {
+            path: __dirname + '/styleguide/index.html'
+        }
+    }`,
+    /**
+     * Generate persistent static analysis reports with plato
+     * @see {@link https://github.com/jsoverson/grunt-plato}
+    **/
+    plato: `{
+        app: {
+            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
+            dest: '<%%= folders.reports %>/plato',
+            options: {
+                eslint: require(config.files.config.eslint)
             }
         }
     }`,
@@ -290,6 +432,34 @@ module.exports = {
         }
     }`,
     /**
+     * Optimize JS code into single file using r.js
+     * @see {@link https://github.com/gruntjs/grunt-contrib-requirejs}
+     * @see (@link https://github.com/jrburke/r.js/blob/master/build/example.build.js}
+    **/
+    requirejs: `{
+        bundle: {
+            options: {
+                out: '<%%= folders.dist %>/<%%= folders.client %>/<%%= files.configScript %>',
+                mainConfigFile: '<%%= folders.app %>/<%%= files.configScript %>',
+                baseUrl: '<%%= folders.app %>',
+                include: ['<%%= files.configScript %>'],
+                preserveLicenseComments: false,
+                findNestedDependencies: true,
+                optimize: 'uglify2',
+                uglify2: {
+                    output: {
+                        comments: false,
+                        preamble: '/* <%%= package.name %> - v<%%= package.version %> - ' +
+                                  '2016-02-07 */'
+                    },
+                    compress: {
+                        drop_console: true //discard calls to console.* functions
+                    }
+                }
+            }
+        }
+    }`,
+    /**
      * Transpile SCSS to CSS
      * @see {@link https://github.com/gruntjs/grunt-contrib-sass}
     **/
@@ -320,6 +490,44 @@ module.exports = {
             },
             files: {
                 "<%= folders.dist %>/<%= folders.client %>/bundle.min.js": ["<%= folders.dist %>/<%= folders.client %>/bundle.js"]
+            }
+        }
+    }`,
+    /**
+     * Run predefined tasks whenever watched file patterns are added, changed or deleted
+     * @see {@link https://github.com/gruntjs/grunt-contrib-watch}
+    **/
+    watch: `{
+        style: {
+            files: ['<%%= folders.assets %>/<%%= files.styles %>'],
+            tasks: ['process-styles', 'csslint'],
+            options: {spawn: false}
+        },
+        eslint: {
+            files: '<%%= folders.app %>/<%%= files.scripts %>',
+            tasks: ['eslint:ing'],
+            options: {spawn: false}
+        },
+        lint: {
+            files: [
+                '<%%= folders.app %>/style.css',            //CSS
+                '<%%= folders.app %>/<%%= files.scripts %>' //Scripts
+            ],
+            tasks: ['lint'],
+            options: {spawn: false}
+        },
+        browser: {
+            files: [
+                '<%%= folders.app %>/<%%= files.index %>', //index.html
+                '<%%= folders.assets %>/css/*.css', //CSS
+                '<%%= folders.app %>/style.css', //CSS (less/sass)
+                '<%%= folders.app %>/<%%= files.scripts %>', //Scripts
+                '<%%= folders.assets %>/<%%= files.templates %>'//Templates
+            ],
+            tasks: ['compile'],
+            options: {
+                livereload: '<%%= ports.livereload %>',
+                spawn: false
             }
         }
     }`
