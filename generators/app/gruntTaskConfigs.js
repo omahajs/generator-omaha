@@ -74,10 +74,10 @@ module.exports = {
         options: {
             force: true
         },
-        docs:       ['<%%= folders.reports %>/<%%= folders.docs %>/*', './styleguide'],
-        coverage:   ['<%%= folders.reports %>/<%%= folders.coverage %>/'],
-        compile:    ['<%%= folders.app %>/templates.js', '<%%= folders.app %>/style.css', '<%%= folders.app %>/style.css.map'],
-        build:      ['<%%= folders.dist %>/<%%= folders.client %>', '<%%= folders.dist %>/<%%= deployed.assets %>']
+        docs:       ['<%= folders.reports %>/<%= folders.docs %>/*', './styleguide'],
+        coverage:   ['<%= folders.reports %>/<%= folders.coverage %>/'],
+        compile:    ['<%= folders.app %>/templates.js', '<%= folders.app %>/style.css', '<%= folders.app %>/style.css.map'],
+        build:      ['<%= folders.dist %>/<%= folders.client %>', '<%= folders.dist %>/<%= deployed.assets %>']
     }`,
     /**
      * Copy files and folders (used here to copy font files to deployment directory)
@@ -121,8 +121,8 @@ module.exports = {
      * @see {@link https://github.com/gruntjs/grunt-contrib-csslint}
     **/
     csslint: `{
-        options: {csslintrc: '<%%= files.config.csslint %>'},
-        src: ['<%%= folders.app %>/style.css']
+        options: {csslintrc: '<%= files.config.csslint %>'},
+        src: ['<%= folders.app %>/style.css']
     }`,
     /**
      * Validate files with ESLint
@@ -130,19 +130,19 @@ module.exports = {
     **/
     eslint: `{
         options: {
-            configFile: '<%%= files.config.eslint %>'
+            configFile: '<%= files.config.eslint %>'
         },
         ing: {
             options: {
                 fix: true
             },
-            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']
+            src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js']
         },
         app: {
             options: {
                 fix: false
             },
-            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js']
+            src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js']
         }
     }`,
     /**
@@ -153,15 +153,15 @@ module.exports = {
         main: {
             options: {
                 bases: [__dirname],
-                port: '<%%= ports.server %>',
+                port: '<%= ports.server %>',
                 hostname: '0.0.0.0',
-                livereload: '<%%= ports.livereload %>'
+                livereload: '<%= ports.livereload %>'
             }
         },
         demo: {
             options: {
                 bases: [__dirname],
-                port: '<%%= ports.server %>',
+                port: '<%= ports.server %>',
                 hostname: '0.0.0.0',
                 serverreload: true
             }
@@ -240,8 +240,8 @@ module.exports = {
     **/
     jsdoc: `{
         app: {
-            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
-            dest: '<%%= folders.reports %>/<%%= folders.docs %>',
+            src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js'],
+            dest: '<%= folders.reports %>/<%= folders.docs %>',
             options: {
                 readme: 'README.md'
             }
@@ -262,7 +262,7 @@ module.exports = {
      * @see {@link https://github.com/brandonramirez/grunt-jsonlint}
     **/
     jsonlint: `{
-        project: {src: ['./*.json', '<%%= files.config.csslint %>']}
+        project: {src: ['./*.json', '<%= files.config.csslint %>']}
     }`,
     /**
      * Pre-compile underscore templates
@@ -295,14 +295,14 @@ module.exports = {
     **/
     karma: `{
         options: {
-            configFile: '<%%= files.config.karma %>',
-            port: '<%%= ports.karma %>'
+            configFile: '<%= files.config.karma %>',
+            port: '<%= ports.karma %>'
         },
         watch: {
             background: true,
             singleRun: false,
             coverageReporter: {
-                dir: '<%%= folders.reports %>/<%%= folders.coverage %>/',
+                dir: '<%= folders.reports %>/<%= folders.coverage %>/',
                 includeAllSources: true
             }
         },
@@ -340,19 +340,19 @@ module.exports = {
     **/
     open: `{
         browser: {
-            path: 'http://localhost:<%%= ports.server %>/<%%= folders.app %>'
+            path: 'http://localhost:<%= ports.server %>/<%= folders.app %>'
         },
         demo: {
-            path: 'http://localhost:<%%= ports.server %>/<%%= folders.dist %>/<%%= folders.client %>'
+            path: 'http://localhost:<%= ports.server %>/<%= folders.dist %>/<%= folders.client %>'
         },
         coverage: {
-            path: __dirname + '/<%%= folders.reports %>/<%%= folders.coverage %>/report-html/index.html'
+            path: __dirname + '/<%= folders.reports %>/<%= folders.coverage %>/report-html/index.html'
         },
         plato: {
-            path: __dirname + '/<%%= folders.reports %>/plato/index.html'
+            path: __dirname + '/<%= folders.reports %>/plato/index.html'
         },
         docs: {
-            path: __dirname + '/<%%= folders.reports %>/<%%= folders.docs %>/index.html'
+            path: __dirname + '/<%= folders.reports %>/<%= folders.docs %>/index.html'
         },
         styleguide: {
             path: __dirname + '/styleguide/index.html'
@@ -364,8 +364,8 @@ module.exports = {
     **/
     plato: `{
         app: {
-            src: ['<%%= folders.app %>/<%%= files.scripts %>', '!<%%= folders.app %>/templates.js'],
-            dest: '<%%= folders.reports %>/plato',
+            src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js'],
+            dest: '<%= folders.reports %>/plato',
             options: {
                 eslint: require(config.files.config.eslint)
             }
@@ -439,17 +439,17 @@ module.exports = {
     requirejs: `{
         bundle: {
             options: {
-                out: '<%%= folders.dist %>/<%%= folders.client %>/<%%= files.configScript %>',
-                mainConfigFile: '<%%= folders.app %>/<%%= files.configScript %>',
-                baseUrl: '<%%= folders.app %>',
-                include: ['<%%= files.configScript %>'],
+                out: '<%= folders.dist %>/<%= folders.client %>/<%= files.configScript %>',
+                mainConfigFile: '<%= folders.app %>/<%= files.configScript %>',
+                baseUrl: '<%= folders.app %>',
+                include: ['<%= files.configScript %>'],
                 preserveLicenseComments: false,
                 findNestedDependencies: true,
                 optimize: 'uglify2',
                 uglify2: {
                     output: {
                         comments: false,
-                        preamble: '/* <%%= package.name %> - v<%%= package.version %> - ' +
+                        preamble: '/* <%= package.name %> - v<%= package.version %> - ' +
                                   '2016-02-07 */'
                     },
                     compress: {
@@ -499,34 +499,34 @@ module.exports = {
     **/
     watch: `{
         style: {
-            files: ['<%%= folders.assets %>/<%%= files.styles %>'],
+            files: ['<%= folders.assets %>/<%= files.styles %>'],
             tasks: ['process-styles', 'csslint'],
             options: {spawn: false}
         },
         eslint: {
-            files: '<%%= folders.app %>/<%%= files.scripts %>',
+            files: '<%= folders.app %>/<%= files.scripts %>',
             tasks: ['eslint:ing'],
             options: {spawn: false}
         },
         lint: {
             files: [
-                '<%%= folders.app %>/style.css',            //CSS
-                '<%%= folders.app %>/<%%= files.scripts %>' //Scripts
+                '<%= folders.app %>/style.css',            //CSS
+                '<%= folders.app %>/<%= files.scripts %>' //Scripts
             ],
             tasks: ['lint'],
             options: {spawn: false}
         },
         browser: {
             files: [
-                '<%%= folders.app %>/<%%= files.index %>', //index.html
-                '<%%= folders.assets %>/css/*.css', //CSS
-                '<%%= folders.app %>/style.css', //CSS (less/sass)
-                '<%%= folders.app %>/<%%= files.scripts %>', //Scripts
-                '<%%= folders.assets %>/<%%= files.templates %>'//Templates
+                '<%= folders.app %>/<%= files.index %>', //index.html
+                '<%= folders.assets %>/css/*.css', //CSS
+                '<%= folders.app %>/style.css', //CSS (less/sass)
+                '<%= folders.app %>/<%= files.scripts %>', //Scripts
+                '<%= folders.assets %>/<%= files.templates %>'//Templates
             ],
             tasks: ['compile'],
             options: {
-                livereload: '<%%= ports.livereload %>',
+                livereload: '<%= ports.livereload %>',
                 spawn: false
             }
         }

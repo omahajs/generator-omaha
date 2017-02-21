@@ -66,7 +66,7 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
-                    assert.fileContent('Gruntfile.js', `configFile: '<%%= files.config.eslint %>'`);
+                    assert.fileContent('Gruntfile.js', `configFile: '<%= files.config.eslint %>'`);
                     assert.fileContent('Gruntfile.js', 'eslint: require(config.files.config.eslint)');
                     assert.fileContent('Gruntfile.js', 'requirejs: {');
                     assert.fileContent('Gruntfile.js', 'jsdoc: {');
