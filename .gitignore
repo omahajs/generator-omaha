@@ -1,4 +1,5 @@
 nohup.out
+.nyc_output/
 node_modules/
 /coverage
 test/lib/screenshots/*.png

@@ -44,6 +44,7 @@
     "mocha": "^3.0.0",
     "mocha-lcov-reporter": "^1.0.0",
     "mocha-unfunk-reporter": "^0.4.0",
+    "nyc": "^10.1.2",
     "sinon": "^1.17.2",
     "watch": "^1.0.1",
     "yeoman-assert": "^3.0.0",
@@ -60,7 +61,8 @@
     "lint:tests": "eslint --fix --env mocha -c ./.eslintrc.js ./test/**; exit 0;",
     "lint:tests:watch": "watch 'npm run lint:tests' ./test",
     "mocha": "mocha -R mocha-unfunk-reporter",
-    "test": "npm run lint && istanbul cover _mocha",
+    "coverage": "nyc report -r text",
+    "test": "npm run lint && nyc mocha",
     "test:suite": "npm test && npm run test:builds && npm run test:visual",
     "pretest:builds": "mkdir -p ~/.omahajs-builds-output-directory",
     "test:builds": "bash ./test/lib/generate-build-test.sh",
@@ -69,6 +71,6 @@
     "posttest:visual": "kill $(echo `ps -ef | grep -m 1 http-server` | awk -F \" \" '{print $2}')",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
-    "travis": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "travis": "nyc mocha && nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js"
   }
 }
