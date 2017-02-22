@@ -48,5 +48,5 @@ module.exports = function(grunt) {
     });
     require('time-grunt')(grunt);
     require('load-grunt-tasks')(grunt);
-    '<% if (isComposed) { %>grunt.loadTasks(config.folders.tasks);<% } %>'
+    /* -- load tasks placeholder -- */
 };

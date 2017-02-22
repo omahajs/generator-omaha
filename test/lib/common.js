@@ -61,7 +61,6 @@ function verifyDefaultConfiguration(sourceDirectory) {
     assert.noFileContent(browserifyContent);         // script bundler
     assert.noFileContent('Gruntfile.js', 'jst');     // template technology
     assert.fileContent('Gruntfile.js', 'handlebars');// template technology
-    assert.fileContent('Gruntfile.js', 'grunt.loadTasks(config.folders.tasks)');
 }
 function verifyDefaultTasksConfiguration() {
     var defaultTaskConfigs = [

@@ -77,7 +77,6 @@ module.exports = Generator.extend({
             var use = generator.use;
             var _copyTpl = _.partial(copyTpl, _, _, generator);
             _.extend(generator, {
-                isComposed: generator.config.get('isComposed'),
                 useBenchmark: use.benchmark && !options.skipBenchmark,
                 useCoveralls: use.coveralls && !options.skipCoveralls,
                 useJsinspect: use.jsinspect && !options.skipJsinspect
@@ -117,7 +116,10 @@ module.exports = Generator.extend({
     },
     end: function() {
         var generator = this;
-        var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
+        var placeholder = '/* -- load tasks placeholder -- */';
+        var loadTasks = generator.config.get('isComposed') ? 'grunt.loadTasks(config.folders.tasks);' : '';
+        var text = fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString().replace(placeholder, loadTasks);
+        var gruntfile = new Gruntfile(text);
         //
         // Configure package.json
         //
