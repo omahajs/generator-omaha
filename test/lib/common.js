@@ -23,6 +23,7 @@ module.exports = {
     verifyCoreFiles,
     verifyBoilerplateFiles,
     verifyDefaultConfiguration,
+    verifyDefaultTasksConfiguration,
     verifySassConfigured
 };
 
@@ -60,6 +61,22 @@ function verifyDefaultConfiguration(sourceDirectory) {
     assert.noFileContent(browserifyContent);         // script bundler
     assert.noFileContent('Gruntfile.js', 'jst');     // template technology
     assert.fileContent('Gruntfile.js', 'handlebars');// template technology
+    assert.fileContent('Gruntfile.js', 'grunt.loadTasks(config.folders.tasks)');
+}
+function verifyDefaultTasksConfiguration() {
+    var defaultTaskConfigs = [
+        ['Gruntfile.js', 'requirejs: {'],
+        ['Gruntfile.js', 'jsdoc: {'],
+        ['Gruntfile.js', 'jsonlint: {'],
+        ['Gruntfile.js', 'express: {'],
+        ['Gruntfile.js', 'clean: {'],
+        ['Gruntfile.js', 'karma: {'],
+        ['Gruntfile.js', 'open: {'],
+        ['Gruntfile.js', 'options: { spawn: false }'], // watch task
+        ['Gruntfile.js', 'configFile: \'<%= files.config.eslint %>\''], // eslint task
+        ['Gruntfile.js', 'eslint: require(config.files.config.eslint)']// plato task
+    ];
+    assert.fileContent(defaultTaskConfigs);
 }
 function verifyPreprocessorConfigured(type, sourceDirectory) {
     var EXT_LOOKUP = {

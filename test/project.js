@@ -163,10 +163,13 @@ function verifyCoreFiles() {
         'config/default.json',
         'config/.eslintrc.js',
         'config/karma.conf.js',
-        'test/config.js'
+        'test/config.js',
+        'test/data/db.json',
+        'test/jasmine/specs/example.spec.js'
     ];
     assert.fileContent('package.json', '"name": "omaha-project"');
     assert.fileContent('package.json', '"author": "A. Developer"');
+    assert.noFileContent('Gruntfile.js', 'grunt.loadTasks(config.folders.tasks)');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
 function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {

@@ -10,11 +10,12 @@ var utils     = require('../generators/app/utils');
 var prompts   = require('../generators/app/prompts');
 var common    = require('./lib/common');
 
-var extend                     = utils.object.extend;
-var verifyCoreFiles            = common.verifyCoreFiles;
-var verifyBoilerplateFiles     = common.verifyBoilerplateFiles;
-var verifyDefaultConfiguration = common.verifyDefaultConfiguration;
-var verifySassConfigured       = common.verifySassConfigured;
+var extend                          = utils.object.extend;
+var verifyCoreFiles                 = common.verifyCoreFiles;
+var verifyBoilerplateFiles          = common.verifyBoilerplateFiles;
+var verifyDefaultConfiguration      = common.verifyDefaultConfiguration;
+var verifyDefaultTasksConfiguration = common.verifyDefaultTasksConfiguration;
+var verifySassConfigured            = common.verifySassConfigured;
 
 var ENOUGH_TIME_FOR_SETUP = 5000;
 var ALL_TRUE = extend({}, prompts.project.defaults, prompts.webapp.defaults);
@@ -66,16 +67,7 @@ describe('Default generator', function() {
                 .then(function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
-                    assert.fileContent('Gruntfile.js', `configFile: '<%= files.config.eslint %>'`);
-                    assert.fileContent('Gruntfile.js', 'eslint: require(config.files.config.eslint)');
-                    assert.fileContent('Gruntfile.js', 'requirejs: {');
-                    assert.fileContent('Gruntfile.js', 'jsdoc: {');
-                    assert.fileContent('Gruntfile.js', 'jsonlint: {');
-                    assert.fileContent('Gruntfile.js', 'express: {');
-                    assert.fileContent('Gruntfile.js', 'clean: {');
-                    assert.fileContent('Gruntfile.js', 'karma: {');
-                    assert.fileContent('Gruntfile.js', 'open: {');
-                    assert.fileContent('Gruntfile.js', 'options: { spawn: false }');
+                    verifyDefaultTasksConfiguration();
                 });
         });
         it('all prompts TRUE (--script-bundler browserify)', function() {
