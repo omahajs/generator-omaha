@@ -44,9 +44,9 @@ module.exports = function(grunt) {
         <% if (useHandlebars) { %>'handlebars:main'<% } else { %>'jst:main'<% } %>
     ]);
     grunt.registerTask('process-styles', [<% if (useLess) { %>
-        'less:main',   /*pre-process */<% } %><% if (useSass) { %>
-        'sass:main',   /*pre-process */<% } %>
-        'postcss:dev', /*post-process*/
+        'less:main',   /* pre-process */<% } %><% if (useSass) { %>
+        'sass:main',   /* pre-process */<% } %>
+        'postcss:dev', /* post-process */
         'postcss:prod'
     ]);
     grunt.registerTask('bundle-scripts', [<% if (useBrowserify) { %>
@@ -63,17 +63,16 @@ module.exports = function(grunt) {
         'clean:build',
         'compile',
         'bundle-scripts',
-        'htmlmin',<% if (useBrowserify) { %>
-        'replace:bundle-url',<% } %>
-        <% if (useImagemin) { %>'imagemin:build',<% } else { %>'copy:images',<% } %>
+        'htmlmin',
         'copy:fonts',
-        'copy:library'
+        <% if (useBrowserify) { %>'replace:bundle-url',<% } else { %>'copy:library',<% } %>
+        <% if (useImagemin) { %>'imagemin:build'<% } else { %>'copy:images'<% } %>
     ]);
     grunt.registerTask('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
         'clean:docs',
         'jsdoc:app',<% if (useLess) { %>
-        'less:main',/*pre-process */<% } %><% if (useSass) { %>
-        'sass:main',/*pre-process */<% } %>
+        'less:main',/* pre-process */<% } %><% if (useSass) { %>
+        'sass:main',/* pre-process */<% } %>
         'postcss:styleguide'
     ]);
     grunt.registerTask('reports', 'Generate code coverage and plato report - then open both in browser', [
