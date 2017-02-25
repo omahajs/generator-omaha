@@ -89,18 +89,27 @@ module.exports = {
             files: [{
                 expand: true,
                 flatten: true,
-                src: ["<%= folders.assets %>/<%= files.fonts %>"],
-                dest: "<%= folders.dist %>/<%= deployed.assets %>/<%= deployed.fonts %>",
-                filter: "isFile"
+                src: ['<%= folders.assets %>/<%= files.fonts %>'],
+                dest: '<%= folders.dist %>/<%= deployed.assets %>/<%= deployed.fonts %>',
+                filter: 'isFile'
             }]
         },
         library: {
             files: [{
                 expand: true,
                 flatten: true,
-                src: ["<%= folders.assets %>/library/*.js"],
-                dest: "<%= folders.dist %>/<%= deployed.assets %>/library",
-                filter: "isFile"
+                src: ['<%= folders.assets %>/library/*.js'],
+                dest: '<%= folders.dist %>/<%= deployed.assets %>/library',
+                filter: 'isFile'
+            }]
+        },
+        images: {
+            files: [{
+                expand: true,
+                flatten: false,
+                src: ['<%= folders.assets %>/<%= files.images %>'],
+                dest: '<%= folders.dist %>',
+                filter: 'isFile'
             }]
         }
     }`,

@@ -1,65 +1,67 @@
 module.exports = function(grunt) {
     'use strict';
 
+    var task =grunt.registerTask;
+
     // Default Task
-    grunt.registerTask('serve', 'Start a live-reload enabled browser (no tests)', [
+    task('serve', 'Start a live-reload enabled browser (no tests)', [
         'compile',
-        'express',
+        'express:main',
         'open:browser',
         'watch:browser'
     ]);
-    grunt.registerTask('lint', 'Lint JSON, CSS, and JS code', [
+    task('lint', 'Lint JSON, CSS, and JS code', [
         'jsonlint',
         'htmlhintplus',
         'csslint',
         'eslint:src'
     ]);
-    grunt.registerTask('linting', 'Watch task for real-time linting', [
+    task('linting', 'Watch task for real-time linting', [
         'lint',
         'watch:lint'
     ]);
-    grunt.registerTask('styling', 'Watch task for real-time styling', [
+    task('styling', 'Watch task for real-time styling', [
         'process-styles',
         'csslint',
         'watch:style'
     ]);
-    grunt.registerTask('test', 'Run full test and validation battery', [
+    task('test', 'Run full test and validation battery', [
         'compile',
         'lint',
         'cover'
     ]);
-    grunt.registerTask('cover', 'Generate code coverage report using Karma and Istanbul', [
+    task('cover', 'Generate code coverage report using Karma and Istanbul', [
         'clean:coverage',
         'clean:compile',
         'precompile-templates',
         'karma:coverage'
     ]);
-    grunt.registerTask('covering', 'Watch task to write tests and see code coverage in real-time', [
+    task('covering', 'Watch task to write tests and see code coverage in real-time', [
         'clean:coverage',
         'clean:compile',
         'precompile-templates',
         'karma:covering'
     ]);
-    grunt.registerTask('precompile-templates', [
+    task('precompile-templates', [
         <% if (useHandlebars) { %>'handlebars:main'<% } else { %>'jst:main'<% } %>
     ]);
-    grunt.registerTask('process-styles', [<% if (useLess) { %>
-        'less:main',   /* pre-process */<% } %><% if (useSass) { %>
-        'sass:main',   /* pre-process */<% } %>
+    task('process-styles', [<% if (useLess) { %>
+        'less:main', /* pre-process */<% } %><% if (useSass) { %>
+        'sass:main', /* pre-process */<% } %>
         'postcss:dev', /* post-process */
         'postcss:prod'
     ]);
-    grunt.registerTask('bundle-scripts', [<% if (useBrowserify) { %>
+    task('bundle-scripts', [<% if (useBrowserify) { %>
         'browserify:bundle',
         'uglify:bundle'<% } else { %>
         'requirejs:bundle'<% } %>
     ]);
-    grunt.registerTask('compile', [
+    task('compile', [
         'clean:compile',
         'process-styles',
         'precompile-templates'
     ]);
-    grunt.registerTask('build', [
+    task('build', [
         'clean:build',
         'compile',
         'bundle-scripts',
@@ -68,14 +70,14 @@ module.exports = function(grunt) {
         <% if (useBrowserify) { %>'replace:bundle-url',<% } else { %>'copy:library',<% } %>
         <% if (useImagemin) { %>'imagemin:build'<% } else { %>'copy:images'<% } %>
     ]);
-    grunt.registerTask('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
+    task('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
         'clean:docs',
         'jsdoc:app',<% if (useLess) { %>
         'less:main',/* pre-process */<% } %><% if (useSass) { %>
         'sass:main',/* pre-process */<% } %>
         'postcss:styleguide'
     ]);
-    grunt.registerTask('reports', 'Generate code coverage and plato report - then open both in browser', [
+    task('reports', 'Generate code coverage and plato report - then open both in browser', [
         'plato',
         'cover',
         'open:plato',

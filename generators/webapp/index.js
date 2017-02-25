@@ -118,17 +118,18 @@ module.exports = Generator.extend({
     writing: {
         configFiles: function() {
             var generator = this;
+            var config = generator.config;
             var _copyTpl = _.partial(copyTpl, _, _, generator);
             _.extend(generator, {
-                projectName:     generator.config.get('projectName'),
-                userName:        generator.config.get('userName') || generator.user.git.name(),
-                sourceDirectory: generator.config.get('sourceDirectory'),
+                projectName:     config.get('projectName'),
+                userName:        config.get('userName') || generator.user.git.name(),
+                sourceDirectory: config.get('sourceDirectory'),
                 useAria:         generator.use.aria && !generator.options.skipAria,
                 useImagemin:     generator.use.imagemin && !generator.options.skipImagemin
             });
-            generator.config.set('useAria', generator.useAria);
-            generator.config.set('useImagemin', generator.useImagemin);
-            generator.config.set('pluginDirectory', generator.sourceDirectory);
+            config.set('useAria', generator.useAria);
+            config.set('useImagemin', generator.useImagemin);
+            config.set('pluginDirectory', generator.sourceDirectory);
             _copyTpl('_README.md', 'README.md');
             _copyTpl('config/_csslintrc', 'config/.csslintrc');
             _copyTpl('tasks/webapp.js', 'tasks/webapp.js');
@@ -211,17 +212,19 @@ module.exports = Generator.extend({
             'grunt-browserify',
             'grunt-replace'
         ];
-        var devDependencies = [].concat(
-            htmlDevDependencies,
-            cssDevDependencies,
-            requirejsDevDependencies,
-            maybeInclude(generator.useBrowserify, browserifyDependencies),
-            maybeInclude(generator.useAria, ['grunt-a11y', 'grunt-accessibility']),
-            maybeInclude(generator.useImagemin, 'grunt-contrib-imagemin'),
-            maybeInclude(generator.useLess, 'grunt-contrib-less'),
-            maybeInclude(generator.useSass, 'grunt-contrib-sass'),
-            maybeInclude(generator.useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
-        );
+        var devDependencies = []
+            .concat(//default devDependencies
+                htmlDevDependencies,
+                cssDevDependencies,
+                requirejsDevDependencies
+            ).concat(
+                maybeInclude(generator.useBrowserify, browserifyDependencies),
+                maybeInclude(generator.useAria, ['grunt-a11y', 'grunt-accessibility']),
+                maybeInclude(generator.useImagemin, 'grunt-contrib-imagemin'),
+                maybeInclude(generator.useLess, 'grunt-contrib-less'),
+                maybeInclude(generator.useSass, 'grunt-contrib-sass'),
+                maybeInclude(generator.useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
+            );
         generator.npmInstall(dependencies, {save: true});
         generator.npmInstall(devDependencies, {saveDev: true});
     },

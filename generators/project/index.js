@@ -142,6 +142,7 @@ module.exports = Generator.extend({
         //
         [// Tasks enabled by default
             'clean',
+            'copy',
             'eslint',
             'express',
             'jsdoc',
