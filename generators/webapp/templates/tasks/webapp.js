@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         'jsonlint',
         'htmlhintplus',
         'csslint',
-        'eslint:app'
+        'eslint:src'
     ]);
     grunt.registerTask('linting', 'Watch task for real-time linting', [
         'lint',

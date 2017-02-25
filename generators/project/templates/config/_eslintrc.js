@@ -2,7 +2,11 @@ module.exports = {
     env: {
         amd: true,
         browser: true,
-        jquery: true
+        jquery: true,
+        jasmine: true
+    },
+    globals: {
+        sinon: true
     },
     plugins: [
         'backbone'

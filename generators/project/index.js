@@ -159,7 +159,6 @@ module.exports = Generator.extend({
         )
         .sort()
         .forEach(name => gruntfile.insertConfig(name, tasks[name]));
-        gruntfile.registerTask('eslinting', ['eslint:ing', 'watch:eslint']);
         //
         // Write to file
         //

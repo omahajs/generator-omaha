@@ -138,11 +138,17 @@ module.exports = {
             },
             src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js']
         },
-        app: {
+        src: {
             options: {
                 fix: false
             },
             src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js']
+        },
+        tests: {
+            options: {
+                fix: true
+            },
+            src: ['<%= folders.test %>/<%= folders.specs %>/<%= files.scripts %>']
         }
     }`,
     /**

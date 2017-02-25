@@ -53,7 +53,11 @@
     "time-grunt": "^1.1.0"
   },
   "scripts": {
+    "lint": "grunt eslint:src",
+    "lint:watch": "grunt eslint:ing watch:eslint",
+    "lint:tests": "grunt eslint:tests",
     "test": "grunt karma:coverage",
+    "test:watch": "grunt karma:covering",
     "test:ci": "npm test",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
