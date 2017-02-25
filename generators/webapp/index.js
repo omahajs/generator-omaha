@@ -269,16 +269,6 @@ module.exports = Generator.extend({
                 predeploy: 'npm run build'
             }
         });
-        if (/^linux/.test(process.platform)) {
-            extend(generator.destinationPath('package.json'), {
-                scripts: {
-                    presymlink: 'if [ -L `pwd`/app/assets ]; then rm `pwd`/app/assets ; fi',
-                    symlink:    'ln -s `pwd`/assets `pwd`/app/assets',
-                    prestart:   'nohup npm run rest-api &',
-                    start:      'npm run symlink && grunt serve'
-                }
-            });
-        }
         if (generator.useBrowserify) {
             extend(generator.destinationPath('package.json'), {
                 browser: {
