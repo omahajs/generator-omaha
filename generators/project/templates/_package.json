@@ -23,6 +23,7 @@
     "fs-promise": "^1.0.0",
     "globby": "^6.0.0",
     "grunt": "^1.0.0",
+    "grunt-browser-sync": "^2.2.0",
     "grunt-cli": "^1.0.0",
     "grunt-contrib-clean": "*",
     "grunt-contrib-copy": "^1.0.0",

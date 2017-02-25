@@ -6,8 +6,7 @@ module.exports = function(grunt) {
     // Default Task
     task('serve', 'Start a live-reload enabled browser (no tests)', [
         'compile',
-        'express:main',
-        'open:browser',
+        'browserSync:main',
         'watch:browser'
     ]);
     task('lint', 'Lint JSON, CSS, and JS code', [

@@ -213,7 +213,7 @@ module.exports = Generator.extend({
             'grunt-replace'
         ];
         var devDependencies = []
-            .concat(//default devDependencies
+            .concat(// default devDependencies
                 htmlDevDependencies,
                 cssDevDependencies,
                 requirejsDevDependencies
@@ -264,7 +264,7 @@ module.exports = Generator.extend({
                 build:     'grunt build',
                 test:      'grunt test',
                 predemo:   'npm run build',
-                demo:      'grunt open:demo express:demo',
+                demo:      'grunt browserSync:demo',
                 start:     'grunt serve',
                 predeploy: 'npm run build'
             }

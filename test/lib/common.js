@@ -64,13 +64,13 @@ function verifyDefaultConfiguration(sourceDirectory) {
 }
 function verifyDefaultTasksConfiguration() {
     var defaultTaskConfigs = [
-        ['Gruntfile.js', 'requirejs: {'],
+        ['Gruntfile.js', 'browserSync: {'],
+        ['Gruntfile.js', 'clean: {'],
         ['Gruntfile.js', 'jsdoc: {'],
         ['Gruntfile.js', 'jsonlint: {'],
-        ['Gruntfile.js', 'express: {'],
-        ['Gruntfile.js', 'clean: {'],
         ['Gruntfile.js', 'karma: {'],
         ['Gruntfile.js', 'open: {'],
+        ['Gruntfile.js', 'requirejs: {'],
         ['Gruntfile.js', 'options: { spawn: false }'], // watch task
         ['Gruntfile.js', 'configFile: \'<%= files.config.eslint %>\''], // eslint task
         ['Gruntfile.js', 'eslint: require(config.files.config.eslint)']// plato task

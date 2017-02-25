@@ -141,10 +141,10 @@ module.exports = Generator.extend({
         //  Configure workflow tasks
         //
         [// Tasks enabled by default
+            'browserSync',
             'clean',
             'copy',
             'eslint',
-            'express',
             'jsdoc',
             'jsonlint',
             'karma',

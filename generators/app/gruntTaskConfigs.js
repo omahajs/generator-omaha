@@ -67,6 +67,40 @@ module.exports = {
         }
     }`,
     /**
+     * Live-reload enabled sychronized server for development, tests, and demos
+     * @see {@link https://www.browsersync.io/docs/grunt}
+    **/
+    browserSync: `{
+        main: {
+            bsFiles: {
+                src: [
+                    '<%= folders.app %>/<%= files.index %>',
+                    '<%= folders.app %>/style.css',
+                    '<%= folders.app %>/<%= files.scripts %>'
+                ]
+            },
+            options: {
+                port: '<%= ports.server %>',
+                watchTask: true,
+                reloadDelay: 2000,
+                server: {
+                    baseDir: ['<%= folders.app %>'],
+                    routes: {
+                        '/node_modules': './node_modules',
+                        '/assets': '<%= folders.assets %>',
+                    },
+                    index: '<%= files.index %>'
+                }
+            }
+        },
+        demo: {
+            options: {
+                port: '<%= ports.server %>',
+                server: ['<%= folders.dist %>', '<%= folders.dist %>/<%= folders.client %>']
+            }
+        }
+    }`,
+    /**
      * Clear files and folders
      * @see {@link https://github.com/gruntjs/grunt-contrib-clean}
     **/
@@ -533,11 +567,11 @@ module.exports = {
         },
         browser: {
             files: [
-                '<%= folders.app %>/<%= files.index %>', //index.html
-                '<%= folders.assets %>/css/*.css', //CSS
-                '<%= folders.app %>/style.css', //CSS (less/sass)
-                '<%= folders.app %>/<%= files.scripts %>', //Scripts
-                '<%= folders.assets %>/<%= files.templates %>'//Templates
+                '<%= folders.app %>/<%= files.index %>',
+                '<%= folders.assets %>/css/*.css',
+                '<%= folders.app %>/style.css',
+                '<%= folders.app %>/<%= files.scripts %>',
+                '<%= folders.assets %>/<%= files.templates %>'
             ],
             tasks: ['compile'],
             options: {
