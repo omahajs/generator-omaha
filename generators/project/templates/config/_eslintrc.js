@@ -3,7 +3,7 @@ module.exports = {
         amd: true,
         browser: true,
         jquery: true,
-        jasmine: true
+        mocha: true
     },
     globals: {
         sinon: true

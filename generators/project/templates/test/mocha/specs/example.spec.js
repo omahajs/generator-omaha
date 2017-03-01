@@ -2,14 +2,15 @@ define(function(require) {
     'use strict';
 
     require('sinon');
+    var expect = require('chai').expect;
 
     describe('When using this web app template', function() {
         it('should be awesome.', function() {
-            expect(true).toBeTruthy();
+            expect(true).to.be.true;
         });
         it('should be able to parse JSON objects', function() {
             var data = JSON.parse('{"foo": "bar"}');
-            expect(data.foo).toMatch('bar');
+            expect(data.foo).to.equal('bar');
         });
         it('should be able to use SinonJS for servers', function() {
             var server = sinon.fakeServer.create();
@@ -32,11 +33,11 @@ define(function(require) {
             callback.onCall(3).returns(3);
             callback.returns(3);
             callback.withArgs(42).returns(4);
-            expect(callback()).toEqual(1);
-            expect(callback()).toEqual(2);
-            expect(callback()).toEqual(3);
-            expect(callback()).toEqual(3);
-            expect(callback(42)).toEqual(4);
+            expect(callback()).to.equal(2);
+            expect(callback()).to.equal(3);
+            expect(callback()).to.equal(1);
+            expect(callback()).to.equal(3);
+            expect(callback(42)).to.equal(4);
         });
     });
 });
