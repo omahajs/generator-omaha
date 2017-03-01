@@ -6,12 +6,12 @@ var templates = config.folders.assets + '/' + config.files.templates;// template
 module.exports = function(karmaConfig) {
     karmaConfig.set({
         basePath: '../',
-        frameworks: ['requirejs', 'jasmine'],
+        frameworks: ['requirejs', 'mocha'],
         files: [
             {pattern: config.folders.test + '/config.js'},
             {pattern: scripts, included: false},// JS scripts
             {pattern: templates, included: false},// HTML templates
-            {pattern: config.folders.test + '/' + config.folders.specs + '/**/*.js', included: false},// Jasmine specs
+            {pattern: config.folders.test + '/' + config.folders.specs + '/**/*.js', included: false},// Mocha specs
             {pattern: config.folders.test + '/data/plugins/*.js', included: false},// Data modules
             {pattern: 'node_modules/sinon/pkg/sinon.js', included: false},// SinonJS
             {pattern: 'node_modules/chai/chai.js', included: false},// Chai
