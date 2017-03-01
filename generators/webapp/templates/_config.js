@@ -10,19 +10,20 @@ requirejs.config({
     urlArgs: 'bust=' + (new Date()).getTime(),
     deps: ['main'],
     paths: {
-        //Project Dependencies
+        // Project Dependencies
         handlebars: '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/handlebars/dist/handlebars',
-        //Backbone Libraries, Frameworks and Dependencies
+        // Backbone Libraries, Frameworks and Dependencies
         jquery:                '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/jquery/dist/jquery',
         underscore:            '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/underscore/underscore',
         'backbone':            '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone/backbone',
         'backbone.radio':      '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone.radio/build/backbone.radio',
         'backbone.marionette': '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone.marionette/lib/backbone.marionette',
-        //Helpers and extensions
+        // Helpers and extensions
         'handlebars.helpers': './helpers/handlebars.helpers',
         'jquery.extensions':  './helpers/jquery.extensions',
         'underscore.mixins':  './helpers/underscore.mixins',
-        //Spies, Stubs, and fake servers (Jasmine is loaded by Karma plugin)
-        sinon: '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/sinon/pkg/sinon'
+        // Testing dependencies (Mocha is loaded by Karma plugin)
+        sinon: '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/sinon/pkg/sinon',
+        chai:  '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/chai/chai'
     }
 });

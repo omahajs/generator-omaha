@@ -25,8 +25,9 @@ requirejs.config({
         'handlebars.helpers': './helpers/handlebars.helpers',
         'jquery.extensions':  './helpers/jquery.extensions',
         'underscore.mixins':  './helpers/underscore.mixins',
-        //Spies, Stubs, and fake servers (Jasmine is loaded by Karma plugin)
-        sinon: '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/sinon/pkg/sinon'
+        // Testing dependencies (Mocha is loaded by Karma plugin)
+        sinon: '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/sinon/pkg/sinon',
+        chai:  '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/chai/chai'
     },
     // start test run, once Require.js is done
     callback: window.__karma__.start
