@@ -165,7 +165,7 @@ function verifyCoreFiles() {
         'config/karma.conf.js',
         'test/config.js',
         'test/data/db.json',
-        'test/jasmine/specs/example.spec.js'
+        'test/mocha/specs/example.spec.js'
     ];
     assert.fileContent('package.json', '"name": "omaha-project"');
     assert.fileContent('package.json', '"author": "A. Developer"');
