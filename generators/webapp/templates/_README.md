@@ -37,7 +37,7 @@ Folder Structure
     |   \- webapp.js
     +- test
     |   +- data
-    |   +- jasmine
+    |   +- mocha
     |       +- specs
     |   \- config.js
     |- GruntFile.js

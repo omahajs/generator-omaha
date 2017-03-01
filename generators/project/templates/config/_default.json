@@ -14,7 +14,7 @@
             "tasks":    "./tasks",
             "test":     "./test",
             "reports":  "./reports",
-            "specs":    "jasmine/specs",
+            "specs":    "mocha/specs",
             "coverage": "coverage",
             "docs":     "docs"
         },

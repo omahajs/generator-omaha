@@ -97,7 +97,7 @@ module.exports = Generator.extend({
         testFiles: function() {
             var generator = this;
             copy('test/data/**/*.*', 'test/data', generator);
-            copy('test/jasmine/**/*.*', 'test/jasmine', generator);
+            copy('test/mocha/**/*.*', 'test/mocha', generator);
             copyTpl('test/config.js', 'test/config.js', generator);
             if (generator.useBenchmark) {
                 copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
