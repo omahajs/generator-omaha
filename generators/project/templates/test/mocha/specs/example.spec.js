@@ -33,9 +33,9 @@ define(function(require) {
             callback.onCall(3).returns(3);
             callback.returns(3);
             callback.withArgs(42).returns(4);
+            expect(callback()).to.equal(1);
             expect(callback()).to.equal(2);
             expect(callback()).to.equal(3);
-            expect(callback()).to.equal(1);
             expect(callback()).to.equal(3);
             expect(callback(42)).to.equal(4);
         });
