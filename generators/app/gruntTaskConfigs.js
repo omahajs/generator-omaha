@@ -76,13 +76,13 @@ module.exports = {
                 src: [
                     '<%= folders.app %>/<%= files.index %>',
                     '<%= folders.app %>/style.css',
-                    '<%= folders.app %>/<%= files.scripts %>'
+                    '<%= folders.app %>/templates.js'
                 ]
             },
             options: {
                 port: '<%= ports.server %>',
                 watchTask: true,
-                reloadDelay: 2000,
+                reloadDelay: 500,
                 server: {
                     baseDir: ['<%= folders.app %>'],
                     routes: {
@@ -575,7 +575,6 @@ module.exports = {
             ],
             tasks: ['compile'],
             options: {
-                livereload: '<%= ports.livereload %>',
                 spawn: false
             }
         }
