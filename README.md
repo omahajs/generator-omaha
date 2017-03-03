@@ -45,11 +45,12 @@ Typical Workflows
 > After scaffolding a new project with `yo omaha` ...
 
 - Serve live-reload enabled app with companion RESTful API using `npm start`, then...
+  - :sparkles: lint your code in real-time with a second terminal running `npm run lint:watch`
+  - :100: run tests and calculate code coverage in real-time with `npm run test:watch`
   - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
-  - :sparkles: lint your code in real-time with a second terminal running `grunt linting`
-  - :100: run tests and calculate code coverage in real-time with `grunt covering`
-- Demo your bundled project in a browser with `npm run demo`
 - Run tests with `npm test`
+- One-time lint with `npm run lint`
+- Demo your bundled project in a browser with `npm run demo`
 - View reports, documentation and styleguide:
   - code coverage: `grunt cover open:coverage`
   - Plato report: `grunt plato open:plato`
