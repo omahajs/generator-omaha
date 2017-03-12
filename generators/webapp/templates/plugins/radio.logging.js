@@ -71,16 +71,12 @@ define(function(require, exports) {
         return Object.keys(Radio._channels);
     };
     channelMethods.level = function(value) {
-        if (!_.isUndefined(value)) {
+        if (typeof(value) !== 'undefined') {
             var level;
             if (_.isNumber(value) && value < MSG_TYPES.length) {
                 level = value;
             } else if (_.isString(value)) {
-                if (_.contains(MSG_TYPES, value)) {
-                    level = MSG_DICT[value] + 1;
-                } else {
-                    level = 0;
-                }
+                level = _.includes(MSG_TYPES, value) ? MSG_DICT[value] + 1 : 0;
             }
             channelMethods._level = level;
         }
@@ -88,7 +84,7 @@ define(function(require, exports) {
     };
 
     Radio.log = function(channelName, type) {
-        type = _.contains(MSG_TYPES, type) ? type : 'log';
+        type = _.includes(MSG_TYPES, type) ? type : 'log';
         var level = MSG_DICT[type];
         var msg = arguments.length > 2 ? arguments[2] : arguments[1];
         if (level < channelMethods.level()) {
