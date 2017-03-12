@@ -58,10 +58,11 @@ var app = express()
     .use(lusca.csrf())                      /** Cross Site Request Forgery **/
     .use(lusca.csp({policy: config.csp}))   /** Content Security Policy **/
     .use(lusca.xframe('SAMEORIGIN'))        /** Helps prevent Clickjacking **/
-    .use(lusca.hsts({ maxAge: 31536000 }))
+    .use(lusca.hsts({maxAge: 31536000}))
     .use(lusca.xssProtection(true))
     .use(helmet.noSniff())
     .use(helmet.ieNoOpen())
+    .use(helmet.referrerPolicy({policy: 'no-referrer'}))
     .use(helmet.hpkp({
         maxAge: NINETY_DAYS_IN_MILLISECONDS,
         sha256s: ['base64==', 'base64=='],  /** Needs to be changed **/
