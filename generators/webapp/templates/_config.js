@@ -15,6 +15,7 @@ requirejs.config({
         // Backbone Libraries, Frameworks and Dependencies
         jquery:                '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/jquery/dist/jquery',
         underscore:            '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/underscore/underscore',
+        lodash:                '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/lodash/lodash.min',
         'backbone':            '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone/backbone',
         'backbone.radio':      '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone.radio/build/backbone.radio',
         'backbone.marionette': '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone.marionette/lib/backbone.marionette',
@@ -25,5 +26,10 @@ requirejs.config({
         // Testing dependencies (Mocha is loaded by Karma plugin)
         sinon: '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/sinon/pkg/sinon',
         chai:  '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/chai/chai'
+    },
+    map: {
+        '*': {
+            underscore: 'lodash'
+        }
     }
 });
