@@ -44,7 +44,7 @@
 define(function(require, exports) {
     'use strict';
 
-    var _     = require('underscore');
+    var _     = require('lodash');
     var Radio = require('backbone.radio');
 
     Radio.DEBUG = false; //Show & Hide Backbone.Radio debug messages

@@ -5,7 +5,7 @@
 define(function(require) {
     'use strict';
 
-    var _          = require('underscore');
+    var _          = require('lodash');
     var Radio      = require('backbone.radio');
     var Marionette = require('backbone.marionette');
 
