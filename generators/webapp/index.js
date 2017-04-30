@@ -182,6 +182,7 @@ module.exports = Generator.extend({
         var dependencies = [].concat(
             'jquery',
             'underscore',
+            'lodash',
             'backbone',
             'backbone.marionette',
             'backbone.radio',

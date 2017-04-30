@@ -1,5 +1,5 @@
 /**
- * @file Mixins that extend Underscore
+ * @file Mixins that extend Underscore and normalize the Underscore API WRT Lodash
  * @author Jason Wohlgemuth
 **/
 define(function(require) {
