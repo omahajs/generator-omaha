@@ -51,7 +51,7 @@
     "yeoman-test": "^1.4.0"
   },
   "optionalDependencies": {
-    "http-server": "^0.9.0",
+    "http-server": "^0.10.0",
     "nightmare": "^2.5.2",
     "node-resemble": "^2.0.0"
   },
