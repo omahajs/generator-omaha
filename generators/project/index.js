@@ -76,6 +76,7 @@ module.exports = Generator.extend({
             var options = generator.options;
             var use = generator.use;
             var _copyTpl = _.partial(copyTpl, _, _, generator);
+            var isComposed = generator.config.get('isComposed');
             _.extend(generator, {
                 useBenchmark: use.benchmark && !options.skipBenchmark,
                 useCoveralls: use.coveralls && !options.skipCoveralls,
@@ -87,29 +88,34 @@ module.exports = Generator.extend({
             generator.config.set('useJsinspect', generator.useJsinspect);
             _copyTpl('_LICENSE', 'LICENSE');
             _copyTpl('_package.json', 'package.json');
-            _copyTpl('_Gruntfile.js', 'Gruntfile.js');
             _copyTpl('config/_gitignore', '.gitignore');
-            _copyTpl('config/_default.json', 'config/default.json');
             _copyTpl('config/_eslintrc.js', 'config/.eslintrc.js');
-            _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
+            if (isComposed) {
+              _copyTpl('_Gruntfile.js', 'Gruntfile.js');
+              _copyTpl('config/_default.json', 'config/default.json');
+              _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
+            }
             fs.mkdirp(generator.sourceDirectory);
         },
         testFiles: function() {
             var generator = this;
             copy('test/data/**/*.*', 'test/data', generator);
             copy('test/mocha/**/*.*', 'test/mocha', generator);
+            copy('test/mocha.opts', 'test/mocha.opts', generator);
             copyTpl('test/config.js', 'test/config.js', generator);
-            if (generator.useBenchmark) {
+            if (isComposed && generator.useBenchmark) {
                 copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
             }
         }
     },
     install: function() {
         var generator = this;
+        var isComposed = generator.config.get('isComposed');
         var devDependencies = [].concat(
-            maybeInclude(generator.useBenchmark, 'grunt-benchmark'),
-            maybeInclude(generator.useCoveralls, 'grunt-karma-coveralls'),
-            maybeInclude(generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
+            maybeInclude(isComposed, ['nyc', 'watch']),
+            maybeInclude(isComposed && generator.useBenchmark, 'grunt-benchmark'),
+            maybeInclude(isComposed && generator.useCoveralls, 'grunt-karma-coveralls'),
+            maybeInclude(isComposed && generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
         );
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
@@ -117,20 +123,21 @@ module.exports = Generator.extend({
     end: function() {
         var generator = this;
         var placeholder = '/* -- load tasks placeholder -- */';
-        var loadTasks = generator.config.get('isComposed') ? 'grunt.loadTasks(config.folders.tasks);' : '';
+        var isComposed = generator.config.get('isComposed');
+        var loadTasks = isComposed ? 'grunt.loadTasks(config.folders.tasks);' : '';
         var text = fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString().replace(placeholder, loadTasks);
         var gruntfile = new Gruntfile(text);
         //
         // Configure package.json
         //
-        if (generator.useCoveralls) {
+        if (isComposed && generator.useCoveralls) {
             utils.json.extend(generator.destinationPath('package.json'), {
                 scripts: {
                     'test:ci': 'npm test && grunt coveralls'
                 }
             });
         }
-        if (generator.useJsinspect) {
+        if (isComposed && generator.useJsinspect) {
             utils.json.extend(generator.destinationPath('package.json'), {
                 scripts: {
                     inspect: 'grunt jsinspect:app'

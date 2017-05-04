@@ -186,7 +186,8 @@ module.exports = Generator.extend({
             'backbone',
             'backbone.marionette',
             'backbone.radio',
-            generator.useHandlebars ? 'handlebars' : []
+            generator.useHandlebars ? 'handlebars' : [],
+            'requirejs'
         );
         var htmlDevDependencies = [
             'grunt-contrib-htmlmin',
@@ -213,19 +214,57 @@ module.exports = Generator.extend({
             'grunt-browserify',
             'grunt-replace'
         ];
-        var devDependencies = []
-            .concat(// default devDependencies
-                htmlDevDependencies,
-                cssDevDependencies,
-                requirejsDevDependencies
-            ).concat(
-                maybeInclude(generator.useBrowserify, browserifyDependencies),
-                maybeInclude(generator.useAria, ['grunt-a11y', 'grunt-accessibility']),
-                maybeInclude(generator.useImagemin, 'grunt-contrib-imagemin'),
-                maybeInclude(generator.useLess, 'grunt-contrib-less'),
-                maybeInclude(generator.useSass, 'grunt-contrib-sass'),
-                maybeInclude(generator.useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
-            );
+        var gruntDependencies = [
+            'grunt',
+            'grunt-browser-sync',
+            'grunt-cli',
+            'grunt-contrib-clean',
+            'grunt-contrib-copy',
+            'grunt-contrib-uglify',
+            'grunt-contrib-watch',
+            'grunt-eslint',
+            'grunt-express',
+            'grunt-jsdoc',
+            'grunt-jsonlint',
+            'grunt-karma',
+            'grunt-open',
+            'grunt-parallel',
+            'grunt-plato',
+            'load-grunt-tasks',
+            'time-grunt'
+        ];
+        var karmaDependencies = [
+            'karma',
+            'karma-chrome-launcher',
+            'karma-coverage',
+            'karma-phantomjs-launcher',
+            'karma-firefox-launcher',
+            'karma-mocha',
+            'karma-requirejs',
+            'karma-spec-reporter'
+        ];
+        var workflowDependencies = [
+            'config',
+            'eslint-plugin-backbone',
+            'fs-promise',
+            'globby',
+            'json-server',
+            'phantomjs-prebuilt'
+        ].concat(
+            gruntDependencies,
+            karmaDependencies,
+            requirejsDevDependencies,
+            htmlDevDependencies,
+            cssDevDependencies
+        );
+        var devDependencies = workflowDependencies.concat(
+            maybeInclude(generator.useBrowserify, browserifyDependencies),
+            maybeInclude(generator.useAria, ['grunt-a11y', 'grunt-accessibility']),
+            maybeInclude(generator.useImagemin, 'grunt-contrib-imagemin'),
+            maybeInclude(generator.useLess, 'grunt-contrib-less'),
+            maybeInclude(generator.useSass, 'grunt-contrib-sass'),
+            maybeInclude(generator.useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
+        );
         generator.npmInstall(dependencies, {save: true});
         generator.npmInstall(devDependencies, {saveDev: true});
     },
@@ -262,12 +301,17 @@ module.exports = Generator.extend({
         extend(generator.destinationPath('package.json'), {
             main: sourceDirectory + 'app/main.js',
             scripts: {
-                build:     'grunt build',
-                test:      'grunt test',
-                predemo:   'npm run build',
-                demo:      'grunt browserSync:demo',
-                start:     'grunt serve',
-                predeploy: 'npm run build'
+                lint:         'grunt eslint:src',
+                'lint:watch': 'grunt eslint:ing watch:eslint',
+                'lnit:tests': 'grunt eslint:tests',
+                test:         'grunt karma:coverage',
+                'test:watch': 'grunt karma:covering',
+                build:        'grunt build',
+                test:         'grunt test',
+                predemo:      'npm run build',
+                demo:         'grunt browserSync:demo',
+                start:        'grunt serve',
+                predeploy:    'npm run build'
             }
         });
         if (generator.useBrowserify) {
