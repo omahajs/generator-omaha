@@ -91,14 +91,15 @@ module.exports = Generator.extend({
             _copyTpl('config/_gitignore', '.gitignore');
             _copyTpl('config/_eslintrc.js', 'config/.eslintrc.js');
             if (isComposed) {
-              _copyTpl('_Gruntfile.js', 'Gruntfile.js');
-              _copyTpl('config/_default.json', 'config/default.json');
-              _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
+                _copyTpl('_Gruntfile.js', 'Gruntfile.js');
+                _copyTpl('config/_default.json', 'config/default.json');
+                _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
             }
             fs.mkdirp(generator.sourceDirectory);
         },
         testFiles: function() {
             var generator = this;
+            var isComposed = generator.config.get('isComposed');
             copy('test/data/**/*.*', 'test/data', generator);
             copy('test/mocha/**/*.*', 'test/mocha', generator);
             copy('test/mocha.opts', 'test/mocha.opts', generator);
@@ -123,53 +124,57 @@ module.exports = Generator.extend({
     end: function() {
         var generator = this;
         var placeholder = '/* -- load tasks placeholder -- */';
-        var isComposed = generator.config.get('isComposed');
-        var loadTasks = isComposed ? 'grunt.loadTasks(config.folders.tasks);' : '';
-        var text = fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString().replace(placeholder, loadTasks);
-        var gruntfile = new Gruntfile(text);
         //
-        // Configure package.json
+        // TODO: move to webapp/index.js
         //
-        if (isComposed && generator.useCoveralls) {
-            utils.json.extend(generator.destinationPath('package.json'), {
-                scripts: {
-                    'test:ci': 'npm test && grunt coveralls'
-                }
-            });
+        if (generator.config.get('isComposed')) {// webapp only
+            //
+            // Configure package.json
+            //
+            if (generator.useCoveralls) {
+                utils.json.extend(generator.destinationPath('package.json'), {
+                    scripts: {
+                        'test:ci': 'npm test && grunt coveralls'
+                    }
+                });
+            }
+            if (generator.useJsinspect) {
+                utils.json.extend(generator.destinationPath('package.json'), {
+                    scripts: {
+                        inspect: 'grunt jsinspect:app'
+                    }
+                });
+            }
+            //
+            //  Configure Grunt tasks
+            //
+            var loadTasks = 'grunt.loadTasks(config.folders.tasks);';
+            var text = fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString().replace(placeholder, loadTasks);
+            var gruntfile = new Gruntfile(text);
+            [// Tasks enabled by default
+                'browserSync',
+                'clean',
+                'copy',
+                'eslint',
+                'jsdoc',
+                'jsonlint',
+                'karma',
+                'open',
+                'plato',
+                'requirejs',
+                'watch'
+            ]
+            .concat(// Tasks enabled by user
+                maybeInclude(generator.useBenchmark, 'benchmark'),
+                maybeInclude(generator.useCoveralls, 'coveralls'),
+                maybeInclude(generator.useJsinspect, 'jsinspect')
+            )
+            .sort()
+            .forEach(name => gruntfile.insertConfig(name, tasks[name]));
+            //
+            // Write to file
+            //
+            fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
         }
-        if (isComposed && generator.useJsinspect) {
-            utils.json.extend(generator.destinationPath('package.json'), {
-                scripts: {
-                    inspect: 'grunt jsinspect:app'
-                }
-            });
-        }
-        //
-        //  Configure workflow tasks
-        //
-        [// Tasks enabled by default
-            'browserSync',
-            'clean',
-            'copy',
-            'eslint',
-            'jsdoc',
-            'jsonlint',
-            'karma',
-            'open',
-            'plato',
-            'requirejs',
-            'watch'
-        ]
-        .concat(// Tasks enabled by user
-            maybeInclude(generator.useBenchmark, 'benchmark'),
-            maybeInclude(generator.useCoveralls, 'coveralls'),
-            maybeInclude(generator.useJsinspect, 'jsinspect')
-        )
-        .sort()
-        .forEach(name => gruntfile.insertConfig(name, tasks[name]));
-        //
-        // Write to file
-        //
-        fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
     }
 });

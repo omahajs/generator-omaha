@@ -36,6 +36,10 @@ describe('Webapp generator', function() {
                 path.join(__dirname, `${projectTemplatesDirectory}config/_default.json`),
                 path.join(dir, 'config', 'default.json')
             );
+            fs.copySync(
+                path.join(__dirname, `${projectTemplatesDirectory}config/_karma.conf.js`),
+                path.join(dir, 'config', 'karma.conf.js')
+            );
         }
         return helpers.run(path.join(__dirname, '../generators/webapp'))
             .inTmpDir(createDummyProject)
