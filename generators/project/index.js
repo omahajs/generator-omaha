@@ -89,11 +89,13 @@ module.exports = Generator.extend({
             _copyTpl('_LICENSE', 'LICENSE');
             _copyTpl('_package.json', 'package.json');
             _copyTpl('config/_gitignore', '.gitignore');
-            _copyTpl('config/_eslintrc.js', 'config/.eslintrc.js');
             if (isComposed) {
                 _copyTpl('_Gruntfile.js', 'Gruntfile.js');
                 _copyTpl('config/_default.json', 'config/default.json');
                 _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
+                _copyTpl('config/_eslintrc_webapp.js', 'config/.eslintrc.js');
+            } else {
+                _copyTpl('config/_eslintrc.js', 'config/.eslintrc.js');
             }
             if (generator.useCoveralls) {
                 _copyTpl('_travis.yml', '.travis.yml');
