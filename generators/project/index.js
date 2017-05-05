@@ -95,6 +95,9 @@ module.exports = Generator.extend({
                 _copyTpl('config/_default.json', 'config/default.json');
                 _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
             }
+            if (generator.useCoveralls) {
+                _copyTpl('_travis.yml', '.travis.yml');
+            }
             fs.mkdirp(generator.sourceDirectory);
         },
         testFiles: function() {
@@ -116,7 +119,7 @@ module.exports = Generator.extend({
             maybeInclude(!isComposed, ['nyc', 'coveralls', 'watch']),
             maybeInclude(!isComposed && generator.useJsinspect, 'jsinspect'),
             maybeInclude(isComposed && generator.useJsinspect, ['jsinspect', 'grunt-jsinspect']),
-            maybeInclude(isComposed && generator.useBenchmark, 'grunt-benchmark'),
+            maybeInclude(isComposed && generator.useBenchmark, ['lodash', 'grunt-benchmark']),
             maybeInclude(isComposed && generator.useCoveralls, 'grunt-karma-coveralls')
         );
         generator.npmInstall();
