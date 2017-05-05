@@ -175,8 +175,5 @@ function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
     var verifyJsinspect = useJsinspect ? assert.fileContent : assert.noFileContent;
     // (useBenchmark ? assert.file : assert.noFile)('test/benchmarks/example.benchmark.js');
     // verifyBenchmark('Gruntfile.js', 'benchmark: ');
-    // verifyCoveralls('package.json', '"test:ci": "npm test && grunt coveralls"');
-    // verifyCoveralls('Gruntfile.js', 'coveralls: ');
-    // verifyJsinspect('package.json', '"inspect": "grunt jsinspect:app"');
-    // verifyJsinspect('Gruntfile.js', 'jsinspect: ');
+    verifyCoveralls('package.json', '"test:travis": "nyc report --reporter=text-lcov | coveralls"');
 }

@@ -113,17 +113,18 @@ module.exports = Generator.extend({
         var generator = this;
         var isComposed = generator.config.get('isComposed');
         var devDependencies = [].concat(
-            maybeInclude(isComposed, ['nyc', 'watch']),
+            maybeInclude(!isComposed, ['nyc', 'coveralls', 'watch']),
+            maybeInclude(!isComposed && generator.useJsinspect, 'jsinspect'),
+            maybeInclude(isComposed && generator.useJsinspect, ['jsinspect', 'grunt-jsinspect']),
             maybeInclude(isComposed && generator.useBenchmark, 'grunt-benchmark'),
-            maybeInclude(isComposed && generator.useCoveralls, 'grunt-karma-coveralls'),
-            maybeInclude(isComposed && generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
+            maybeInclude(isComposed && generator.useCoveralls, 'grunt-karma-coveralls')
         );
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;
-        var placeholder = '/* -- load tasks placeholder -- */';
+        var updatePackageJson = _.partial(utils.json.extend, generator.destinationPath('package.json'));
         //
         // TODO: move to webapp/index.js
         //
@@ -132,22 +133,19 @@ module.exports = Generator.extend({
             // Configure package.json
             //
             if (generator.useCoveralls) {
-                utils.json.extend(generator.destinationPath('package.json'), {
-                    scripts: {
-                        'test:ci': 'npm test && grunt coveralls'
-                    }
+                updatePackageJson({
+                    scripts: {'test:ci': 'npm test && grunt coveralls'}
                 });
             }
             if (generator.useJsinspect) {
-                utils.json.extend(generator.destinationPath('package.json'), {
-                    scripts: {
-                        inspect: 'grunt jsinspect:app'
-                    }
+                updatePackageJson({
+                    scripts: {inspect: 'grunt jsinspect:app'}
                 });
             }
             //
             //  Configure Grunt tasks
             //
+            var placeholder = '/* -- load tasks placeholder -- */';
             var loadTasks = 'grunt.loadTasks(config.folders.tasks);';
             var text = fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString().replace(placeholder, loadTasks);
             var gruntfile = new Gruntfile(text);
@@ -175,6 +173,15 @@ module.exports = Generator.extend({
             // Write to file
             //
             fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
+        } else {
+            updatePackageJson({
+                scripts: {coverage: 'nyc report -r text'}
+            });
+            if (generator.useCoveralls) {
+                updatePackageJson({
+                    scripts: {'test:travis': 'nyc report --reporter=text-lcov | coveralls'}
+                });
+            }
         }
     }
 });
