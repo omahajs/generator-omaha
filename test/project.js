@@ -173,5 +173,6 @@ function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
     var verify = (feature) => {return assert[feature ? 'fileContent' : 'noFileContent']};
     (useBenchmark ? assert.file : assert.noFile)('Gruntfile.js');
     (useCoveralls ? assert.file : assert.noFile)('.travis.yml');
+    verify(useBenchmark)('package.json', '"test:perf": "');
     verify(useCoveralls)('package.json', '"test:travis": "nyc report --reporter=text-lcov | coveralls"');
 }
