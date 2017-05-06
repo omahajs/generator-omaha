@@ -160,7 +160,6 @@ function verifyCoreFiles() {
         'package.json',
         '.gitignore',
         'config/.eslintrc.js',
-        'test/config.js',
         'test/data/db.json',
         'test/mocha/specs/example.spec.js'
     ];
@@ -171,12 +170,8 @@ function verifyCoreFiles() {
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
 function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
-    function verify(feature) {
-        return feature ? assert.fileContent : assert.noFileContent;
-    }
-    var verifyBenchmark = verify(useBenchmark);
-    var verifyCoveralls = verify(useCoveralls);
-    var verifyJsinspect = verify(useJsinspect);
+    var verify = (feature) => {return assert[feature ? 'fileContent' : 'noFileContent']};
+    (useBenchmark ? assert.file : assert.noFile)('Gruntfile.js');
     (useCoveralls ? assert.file : assert.noFile)('.travis.yml');
-    verifyCoveralls('package.json', '"test:travis": "nyc report --reporter=text-lcov | coveralls"');
+    verify(useCoveralls)('package.json', '"test:travis": "nyc report --reporter=text-lcov | coveralls"');
 }

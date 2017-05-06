@@ -105,7 +105,7 @@ module.exports = Generator.extend({
         testFiles: function() {
             var generator = this;
             var isComposed = generator.config.get('isComposed');
-            copyTpl('test/config.js', 'test/config.js', generator);
+            isComposed && copyTpl('test/config.js', 'test/config.js', generator);
             copy('test/data/**/*.*', 'test/data', generator);
             copy('test/mocha.opts', 'test/mocha.opts', generator);
             copy('test/mocha/specs/' + (isComposed ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js', generator);
