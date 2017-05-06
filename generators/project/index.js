@@ -120,9 +120,10 @@ module.exports = Generator.extend({
         var devDependencies = [].concat(
             maybeInclude(!isComposed, ['nyc', 'coveralls', 'watch']),
             maybeInclude(!isComposed && generator.useJsinspect, 'jsinspect'),
+            maybeInclude(!isComposed && generator.useCoveralls, 'coveralls'),
+            maybeInclude(isComposed && generator.useCoveralls, 'grunt-karma-coveralls'),
             maybeInclude(isComposed && generator.useJsinspect, ['jsinspect', 'grunt-jsinspect']),
-            maybeInclude(isComposed && generator.useBenchmark, ['lodash', 'grunt-benchmark']),
-            maybeInclude(isComposed && generator.useCoveralls, 'grunt-karma-coveralls')
+            maybeInclude(isComposed && generator.useBenchmark, ['lodash', 'grunt-benchmark'])
         );
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
