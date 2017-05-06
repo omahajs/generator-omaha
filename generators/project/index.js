@@ -197,6 +197,9 @@ module.exports = Generator.extend({
                 });
             }
             if (generator.useBenchmark) {
+                updatePackageJson({
+                    scripts: {'test:perf': 'grunt benchmark'}
+                });
                 text = fs.readFileSync(generator.destinationPath('Gruntfile.js'))
                     .toString()
                     .replace(placeholder, loadTasks);
