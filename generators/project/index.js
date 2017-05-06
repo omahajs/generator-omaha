@@ -105,10 +105,10 @@ module.exports = Generator.extend({
         testFiles: function() {
             var generator = this;
             var isComposed = generator.config.get('isComposed');
-            copy('test/data/**/*.*', 'test/data', generator);
-            copy('test/mocha/**/*.*', 'test/mocha', generator);
-            copy('test/mocha.opts', 'test/mocha.opts', generator);
             copyTpl('test/config.js', 'test/config.js', generator);
+            copy('test/data/**/*.*', 'test/data', generator);
+            copy('test/mocha.opts', 'test/mocha.opts', generator);
+            copy('test/mocha/specs/' + (isComposed ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js', generator);
             if (isComposed && generator.useBenchmark) {
                 copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
             }
