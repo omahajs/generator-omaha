@@ -167,6 +167,8 @@ function verifyCoreFiles() {
     assert.fileContent('package.json', '"name": "omaha-project"');
     assert.fileContent('package.json', '"author": "A. Developer"');
     assert.noFile('Gruntfile.js');
+    assert.fileContent('config/.eslintrc.js', 'es6: true,');
+    assert.noFileContent('config/.eslintrc.js', 'backbone');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
 function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
@@ -176,8 +178,6 @@ function verifyProjectConfigs(useBenchmark, useCoveralls, useJsinspect) {
     var verifyBenchmark = verify(useBenchmark);
     var verifyCoveralls = verify(useCoveralls);
     var verifyJsinspect = verify(useJsinspect);
-    // (useBenchmark ? assert.file : assert.noFile)('test/benchmarks/example.benchmark.js');
-    // verifyBenchmark('Gruntfile.js', 'benchmark: ');
     (useCoveralls ? assert.file : assert.noFile)('.travis.yml');
     verifyCoveralls('package.json', '"test:travis": "nyc report --reporter=text-lcov | coveralls"');
 }
