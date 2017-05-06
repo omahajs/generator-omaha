@@ -166,7 +166,6 @@ function verifyCoreFiles() {
     ];
     assert.fileContent('package.json', '"name": "omaha-project"');
     assert.fileContent('package.json', '"author": "A. Developer"');
-    assert.noFile('Gruntfile.js');
     assert.fileContent('config/.eslintrc.js', 'es6: true,');
     assert.noFileContent('config/.eslintrc.js', 'backbone');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));

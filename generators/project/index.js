@@ -89,9 +89,9 @@ module.exports = Generator.extend({
             _copyTpl('_LICENSE', 'LICENSE');
             _copyTpl('_package.json', 'package.json');
             _copyTpl('config/_gitignore', '.gitignore');
+            _copyTpl('config/_default.json', 'config/default.json');
             if (isComposed) {
                 _copyTpl('_Gruntfile.js', 'Gruntfile.js');
-                _copyTpl('config/_default.json', 'config/default.json');
                 _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
                 _copyTpl('config/_eslintrc_webapp.js', 'config/.eslintrc.js');
             } else {
@@ -109,30 +109,41 @@ module.exports = Generator.extend({
             copy('test/data/**/*.*', 'test/data', generator);
             copy('test/mocha.opts', 'test/mocha.opts', generator);
             copy('test/mocha/specs/' + (isComposed ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js', generator);
-            if (isComposed && generator.useBenchmark) {
+            if (generator.useBenchmark) {
                 copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
+                isComposed || copyTpl('_Gruntfile.js', 'Gruntfile.js', generator);
             }
         }
     },
     install: function() {
         var generator = this;
         var isComposed = generator.config.get('isComposed');
-        var devDependencies = [].concat(
-            maybeInclude(!isComposed, ['nyc', 'coveralls', 'watch']),
-            maybeInclude(!isComposed && generator.useJsinspect, 'jsinspect'),
-            maybeInclude(!isComposed && generator.useCoveralls, 'coveralls'),
-            maybeInclude(isComposed && generator.useCoveralls, 'grunt-karma-coveralls'),
-            maybeInclude(isComposed && generator.useJsinspect, ['jsinspect', 'grunt-jsinspect']),
-            maybeInclude(isComposed && generator.useBenchmark, ['lodash', 'grunt-benchmark'])
-        );
+        var devDependencies = _.flatten(maybeInclude(generator.useBenchmark, ['lodash', 'grunt-benchmark']));
+        if (isComposed) {
+            devDependencies = devDependencies.concat(
+                maybeInclude(generator.useCoveralls, 'grunt-karma-coveralls'),
+                maybeInclude(generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
+            );
+        } else {
+            devDependencies = devDependencies.concat(
+                ['nyc', 'coveralls', 'watch'],
+                maybeInclude(generator.useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
+                maybeInclude(generator.useCoveralls, 'coveralls'),
+                maybeInclude(generator.useJsinspect, 'jsinspect')
+            );
+        }
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;
         var updatePackageJson = _.partial(utils.json.extend, generator.destinationPath('package.json'));
+        var placeholder = '/* -- load tasks placeholder -- */';
+        var loadTasks = 'grunt.loadTasks(config.folders.tasks);';
+        var text;
+        var gruntfile;
         //
-        // TODO: move to webapp/index.js
+        // TODO: move to webapp/index.js?
         //
         if (generator.config.get('isComposed')) {// webapp only
             //
@@ -151,10 +162,10 @@ module.exports = Generator.extend({
             //
             //  Configure Grunt tasks
             //
-            var placeholder = '/* -- load tasks placeholder -- */';
-            var loadTasks = 'grunt.loadTasks(config.folders.tasks);';
-            var text = fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString().replace(placeholder, loadTasks);
-            var gruntfile = new Gruntfile(text);
+            text = fs.readFileSync(generator.destinationPath('Gruntfile.js'))
+                .toString()
+                .replace(placeholder, loadTasks);
+            gruntfile = new Gruntfile(text);
             [// Tasks enabled by default
                 'browserSync',
                 'clean',
@@ -175,9 +186,6 @@ module.exports = Generator.extend({
             )
             .sort()
             .forEach(name => gruntfile.insertConfig(name, tasks[name]));
-            //
-            // Write to file
-            //
             fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
         } else {
             updatePackageJson({
@@ -187,6 +195,14 @@ module.exports = Generator.extend({
                 updatePackageJson({
                     scripts: {'test:travis': 'nyc report --reporter=text-lcov | coveralls'}
                 });
+            }
+            if (generator.useBenchmark) {
+                text = fs.readFileSync(generator.destinationPath('Gruntfile.js'))
+                    .toString()
+                    .replace(placeholder, loadTasks);
+                gruntfile = new Gruntfile(text);
+                gruntfile.insertConfig('benchmark', tasks.benchmark);
+                fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
             }
         }
     }
