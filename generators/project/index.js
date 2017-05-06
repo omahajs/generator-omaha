@@ -146,9 +146,6 @@ module.exports = Generator.extend({
         // TODO: move to webapp/index.js?
         //
         if (generator.config.get('isComposed')) {// webapp only
-            //
-            // Configure package.json
-            //
             if (generator.useCoveralls) {
                 updatePackageJson({
                     scripts: {'test:ci': 'npm test && grunt coveralls'}
@@ -191,11 +188,6 @@ module.exports = Generator.extend({
             updatePackageJson({
                 scripts: {coverage: 'nyc report -r text'}
             });
-            if (generator.useCoveralls) {
-                updatePackageJson({
-                    scripts: {'test:travis': 'nyc report --reporter=text-lcov | coveralls'}
-                });
-            }
             if (generator.useBenchmark) {
                 updatePackageJson({
                     scripts: {'test:perf': 'grunt benchmark'}
@@ -206,6 +198,11 @@ module.exports = Generator.extend({
                 gruntfile = new Gruntfile(text);
                 gruntfile.insertConfig('benchmark', tasks.benchmark);
                 fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
+            }
+            if (generator.useCoveralls) {
+                updatePackageJson({
+                    scripts: {'test:travis': 'nyc report --reporter=text-lcov | coveralls'}
+                });
             }
         }
     }
