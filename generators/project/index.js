@@ -202,7 +202,7 @@ module.exports = Generator.extend({
                 });
                 text = fs.readFileSync(generator.destinationPath('Gruntfile.js'))
                     .toString()
-                    .replace(placeholder, loadTasks);
+                    .replace(placeholder, '');
                 gruntfile = new Gruntfile(text);
                 gruntfile.insertConfig('benchmark', tasks.benchmark);
                 fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
