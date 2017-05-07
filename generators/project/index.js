@@ -205,5 +205,11 @@ module.exports = Generator.extend({
                 });
             }
         }
+        if (_(['linux', 'freebsd']).includes(process.platform)) {
+            this.npmInstall('stmux', {saveDev: true});
+            updatePackageJson({
+                scripts: {dev: 'stmux [ \"npm run test:watch\" .. \"npm run lint:watch\" ]'}
+            });
+        }
     }
 });

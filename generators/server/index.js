@@ -4,7 +4,9 @@ var _         = require('lodash');
 var Generator = require('yeoman-generator');
 var chalk     = require('chalk');
 var yosay     = require('yosay');
-var copyTpl   = require('../app/utils').copyTpl;
+var utils     = require('../app/utils');
+var copyTpl   = utils.copyTpl;
+var extend    = utils.json.extend;
 
 var commandLineOptions = {
     defaults: {
@@ -112,5 +114,13 @@ module.exports = Generator.extend({
     },
     install: function() {
         this.npmInstall();
+    },
+    end: function() {
+        if (_(['linux', 'freebsd']).includes(process.platform)) {
+            this.npmInstall('stmux', {saveDev: true});
+            extend('package.json', {
+                scripts: {dev: 'stmux [ \"nodemon index.js\" .. \"npm run lint:watch\" ]'}
+            });
+        }
     }
 });
