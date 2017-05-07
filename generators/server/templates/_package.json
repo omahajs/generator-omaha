@@ -31,12 +31,17 @@
     "ws": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.8.1"
+    "eslint": "^3.0.0",
+    "eslint-config-omaha-prime-grade": "^1.0.0",
+    "nodemon": "^1.8.1",
+    "watch": "^1.0.0"
   },
   "scripts": {
     "scan": "nsp check",
     "prestart": "npm run scan",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "eslint -c ./config/.eslintrc.js index.js",
+    "lint:watch": "watch 'npm run lint' ."
   }
 }

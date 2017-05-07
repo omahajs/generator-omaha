@@ -32,7 +32,7 @@ app.listen(config.get('http').port);
 https.createServer(credentials, app).listen(config.get('https').port);
 
 /** WebSocket Server Endpoint **/
-var wss = require('./web/socket.js');
+// var wss = require('./web/socket.js');
 
 log.info('HTTP server started........', 'Listening on port %j', config.get('http').port);
 log.info('HTTPS server started.......', 'Listening on port %j', config.get('https').port);

@@ -85,21 +85,26 @@ module.exports = Generator.extend({
     },
     configuring: {
         projectfiles: function() {
-            if (this.markdownSupport) {
-                this.log(yosay('Place Markdown files in ' + chalk.blue('./web/client/')));
+            var generator = this;
+            var _copyTpl = _.partial(copyTpl, _, _, generator);
+            if (generator.markdownSupport) {
+                generator.log(yosay('Place Markdown files in ' + chalk.blue('./web/client/')));
             }
-            copyTpl('_package.json', 'package.json', this);
-            copyTpl('config/_gitignore', '.gitignore', this);
-            copyTpl('config/_env', '.env', this);
-            copyTpl('config/_default.js', 'config/default.js', this);
+            _copyTpl('_package.json', 'package.json');
+            _copyTpl('config/_gitignore', '.gitignore');
+            _copyTpl('config/_env', '.env');
+            _copyTpl('config/_default.js', 'config/default.js');
+            _copyTpl('../../project/templates/config/_eslintrc.js', 'config/.eslintrc.js');
         }
     },
     writing: {
         serverFiles: function() {
-            copyTpl('_index.js', 'index.js', this);
-            copyTpl('_socket.js', 'web/socket.js', this); //WebSocket server
-            copyTpl('_server.js', 'web/server.js', this); //HTTP server
-            copyTpl('favicon.ico', 'favicon.ico', this);  //empty favicon
+            var generator = this;
+            var _copyTpl = _.partial(copyTpl, _, _, generator);
+            _copyTpl('_index.js', 'index.js');
+            _copyTpl('_socket.js', 'web/socket.js'); //WebSocket server
+            _copyTpl('_server.js', 'web/server.js'); //HTTP server
+            _copyTpl('favicon.ico', 'favicon.ico');  //empty favicon
             this.fs.copy(
                 this.templatePath('ssl/**/*.*'),
                 this.destinationPath('web/ssl')
