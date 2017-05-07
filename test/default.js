@@ -57,6 +57,8 @@ describe('Default generator', function() {
                     assert.noFileContent(browserifyContent);
                     assert.noFileContent(ariaContent);
                     assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                    assert.fileContent('config/.eslintrc.js', 'amd: true,');
+                    assert.fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
                 });
         });
         it('all prompts TRUE (default configuration)', function() {
@@ -68,6 +70,8 @@ describe('Default generator', function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
                     verifyDefaultTasksConfiguration();
+                    assert.noFileContent('config/.eslintrc.js', 'es6: true,');
+                    assert.fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
                 });
         });
         it('all prompts TRUE (--script-bundler browserify)', function() {

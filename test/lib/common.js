@@ -30,6 +30,9 @@ module.exports = {
 function verifyCoreFiles() {
     var ALWAYS_INCLUDED = [
         'README.md',
+        'Gruntfile.js',
+        'config/default.json',
+        'config/karma.conf.js',
         'config/.csslintrc',
         'tasks/webapp.js'
     ];

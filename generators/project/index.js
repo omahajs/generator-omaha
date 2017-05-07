@@ -76,6 +76,7 @@ module.exports = Generator.extend({
             var options = generator.options;
             var use = generator.use;
             var _copyTpl = _.partial(copyTpl, _, _, generator);
+            var isComposed = generator.config.get('isComposed');
             _.extend(generator, {
                 useBenchmark: use.benchmark && !options.skipBenchmark,
                 useCoveralls: use.coveralls && !options.skipCoveralls,
@@ -87,82 +88,122 @@ module.exports = Generator.extend({
             generator.config.set('useJsinspect', generator.useJsinspect);
             _copyTpl('_LICENSE', 'LICENSE');
             _copyTpl('_package.json', 'package.json');
-            _copyTpl('_Gruntfile.js', 'Gruntfile.js');
             _copyTpl('config/_gitignore', '.gitignore');
             _copyTpl('config/_default.json', 'config/default.json');
-            _copyTpl('config/_eslintrc.js', 'config/.eslintrc.js');
-            _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
+            if (isComposed) {
+                _copyTpl('_Gruntfile.js', 'Gruntfile.js');
+                _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
+                _copyTpl('config/_eslintrc_webapp.js', 'config/.eslintrc.js');
+            } else {
+                _copyTpl('config/_eslintrc.js', 'config/.eslintrc.js');
+            }
+            if (generator.useCoveralls) {
+                _copyTpl('_travis.yml', '.travis.yml');
+            }
             fs.mkdirp(generator.sourceDirectory);
         },
         testFiles: function() {
             var generator = this;
+            var isComposed = generator.config.get('isComposed');
+            isComposed && copyTpl('test/config.js', 'test/config.js', generator);
             copy('test/data/**/*.*', 'test/data', generator);
-            copy('test/mocha/**/*.*', 'test/mocha', generator);
-            copyTpl('test/config.js', 'test/config.js', generator);
+            copy('test/mocha.opts', 'test/mocha.opts', generator);
+            copy('test/mocha/specs/' + (isComposed ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js', generator);
             if (generator.useBenchmark) {
                 copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
+                isComposed || copyTpl('_Gruntfile.js', 'Gruntfile.js', generator);
             }
         }
     },
     install: function() {
         var generator = this;
-        var devDependencies = [].concat(
-            maybeInclude(generator.useBenchmark, 'grunt-benchmark'),
-            maybeInclude(generator.useCoveralls, 'grunt-karma-coveralls'),
-            maybeInclude(generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
-        );
+        var isComposed = generator.config.get('isComposed');
+        var devDependencies = _.flatten(maybeInclude(generator.useBenchmark, ['lodash', 'grunt-benchmark']));
+        if (isComposed) {
+            devDependencies = devDependencies.concat(
+                maybeInclude(generator.useCoveralls, 'grunt-karma-coveralls'),
+                maybeInclude(generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
+            );
+        } else {
+            devDependencies = devDependencies.concat(
+                ['nyc', 'coveralls', 'watch'],
+                maybeInclude(generator.useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
+                maybeInclude(generator.useCoveralls, 'coveralls'),
+                maybeInclude(generator.useJsinspect, 'jsinspect')
+            );
+        }
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
     },
     end: function() {
         var generator = this;
+        var updatePackageJson = _.partial(utils.json.extend, generator.destinationPath('package.json'));
         var placeholder = '/* -- load tasks placeholder -- */';
-        var loadTasks = generator.config.get('isComposed') ? 'grunt.loadTasks(config.folders.tasks);' : '';
-        var text = fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString().replace(placeholder, loadTasks);
-        var gruntfile = new Gruntfile(text);
+        var loadTasks = 'grunt.loadTasks(config.folders.tasks);';
+        var text;
+        var gruntfile;
         //
-        // Configure package.json
+        // TODO: move to webapp/index.js?
         //
-        if (generator.useCoveralls) {
-            utils.json.extend(generator.destinationPath('package.json'), {
-                scripts: {
-                    'test:ci': 'npm test && grunt coveralls'
-                }
+        if (generator.config.get('isComposed')) {// webapp only
+            if (generator.useCoveralls) {
+                updatePackageJson({
+                    scripts: {'test:ci': 'npm test && grunt coveralls'}
+                });
+            }
+            if (generator.useJsinspect) {
+                updatePackageJson({
+                    scripts: {inspect: 'grunt jsinspect:app'}
+                });
+            }
+            //
+            //  Configure Grunt tasks
+            //
+            text = fs.readFileSync(generator.destinationPath('Gruntfile.js'))
+                .toString()
+                .replace(placeholder, loadTasks);
+            gruntfile = new Gruntfile(text);
+            [// Tasks enabled by default
+                'browserSync',
+                'clean',
+                'copy',
+                'eslint',
+                'jsdoc',
+                'jsonlint',
+                'karma',
+                'open',
+                'plato',
+                'requirejs',
+                'watch'
+            ]
+            .concat(// Tasks enabled by user
+                maybeInclude(generator.useBenchmark, 'benchmark'),
+                maybeInclude(generator.useCoveralls, 'coveralls'),
+                maybeInclude(generator.useJsinspect, 'jsinspect')
+            )
+            .sort()
+            .forEach(name => gruntfile.insertConfig(name, tasks[name]));
+            fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
+        } else {
+            updatePackageJson({
+                scripts: {coverage: 'nyc report -r text'}
             });
+            if (generator.useBenchmark) {
+                updatePackageJson({
+                    scripts: {'test:perf': 'grunt benchmark'}
+                });
+                text = fs.readFileSync(generator.destinationPath('Gruntfile.js'))
+                    .toString()
+                    .replace(placeholder, '');
+                gruntfile = new Gruntfile(text);
+                gruntfile.insertConfig('benchmark', tasks.benchmark);
+                fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
+            }
+            if (generator.useCoveralls) {
+                updatePackageJson({
+                    scripts: {'test:travis': 'nyc report --reporter=text-lcov | coveralls'}
+                });
+            }
         }
-        if (generator.useJsinspect) {
-            utils.json.extend(generator.destinationPath('package.json'), {
-                scripts: {
-                    inspect: 'grunt jsinspect:app'
-                }
-            });
-        }
-        //
-        //  Configure workflow tasks
-        //
-        [// Tasks enabled by default
-            'browserSync',
-            'clean',
-            'copy',
-            'eslint',
-            'jsdoc',
-            'jsonlint',
-            'karma',
-            'open',
-            'plato',
-            'requirejs',
-            'watch'
-        ]
-        .concat(// Tasks enabled by user
-            maybeInclude(generator.useBenchmark, 'benchmark'),
-            maybeInclude(generator.useCoveralls, 'coveralls'),
-            maybeInclude(generator.useJsinspect, 'jsinspect')
-        )
-        .sort()
-        .forEach(name => gruntfile.insertConfig(name, tasks[name]));
-        //
-        // Write to file
-        //
-        fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
     }
 });
