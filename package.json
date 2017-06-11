@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "bluebird": "^3.4.1",
-    "chai": "^3.5.0",
+    "chai": "^4.0.1",
     "chai-shallow-deep-equal": "^1.4.6",
     "coveralls": "^2.11.6",
     "eslint": "^3.19.0",
