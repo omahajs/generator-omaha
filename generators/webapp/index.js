@@ -87,8 +87,8 @@ module.exports = Generator.extend({
             function isUnAnswered(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
-            var isComposed = true;
-            return generator.prompt(prompt.getQuestions(isComposed).filter(isUnAnswered)).then(function(answers) {
+            var isWebapp = true;
+            return generator.prompt(prompt.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
                 var bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
                 var preprocessor;

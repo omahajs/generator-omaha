@@ -61,8 +61,8 @@ module.exports = Generator.extend({
             var isUnAnswered = function(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             };
-            var isComposed = generator.config.get('isComposed');
-            return generator.prompt(prompt.getQuestions(isComposed).filter(isUnAnswered)).then(function(answers) {
+            var isWebapp = generator.config.get('isWebapp');
+            return generator.prompt(prompt.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
                 generator.projectName = answers.projectName;
                 generator.sourceDirectory = (!/\/$/.test(answers.sourceDirectory)) ? answers.sourceDirectory + '/' : answers.sourceDirectory;
@@ -76,7 +76,7 @@ module.exports = Generator.extend({
             var options = generator.options;
             var use = generator.use;
             var _copyTpl = _.partial(copyTpl, _, _, generator);
-            var isComposed = generator.config.get('isComposed');
+            var isWebapp = generator.config.get('isWebapp');
             _.extend(generator, {
                 useBenchmark: use.benchmark && !options.skipBenchmark,
                 useCoveralls: use.coveralls && !options.skipCoveralls,
@@ -90,7 +90,7 @@ module.exports = Generator.extend({
             _copyTpl('_package.json', 'package.json');
             _copyTpl('config/_gitignore', '.gitignore');
             _copyTpl('config/_default.json', 'config/default.json');
-            if (isComposed) {
+            if (isWebapp) {
                 _copyTpl('_Gruntfile.js', 'Gruntfile.js');
                 _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
                 _copyTpl('config/_eslintrc_webapp.js', 'config/.eslintrc.js');
@@ -104,22 +104,22 @@ module.exports = Generator.extend({
         },
         testFiles: function() {
             var generator = this;
-            var isComposed = generator.config.get('isComposed');
-            isComposed && copyTpl('test/config.js', 'test/config.js', generator);
+            var isWebapp = generator.config.get('isWebapp');
+            isWebapp && copyTpl('test/config.js', 'test/config.js', generator);
             copy('test/data/**/*.*', 'test/data', generator);
             copy('test/mocha.opts', 'test/mocha.opts', generator);
-            copy('test/mocha/specs/' + (isComposed ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js', generator);
+            copy('test/mocha/specs/' + (isWebapp ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js', generator);
             if (generator.useBenchmark) {
                 copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
-                isComposed || copyTpl('_Gruntfile.js', 'Gruntfile.js', generator);
+                isWebapp || copyTpl('_Gruntfile.js', 'Gruntfile.js', generator);
             }
         }
     },
     install: function() {
         var generator = this;
-        var isComposed = generator.config.get('isComposed');
+        var isWebapp = generator.config.get('isWebapp');
         var devDependencies = _.flatten(maybeInclude(generator.useBenchmark, ['lodash', 'grunt-benchmark']));
-        if (isComposed) {
+        if (isWebapp) {
             devDependencies = devDependencies.concat(
                 maybeInclude(generator.useCoveralls, 'grunt-karma-coveralls'),
                 maybeInclude(generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
@@ -145,7 +145,7 @@ module.exports = Generator.extend({
         //
         // TODO: move to webapp/index.js?
         //
-        if (generator.config.get('isComposed')) {// webapp only
+        if (generator.config.get('isWebapp')) {// webapp only
             if (generator.useCoveralls) {
                 updatePackageJson({
                     scripts: {'test:ci': 'npm test && grunt coveralls'}

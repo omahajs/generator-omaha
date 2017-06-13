@@ -8,7 +8,7 @@ module.exports = Yeoman.extend({
         var options = this.options;
         this.log(banner);
         this.config.defaults({
-            isComposed: true,
+            isWebapp: true,
             hideBanner: true
         });
         this
