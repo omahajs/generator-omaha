@@ -5,7 +5,6 @@
 'use strict';
 
 var config = require('config');
-var log    = require('npmlog');
 var WebSocketServer = require('ws').Server;
 var wss = new WebSocketServer({
     app: require(__dirname + '/server'),

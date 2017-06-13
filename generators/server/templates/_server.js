@@ -6,8 +6,8 @@
  * @see [helmetjs/helmet]{@link https://github.com/helmetjs/helmet}
 **/
 'use strict';
-
-var fs         = require('fs-extra');
+<% if (markdownSupport) { %>
+var fs         = require('fs-extra');<% } %>
 var config     = require('config');
 var express    = require('express');
 var session    = require('express-session');
