@@ -121,6 +121,7 @@ module.exports = Generator.extend({
             var config = generator.config;
             var _copyTpl = _.partial(copyTpl, _, _, generator);
             _.extend(generator, {
+                isNative:        config.get('isNative'),
                 projectName:     config.get('projectName'),
                 userName:        config.get('userName') || generator.user.git.name(),
                 sourceDirectory: config.get('sourceDirectory'),
@@ -272,6 +273,7 @@ module.exports = Generator.extend({
         var generator = this;
         var extend = utils.json.extend;
         var sourceDirectory = generator.sourceDirectory;
+        var isNative = generator.isNative;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
         //
         // Configure default.json
@@ -298,22 +300,30 @@ module.exports = Generator.extend({
         //
         // Configure package.json
         //
-        extend(generator.destinationPath('package.json'), {
-            main: sourceDirectory + 'app/main.js',
-            scripts: {
-                lint:         'grunt eslint:src',
-                'lint:watch': 'grunt eslint:ing watch:eslint',
-                'lnit:tests': 'grunt eslint:tests',
-                test:         'grunt karma:coverage',
-                'test:watch': 'grunt karma:covering',
-                build:        'grunt build',
-                test:         'grunt test',
-                predemo:      'npm run build',
-                demo:         'grunt browserSync:demo',
-                start:        'grunt serve',
-                predeploy:    'npm run build'
-            }
-        });
+        var scripts = {
+            lint:         'grunt eslint:src',
+            'lint:watch': 'grunt eslint:ing watch:eslint',
+            'lnit:tests': 'grunt eslint:tests',
+            test:         'grunt test',
+            'test:watch': 'grunt karma:covering'
+        };
+        if (isNative) {
+            _.assign(scripts, {
+                start:          'grunt compile && electron index',
+                build:          'echo under construction',
+                'build:webapp': 'grunt build'
+            });
+        } else {
+            _.assign(scripts, {
+                start:     'grunt serve',
+                build:     'grunt build',
+                predemo:   'npm run build',
+                demo:      'grunt browserSync:demo',
+                predeploy: 'npm run build'
+            });
+        }
+        var main = isNative ? './index.js' : sourceDirectory + 'app/main.js';
+        extend(generator.destinationPath('package.json'), {scripts, main});
         if (generator.useBrowserify) {
             extend(generator.destinationPath('package.json'), {
                 browser: {
