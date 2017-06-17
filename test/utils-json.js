@@ -1,29 +1,26 @@
 'use strict';
 
-var path   = require('path');
-var fs     = require('fs');
-var chai   = require('chai');
-var assert = chai.assert;
+const path         = require('path');
+const {unlinkSync} = require('fs');
+const {json}       = require('../generators/app/utils');
+const chai         = require('chai');
+const {assert}     = chai;
 chai.use(require('chai-shallow-deep-equal'));
 
-var utils  = require('../generators/app/utils').json;
-
-function removeJSON(fileName) {fs.unlinkSync(fileName);}
-
 describe('Generator JSON utility', function() {
-    var content;
-    var testJSON = path.join(__dirname, 'test.json');
+    let content;
+    let testJSON = path.join(__dirname, 'test.json');
     beforeEach(function() {
-        utils.write(testJSON, {foo: 'bar'});
+        json.write(testJSON, {foo: 'bar'});
     });
     afterEach(function() {
-        removeJSON(testJSON);
+        unlinkSync(testJSON);
     });
     it('can extend JSON files', function() {
-        content = utils.read(testJSON);
+        content = json.read(testJSON);
         assert.shallowDeepEqual(content, {foo: 'bar'});
-        utils.extend(testJSON, {bar: 'baz'});
-        content = utils.read(testJSON);
+        json.extend(testJSON, {bar: 'baz'});
+        content = json.read(testJSON);
         assert.shallowDeepEqual(content, {foo: 'bar', bar: 'baz'});
     });
 });

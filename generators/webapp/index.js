@@ -1,18 +1,21 @@
 'use strict';
 
-var _            = require('lodash');
-var fs           = require('fs-extra');
-var Generator    = require('yeoman-generator');
-var Gruntfile    = require('gruntfile-editor');
-var utils        = require('../app/utils');
-var prompt       = require('../app/prompts').webapp;
-var tasks        = require('../app/gruntTaskConfigs');
-var footer       = require('./doneMessage');
-var copy         = utils.copy;
-var copyTpl      = utils.copyTpl;
-var maybeInclude = utils.maybeInclude;
+const _         = require('lodash');
+const fs        = require('fs-extra');
+const Generator = require('yeoman-generator');
+const Gruntfile = require('gruntfile-editor');
+const prompt    = require('../app/prompts').webapp;
+const tasks     = require('../app/gruntTaskConfigs');
+const footer    = require('./doneMessage');
 
-var commandLineOptions = {
+const {
+  copy,
+  copyTpl,
+  maybeInclude,
+  json: {extend}
+} = require('../app/utils');
+
+const commandLineOptions = {
     defaults: {
         type: Boolean,
         desc: 'Scaffold app with no user input using default settings',
@@ -44,7 +47,7 @@ var commandLineOptions = {
         defaults: false
     }
 };
-var CSS_PREPROCESSOR_EXT_LOOKUP = {
+const CSS_PREPROCESSOR_EXT_LOOKUP = {
     less: 'less',
     sass: 'scss',
     none: 'css'
@@ -271,7 +274,6 @@ module.exports = Generator.extend({
     },
     end: function() {
         var generator = this;
-        var extend = utils.json.extend;
         var sourceDirectory = generator.sourceDirectory;
         var isNative = generator.isNative;
         var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());

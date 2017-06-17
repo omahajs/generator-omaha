@@ -11,7 +11,7 @@ var extend    = utils.json.extend;
 var commandLineOptions = {
     skipWebapp: {
         type: Boolean,
-        desc: 'DO NOT add JSInspect tasks and dependencies to project',
+        desc: 'DO NOT compose with WebApp generator (used for bare-bones projects)',
         defaults: false
     }
 };

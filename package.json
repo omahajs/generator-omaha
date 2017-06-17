@@ -26,7 +26,6 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "config": "^1.17.1",
-    "deep-extend": "^0.5.0",
     "fs-extra": "^3.0.0",
     "gruntfile-editor": "^1.2.0",
     "lodash": "^4.13.1",
@@ -62,7 +61,7 @@
     "lint:tests:watch": "watch 'npm run lint:tests' ./test",
     "mocha": "mocha -R mocha-unfunk-reporter",
     "coverage": "nyc report -r text",
-    "test": "npm run lint && nyc mocha",
+    "test": "npm run lint && nyc mocha && nyc report -r html",
     "test:suite": "npm test && npm run test:builds && npm run test:visual",
     "pretest:builds": "mkdir -p ~/.omahajs-builds-output-directory",
     "test:builds": "bash ./test/lib/generate-build-test.sh",

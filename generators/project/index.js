@@ -205,6 +205,10 @@ module.exports = Generator.extend({
                 });
             }
         }
+        //
+        // Add stmux npm dev script
+        //
+        /* istanbul ignore else */
         if (_(['linux', 'freebsd']).includes(process.platform)) {
             this.npmInstall('stmux', {saveDev: true});
             updatePackageJson({

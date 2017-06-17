@@ -1,8 +1,7 @@
 'use strict';
 
-var fs     = require('fs-extra');
-var _      = require('lodash');
-var extend = require('deep-extend');
+var fs = require('fs-extra');
+var _  = require('lodash');
 
 module.exports = {
     maybeInclude,
@@ -14,8 +13,7 @@ module.exports = {
         extend: extendJSON
     },
     object: {
-        clone:  cloneObject,
-        extend: extend
+        clone:  cloneObject
     }
 };
 
@@ -40,7 +38,7 @@ function writeJSON(fileName, content) {
     fs.writeFileSync(fileName, JSON.stringify(content, null, INDENT_SPACES) + '\n');
 }
 function extendJSON(fileName, obj) {
-    writeJSON(fileName, extend(readJSON(fileName), obj));
+    writeJSON(fileName, _.merge(readJSON(fileName), obj));
 }
 function cloneObject(value) {
     return JSON.parse(JSON.stringify(value));

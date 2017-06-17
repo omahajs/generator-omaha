@@ -1,12 +1,12 @@
 'use strict';
 
-var path    = require('path');
-var helpers = require('yeoman-test');
-var assert  = require('yeoman-assert');
+const path    = require('path');
+const helpers = require('yeoman-test');
+const assert  = require('yeoman-assert');
 
 describe('Plugin generator', function() {
-    var pluginName = 'pluginName';
-    var pluginPath = 'app/plugins/' + pluginName + '.js';
+    let pluginName = 'pluginName';
+    let pluginPath = 'app/plugins/' + pluginName + '.js';
     it('can create a vanilla JavaScript plugin', function() {
         return createPlugin({
             name: pluginName,
@@ -102,9 +102,8 @@ describe('Plugin generator', function() {
         });
     });
 });
-
 function createPlugin(options) {
-    var testOptions = {};
+    let testOptions = {};
     if (options.customDependency && options.alias) {
         testOptions.customDependency = options.customDependency;
         testOptions.alias = options.alias;
