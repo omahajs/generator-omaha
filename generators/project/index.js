@@ -1,18 +1,20 @@
 'use strict';
 
-var fs           = require('fs-extra');
-var _            = require('lodash');
-var Generator    = require('yeoman-generator');
-var Gruntfile    = require('gruntfile-editor');
-var utils        = require('../app/utils');
-var banner       = require('../app/banner');
-var prompt       = require('../app/prompts').project;
-var tasks        = require('../app/gruntTaskConfigs');
-var copy         = utils.copy;
-var copyTpl      = utils.copyTpl;
-var maybeInclude = utils.maybeInclude;
+const {assign, flatten, includes, partial, partialRight} = require('lodash');
+const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
+const Generator = require('yeoman-generator');
+const Gruntfile = require('gruntfile-editor');
+const banner    = require('../app/banner');
+const {project} = require('../app/prompts');
+const tasks     = require('../app/gruntTaskConfigs');
+const {
+    copy,
+    copyTpl,
+    maybeInclude,
+    json: {extend}
+} = require('../app/utils');
 
-var commandLineOptions = {
+const commandLineOptions = {
     defaults: {
         type: Boolean,
         desc: 'Scaffold app with no user input using default settings',
@@ -38,54 +40,55 @@ var commandLineOptions = {
 module.exports = Generator.extend({
     constructor: function() {
         Generator.apply(this, arguments);
-        var generator = this;
+        let generator = this;
+        let {config, user} = generator;
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
-        generator.config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'A. Developer');
+        config.set('userName', user.git.name() ? user.git.name() : 'A. Developer');
     },
     prompting: function() {
-        var generator = this;
-        generator.userName = generator.config.get('userName');
-        generator.use = prompt.defaults;
-        !generator.config.get('hideBanner') && generator.log(banner);
+        let generator = this;
+        let {config} = generator;
+        generator.userName = config.get('userName');
+        generator.use = project.defaults;
+        !config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
-            var done = this.async();
-            var sourceDirectory = generator.use.sourceDirectory;
+            let done = this.async();
+            let sourceDirectory = generator.use.sourceDirectory;
             generator.projectName = generator.use.projectName;
-            generator.config.set('projectName', generator.projectName);
+            config.set('projectName', generator.projectName);
             generator.sourceDirectory = (!/\/$/.test(sourceDirectory)) ? sourceDirectory + '/' : sourceDirectory;
-            generator.config.set('sourceDirectory', generator.sourceDirectory);
+            config.set('sourceDirectory', generator.sourceDirectory);
             done();
         } else {
-            var isUnAnswered = function(option) {
+            let isUnAnswered = function(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             };
-            var isWebapp = generator.config.get('isWebapp');
-            return generator.prompt(prompt.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
+            let isWebapp = config.get('isWebapp');
+            return generator.prompt(project.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
                 generator.projectName = answers.projectName;
                 generator.sourceDirectory = (!/\/$/.test(answers.sourceDirectory)) ? answers.sourceDirectory + '/' : answers.sourceDirectory;
-                generator.config.set('sourceDirectory', generator.sourceDirectory);
+                config.set('sourceDirectory', generator.sourceDirectory);
             }.bind(generator));
         }
     },
     writing: {
         configFiles: function() {
-            var generator = this;
-            var options = generator.options;
-            var use = generator.use;
-            var _copyTpl = _.partial(copyTpl, _, _, generator);
-            var isWebapp = generator.config.get('isWebapp');
-            _.extend(generator, {
+            let generator = this;
+            let {config, options, use} = generator;
+            let _copyTpl = partialRight(copyTpl, generator);
+            let isWebapp = config.get('isWebapp');
+            assign(generator, {
                 useBenchmark: use.benchmark && !options.skipBenchmark,
                 useCoveralls: use.coveralls && !options.skipCoveralls,
                 useJsinspect: use.jsinspect && !options.skipJsinspect
             });
-            generator.config.set('projectName', generator.projectName);
-            generator.config.set('useBenchmark', generator.useBenchmark);
-            generator.config.set('useCoveralls', generator.useCoveralls);
-            generator.config.set('useJsinspect', generator.useJsinspect);
+            config.set('projectName', generator.projectName);
+            config.set('useBenchmark', generator.useBenchmark);
+            config.set('useCoveralls', generator.useCoveralls);
+            config.set('useJsinspect', generator.useJsinspect);
             _copyTpl('_LICENSE', 'LICENSE');
             _copyTpl('_package.json', 'package.json');
             _copyTpl('config/_gitignore', '.gitignore');
@@ -100,120 +103,82 @@ module.exports = Generator.extend({
             if (generator.useCoveralls) {
                 _copyTpl('_travis.yml', '.travis.yml');
             }
-            fs.mkdirp(generator.sourceDirectory);
+            mkdirp(generator.sourceDirectory);
         },
         testFiles: function() {
-            var generator = this;
-            var isWebapp = generator.config.get('isWebapp');
-            isWebapp && copyTpl('test/config.js', 'test/config.js', generator);
-            copy('test/data/**/*.*', 'test/data', generator);
-            copy('test/mocha.opts', 'test/mocha.opts', generator);
-            copy('test/mocha/specs/' + (isWebapp ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js', generator);
-            if (generator.useBenchmark) {
-                copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js', generator);
-                isWebapp || copyTpl('_Gruntfile.js', 'Gruntfile.js', generator);
+            let generator = this;
+            let {config, useBenchmark} = generator;
+            let _copy = partialRight(copy, generator);
+            let _copyTpl = partialRight(copyTpl, generator);
+            let isWebapp = config.get('isWebapp');
+            isWebapp && _copyTpl('test/config.js', 'test/config.js');
+            _copy('test/data/**/*.*', 'test/data');
+            _copy('test/mocha.opts', 'test/mocha.opts');
+            _copy('test/mocha/specs/' + (isWebapp ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js');
+            if (useBenchmark) {
+                _copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js');
+                isWebapp || _copyTpl('_Gruntfile.js', 'Gruntfile.js');
             }
         }
     },
     install: function() {
-        var generator = this;
-        var isWebapp = generator.config.get('isWebapp');
-        var devDependencies = _.flatten(maybeInclude(generator.useBenchmark, ['lodash', 'grunt-benchmark']));
+        let generator = this;
+        let {config, useBenchmark, useCoveralls, useJsinspect} = generator;
+        let isWebapp = config.get('isWebapp');
+        let devDependencies = flatten(maybeInclude(useBenchmark, ['lodash', 'grunt-benchmark']));
         if (isWebapp) {
             devDependencies = devDependencies.concat(
-                maybeInclude(generator.useCoveralls, 'grunt-karma-coveralls'),
-                maybeInclude(generator.useJsinspect, ['jsinspect', 'grunt-jsinspect'])
+                maybeInclude(useCoveralls, 'grunt-karma-coveralls'),
+                maybeInclude(useJsinspect, ['jsinspect', 'grunt-jsinspect'])
             );
         } else {
             devDependencies = devDependencies.concat(
                 ['nyc', 'coveralls', 'watch'],
-                maybeInclude(generator.useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
-                maybeInclude(generator.useCoveralls, 'coveralls'),
-                maybeInclude(generator.useJsinspect, 'jsinspect')
+                maybeInclude(useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
+                maybeInclude(useCoveralls, 'coveralls'),
+                maybeInclude(useJsinspect, 'jsinspect')
             );
         }
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
     },
-    end: function() {
-        var generator = this;
-        var updatePackageJson = _.partial(utils.json.extend, generator.destinationPath('package.json'));
-        var placeholder = '/* -- load tasks placeholder -- */';
-        var loadTasks = 'grunt.loadTasks(config.folders.tasks);';
-        var text;
-        var gruntfile;
-        //
-        // TODO: move to webapp/index.js?
-        //
-        if (generator.config.get('isWebapp')) {// webapp only
-            if (generator.useCoveralls) {
-                updatePackageJson({
-                    scripts: {'test:ci': 'npm test && grunt coveralls'}
+    end: {
+        configurePackageJson: function() {
+            let generator = this;
+            let {useBenchmark, useCoveralls} = generator;
+            let updatePackageJson = partial(extend, generator.destinationPath('package.json'));
+            let scripts = {coverage: 'nyc report -r text'};
+            if (useBenchmark) {
+                assign(scripts, {
+                    'test:perf': 'grunt benchmark'
                 });
             }
-            if (generator.useJsinspect) {
-                updatePackageJson({
-                    scripts: {inspect: 'grunt jsinspect:app'}
+            if (useCoveralls) {
+                assign(scripts, {
+                    'test:travis': 'nyc report --reporter=text-lcov | coveralls'
                 });
             }
-            //
-            //  Configure Grunt tasks
-            //
-            text = fs.readFileSync(generator.destinationPath('Gruntfile.js'))
-                .toString()
-                .replace(placeholder, loadTasks);
-            gruntfile = new Gruntfile(text);
-            [// Tasks enabled by default
-                'browserSync',
-                'clean',
-                'copy',
-                'eslint',
-                'jsdoc',
-                'jsonlint',
-                'karma',
-                'open',
-                'plato',
-                'requirejs',
-                'watch'
-            ]
-            .concat(// Tasks enabled by user
-                maybeInclude(generator.useBenchmark, 'benchmark'),
-                maybeInclude(generator.useCoveralls, 'coveralls'),
-                maybeInclude(generator.useJsinspect, 'jsinspect')
-            )
-            .sort()
-            .forEach(name => gruntfile.insertConfig(name, tasks[name]));
-            fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
-        } else {
-            updatePackageJson({
-                scripts: {coverage: 'nyc report -r text'}
-            });
-            if (generator.useBenchmark) {
-                updatePackageJson({
-                    scripts: {'test:perf': 'grunt benchmark'}
+            /* istanbul ignore else */
+            if (includes(['linux', 'freebsd'], process.platform)) {
+                generator.npmInstall('stmux', {saveDev: true});
+                assign(scripts, {
+                    dev: 'stmux [ \"npm run test:watch\" .. \"npm run lint:watch\" ]'
                 });
-                text = fs.readFileSync(generator.destinationPath('Gruntfile.js'))
+            }
+            updatePackageJson({scripts});
+        },
+        configureWorkflowTasks: function() {
+            const placeholder = '/* -- load tasks placeholder -- */';
+            let generator = this;
+            let {config, useBenchmark} = generator;
+            if (useBenchmark) {
+                let text = readFileSync(generator.destinationPath('Gruntfile.js'))
                     .toString()
-                    .replace(placeholder, '');
-                gruntfile = new Gruntfile(text);
+                    .replace(placeholder, config.get('isWebapp') ? placeholder : '');
+                let gruntfile = new Gruntfile(text);
                 gruntfile.insertConfig('benchmark', tasks.benchmark);
-                fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
+                writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
             }
-            if (generator.useCoveralls) {
-                updatePackageJson({
-                    scripts: {'test:travis': 'nyc report --reporter=text-lcov | coveralls'}
-                });
-            }
-        }
-        //
-        // Add stmux npm dev script
-        //
-        /* istanbul ignore else */
-        if (_(['linux', 'freebsd']).includes(process.platform)) {
-            this.npmInstall('stmux', {saveDev: true});
-            updatePackageJson({
-                scripts: {dev: 'stmux [ \"npm run test:watch\" .. \"npm run lint:watch\" ]'}
-            });
         }
     }
 });

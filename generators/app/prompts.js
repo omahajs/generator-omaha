@@ -1,8 +1,8 @@
 'use strict';
 
-var _ = require('lodash');
+const {extend, curry, head, pick, set, toLower} = require('lodash');
 
-var projectQuestions = [
+const projectQuestions = [
     {
         type: 'input',
         name: 'projectName',
@@ -34,7 +34,7 @@ var projectQuestions = [
         default: true
     }
 ];
-var webappQuestions = [
+const webappQuestions = [
     {
         type: 'list',
         name: 'scriptBundler',
@@ -66,22 +66,22 @@ var webappQuestions = [
         default: true
     }
 ];
-var getPromptQuestions = _.curry(function(type, isWebapp) {
-    var questionLookup = {
+let getPromptQuestions = curry(function(type, isWebapp) {
+    let questionLookup = {
         project: projectQuestions,
         webapp: webappQuestions
     };
     return questionLookup[type].map(promptMessageFormat(type, isWebapp));
 });
-var webappDefaults = webappQuestions
-    .map(question => _.pick(question, ['name', 'default', 'choices']))
-    .map(item =>_.set({}, item.name, Array.isArray(item.choices) ? _(item.choices).map(_.toLower).head() : item.default))
-    .reduce(_.extend);
-var defaults = {
+let webappDefaults = webappQuestions
+    .map(question => pick(question, ['name', 'default', 'choices']))
+    .map(item => set({}, item.name, Array.isArray(item.choices) ? head(item.choices.map(toLower)) : item.default))
+    .reduce(extend);
+let defaults = {
     project: projectQuestions
-        .map(question => _.set({}, question.name, question.default))
-        .reduce(_.extend),
-    webapp: _.extend(webappDefaults, {
+        .map(question => set({}, question.name, question.default))
+        .reduce(extend),
+    webapp: extend(webappDefaults, {
         useBrowserify: webappDefaults.scriptBundler === 'browserify',
         useLess: webappDefaults.cssPreprocessor === 'less',
         useSass: webappDefaults.cssPreprocessor === 'sass',
@@ -91,10 +91,10 @@ var defaults = {
 
 function promptMessageFormat(type, isWebapp) {
     function addLeadingZero(step) {return (step < 10) ? ('0' + step) : step;}
-    var total = projectQuestions.length;
+    let total = projectQuestions.length;
     total += isWebapp ? webappQuestions.length : 0;
     return function(question, index) {
-        var step = index + 1 + ((type === 'webapp') ? projectQuestions.length : 0);
+        let step = index + 1 + ((type === 'webapp') ? projectQuestions.length : 0);
         question.message = require('chalk')[step === total ? 'green' : 'gray']('(' + addLeadingZero(step) + '/' + total + ') ') + question.message;
         return question;
     };

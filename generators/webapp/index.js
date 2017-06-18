@@ -1,13 +1,12 @@
 'use strict';
 
-const _         = require('lodash');
-const fs        = require('fs-extra');
+const {assign, partial, partialRight} = require('lodash');
+const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
-const prompt    = require('../app/prompts').webapp;
+const {webapp}  = require('../app/prompts');
 const tasks     = require('../app/gruntTaskConfigs');
 const footer    = require('./doneMessage');
-
 const {
   copy,
   copyTpl,
@@ -60,29 +59,29 @@ function resolveCssPreprocessor(generator) {
 module.exports = Generator.extend({
     constructor: function() {
         Generator.apply(this, arguments);
-        var generator = this;
-        Object.keys(commandLineOptions).forEach(function(option) {
+        let generator = this;
+        Object.keys(commandLineOptions).forEach(option => {
             generator.option(option, commandLineOptions[option]);
         });
     },
     prompting: function() {
-        var generator = this;
+        let generator = this;
         if (generator.options.defaults) {
-            var done = this.async();
-            generator.use = prompt.defaults;
-            Object.keys(prompt.defaults).forEach(function(option) {
-                generator[option] = prompt.defaults[option];
+            let done = this.async();
+            generator.use = webapp.defaults;
+            Object.keys(webapp.defaults).forEach(option => {
+                generator[option] = webapp.defaults[option];
             });
-            var bundler = generator.options.scriptBundler;
-            var preprocessor = generator.options.cssPreprocessor;
-            var templateTechnology = generator.options.templateTechnology;
-            var options = {
-                useBrowserify: (bundler === 'browserify') || prompt.defaults.useBrowserify,
+            let bundler = generator.options.scriptBundler;
+            let preprocessor = generator.options.cssPreprocessor;
+            let templateTechnology = generator.options.templateTechnology;
+            let options = {
+                useBrowserify: (bundler === 'browserify') || webapp.defaults.useBrowserify,
                 useLess:       (preprocessor === 'less'),
                 useSass:       (preprocessor === 'sass'),
                 useHandlebars: (templateTechnology === 'handlebars')
             };
-            Object.keys(options).forEach(function(option) {
+            Object.keys(options).forEach(option => {
                 generator[option] = options[option];
             });
             done();
@@ -90,29 +89,29 @@ module.exports = Generator.extend({
             function isUnAnswered(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
-            var isWebapp = true;
-            return generator.prompt(prompt.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
+            let isWebapp = true;
+            return generator.prompt(webapp.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
-                var bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
-                var preprocessor;
+                let bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
+                let preprocessor;
                 if (generator.options.cssPreprocessor === commandLineOptions.cssPreprocessor.defaults) {
                     preprocessor = generator.use.cssPreprocessor.toLowerCase();
                 } else {
                     preprocessor = generator.options.cssPreprocessor;
                 }
-                var templateTechnology;
+                let templateTechnology;
                 if (generator.options.templateTechnology === commandLineOptions.templateTechnology.defaults) {
                     templateTechnology = generator.use.templateTechnology.toLowerCase();
                 } else {
                     templateTechnology = generator.options.templateTechnology;
                 }
-                var options = {
+                let options = {
                     useBrowserify: (bundler === 'browserify'),
                     useLess:       (preprocessor === 'less'),
                     useSass:       (preprocessor === 'sass'),
                     useHandlebars: (templateTechnology === 'handlebars')
                 };
-                Object.keys(options).forEach(function(option) {
+                Object.keys(options).forEach(option => {
                     generator[option] = options[option];
                 });
             }.bind(generator));
@@ -120,84 +119,84 @@ module.exports = Generator.extend({
     },
     writing: {
         configFiles: function() {
-            var generator = this;
-            var config = generator.config;
-            var _copyTpl = _.partial(copyTpl, _, _, generator);
-            _.extend(generator, {
-                isNative:        config.get('isNative'),
-                projectName:     config.get('projectName'),
-                userName:        config.get('userName') || generator.user.git.name(),
-                sourceDirectory: config.get('sourceDirectory'),
-                useAria:         generator.use.aria && !generator.options.skipAria,
-                useImagemin:     generator.use.imagemin && !generator.options.skipImagemin
+            let {config, options, use, user, useAria, useImagemin} = this;
+            let sourceDirectory = config.get('sourceDirectory');
+            let _copyTpl = partialRight(copyTpl, this);
+            assign(this, {
+                sourceDirectory,
+                isNative:    config.get('isNative'),
+                projectName: config.get('projectName'),
+                userName:    config.get('userName') || user.git.name(),
+                useAria:     use.aria && !options.skipAria,
+                useImagemin: use.imagemin && !options.skipImagemin
             });
-            config.set('useAria', generator.useAria);
-            config.set('useImagemin', generator.useImagemin);
-            config.set('pluginDirectory', generator.sourceDirectory);
+            config.set('useAria', useAria);
+            config.set('useImagemin', useImagemin);
+            config.set('pluginDirectory', sourceDirectory);
             _copyTpl('_README.md', 'README.md');
             _copyTpl('config/_csslintrc', 'config/.csslintrc');
             _copyTpl('tasks/webapp.js', 'tasks/webapp.js');
-            _copyTpl('_config.js', generator.sourceDirectory + 'app/config.js');
+            _copyTpl('_config.js', `${sourceDirectory}app/config.js`);
         },
         appFiles: function() {
-            var srcDir = this.sourceDirectory;
-            var _copyTpl = _.partial(copyTpl, _, _, this);
-            if (this.useHandlebars) {
-                _copyTpl('helpers/handlebars.helpers.js', srcDir + 'app/helpers/handlebars.helpers.js');
+            let {sourceDirectory, useHandlebars} = this;
+            let _copyTpl = partialRight(copyTpl, this);
+            if (useHandlebars) {
+                _copyTpl('helpers/handlebars.helpers.js', sourceDirectory + 'app/helpers/handlebars.helpers.js');
             }
-            _copyTpl('helpers/jquery.extensions.js', srcDir + 'app/helpers/jquery.extensions.js');
-            _copyTpl('helpers/underscore.mixins.js', srcDir + 'app/helpers/underscore.mixins.js');
-            _copyTpl('plugins/*.js', srcDir + 'app/plugins');
-            _copyTpl('shims/*.js', srcDir + 'app/shims');
+            _copyTpl('helpers/jquery.extensions.js', `${sourceDirectory}app/helpers/jquery.extensions.js`);
+            _copyTpl('helpers/underscore.mixins.js', `${sourceDirectory}app/helpers/underscore.mixins.js`);
+            _copyTpl('plugins/*.js', `${sourceDirectory}app/plugins`);
+            _copyTpl('shims/*.js', `${sourceDirectory}app/shims`);
         },
         assets: function() {
-            var srcDir = this.sourceDirectory;
-            fs.mkdirp(srcDir + 'assets/fonts');
-            fs.mkdirp(srcDir + 'assets/images');
-            fs.mkdirp(srcDir + 'assets/templates');
-            fs.mkdirp(srcDir + 'assets/library');
-            copy('library/require.min.js', srcDir + 'assets/library/require.min.js', this);
-            copy('omaha.png', srcDir + 'assets/images/logo.png', this);
+            let {sourceDirectory} = this;
+            let _copy = partialRight(copy, this);
+            ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${sourceDirectory}assets/${path}`));
+            _copy('library/require.min.js', `${sourceDirectory}assets/library/require.min.js`);
+            _copy('omaha.png', `${sourceDirectory}assets/images/logo.png`);
         },
         boilerplate: function() {
-            var srcDir = this.sourceDirectory;
-            var _copyTpl = _.partial(copyTpl, _, _, this);
-            _copyTpl('_index.html', srcDir + 'app/index.html');
-            _copyTpl('_app.js', srcDir + 'app/app.js');
-            _copyTpl('_main.js', srcDir + 'app/main.js');
-            _copyTpl('_router.js', srcDir + 'app/router.js');
-            _copyTpl('example.model.js', srcDir + 'app/models/example.js');
-            _copyTpl('example.view.js', srcDir + 'app/views/example.js');
-            _copyTpl('example.controller.js', srcDir + 'app/controllers/example.js');
-            _copyTpl('example.webworker.js', srcDir + 'app/controllers/example.webworker.js');
-            _copyTpl('example.template.hbs', srcDir + 'assets/templates/example.hbs');
-            var type = resolveCssPreprocessor(this);
-            var ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
+            let {sourceDirectory} = this;
+            let _copyTpl = partialRight(copyTpl, this);
+            _copyTpl('_index.html', `${sourceDirectory}app/index.html`);
+            _copyTpl('_app.js', `${sourceDirectory}app/app.js`);
+            _copyTpl('_main.js', `${sourceDirectory}app/main.js`);
+            _copyTpl('_router.js', `${sourceDirectory}app/router.js`);
+            _copyTpl('example.model.js', `${sourceDirectory}app/models/example.js`);
+            _copyTpl('example.view.js', `${sourceDirectory}app/views/example.js`);
+            _copyTpl('example.controller.js', `${sourceDirectory}app/controllers/example.js`);
+            _copyTpl('example.webworker.js', `${sourceDirectory}app/controllers/example.webworker.js`);
+            _copyTpl('example.template.hbs', `${sourceDirectory}assets/templates/example.hbs`);
+            let type = resolveCssPreprocessor(this);
+            let ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
             if (type === 'none') {
-                _copyTpl('_style.css', srcDir + 'assets/css/style.css');
+                _copyTpl('_style.css', `${sourceDirectory}assets/css/style.css`);
             } else {
-                _copyTpl('_reset.css', srcDir + `assets/${type}/reset.${ext}`);
-                _copyTpl('_style.' + ext, srcDir + `assets/${type}/style.${ext}`);
+                _copyTpl('_reset.css', `${sourceDirectory}assets/${type}/reset.${ext}`);
+                _copyTpl(`_style.${ext}`, `${sourceDirectory}assets/${type}/style.${ext}`);
             }
         }
     },
     install: function() {
-        var generator = this;
-        var dependencies = [].concat(
+        let generator = this;
+        let {useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
+        let dependencies = [// always included
             'jquery',
             'underscore',
             'lodash',
             'backbone',
             'backbone.marionette',
             'backbone.radio',
-            generator.useHandlebars ? 'handlebars' : [],
             'requirejs'
+        ].concat(// conditional dependencies
+            useHandlebars ? 'handlebars' : []
         );
-        var htmlDevDependencies = [
+        let htmlDevDependencies = [
             'grunt-contrib-htmlmin',
             'grunt-htmlhint-plus'
         ];
-        var cssDevDependencies = [
+        let cssDevDependencies = [
             'grunt-contrib-csslint',
             'grunt-postcss',
             'autoprefixer',
@@ -206,11 +205,11 @@ module.exports = Generator.extend({
             'mdcss',
             'mdcss-theme-github'
         ];
-        var requirejsDevDependencies = [
+        let requirejsDevDependencies = [
             'grunt-contrib-requirejs',
             'karma-requirejs'
         ];
-        var browserifyDependencies = [
+        let browserifyDependencies = [
             'browserify',
             'browserify-shim',
             'aliasify',
@@ -218,7 +217,7 @@ module.exports = Generator.extend({
             'grunt-browserify',
             'grunt-replace'
         ];
-        var gruntDependencies = [
+        let gruntDependencies = [
             'grunt',
             'grunt-browser-sync',
             'grunt-cli',
@@ -237,7 +236,7 @@ module.exports = Generator.extend({
             'load-grunt-tasks',
             'time-grunt'
         ];
-        var karmaDependencies = [
+        let karmaDependencies = [
             'karma',
             'karma-chrome-launcher',
             'karma-coverage',
@@ -247,7 +246,7 @@ module.exports = Generator.extend({
             'karma-requirejs',
             'karma-spec-reporter'
         ];
-        var workflowDependencies = [
+        let workflowDependencies = [
             'config',
             'eslint-plugin-backbone',
             'fs-promise',
@@ -261,124 +260,168 @@ module.exports = Generator.extend({
             htmlDevDependencies,
             cssDevDependencies
         );
-        var devDependencies = workflowDependencies.concat(
-            maybeInclude(generator.useBrowserify, browserifyDependencies),
-            maybeInclude(generator.useAria, ['grunt-a11y', 'grunt-accessibility']),
-            maybeInclude(generator.useImagemin, 'grunt-contrib-imagemin'),
-            maybeInclude(generator.useLess, 'grunt-contrib-less'),
-            maybeInclude(generator.useSass, 'grunt-contrib-sass'),
-            maybeInclude(generator.useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
+        let devDependencies = workflowDependencies.concat(
+            maybeInclude(useBrowserify, browserifyDependencies),
+            maybeInclude(useAria, ['grunt-a11y', 'grunt-accessibility']),
+            maybeInclude(useImagemin, 'grunt-contrib-imagemin'),
+            maybeInclude(useLess, 'grunt-contrib-less'),
+            maybeInclude(useSass, 'grunt-contrib-sass'),
+            maybeInclude(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
         );
         generator.npmInstall(dependencies, {save: true});
         generator.npmInstall(devDependencies, {saveDev: true});
     },
-    end: function() {
-        var generator = this;
-        var sourceDirectory = generator.sourceDirectory;
-        var isNative = generator.isNative;
-        var gruntfile = new Gruntfile(fs.readFileSync(generator.destinationPath('Gruntfile.js')).toString());
-        //
-        // Configure default.json
-        //
-        var type = resolveCssPreprocessor(generator);
-        var ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
-        if (type !== 'none') {
+    end: {
+        configureDefaultJson: function() {
+            let generator = this;
+            let {sourceDirectory} = generator;
+            let type = resolveCssPreprocessor(generator);
+            let ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
+            if (type !== 'none') {
+                extend(generator.destinationPath('config/default.json'), {
+                    grunt: {
+                        files: {
+                            styles: `${type}/**/*.${ext}`
+                        }
+                    }
+                });
+            }
             extend(generator.destinationPath('config/default.json'), {
                 grunt: {
-                    files: {
-                        styles: `${type}/**/*.${ext}`
+                    folders: {
+                        app:    `${sourceDirectory}app`,
+                        assets: `${sourceDirectory}assets`
                     }
                 }
             });
-        }
-        extend(generator.destinationPath('config/default.json'), {
-            grunt: {
-                folders: {
-                    app:    sourceDirectory + 'app',
-                    assets: sourceDirectory + 'assets'
-                }
+        },
+        configurePackageJson: function() {
+            let generator = this;
+            let {config, isNative, sourceDirectory, useBrowserify} = generator;
+            let useCoveralls = config.get('useCoveralls');
+            let useJsinspect = config.get('useJsinspect');
+            let updatePackageJson = partial(extend, generator.destinationPath('package.json'));
+            let main = `${sourceDirectory}app/main.js`;
+            let scripts = {
+                lint:         'grunt eslint:src',
+                'lint:watch': 'grunt eslint:ing watch:eslint',
+                'lnit:tests': 'grunt eslint:tests',
+                test:         'grunt test',
+                'test:watch': 'grunt karma:covering'
+            };
+            if (isNative) {
+                main = './index.js';
+                assign(scripts, {
+                    start:          'grunt compile && electron index',
+                    build:          'echo under construction',
+                    'build:webapp': 'grunt build'
+                });
+            } else {
+                assign(scripts, {
+                    start:     'grunt serve',
+                    build:     'grunt build',
+                    predemo:   'npm run build',
+                    demo:      'grunt browserSync:demo',
+                    predeploy: 'npm run build'
+                });
             }
-        });
-        //
-        // Configure package.json
-        //
-        var scripts = {
-            lint:         'grunt eslint:src',
-            'lint:watch': 'grunt eslint:ing watch:eslint',
-            'lnit:tests': 'grunt eslint:tests',
-            test:         'grunt test',
-            'test:watch': 'grunt karma:covering'
-        };
-        if (isNative) {
-            _.assign(scripts, {
-                start:          'grunt compile && electron index',
-                build:          'echo under construction',
-                'build:webapp': 'grunt build'
-            });
-        } else {
-            _.assign(scripts, {
-                start:     'grunt serve',
-                build:     'grunt build',
-                predemo:   'npm run build',
-                demo:      'grunt browserSync:demo',
-                predeploy: 'npm run build'
-            });
-        }
-        var main = isNative ? './index.js' : sourceDirectory + 'app/main.js';
-        extend(generator.destinationPath('package.json'), {scripts, main});
-        if (generator.useBrowserify) {
-            extend(generator.destinationPath('package.json'), {
-                browser: {
-                    underscore: './node_modules/underscore/underscore-min.js'
-                },
-                browserify: {
-                    transform: ['deamdify', 'browserify-shim', 'aliasify']
-                },
-                'browserify-shim': {
-                    underscore: '_'
-                },
-                aliasify: {
-                    aliases: {
-                        app:       './' + sourceDirectory + 'app/app',
-                        router:    './' + sourceDirectory + 'app/router',
-                        templates: './' + sourceDirectory + 'app/templates'
+            if (useCoveralls) {
+                assign(scripts, {
+                    'test:ci': 'npm test && grunt coveralls'
+                });
+            }
+            if (useJsinspect) {
+                assign(scripts, {
+                    inspect: 'grunt jsinspect:app'
+                });
+            }
+            if (useBrowserify) {
+                updatePackageJson({
+                    browser: {
+                        underscore: './node_modules/underscore/underscore-min.js'
                     },
-                    replacements: {
-                        'models/(\\w+)':      './' + sourceDirectory + 'app/models/$1',
-                        'views/(\\w+)':       './' + sourceDirectory + 'app/views/$1',
-                        'controllers/(\\w+)': './' + sourceDirectory + 'app/controllers/$1',
-                        'plugins/(\\w+)':     './' + sourceDirectory + 'app/plugins/$1'
+                    browserify: {
+                        transform: ['deamdify', 'browserify-shim', 'aliasify']
+                    },
+                    'browserify-shim': {
+                        underscore: '_'
+                    },
+                    aliasify: {
+                        aliases: {
+                            app:       `./${sourceDirectory}app/app`,
+                            router:    `./${sourceDirectory}app/router`,
+                            templates: `./${sourceDirectory}app/templates`
+                        },
+                        replacements: {
+                            'models/(\\w+)':      `./${sourceDirectory}app/models/$1`,
+                            'views/(\\w+)':       `./${sourceDirectory}app/views/$1`,
+                            'controllers/(\\w+)': `./${sourceDirectory}app/controllers/$1`,
+                            'plugins/(\\w+)':     `./${sourceDirectory}app/plugins/$1`
+                        }
                     }
-                }
-            });
+                });
+            }
+            updatePackageJson({main, scripts});
+        },
+        configureWorkflowTasks: function() {
+            const placeholder = '/* -- load tasks placeholder -- */';
+            const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
+            let generator = this;
+            let {log, sourceDirectory, useAria} = this;
+            let text = readFileSync(generator.destinationPath('Gruntfile.js'))
+                .toString()
+                .replace(placeholder, loadTasks);
+            let gruntfile = new Gruntfile(text);
+            //
+            // Get grunt tasks based on user input
+            //
+            getTasks(generator).sort().forEach(name => gruntfile.insertConfig(name, tasks[name]));
+            //
+            // Register custom grunt tasks
+            //
+            gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory));
+            useAria && gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
+            gruntfile.registerTask('default', ['serve']);
+            //
+            // Write to file and display footer
+            //
+            writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
+            log(footer(generator));
         }
-        //
-        //  Configure workflow tasks
-        //
-        [// Tasks enabled by default
-            'htmlhintplus',
-            'htmlmin',
-            'csslint'
-        ]
-        .concat(// Tasks enabled by user
-            maybeInclude(generator.useAria, ['a11y', 'accessibility']),
-            maybeInclude(generator.useBrowserify, ['browserify', 'replace', 'uglify']),
-            maybeInclude(generator.useHandlebars, 'handlebars', 'jst'),
-            maybeInclude(generator.useImagemin, ['imagemin', 'copy']),
-            maybeInclude(generator.useLess, 'less'),
-            maybeInclude(generator.useSass, 'sass')
-        )
-        .sort()
-        .forEach(name => gruntfile.insertConfig(name, tasks[name]));
-        gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory));
-        if (generator.useAria) {
-            gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
-        }
-        gruntfile.registerTask('default', ['serve']);
-        //
-        // Write to file and display footer
-        //
-        fs.writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
-        generator.log(footer(generator));
     }
 });
+function getTasks(generator) {
+    let {config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
+    let useBenchmark = config.get('useBenchmark');
+    let useCoveralls = config.get('useCoveralls');
+    let useJsinspect = config.get('useJsinspect');
+    return [// Tasks enabled by default
+        'browserSync',
+        'clean',
+        'copy',
+        'csslint',
+        'eslint',
+        'htmlmin',
+        'htmlhintplus',
+        'jsdoc',
+        'jsonlint',
+        'karma',
+        'open',
+        'plato',
+        'requirejs',
+        'watch'
+    ]
+    .concat(// Project tasks enabled by user
+        maybeInclude(useBenchmark, 'benchmark'),
+        maybeInclude(useCoveralls, 'coveralls'),
+        maybeInclude(useJsinspect, 'jsinspect')
+    )
+    .concat(// Webapp tasks enabled by user
+        maybeInclude(useAria, ['a11y', 'accessibility']),
+        maybeInclude(useBrowserify, ['browserify', 'replace', 'uglify']),
+        maybeInclude(useHandlebars, 'handlebars', 'jst'),
+        maybeInclude(useImagemin, ['imagemin', 'copy']),
+        maybeInclude(useLess, 'less'),
+        maybeInclude(useSass, 'sass')
+    );
+}

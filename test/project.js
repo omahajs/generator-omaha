@@ -27,7 +27,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(true, true, true);
+                    verifyProjectConfigs(true, true);
                 });
         });
         it('all prompts FALSE', function() {
@@ -41,7 +41,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(false, false, false);
+                    verifyProjectConfigs(false, false);
                 });
         });
         it('only benchmark FALSE', function() {
@@ -53,7 +53,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(false, true, true);
+                    verifyProjectConfigs(false, true);
                 });
         });
         it('only coveralls FALSE', function() {
@@ -65,7 +65,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(true, false, true);
+                    verifyProjectConfigs(true, false);
                 });
         });
         it('only jsinspect FALSE', function() {
@@ -77,7 +77,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(true, true, false);
+                    verifyProjectConfigs(true, true);
                 });
         });
     });
@@ -97,7 +97,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(true, true, true);
+                    verifyProjectConfigs(true, true);
                 });
         });
         it('--defaults --skip-benchmark', function() {
@@ -109,7 +109,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(false, true, true);
+                    verifyProjectConfigs(false, true);
                 });
         });
         it('--defaults --skip-coveralls', function() {
@@ -121,7 +121,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(true, false, true);
+                    verifyProjectConfigs(true, false);
                 });
         });
         it('--defaults --skip-jsinspect', function() {
@@ -133,7 +133,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(true, true, false);
+                    verifyProjectConfigs(true, true);
                 });
         });
         it('--defaults --skip-benchmark --skip-coveralls --skip-jsinspect', function() {
@@ -147,7 +147,7 @@ describe('Project generator', function() {
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyProjectConfigs(false, false, false);
+                    verifyProjectConfigs(false, false);
                 });
         });
     });

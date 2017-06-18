@@ -1,11 +1,11 @@
 'use strict';
 
-var Yeoman = require('yeoman-generator');
-var banner = require('./banner');
+const Generator = require('yeoman-generator');
+const banner    = require('./banner');
 
-module.exports = Yeoman.extend({
+module.exports = Generator.extend({
     initializing: function() {
-        var options = this.options;
+        let options = this.options;
         this.log(banner);
         this.config.defaults({
             isWebapp: true,

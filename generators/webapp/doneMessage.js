@@ -1,24 +1,24 @@
 'use strict';
 
-var _     = require('lodash');
-var chalk = require('chalk');
+const {capitalize, isBoolean} = require('lodash');
+const chalk = require('chalk');
 
 module.exports = function(generator) {
     var SPACE = ' ';
     var LETS_GET_STARTED = 'npm start';
-    var config = generator.config;
-    var cssPreprocessor = chalk.magenta.bold(_.capitalize(generator.cssPreprocessor));
+    var {config, projectName, useAria, useHandlebars, useImagemin, useBrowserify} = generator;
+    var cssPreprocessor = chalk.magenta.bold(capitalize(generator.cssPreprocessor));
     var message = '' +
-        '\nApplication Name:  ' + chalk.inverse.bold(SPACE + generator.projectName + SPACE) +
-        '\nScript Bundler:    ' + chalk[generator.useBrowserify ? 'yellow' : 'red'].bold(generator.useBrowserify ? 'Browserify' : 'r.js') +
+        '\nApplication Name:  ' + chalk.inverse.bold(SPACE + projectName + SPACE) +
+        '\nScript Bundler:    ' + chalk[useBrowserify ? 'yellow' : 'red'].bold(useBrowserify ? 'Browserify' : 'r.js') +
         '\nCSS pre-processor: ' + cssPreprocessor +
-        '\nTemplate renderer: ' + chalk[generator.useHandlebars ? 'yellow' : 'blue'].bold(generator.useHandlebars ? 'Handlebars' : 'Underscore') +
+        '\nTemplate renderer: ' + chalk[useHandlebars ? 'yellow' : 'blue'].bold(useHandlebars ? 'Handlebars' : 'Underscore') +
         '\n' +
         '\n' + convertToYesNoFunction(config.get('useBenchmark'))('Install benchmarks.js support') +
         '\n' + convertToYesNoFunction(config.get('useCoveralls'))('Integrate Coveralls.io support') +
         '\n' + convertToYesNoFunction(config.get('useJsinspect'))('Find duplicate code with JSInspect') +
-        '\n' + convertToYesNoFunction(generator.useAria)('Perform accessibility audit on HTML code') +
-        '\n' + convertToYesNoFunction(generator.useImagemin)('Compress production images with imagemin') +
+        '\n' + convertToYesNoFunction(useAria)('Perform accessibility audit on HTML code') +
+        '\n' + convertToYesNoFunction(useImagemin)('Compress production images with imagemin') +
         '\n' +
         '\n' + chalk.green.bold('All done!') +
         '\n' + chalk.white('Try out your shiny new app by running ') + chalk.bgBlack.white(SPACE + LETS_GET_STARTED + SPACE) +
@@ -28,4 +28,4 @@ module.exports = function(generator) {
 
 function yes(str) {return chalk.green.bold('✔ ') + chalk.white.bold(str);}
 function no(str) {return chalk.gray.bold('✗ ' + str);}
-function convertToYesNoFunction(val) {return (_.isBoolean(val) && val) ? yes : no;}
+function convertToYesNoFunction(val) {return (isBoolean(val) && val) ? yes : no;}
