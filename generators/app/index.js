@@ -2,13 +2,16 @@
 
 const Generator = require('yeoman-generator');
 const banner    = require('./banner');
+const footer    = require('./doneMessage');
 
 module.exports = Generator.extend({
     initializing: function() {
         let options = this.options;
         this.log(banner);
         this.config.defaults({
+            isComposed: true,
             isWebapp: true,
+            isNative: false,
             hideBanner: true
         });
         this
@@ -16,6 +19,7 @@ module.exports = Generator.extend({
             .composeWith(require.resolve('../webapp'), options);
     },
     end: function() {
-        this.config.set('hideBanner', false);
+        this.log(footer(this));
+        // this.config.set('hideBanner', false);
     }
 });

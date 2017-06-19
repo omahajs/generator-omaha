@@ -1,11 +1,14 @@
 'use strict';
 
-const {isBoolean, merge} = require('lodash');
+const {isBoolean, merge, partialRight} = require('lodash');
 const {readFileSync, writeFileSync} = require('fs-extra');
+
+let maybeInclude = partialRight(maybe, []);
 
 module.exports = {
     copy,
     copyTpl,
+    maybe,
     maybeInclude,
     json: {
         read:   readJSON,
@@ -17,8 +20,8 @@ module.exports = {
     }
 };
 
-function maybeInclude(bool, val, defaultValue) {
-    return (isBoolean(bool) && bool) ? val : (defaultValue || []);
+function maybe(bool, val, defaultValue = []) {
+    return (isBoolean(bool) && bool) ? val : defaultValue;
 }
 function copy(from, to, context) {
     var source = context.templatePath(from);

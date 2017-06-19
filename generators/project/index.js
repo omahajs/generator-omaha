@@ -1,10 +1,11 @@
 'use strict';
 
-const {assign, flatten, includes, partial, partialRight} = require('lodash');
+const {assign, flatten, includes, partial, partialRight, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
 const banner    = require('../app/banner');
+const footer    = require('../app/doneMessage');
 const {project} = require('../app/prompts');
 const tasks     = require('../app/gruntTaskConfigs');
 const {
@@ -75,7 +76,7 @@ module.exports = Generator.extend({
         }
     },
     writing: {
-        configFiles: function() {
+        writeConfigFiles: function() {
             let generator = this;
             let {config, options, use} = generator;
             let _copyTpl = partialRight(copyTpl, generator);
@@ -105,7 +106,7 @@ module.exports = Generator.extend({
             }
             mkdirp(generator.sourceDirectory);
         },
-        testFiles: function() {
+        writeTestFiles: function() {
             let generator = this;
             let {config, useBenchmark} = generator;
             let _copy = partialRight(copy, generator);
@@ -121,28 +122,28 @@ module.exports = Generator.extend({
             }
         }
     },
-    install: function() {
-        let generator = this;
-        let {config, useBenchmark, useCoveralls, useJsinspect} = generator;
-        let isWebapp = config.get('isWebapp');
-        let devDependencies = flatten(maybeInclude(useBenchmark, ['lodash', 'grunt-benchmark']));
-        if (isWebapp) {
-            devDependencies = devDependencies.concat(
-                maybeInclude(useCoveralls, 'grunt-karma-coveralls'),
-                maybeInclude(useJsinspect, ['jsinspect', 'grunt-jsinspect'])
-            );
-        } else {
-            devDependencies = devDependencies.concat(
-                ['nyc', 'coveralls', 'watch'],
-                maybeInclude(useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
-                maybeInclude(useCoveralls, 'coveralls'),
-                maybeInclude(useJsinspect, 'jsinspect')
-            );
-        }
-        generator.npmInstall();
-        generator.npmInstall(devDependencies, {saveDev: true});
-    },
-    end: {
+    install: {
+        installDependencies: function() {
+            let generator = this;
+            let {config, useBenchmark, useCoveralls, useJsinspect} = generator;
+            let isWebapp = config.get('isWebapp');
+            let devDependencies = flatten(maybeInclude(useBenchmark, ['lodash', 'grunt-benchmark']));
+            if (isWebapp) {
+                devDependencies = devDependencies.concat(
+                    maybeInclude(useCoveralls, 'grunt-karma-coveralls'),
+                    maybeInclude(useJsinspect, ['jsinspect', 'grunt-jsinspect'])
+                );
+            } else {
+                devDependencies = devDependencies.concat(
+                    ['nyc', 'coveralls', 'watch'],
+                    maybeInclude(useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
+                    maybeInclude(useCoveralls, 'coveralls'),
+                    maybeInclude(useJsinspect, 'jsinspect')
+                );
+            }
+            generator.npmInstall();
+            generator.npmInstall(devDependencies, {saveDev: true});
+        },
         configurePackageJson: function() {
             let generator = this;
             let {useBenchmark, useCoveralls} = generator;
@@ -179,6 +180,19 @@ module.exports = Generator.extend({
                 gruntfile.insertConfig('benchmark', tasks.benchmark);
                 writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
             }
+        },
+        saveConfiguration: function() {
+            let projectParameters = pick(this, [
+                'projectName',
+                'useBenchmark',
+                'useCoveralls',
+                'useJsinspect'
+            ]);
+            this.config.set({projectParameters});
         }
+    },
+    end: function() {
+        let {config, log} = this;
+        config.get('isComposed') || log(footer(this));
     }
 });

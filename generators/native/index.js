@@ -3,6 +3,7 @@
 const {set}     = require('lodash');
 const Generator = require('yeoman-generator');
 const banner    = require('../app/banner');
+const footer    = require('../app/doneMessage');
 const {
     copy,
     copyTpl,
@@ -30,6 +31,7 @@ module.exports = Generator.extend({
         });
         config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'A. Developer');
         config.defaults({
+            isComposed: true,
             isWebapp: !options.skipWebapp,
             isNative: true,
             hideBanner: true
@@ -48,28 +50,33 @@ module.exports = Generator.extend({
         copyTpl('_index.html', config.get('sourceDirectory') + rendererIndexPath, generator);
         copyTpl('_index.js', 'index.js', set(generator, 'rendererIndexPath', rendererIndexPath));
     },
-    install: function() {
-        let dependencies = [
-            'electron',
-            'electron-debug',
-            'electron-is-dev'
-        ];
-        let devDependencies = [
-            'spectron'
-        ].concat(// work in progress
-          // 'devtron',// waiting on https://github.com/electron/devtron/issues/96
-          // 'electron-builder',// https://github.com/electron-userland/electron-builder
-          // 'electron-packager'// https://github.com/electron-userland/electron-packager
-        );
-        this.npmInstall(dependencies, {save: true});
-        this.npmInstall(devDependencies, {saveDev: true});
+    install: {
+        installDependencies: function() {
+            let dependencies = [
+                'electron',
+                'electron-debug',
+                'electron-is-dev'
+            ];
+            let devDependencies = [
+                'spectron'
+            ].concat(// work in progress
+              // 'devtron',// waiting on https://github.com/electron/devtron/issues/96
+              // 'electron-builder',// https://github.com/electron-userland/electron-builder
+              // 'electron-packager'// https://github.com/electron-userland/electron-packager
+            );
+            this.npmInstall(dependencies, {save: true});
+            this.npmInstall(devDependencies, {saveDev: true});
+        },
+        configurePackageJson: function() {
+            extend(this.destinationPath('package.json'), {
+                main: './index.js',
+                scripts: {
+                    start: 'electron index'
+                }
+            });
+        }
     },
     end: function() {
-        extend(this.destinationPath('package.json'), {
-            main: './index.js',
-            scripts: {
-                start: 'electron index'
-            }
-        });
+        this.log(footer(this));
     }
 });

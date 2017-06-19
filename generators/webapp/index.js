@@ -1,12 +1,11 @@
 'use strict';
 
-const {assign, partial, partialRight} = require('lodash');
+const {assign, partial, partialRight, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
 const {webapp}  = require('../app/prompts');
 const tasks     = require('../app/gruntTaskConfigs');
-const footer    = require('./doneMessage');
 const {
   copy,
   copyTpl,
@@ -118,18 +117,22 @@ module.exports = Generator.extend({
         }
     },
     writing: {
-        configFiles: function() {
-            let {config, options, use, user, useAria, useImagemin} = this;
-            let sourceDirectory = config.get('sourceDirectory');
-            let _copyTpl = partialRight(copyTpl, this);
-            assign(this, {
-                sourceDirectory,
-                isNative:    config.get('isNative'),
-                projectName: config.get('projectName'),
-                userName:    config.get('userName') || user.git.name(),
-                useAria:     use.aria && !options.skipAria,
-                useImagemin: use.imagemin && !options.skipImagemin
+        writeConfigFiles: function() {
+            let generator = this;
+            let {config, options, use, user} = generator;
+            let _copyTpl = partialRight(copyTpl, generator);
+            let attributes = {
+                sourceDirectory: config.get('sourceDirectory'),
+                isNative:        config.get('isNative'),
+                projectName:     config.get('projectName'),
+                userName:        config.get('userName') || user.git.name(),
+                useAria:         use.aria && !options.skipAria,
+                useImagemin:     use.imagemin && !options.skipImagemin
+            };
+            Object.keys(attributes).forEach(name => {
+                generator[name] = attributes[name];
             });
+            let {sourceDirectory, useAria, useImagemin} = attributes;
             config.set('useAria', useAria);
             config.set('useImagemin', useImagemin);
             config.set('pluginDirectory', sourceDirectory);
@@ -138,7 +141,7 @@ module.exports = Generator.extend({
             _copyTpl('tasks/webapp.js', 'tasks/webapp.js');
             _copyTpl('_config.js', `${sourceDirectory}app/config.js`);
         },
-        appFiles: function() {
+        writeAppFiles: function() {
             let {sourceDirectory, useHandlebars} = this;
             let _copyTpl = partialRight(copyTpl, this);
             if (useHandlebars) {
@@ -149,14 +152,14 @@ module.exports = Generator.extend({
             _copyTpl('plugins/*.js', `${sourceDirectory}app/plugins`);
             _copyTpl('shims/*.js', `${sourceDirectory}app/shims`);
         },
-        assets: function() {
+        writeAssetsFiles: function() {
             let {sourceDirectory} = this;
             let _copy = partialRight(copy, this);
             ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${sourceDirectory}assets/${path}`));
             _copy('library/require.min.js', `${sourceDirectory}assets/library/require.min.js`);
             _copy('omaha.png', `${sourceDirectory}assets/images/logo.png`);
         },
-        boilerplate: function() {
+        writeBoilerplateFiles: function() {
             let {sourceDirectory} = this;
             let _copyTpl = partialRight(copyTpl, this);
             _copyTpl('_index.html', `${sourceDirectory}app/index.html`);
@@ -178,100 +181,100 @@ module.exports = Generator.extend({
             }
         }
     },
-    install: function() {
-        let generator = this;
-        let {useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
-        let dependencies = [// always included
-            'jquery',
-            'underscore',
-            'lodash',
-            'backbone',
-            'backbone.marionette',
-            'backbone.radio',
-            'requirejs'
-        ].concat(// conditional dependencies
-            useHandlebars ? 'handlebars' : []
-        );
-        let htmlDevDependencies = [
-            'grunt-contrib-htmlmin',
-            'grunt-htmlhint-plus'
-        ];
-        let cssDevDependencies = [
-            'grunt-contrib-csslint',
-            'grunt-postcss',
-            'autoprefixer',
-            'cssnano',
-            'postcss-safe-parser',
-            'mdcss',
-            'mdcss-theme-github'
-        ];
-        let requirejsDevDependencies = [
-            'grunt-contrib-requirejs',
-            'karma-requirejs'
-        ];
-        let browserifyDependencies = [
-            'browserify',
-            'browserify-shim',
-            'aliasify',
-            'deamdify',
-            'grunt-browserify',
-            'grunt-replace'
-        ];
-        let gruntDependencies = [
-            'grunt',
-            'grunt-browser-sync',
-            'grunt-cli',
-            'grunt-contrib-clean',
-            'grunt-contrib-copy',
-            'grunt-contrib-uglify',
-            'grunt-contrib-watch',
-            'grunt-eslint',
-            'grunt-express',
-            'grunt-jsdoc',
-            'grunt-jsonlint',
-            'grunt-karma',
-            'grunt-open',
-            'grunt-parallel',
-            'grunt-plato',
-            'load-grunt-tasks',
-            'time-grunt'
-        ];
-        let karmaDependencies = [
-            'karma',
-            'karma-chrome-launcher',
-            'karma-coverage',
-            'karma-phantomjs-launcher',
-            'karma-firefox-launcher',
-            'karma-mocha',
-            'karma-requirejs',
-            'karma-spec-reporter'
-        ];
-        let workflowDependencies = [
-            'config',
-            'eslint-plugin-backbone',
-            'fs-promise',
-            'globby',
-            'json-server',
-            'phantomjs-prebuilt'
-        ].concat(
-            gruntDependencies,
-            karmaDependencies,
-            requirejsDevDependencies,
-            htmlDevDependencies,
-            cssDevDependencies
-        );
-        let devDependencies = workflowDependencies.concat(
-            maybeInclude(useBrowserify, browserifyDependencies),
-            maybeInclude(useAria, ['grunt-a11y', 'grunt-accessibility']),
-            maybeInclude(useImagemin, 'grunt-contrib-imagemin'),
-            maybeInclude(useLess, 'grunt-contrib-less'),
-            maybeInclude(useSass, 'grunt-contrib-sass'),
-            maybeInclude(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
-        );
-        generator.npmInstall(dependencies, {save: true});
-        generator.npmInstall(devDependencies, {saveDev: true});
-    },
-    end: {
+    install: {
+        installDependencies: function() {
+            let generator = this;
+            let {useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
+            let dependencies = [// always included
+                'jquery',
+                'underscore',
+                'lodash',
+                'backbone',
+                'backbone.marionette',
+                'backbone.radio',
+                'requirejs'
+            ].concat(// conditional dependencies
+                useHandlebars ? 'handlebars' : []
+            );
+            let htmlDevDependencies = [
+                'grunt-contrib-htmlmin',
+                'grunt-htmlhint-plus'
+            ];
+            let cssDevDependencies = [
+                'grunt-contrib-csslint',
+                'grunt-postcss',
+                'autoprefixer',
+                'cssnano',
+                'postcss-safe-parser',
+                'mdcss',
+                'mdcss-theme-github'
+            ];
+            let requirejsDevDependencies = [
+                'grunt-contrib-requirejs',
+                'karma-requirejs'
+            ];
+            let browserifyDependencies = [
+                'browserify',
+                'browserify-shim',
+                'aliasify',
+                'deamdify',
+                'grunt-browserify',
+                'grunt-replace'
+            ];
+            let gruntDependencies = [
+                'grunt',
+                'grunt-browser-sync',
+                'grunt-cli',
+                'grunt-contrib-clean',
+                'grunt-contrib-copy',
+                'grunt-contrib-uglify',
+                'grunt-contrib-watch',
+                'grunt-eslint',
+                'grunt-express',
+                'grunt-jsdoc',
+                'grunt-jsonlint',
+                'grunt-karma',
+                'grunt-open',
+                'grunt-parallel',
+                'grunt-plato',
+                'load-grunt-tasks',
+                'time-grunt'
+            ];
+            let karmaDependencies = [
+                'karma',
+                'karma-chrome-launcher',
+                'karma-coverage',
+                'karma-phantomjs-launcher',
+                'karma-firefox-launcher',
+                'karma-mocha',
+                'karma-requirejs',
+                'karma-spec-reporter'
+            ];
+            let workflowDependencies = [
+                'config',
+                'eslint-plugin-backbone',
+                'fs-promise',
+                'globby',
+                'json-server',
+                'phantomjs-prebuilt'
+            ].concat(
+                gruntDependencies,
+                karmaDependencies,
+                requirejsDevDependencies,
+                htmlDevDependencies,
+                cssDevDependencies
+            );
+            let devDependencies = workflowDependencies.concat(
+                maybeInclude(useBrowserify, browserifyDependencies),
+                maybeInclude(useAria, ['grunt-a11y', 'grunt-accessibility']),
+                maybeInclude(useImagemin, 'grunt-contrib-imagemin'),
+                maybeInclude(useLess, 'grunt-contrib-less'),
+                maybeInclude(useSass, 'grunt-contrib-sass'),
+                maybeInclude(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
+            );
+            generator.npmInstall(dependencies, {save: true});
+            generator.npmInstall(devDependencies, {saveDev: true});
+        },
         configureDefaultJson: function() {
             let generator = this;
             let {sourceDirectory} = generator;
@@ -367,7 +370,7 @@ module.exports = Generator.extend({
             const placeholder = '/* -- load tasks placeholder -- */';
             const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
             let generator = this;
-            let {log, sourceDirectory, useAria} = this;
+            let {sourceDirectory, useAria} = this;
             let text = readFileSync(generator.destinationPath('Gruntfile.js'))
                 .toString()
                 .replace(placeholder, loadTasks);
@@ -386,7 +389,19 @@ module.exports = Generator.extend({
             // Write to file and display footer
             //
             writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
-            log(footer(generator));
+        },
+        saveConfiguration: function() {
+            let generator = this;
+            let {config} = generator;
+            let projectParameters = assign(config.get('projectParameters'), pick(generator, [
+                'useAria',
+                'useBrowserify',
+                'useHandlebars',
+                'useImagemin',
+                'useLess',
+                'useSass'
+            ]));
+            config.set({projectParameters});
         }
     }
 });
