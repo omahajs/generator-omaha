@@ -40,6 +40,25 @@ yo omaha
 </br>
 ✔ Start creating your app!
 
+Patterns are Paramount
+----------------------
+
+`generator-omaha`strives to enable developers of various skill and experience to more easily implement patterns and architectures with minimal time and effort. Specifically, `generator-omaha` enables the following patterns and capabilities:
+
+- Composite architecture using Marionette.js, "The Backbone Framework"
+- Event driven interactions using Backbone.Radio (included with Marionette.js)
+- View templating with Handlebars (or Lodash) and template pre-compilation
+- Workflow with support for linting, optimization, testing, bundling, and more
+
+> See the full webapp tech stack [here](https://github.com/omahajs/generator-omaha/blob/master/generators/app/README.md)
+
+The default sub-generator may be for a web app, but `generator-omaha` also has [sub-generators](https://github.com/omahajs/generator-omaha/blob/master/GENERATORS.md) for crafting:
+
+- [servers](https://github.com/omahajs/generator-omaha/blob/master/GENERATORS.md#server) built on express with security baked in (using lusca and helmet)
+- [plugins](https://github.com/omahajs/generator-omaha/blob/master/GENERATORS.md#plugin) to support a modular architecture
+- [projects](https://github.com/omahajs/generator-omaha/blob/master/GENERATORS.md#project) with pre-configured modern workflows
+- [native desktop applications](https://github.com/omahajs/generator-omaha/blob/master/GENERATORS.md#native) built on Electron --> *quickly turn your web app into a desktop app*!
+
 Typical Workflows
 -----------------
 > After scaffolding a new project with `yo omaha` ...
