@@ -19,8 +19,8 @@
 
 > A [Yeoman](http://yeoman.io) generator for the modern front-end artisan designed to help you craft sustainable code for the web.
 
-Getting Started
----------------
+Quick Start
+-----------
 ✔ Install [Yeoman](http://yeoman.io/) CLI tool, [Grunt](http://gruntjs.com/) CLI tool,  and [generator-omaha node module](https://www.npmjs.com/package/generator-omaha) globally
 ```bash
 npm install --global yo grunt-cli generator-omaha
