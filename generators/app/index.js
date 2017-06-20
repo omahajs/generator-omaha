@@ -1,14 +1,17 @@
 'use strict';
 
-var Yeoman = require('yeoman-generator');
-var banner = require('./banner');
+const Generator = require('yeoman-generator');
+const banner    = require('./banner');
+const footer    = require('./doneMessage');
 
-module.exports = Yeoman.extend({
+module.exports = Generator.extend({
     initializing: function() {
-        var options = this.options;
+        let options = this.options;
         this.log(banner);
         this.config.defaults({
             isComposed: true,
+            isWebapp: true,
+            isNative: false,
             hideBanner: true
         });
         this
@@ -16,6 +19,7 @@ module.exports = Yeoman.extend({
             .composeWith(require.resolve('../webapp'), options);
     },
     end: function() {
-        this.config.set('hideBanner', false);
+        this.log(footer(this));
+        // this.config.set('hideBanner', false);
     }
 });

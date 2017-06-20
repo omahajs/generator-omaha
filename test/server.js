@@ -1,55 +1,48 @@
 'use strict';
 
-var path    = require('path');
-var assert  = require('yeoman-assert');
-var helpers = require('yeoman-test');
+const path    = require('path');
+const assert  = require('yeoman-assert');
+const helpers = require('yeoman-test');
 
-var DEFAULT_HTTP_PORT = 8111;
-var DEFAULT_HTTPS_PORT = 8443;
-var DEFAULT_WS_PORT = 13337;
+const DEFAULT_HTTP_PORT = 8111;
+const DEFAULT_HTTPS_PORT = 8443;
+const DEFAULT_WS_PORT = 13337;
 
 describe('Server generator', function() {
-    var HTTP_PORT  = 123;
-    var HTTPS_PORT = 456;
-    var WS_PORT    = 789;
+    let skipInstall = true;
+    let defaults = true;
+    let markdownSupport = true;
+    let http = 123;
+    let httpPort = http;
+    let https = 456;
+    let httpsPort = https;
+    let ws    = 789;
+    let websocketPort = ws;
     describe('can create and configure files', function() {
         it('with custom ports set via prompt choices', function() {
             return helpers.run(path.join(__dirname, '../generators/server'))
-                .withOptions({skipInstall: true})
-                .withPrompts({
-                    httpPort:      HTTP_PORT,
-                    httpsPort:     HTTPS_PORT,
-                    websocketPort: WS_PORT,
-                    markdownSupport: true
-                })
+                .withOptions({skipInstall})
+                .withPrompts({httpPort, httpsPort, websocketPort, markdownSupport})
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
+                    verifyPorts(http, https, ws);
                     verifyMarkdownSupport(true);
                 });
         });
         it('with custom ports set via command line options', function() {
             return helpers.run(path.join(__dirname, '../generators/server'))
-                .withOptions({
-                    skipInstall: true,
-                    http:  HTTP_PORT,
-                    https: HTTPS_PORT,
-                    ws:    WS_PORT
-                })
+                .withOptions({skipInstall, http, https, ws})
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
-                    verifyPorts(HTTP_PORT, HTTPS_PORT, WS_PORT);
+                    verifyPorts(http, https, ws);
                     verifyMarkdownSupport(false);
                 });
         });
         it('with default command line options', function() {
             return helpers.run(path.join(__dirname, '../generators/server'))
-                .withOptions({
-                    skipInstall: true,
-                    defaults: true
-                })
+                .withOptions({skipInstall, defaults})
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -59,7 +52,7 @@ describe('Server generator', function() {
         });
         it('with Markdown support', function() {
             return helpers.run(path.join(__dirname, '../generators/server'))
-                .withOptions({skipInstall: true})
+                .withOptions({skipInstall})
                 .withPrompts({markdownSupport: true})
                 .toPromise()
                 .then(function() {
@@ -70,7 +63,7 @@ describe('Server generator', function() {
         });
         it('without Markdown support', function() {
             return helpers.run(path.join(__dirname, '../generators/server'))
-                .withOptions({skipInstall: true})
+                .withOptions({skipInstall})
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -80,9 +73,8 @@ describe('Server generator', function() {
         });
     });
 });
-
 function verifyCoreFiles() {
-    var ALWAYS_INCLUDED = [
+    let ALWAYS_INCLUDED = [
         'package.json',
         'index.js',
         'config/default.js',

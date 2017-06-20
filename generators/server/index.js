@@ -1,14 +1,15 @@
 'use strict';
 
-var _         = require('lodash');
-var Generator = require('yeoman-generator');
-var chalk     = require('chalk');
-var yosay     = require('yosay');
-var utils     = require('../app/utils');
-var copyTpl   = utils.copyTpl;
-var extend    = utils.json.extend;
+const {assign, defaultTo, includes, partialRight, pick} = require('lodash');
+const Generator = require('yeoman-generator');
+const chalk     = require('chalk');
+const yosay     = require('yosay');
+const {
+    copyTpl,
+    json: {extend}
+} = require('../app/utils');
 
-var commandLineOptions = {
+const commandLineOptions = {
     defaults: {
         type: Boolean,
         desc: 'Scaffold server with defaults settings and no user interaction',
@@ -27,7 +28,7 @@ var commandLineOptions = {
         desc: 'WebSocket server port'
     }
 };
-var prompts = [
+const prompts = [
     {
         type: 'input',
         name: 'httpPort',
@@ -57,24 +58,28 @@ var prompts = [
 module.exports = Generator.extend({
     constructor: function() {
         Generator.apply(this, arguments);
-        var generator = this;
+        let generator = this;
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
     },
     prompting: function() {
-        var options = this.options;
-        var customPortSelected = (options.http || options.https || options.ws);
+        let generator = this;
+        let options = this.options;
+        let customPortSelected = (options.http || options.https || options.ws);
         if (options.defaults || customPortSelected) {
-            var done = this.async();
-            this.httpPort = _.defaultTo(options.http, prompts[0].default);
-            this.httpsPort = _.defaultTo(options.https, prompts[1].default);
-            this.websocketPort = _.defaultTo(options.ws, prompts[2].default);
-            this.markdownSupport = prompts[3].default;
+            let done = this.async();
+            let defaults = prompts.map(val => val.default);
+            assign(generator, {
+                httpPort: defaultTo(options.http, defaults[0]),
+                httpsPort: defaultTo(options.https, defaults[1]),
+                websocketPort: defaultTo(options.ws, defaults[2]),
+                markdownSupport: defaults[3]
+            });
             done();
         } else {
-            return this.prompt(prompts).then(function(answers) {
-                _.extend(this, _.pick(answers, [
+            return generator.prompt(prompts).then(function(answers) {
+                assign(generator, pick(answers, [
                     'httpPort',
                     'httpsPort',
                     'websocketPort',
@@ -85,8 +90,8 @@ module.exports = Generator.extend({
     },
     configuring: {
         projectfiles: function() {
-            var generator = this;
-            var _copyTpl = _.partial(copyTpl, _, _, generator);
+            let generator = this;
+            let _copyTpl = partialRight(copyTpl, generator);
             if (generator.markdownSupport) {
                 generator.log(yosay('Place Markdown files in ' + chalk.blue('./web/client/')));
             }
@@ -99,21 +104,23 @@ module.exports = Generator.extend({
     },
     writing: {
         serverFiles: function() {
-            var generator = this;
-            var _copyTpl = _.partial(copyTpl, _, _, generator);
+            let generator = this;
+            let _copyTpl = partialRight(copyTpl, generator);
             _copyTpl('_index.js', 'index.js');
             _copyTpl('_socket.js', 'web/socket.js'); //WebSocket server
             _copyTpl('_server.js', 'web/server.js'); //HTTP server
             _copyTpl('favicon.ico', 'favicon.ico');  //empty favicon
-            this.fs.copy(
-                this.templatePath('ssl/**/*.*'),
-                this.destinationPath('web/ssl')
+            generator.fs.copy(
+                generator.templatePath('ssl/**/*.*'),
+                generator.destinationPath('web/ssl')
             );
         },
         boilerplate: function() {
-            copyTpl('_index.html', 'web/client/index.html', this);
-            if (this.markdownSupport) {
-                copyTpl('example.md', 'web/client/example.md', this);
+            let generator = this;
+            let _copyTpl = partialRight(copyTpl, generator);
+            _copyTpl('_index.html', 'web/client/index.html');
+            if (generator.markdownSupport) {
+                _copyTpl('example.md', 'web/client/example.md');
             }
         }
     },
@@ -121,7 +128,7 @@ module.exports = Generator.extend({
         this.npmInstall();
     },
     end: function() {
-        if (_(['linux', 'freebsd']).includes(process.platform)) {
+        if (includes(['linux', 'freebsd'], process.platform)) {
             this.npmInstall('stmux', {saveDev: true});
             extend('package.json', {
                 scripts: {dev: 'stmux [ \"nodemon index.js\" .. \"npm run lint:watch\" ]'}

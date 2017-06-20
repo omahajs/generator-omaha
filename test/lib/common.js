@@ -1,9 +1,9 @@
 'use strict';
 
-var _      = require('lodash');
-var assert = require('yeoman-assert');
+const _      = require('lodash');
+const assert = require('yeoman-assert');
 
-var browserifyContent = [
+const browserifyContent = [
     ['package.json', '"browser":'],
     ['package.json', '"browserify":'],
     ['package.json', '"aliasify":'],
@@ -11,30 +11,41 @@ var browserifyContent = [
     ['Gruntfile.js', 'replace:'],
     ['Gruntfile.js', 'uglify:']
 ];
-var ariaContent = [
+const ariaContent = [
     ['Gruntfile.js', 'a11y: '],
     ['Gruntfile.js', 'accessibility: '],
     ['Gruntfile.js', 'aria-audit']
 ];
-var verifyLessConfigured = _.partial(verifyPreprocessorConfigured, 'less');
-var verifySassConfigured = _.partial(verifyPreprocessorConfigured, 'sass');
+
+let verifyLessConfigured = _.partial(verifyPreprocessorConfigured, 'less');
+let verifySassConfigured = _.partial(verifyPreprocessorConfigured, 'sass');
 
 module.exports = {
     verifyCoreFiles,
+    verifyNativeFiles,
     verifyBoilerplateFiles,
     verifyDefaultConfiguration,
+    verifyNativeConfiguration,
     verifyDefaultTasksConfiguration,
     verifySassConfigured
 };
 
 function verifyCoreFiles() {
-    var ALWAYS_INCLUDED = [
+    let ALWAYS_INCLUDED = [
         'README.md',
         'Gruntfile.js',
         'config/default.json',
         'config/karma.conf.js',
         'config/.csslintrc',
         'tasks/webapp.js'
+    ];
+    ALWAYS_INCLUDED.forEach(file => assert.file(file));
+}
+function verifyNativeFiles(isWebapp) {
+    let ALWAYS_INCLUDED = [
+        'bin/preload.js',
+        'index.js',
+        isWebapp ? 'renderer/app/index.html' : 'renderer/index.html'
     ];
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
@@ -64,6 +75,10 @@ function verifyDefaultConfiguration(sourceDirectory) {
     assert.noFileContent(browserifyContent);         // script bundler
     assert.noFileContent('Gruntfile.js', 'jst');     // template technology
     assert.fileContent('Gruntfile.js', 'handlebars');// template technology
+}
+function verifyNativeConfiguration(isWebapp) {
+    let startScript = isWebapp ? '"grunt compile && electron index"' : '"electron index"';
+    assert.fileContent('package.json', `"start": ${startScript}`);
 }
 function verifyDefaultTasksConfiguration() {
     var defaultTaskConfigs = [

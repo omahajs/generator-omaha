@@ -1,0 +1,21 @@
+environment:
+  matrix:
+    - nodejs_version: "7"
+    - nodejs_version: "6"
+platform:
+  - x86
+  - x64
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - set CI=true
+  - npm -g install npm@latest
+  - set PATH=%APPDATA%\npm;%PATH%
+  - npm install
+matrix:
+  fast_finish: true
+build: off
+shallow_clone: true
+test_script:
+  - node --version
+  - npm --version
+  - node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- -R spec

@@ -3,7 +3,7 @@ Generators
 - [Project](#project)
 - [Plugin](#plugin)
 - [Server](#server)
-- **coming soon** DesktopApp ("NativeApp"?)
+- [Native](#native)
 
 Project
 -------
@@ -111,4 +111,27 @@ yo omaha:server --http 1234
 Create a server with all custom ports (no markdown support):
 ```sh
 yo omaha:server --http 1234 --https 5678 --ws 9101
+```
+
+Native
+------
+> Scaffold a native application using [Electron](https://electron.atom.io/) (composed with default app generator)
+
+> **TIP:** the  native generator accepts all the [options of the project and webapp generators](https://github.com/omahajs/generator-omaha#command-line-options)
+
+**Options:**
+- `--skip-webapp`: Scaffold a native app without composing with the default omaha app generator (bare-bones renderer)
+
+**Examples:**
+
+- Scaffold a native web app "auto-magically" with defaults and no user input:
+
+```bash
+yo omaha:native --defaults
+```
+
+- Scaffold a native web app with minimal renderer:
+
+```bash
+yo omaha:native --skip-webapp
 ```
