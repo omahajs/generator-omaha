@@ -119,3 +119,10 @@ yo omaha --defaults --template-technology underscore --skip-coveralls
 Alternatives
 ------------
 - See wiki page: [Tools for Creating Web Apps](https://github.com/omahajs/omahajs.github.io/wiki/Tools-for-Creating-Web-Apps)
+
+Credits
+-------
+- [Yeoman](http://yeoman.io/) (d'uh)
+- [railroad-diagrams](https://github.com/tabatkins/railroad-diagrams)
+- [electron-forge](https://github.com/electron-userland/electron-forge)
+- All the awesome open source projects that make *this project* possible
