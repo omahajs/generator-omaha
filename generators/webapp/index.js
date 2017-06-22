@@ -340,7 +340,8 @@ module.exports = Generator.extend({
             if (useBrowserify) {
                 updatePackageJson({
                     browser: {
-                        underscore: './node_modules/underscore/underscore-min.js'
+                        underscore: './node_modules/lodash/lodash.min.js',
+                        lodash:     './node_modules/lodash/lodash.min.js'
                     },
                     browserify: {
                         transform: ['deamdify', 'browserify-shim', 'aliasify']
