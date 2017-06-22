@@ -59,7 +59,6 @@ function verifyBoilerplateFiles(sourceDirectory) {
         'assets/images/logo.png',
         'app/controllers/example.webworker.js',
         'app/helpers/jquery.extensions.js',
-        'app/helpers/underscore.mixins.js',
         'app/plugins/radio.logging.js',
         'app/shims/marionette.handlebars.shim.js'
     ]

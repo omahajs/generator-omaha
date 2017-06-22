@@ -148,7 +148,6 @@ module.exports = Generator.extend({
                 _copyTpl('helpers/handlebars.helpers.js', sourceDirectory + 'app/helpers/handlebars.helpers.js');
             }
             _copyTpl('helpers/jquery.extensions.js', `${sourceDirectory}app/helpers/jquery.extensions.js`);
-            _copyTpl('helpers/underscore.mixins.js', `${sourceDirectory}app/helpers/underscore.mixins.js`);
             _copyTpl('plugins/*.js', `${sourceDirectory}app/plugins`);
             _copyTpl('shims/*.js', `${sourceDirectory}app/shims`);
         },
@@ -341,7 +340,8 @@ module.exports = Generator.extend({
             if (useBrowserify) {
                 updatePackageJson({
                     browser: {
-                        underscore: './node_modules/underscore/underscore-min.js'
+                        underscore: './node_modules/lodash/lodash.min.js',
+                        lodash:     './node_modules/lodash/lodash.min.js'
                     },
                     browserify: {
                         transform: ['deamdify', 'browserify-shim', 'aliasify']

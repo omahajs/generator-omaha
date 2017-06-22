@@ -15,7 +15,6 @@ define(function(require, exports, module) {
     require('./shims/marionette.radio.shim');<% if (useHandlebars) { %>
     require('./helpers/handlebars.helpers');<% } %>
     require('./helpers/jquery.extensions');
-    require('./helpers/underscore.mixins');
 
     /**
      * @class ApplicationModel
