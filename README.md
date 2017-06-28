@@ -14,9 +14,6 @@
     <a href="https://www.bithound.io/github/omahajs/generator-omaha">
         <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
     </a>
-    <a href="https://snyk.io/test/github/omahajs/generator-omaha">
-        <img src="https://snyk.io/test/github/omahajs/generator-omaha/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/omahajs/generator-omaha" style="max-width:100%;">
-    </a>
 </div>
 <br/>
 
