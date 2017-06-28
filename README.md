@@ -8,6 +8,9 @@
     <a href="https://coveralls.io/github/omahajs/generator-omaha?branch=master">
         <img src="https://coveralls.io/repos/omahajs/generator-omaha/badge.svg?branch=master&service=github" alt="Coveralls.io Coverage Status" title="Coveralls.io Coverage Status"/>
     </a>
+    <a href="http://packagequality.com/#?package=generator-omaha">
+        <img src="http://npm.packagequality.com/shield/generator-omaha.svg" alt="Package Quality" title="Package Quality"/>
+    </a>
     <a href="https://www.bithound.io/github/omahajs/generator-omaha">
         <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
     </a>
