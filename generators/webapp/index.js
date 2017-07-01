@@ -186,7 +186,6 @@ module.exports = Generator.extend({
             let {useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
             let dependencies = [// always included
                 'jquery',
-                'underscore',
                 'lodash',
                 'backbone',
                 'backbone.marionette',

@@ -49,10 +49,9 @@ yo omaha:plugin name
 
 **Options:**
 - `--jquery`
-- `--underscore`
+- `--lodash`
 - `--backbone` (automatically includes underscore as a dependency)
 - `--marionette` (automatically includes underscore and backbone as dependencies)
-- `--lodash`
 - `--ramda`
 - `--custom-dependency`: Specify custom dependency name (must be used with `alias` option)
 - `--alias`: Used in tandem with `custom-dependency` to define a custom dependency

@@ -33,7 +33,7 @@ module.exports = function(generator) {
         maybe(isWebapp, [
             `Script Bundler:    ${bold(maybe(useBrowserify, yellow('Browserify'), red('r.js')))}`,
             `CSS pre-processor: ${bold(maybe(useLess, blue('Less'), maybe(useSass, magenta('Sass'), dim('None'))))}`,
-            `Template renderer: ${bold(maybe(useHandlebars, yellow('Handlebars'), blue('Underscore')))}`
+            `Template renderer: ${bold(maybe(useHandlebars, yellow('Handlebars'), blue('Lodash')))}`
         ].map(yes).map(str => `  ${str}`)),
         '',
         yesNo(useBenchmark)('Install benchmarks.js support'),
