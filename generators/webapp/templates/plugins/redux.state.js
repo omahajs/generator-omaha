@@ -49,16 +49,16 @@ define(function(require, exports, module) {
         }
     }
     // middleware
-    function dispatchLogger(store) {
+    function dispatchLogger() {
         return (next) => {
             return (action) => {
                 console.log('Dispatch: ' + action.type);
                 return next(action);
-            }
-        }
+            };
+        };
     }
     // store enhancer
-    function addGetStatePathParameter(store) {
+    function addGetStatePathParameter() {
         return (createStore) => {
             return (reducer, preloadedState, enhancer) => {
                 const store = createStore(reducer, preloadedState, enhancer);
@@ -70,9 +70,9 @@ define(function(require, exports, module) {
                     }
                 };
                 let {dispatch, subscribe} = store;
-                return {getState, dispatch, subscribe}
-            }
-        }
+                return {getState, dispatch, subscribe};
+            };
+        };
     }
     // pure functions
     function increment(val) {
