@@ -20,7 +20,7 @@ define(function(require, exports) {
     **/
     var ExampleModel = Backbone.Model.extend({
         defaults: {
-            name: WebApp.model.get('name')
+            name: WebApp.getState('name')
         }
     });
     /**
