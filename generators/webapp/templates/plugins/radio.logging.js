@@ -36,9 +36,9 @@
  * app.radio.level('none');  //show no logs
  * app.radio.level('error'); //only show 'error' logs
  * app.radio.level('warn');  //show 'error' and 'warn' logs
- * //Note: Unless directly set with level(), the default behavior is to show no logs
- * //Note: Return current logging level with app.radio.level()
- * //Note: Return channels with app.radio.channels()
+ * // Note: Unless directly set with level(), the default behavior is to show no logs
+ * // Note: Return current logging level with app.radio.level()
+ * // Note: Return channels with app.radio.channels()
 **/
 define(function(require, exports) {
     'use strict';
@@ -46,8 +46,8 @@ define(function(require, exports) {
     var _     = require('lodash');
     var Radio = require('backbone.radio');
 
-    Radio.DEBUG = false; //Show & Hide Backbone.Radio debug messages
-    var APP_LOGGING = true;  //Show & Hide Application console messages
+    Radio.DEBUG = false;// Show & Hide Backbone.Radio debug messages
+    var APP_LOGGING = true;// Show & Hide Application console messages
     var MSG_PREFIX  = '%c APP ❱❱ %c';
     var MSG_TYPES   = ['error', 'warn', 'info', 'log', 'trace'];
     var zipObject   = _.isFunction(_.zipObject) ? _.zipObject : _.object;
