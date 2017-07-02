@@ -330,6 +330,7 @@ module.exports = {
                         .replace(/[.]hbs/, "");
                 },
                 templateSettings: {
+                    variable: 'data',
                     interpolate : /\{\{(.+?)\}\}/g
                 }
             },

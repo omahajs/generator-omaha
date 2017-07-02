@@ -2,5 +2,5 @@
 <nav role="navigation"></nav>
 <section id="main"></section>
 <footer role="contentinfo">
-    <a href="#">{{ name }}</a> was made with <span style="color: red;font-weight: bold;">❤</span> using <a href="https://github.com/omahajs/generator-omaha">OMAHA JS</a>
+    <a href="#">{{ <% if (!useHandlebars) { %>data.<% } %>name }}</a> was made with <span style="color: red;font-weight: bold;">❤</span> using <a href="https://github.com/omahajs/generator-omaha">OMAHA JS</a>
 </footer>

@@ -252,7 +252,6 @@ module.exports = Generator.extend({
             let workflowDependencies = [
                 'babel-cli',
                 'babel-preset-env',
-                'babel-plugin-transform-with',
                 'config',
                 'eslint-plugin-backbone',
                 'fs-promise',
@@ -318,7 +317,7 @@ module.exports = Generator.extend({
                 test:         'grunt test',
                 'test:watch': 'grunt karma:covering'
             };
-            let plugins = ['transform-with'];// babel plugins
+            let plugins = [];// babel plugins
             let presets = [['env', {modules: false}]];// babel presets
             if (isNative) {
                 main = './index.js';
