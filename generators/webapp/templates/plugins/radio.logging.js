@@ -5,41 +5,40 @@
  * @module plugins/logging
  * @example <caption>Extend application object</caption>
  * var logging = require('./plugins/radio.logging');
- * var App = new Marionette.Application();
- * _.extend(App, logging);
- * module.exports = App;
+ * var app = new Marionette.Application();
+ * module.exports = Object.assign(app, logging);
  * @example <caption>Use console message methods with custom stylized output</caption>
- * var App = require('app');
- * App.log('hello world');
- * App.info('hello world');
- * App.warn('hello world');
- * App.error('hello world');
+ * var app = require('app');
+ * app.log('hello world');
+ * app.info('hello world');
+ * app.warn('hello world');
+ * app.error('hello world');
  * @example <caption>Leverage Backbone.Radio to "tune" in and out on channels</caption>
- * var App = require('app');
+ * var app = require('app');
  * setInterval(function() {
- *    App.radio.channel('test').trigger('log', 'message');
+ *    app.radio.channel('test').trigger('log', 'message');
  * }, 1000);
- * App.radio.level('log');   //set logging level
- * App.radio.tuneIn('test'); //no need to create the channel first
+ * app.radio.level('log');   //set logging level
+ * app.radio.tuneIn('test'); //no need to create the channel first
  * // See some beautiful log messages in the console
- * App.radio.tuneOut('test'); //messages on test channel will no longer be shown
- * //Note: Remove 'test' channel with App.radio.reset('test')
+ * app.radio.tuneOut('test'); //messages on test channel will no longer be shown
+ * //Note: Remove 'test' channel with app.radio.reset('test')
  * @example <caption>Choose what level gets shown</caption>
- * var App = require('app');
- * App.radio.level('log'); //show all logs
- * App.radio.tuneIn('test'); //no need to create the channel first
+ * var app = require('app');
+ * app.radio.level('log'); //show all logs
+ * app.radio.tuneIn('test'); //no need to create the channel first
  * setInterval(function() {
- *    App.radio.channel('test').trigger('log', 'message');
- *    App.radio.channel('test').trigger('info', 'message');
- *    App.radio.channel('test').trigger('warn', 'message');
- *    App.radio.channel('test').trigger('error', 'message');
+ *    app.radio.channel('test').trigger('log', 'message');
+ *    app.radio.channel('test').trigger('info', 'message');
+ *    app.radio.channel('test').trigger('warn', 'message');
+ *    app.radio.channel('test').trigger('error', 'message');
  * }, 1000);
- * App.radio.level('none');  //show no logs
- * App.radio.level('error'); //only show 'error' logs
- * App.radio.level('warn');  //show 'error' and 'warn' logs
+ * app.radio.level('none');  //show no logs
+ * app.radio.level('error'); //only show 'error' logs
+ * app.radio.level('warn');  //show 'error' and 'warn' logs
  * //Note: Unless directly set with level(), the default behavior is to show no logs
- * //Note: Return current logging level with App.radio.level()
- * //Note: Return channels with App.radio.channels()
+ * //Note: Return current logging level with app.radio.level()
+ * //Note: Return channels with app.radio.channels()
 **/
 define(function(require, exports) {
     'use strict';
