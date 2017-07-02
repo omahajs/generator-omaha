@@ -1,9 +1,10 @@
 module.exports = {
     env: {
         amd: true,
+        es6: true,
         browser: true,
         jquery: true,
-        mocha: true
+        mocha: true,
     },
     globals: {
         sinon: true

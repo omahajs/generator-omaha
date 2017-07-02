@@ -71,7 +71,7 @@ describe('Default generator', function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
                     verifyDefaultTasksConfiguration();
-                    assert.noFileContent('config/.eslintrc.js', 'es6: true,');
+                    assert.fileContent('config/.eslintrc.js', 'es6: true,');
                     assert.fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
                 });
         });

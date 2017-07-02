@@ -215,6 +215,7 @@ module.exports = Generator.extend({
                 'browserify',
                 'browserify-shim',
                 'aliasify',
+                'babelify',
                 'deamdify',
                 'grunt-browserify',
                 'grunt-replace'
@@ -249,13 +250,19 @@ module.exports = Generator.extend({
                 'karma-spec-reporter'
             ];
             let workflowDependencies = [
+                'babel-cli',
+                'babel-preset-env',
                 'config',
                 'eslint-plugin-backbone',
                 'fs-promise',
                 'globby',
                 'json-server',
                 'phantomjs-prebuilt'
-            ].concat(
+            ]
+            .concat(// conditional dependencies
+                !useBrowserify ? 'babel-preset-babili' : []
+            )
+            .concat(
                 gruntDependencies,
                 karmaDependencies,
                 requirejsDevDependencies,
@@ -310,6 +317,8 @@ module.exports = Generator.extend({
                 test:         'grunt test',
                 'test:watch': 'grunt karma:covering'
             };
+            let plugins = [];// babel plugins
+            let presets = [['env', {modules: false}]];// babel presets
             if (isNative) {
                 main = './index.js';
                 assign(scripts, {
@@ -343,7 +352,7 @@ module.exports = Generator.extend({
                         lodash:     './node_modules/lodash/lodash.min.js'
                     },
                     browserify: {
-                        transform: ['deamdify', 'browserify-shim', 'aliasify']
+                        transform: ['deamdify', 'browserify-shim', 'aliasify', 'babelify']
                     },
                     'browserify-shim': {
                         underscore: '_'
@@ -362,8 +371,17 @@ module.exports = Generator.extend({
                         }
                     }
                 });
+            } else {
+                // CAUTION: This is a static reference to dist/client directory
+                let dist = './dist/client/';
+                let temp = `${dist}temp.js`;
+                assign(scripts, {
+                    postbuild: `babel ${temp} -o ${dist}config.js && rm ${temp}`
+                });
+                presets = presets.concat('babili');
             }
-            updatePackageJson({main, scripts});
+            let babel = {plugins, presets};
+            updatePackageJson({main, scripts, babel});
         },
         configureWorkflowTasks: function() {
             const placeholder = '/* -- load tasks placeholder -- */';
