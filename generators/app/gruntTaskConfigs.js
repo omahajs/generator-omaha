@@ -488,23 +488,13 @@ module.exports = {
     requirejs: `{
         bundle: {
             options: {
-                out: '<%= folders.dist %>/<%= folders.client %>/<%= files.configScript %>',
+                out: '<%= folders.dist %>/<%= folders.client %>/temp.js',
                 mainConfigFile: '<%= folders.app %>/<%= files.configScript %>',
                 baseUrl: '<%= folders.app %>',
                 include: ['<%= files.configScript %>'],
                 preserveLicenseComments: false,
                 findNestedDependencies: true,
-                optimize: 'uglify2',
-                uglify2: {
-                    output: {
-                        comments: false,
-                        preamble: '/* <%= package.name %> - v<%= package.version %> - ' +
-                                  '2016-02-07 */'
-                    },
-                    compress: {
-                        drop_console: true //discard calls to console.* functions
-                    }
-                }
+                optimize: 'none'
             }
         }
     }`,
