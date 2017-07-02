@@ -8,27 +8,25 @@
 define(function(require) {
     'use strict';
 
-    var Backbone = require('backbone');
-    var WebApp   = require('app');
-    var Example  = require('router');
-    var View     = require('views/example');
+    const Backbone = require('backbone');
+    const WebApp   = require('app');
+    const Example  = require('router');
+    const View     = require('views/example');
 
-    const name = WebApp.getState('name');
+    let name = WebApp.getState('name');
 
-    WebApp.on('before:start', function() {
+    WebApp.on('before:start', () => {
         console.info(name + ' is starting...');
         WebApp.router = new Example.Router();
     });
-    WebApp.on('start', function() {
+    WebApp.on('start', () => {
         Backbone.history.start();
         console.info(name + ' is started!');
         WebApp.getRegion().show(new View());
     });
-    if (typeof (define) === 'undefined') {
+    if (typeof(define) === 'undefined') {
         //Not AMD ==> Bundled with Browserify
-        document.addEventListener('DOMContentLoaded', function() {
-            WebApp.start();
-        });
+        document.addEventListener('DOMContentLoaded', () => WebApp.start());
     } else {
         //AMD == > Bundled with r.js
         WebApp.start();

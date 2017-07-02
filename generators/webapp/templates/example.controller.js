@@ -6,7 +6,7 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var Marionette = require('backbone.marionette');
+    const Mn = require('backbone.marionette');
 
     /**
      * @name ExampleController
@@ -14,7 +14,7 @@ define(function(require, exports, module) {
      * @constructor
      * @extends Marionette.Object
     **/
-    var ExampleController = Marionette.Object.extend({
+    let ExampleController = Mn.Object.extend({
         //controller code goes here
     });
 

@@ -9,20 +9,21 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var Mn      = require('backbone.marionette');
-    var logging = require('./plugins/radio.logging');
-    var state   = require('./plugins/redux.state');
+    const Mn      = require('backbone.marionette');
+    const logging = require('./plugins/radio.logging');
+    const state   = require('./plugins/redux.state');
 
     require('./shims/marionette.radio.shim');<% if (useHandlebars) { %>
     require('./helpers/handlebars.helpers');<% } %>
     require('./helpers/jquery.extensions');
 
     /**
-     * @class Application
+     * @name Application
+     * @constructor
      * @extends Marionette.Application
      * @prop {string} region='body'
     **/
-    var Application = Mn.Application.extend({
+    let Application = Mn.Application.extend({
         region: 'body'
     });
 
