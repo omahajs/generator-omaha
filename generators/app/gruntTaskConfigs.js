@@ -314,7 +314,7 @@ module.exports = {
         project: {src: ['./*.json', '<%= files.config.csslint %>']}
     }`,
     /**
-     * Pre-compile underscore templates
+     * Pre-compile templates
      * @see {@link https://github.com/gruntjs/grunt-contrib-jst}
     **/
     jst: `{

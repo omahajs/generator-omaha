@@ -98,7 +98,7 @@ yo omaha --defaults --script-bundler browserify
 - Use "silent" web app defaults with custom modifications
 
 ```bash
-yo omaha --defaults --template-technology underscore --skip-coveralls
+yo omaha --defaults --template-technology lodash --skip-coveralls
 ```
 
 **Available options**
@@ -112,7 +112,7 @@ yo omaha --defaults --template-technology underscore --skip-coveralls
 - `--skip-imagemin`: use with `--defaults`
 - `--script-bundler`: **`requirejs`** | `browserify`
 - `--css-preprocessor`: **`less`** | `sass` | `none`
-- `--template-technology`: **`handlebars`** | `underscore`
+- `--template-technology`: **`handlebars`** | `lodash`
 
 **But wait, there's more!** Read about [all the available generators!](GENERATORS.md)
 

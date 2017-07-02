@@ -17,7 +17,6 @@ module.exports = function(karmaConfig) {
             {pattern: 'node_modules/chai/chai.js', included: false},// Chai
             {pattern: 'node_modules/jquery/dist/jquery.js', included: false},// jQuery
             {pattern: 'node_modules/handlebars/dist/handlebars.js', included: false},// Handlebars
-            {pattern: 'node_modules/underscore/underscore.js', included: false},// Underscore
             {pattern: 'node_modules/lodash/lodash.min.js', included: false},// Lodash
             {pattern: 'node_modules/backbone/backbone.js', included: false},// Backbone
             {pattern: 'node_modules/backbone.radio/build/backbone.radio.js', included: false},// Backbone.Radio

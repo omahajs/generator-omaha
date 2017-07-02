@@ -100,9 +100,9 @@ describe('Default generator', function() {
                     verifySassConfigured();
                 });
         });
-        it('all prompts TRUE (--template-technology underscore)', function() {
+        it('all prompts TRUE (--template-technology lodash)', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(merge({}, SKIP_INSTALL, {templateTechnology: 'underscore'}))
+                .withOptions(merge({}, SKIP_INSTALL, {templateTechnology: 'lodash'}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(function() {
@@ -250,9 +250,9 @@ describe('Default generator', function() {
                     assert.noFileContent('Gruntfile.js', 'less: ');
                 });
         });
-        it('--defaults --template-technology underscore', function() {
+        it('--defaults --template-technology lodash', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
-                .withOptions(merge({}, SKIP_INSTALL, {defaults: true, templateTechnology: 'underscore'}))
+                .withOptions(merge({}, SKIP_INSTALL, {defaults: true, templateTechnology: 'lodash'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();
@@ -291,13 +291,13 @@ describe('Default generator', function() {
                     assert.noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
-        it('--defaults --script-bundler browserify --css-preprocessor sass --template-technology underscore', function() {
+        it('--defaults --script-bundler browserify --css-preprocessor sass --template-technology lodash', function() {
             return helpers.run(path.join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {
                     defaults: true,
                     scriptBundler: 'browserify',
                     cssPreprocessor: 'sass',
-                    templateTechnology: 'underscore'}))
+                    templateTechnology: 'lodash'}))
                 .toPromise()
                 .then(function() {
                     verifyCoreFiles();

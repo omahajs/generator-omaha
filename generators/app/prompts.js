@@ -51,7 +51,7 @@ const webappQuestions = [
         type: 'list',
         name: 'templateTechnology',
         message: 'Which technology for templates?',
-        choices: ['handlebars', 'underscore']
+        choices: ['handlebars', 'lodash']
     },
     {
         type: 'confirm',

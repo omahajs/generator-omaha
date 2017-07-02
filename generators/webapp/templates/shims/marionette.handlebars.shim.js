@@ -1,5 +1,5 @@
 /**
- * This shim replaces Underscore.js template functions with Handlebars.js
+ * This shim replaces lodash template functions with Handlebars.js
  * (not needed if templates are pre-compiled)
  */
 define(function(require) {
@@ -15,7 +15,6 @@ define(function(require) {
     };
     Marionette.TemplateCache.prototype.compileTemplate = function(rawTemplate) {
         //If you use pre-compiled Handlebars templates, you can simply return rawTemplate
-        //return rawTemplate;
         return Handlebars.compile(rawTemplate);
     };
 });
