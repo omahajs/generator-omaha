@@ -2,9 +2,8 @@ define(function(require) {
     'use strict';
 
     require('sinon');
-    const expect = require('chai').expect;
-
-    let webapp = require('app');
+    var expect = require('chai').expect;
+    var webapp = require('app');
 
     describe('My Super Cool Web App', function() {
         it('should have predictable redux state', function() {
@@ -16,16 +15,16 @@ define(function(require) {
             expect(webapp.getState('count')).to.equal(42);
         });
         it('should be able to parse JSON objects', function() {
-            let data = JSON.parse('{"foo": "bar"}');
+            var data = JSON.parse('{"foo": "bar"}');
             expect(data.foo).to.equal('bar');
         });
         it('should be able to use SinonJS for servers', function() {
-            let server = sinon.fakeServer.create();
+            var server = sinon.fakeServer.create();
             server.restore();
         });
         it('should be able to use SinonJS spies', function() {
-            let object = {method: function() {}};
-            let spy = sinon.spy(object, 'method');
+            var object = {method: function() {}};
+            var spy = sinon.spy(object, 'method');
             spy.withArgs(42);
             spy.withArgs(1);
             object.method(42);
@@ -34,7 +33,7 @@ define(function(require) {
             sinon.assert.calledOnce(spy.withArgs(1));
         });
         it('should be able to use SinonJS stubs', function() {
-            let callback = sinon.stub();
+            var callback = sinon.stub();
             callback.onFirstCall().returns(1);
             callback.onSecondCall().returns(2);
             callback.onCall(3).returns(3);
