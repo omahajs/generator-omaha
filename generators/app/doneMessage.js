@@ -1,7 +1,8 @@
 'use strict';
 
 const {isBoolean} = require('lodash');
-const {blue, green, magenta, red, white, yellow, bold, dim} = require('chalk');
+const chalk = require('chalk');
+const {blue, green, red, white, yellow, bold, dim} = require('chalk');
 const {maybe} = require('./utils');
 
 module.exports = function(generator) {
@@ -25,15 +26,20 @@ module.exports = function(generator) {
     let isApplication = (isNative || isWebapp);
     let isNativeWebapp = (isNative && isWebapp);
     let type = isApplication ? 'Application' : 'Project';
+
+    let less = chalk.blue('Less');
+    let sass = chalk.hex('#CC6699')('Sass');
+    let handlebars = chalk.hex('#ED8623')('Handlebars');
+
     return [].concat(
         '',
         `${type} Name:  ${bold.inverse(spaceWrap(projectName))}`,
         maybe(isWebapp, ''),
         maybe(isNativeWebapp, 'Renderer:', maybe(isWebapp, 'Webapp:')),
         maybe(isWebapp, [
-            `Script Bundler:    ${bold(maybe(useBrowserify, yellow('Browserify'), red('r.js')))}`,
-            `CSS pre-processor: ${bold(maybe(useLess, blue('Less'), maybe(useSass, magenta('Sass'), dim('None'))))}`,
-            `Template renderer: ${bold(maybe(useHandlebars, yellow('Handlebars'), blue('Lodash')))}`
+            `Script Bundler:    ${bold(maybe(useBrowserify, chalk.hex('#3C6991')('Browserify'), red('r.js')))}`,
+            `CSS pre-processor: ${bold(maybe(useLess, less, maybe(useSass, sass, dim('None'))))}`,
+            `Template renderer: ${bold(maybe(useHandlebars, handlebars, blue('Lodash')))}`
         ].map(yes).map(str => `  ${str}`)),
         '',
         yesNo(useBenchmark)('Install benchmarks.js support'),
