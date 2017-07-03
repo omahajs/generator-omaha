@@ -46,9 +46,9 @@ Patterns are Paramount
 `generator-omaha`strives to enable developers of various skill and experience to more easily implement patterns and architectures with minimal time and effort. Specifically, `generator-omaha` enables the following patterns and capabilities:
 
 - Composite architecture using Marionette.js, "The Backbone Framework"
-- Event driven interactions using Backbone.Radio (included with Marionette.js)
+- [Event driven interactions using Backbone.Radio](https://github.com/omahajs/generator-omaha/tree/master/generators/webapp/templates/plugins#radiologgingjs)
 - View templating with Handlebars (or Lodash) and template pre-compilation
-- Predictable state management with Redux
+- [Predictable state management with Redux](https://github.com/omahajs/generator-omaha/tree/master/generators/webapp/templates/plugins#reduxstatejs)
 - Workflow with support for linting, optimization, testing, bundling, and more
 
 > See the full webapp tech stack [here](https://github.com/omahajs/generator-omaha/blob/master/generators/app/README.md)
