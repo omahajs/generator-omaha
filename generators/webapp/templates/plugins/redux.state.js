@@ -20,10 +20,10 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var {get, update} = require('lodash');
-    var {applyMiddleware, compose, createStore} = require('redux');
+    const {get, update} = require('lodash');
+    const {applyMiddleware, compose, createStore} = require('redux');
 
-    var initialState = {
+    const initialState = {
         name: 'omaha-project',
         count: 42
     };
@@ -50,28 +50,24 @@ define(function(require, exports, module) {
     }
     // middleware
     function dispatchLogger() {
-        return (next) => {
-            return (action) => {
-                console.log('Dispatch: ' + action.type);
-                return next(action);
-            };
+        return (next) => (action) => {
+            console.log('Dispatch: ' + action.type);
+            return next(action);
         };
     }
     // store enhancer
     function addGetStatePathParameter() {
-        return (createStore) => {
-            return (reducer, preloadedState, enhancer) => {
-                const store = createStore(reducer, preloadedState, enhancer);
-                let getState = (path) => {
-                    if (typeof(path) === 'string') {
-                        return get(store.getState(), path);
-                    } else {
-                        return store.getState();
-                    }
-                };
-                let {dispatch, subscribe} = store;
-                return {getState, dispatch, subscribe};
+        return (createStore) => (reducer, preloadedState, enhancer) => {
+            const store = createStore(reducer, preloadedState, enhancer);
+            let getState = (path) => {
+                if (typeof(path) === 'string') {
+                    return get(store.getState(), path);
+                } else {
+                    return store.getState();
+                }
             };
+            let {dispatch, subscribe} = store;
+            return {getState, dispatch, subscribe};
         };
     }
     // pure functions

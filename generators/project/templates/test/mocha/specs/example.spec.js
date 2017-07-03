@@ -2,23 +2,30 @@ define(function(require) {
     'use strict';
 
     require('sinon');
-    var expect = require('chai').expect;
+    const expect = require('chai').expect;
 
-    describe('When using this web app template', function() {
-        it('should be awesome.', function() {
-            expect(true).to.be.true;
+    let webapp = require('app');
+
+    describe('My Super Cool Web App', function() {
+        it('should have predictable redux state', function() {
+            expect(webapp.getState().name).to.equal('omaha-project');
+            expect(webapp.getState('count')).to.equal(42);
+            webapp.dispatch({type: 'INCREMENT'});
+            expect(webapp.getState('count')).to.equal(43);
+            webapp.dispatch({type: 'DECREMENT'});
+            expect(webapp.getState('count')).to.equal(42);
         });
         it('should be able to parse JSON objects', function() {
-            var data = JSON.parse('{"foo": "bar"}');
+            let data = JSON.parse('{"foo": "bar"}');
             expect(data.foo).to.equal('bar');
         });
         it('should be able to use SinonJS for servers', function() {
-            var server = sinon.fakeServer.create();
+            let server = sinon.fakeServer.create();
             server.restore();
         });
         it('should be able to use SinonJS spies', function() {
-            var object = {method: function() {}};
-            var spy = sinon.spy(object, 'method');
+            let object = {method: function() {}};
+            let spy = sinon.spy(object, 'method');
             spy.withArgs(42);
             spy.withArgs(1);
             object.method(42);
@@ -27,7 +34,7 @@ define(function(require) {
             sinon.assert.calledOnce(spy.withArgs(1));
         });
         it('should be able to use SinonJS stubs', function() {
-            var callback = sinon.stub();
+            let callback = sinon.stub();
             callback.onFirstCall().returns(1);
             callback.onSecondCall().returns(2);
             callback.onCall(3).returns(3);
