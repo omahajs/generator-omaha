@@ -3,17 +3,8 @@ define(function(require) {
 
     require('sinon');
     var expect = require('chai').expect;
-    var webapp = require('app');
 
     describe('My Super Cool Web App', function() {
-        it('should have predictable redux state', function() {
-            expect(webapp.getState().name).to.equal('omaha-project');
-            expect(webapp.getState('count')).to.equal(42);
-            webapp.dispatch({type: 'INCREMENT'});
-            expect(webapp.getState('count')).to.equal(43);
-            webapp.dispatch({type: 'DECREMENT'});
-            expect(webapp.getState('count')).to.equal(42);
-        });
         it('should be able to parse JSON objects', function() {
             var data = JSON.parse('{"foo": "bar"}');
             expect(data.foo).to.equal('bar');
