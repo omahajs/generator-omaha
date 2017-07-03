@@ -9,34 +9,26 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var Backbone   = require('backbone');
-    var Marionette = require('backbone.marionette');
+    const Mn      = require('backbone.marionette');
+    const logging = require('./plugins/radio.logging');
+    const state   = require('./plugins/redux.state');
 
     require('./shims/marionette.radio.shim');<% if (useHandlebars) { %>
     require('./helpers/handlebars.helpers');<% } %>
     require('./helpers/jquery.extensions');
 
     /**
-     * @class ApplicationModel
-     * @extends Backbone.Model
-     * @prop {object} default
-     * @prop {string} default.name='omaha-project'
-    **/
-    var ApplicationModel = Backbone.Model.extend({
-        defaults: {
-            name: 'omaha-project'
-        }
-    });
-    /**
-     * @class Application
+     * @name Application
+     * @constructor
      * @extends Marionette.Application
      * @prop {string} region='body'
-     * @prop {ApplicationModel} model
     **/
-    var Application = Marionette.Application.extend({
-        region: 'body',
-        model: new ApplicationModel()
+    let Application = Mn.Application.extend({
+        region: 'body'
     });
 
-    module.exports = new Application();
+    module.exports = Object.assign(new Application(),
+        logging,
+        state
+    );
 });

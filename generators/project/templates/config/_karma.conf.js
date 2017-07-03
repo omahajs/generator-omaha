@@ -18,6 +18,7 @@ module.exports = function(karmaConfig) {
             {pattern: 'node_modules/jquery/dist/jquery.js', included: false},// jQuery
             {pattern: 'node_modules/handlebars/dist/handlebars.js', included: false},// Handlebars
             {pattern: 'node_modules/lodash/lodash.min.js', included: false},// Lodash
+            {pattern: 'node_modules/redux/dist/redux.min.js', included: false},// Redux
             {pattern: 'node_modules/backbone/backbone.js', included: false},// Backbone
             {pattern: 'node_modules/backbone.radio/build/backbone.radio.js', included: false},// Backbone.Radio
             {pattern: 'node_modules/backbone.marionette/lib/backbone.marionette.js', included: false}// Marionette

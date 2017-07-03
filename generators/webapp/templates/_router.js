@@ -6,7 +6,7 @@
 define(function(require, exports) {
     'use strict';
 
-    var Marionette = require('backbone.marionette');
+    const Mn = require('backbone.marionette');
 
     /**
      * @name RouterController
@@ -14,7 +14,7 @@ define(function(require, exports) {
      * @extends Marionette.Object
      * @prop {function} foo Example callback function to be called by ExampleAppRouter
     **/
-    var RouterController = Marionette.Object.extend({
+    let RouterController = Mn.Object.extend({
         foo: function() {
             //code to be executed for 'foo' route
         }
@@ -27,9 +27,9 @@ define(function(require, exports) {
      * @prop {object} appRoutes
      * @prop {string} appRoutes.foo
     **/
-    var ExampleAppRouter = Marionette.AppRouter.extend({
+    let ExampleAppRouter = Mn.AppRouter.extend({
         appRoutes: {
-            'foo': 'foo'
+            foo: 'foo'
         },
         controller: new RouterController()
     });

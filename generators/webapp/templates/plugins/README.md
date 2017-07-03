@@ -53,3 +53,30 @@ App.radio.level('warn');  //show 'error' and 'warn' logs
 //Note: Return current logging level with App.radio.level()
 //Note: Return channels with App.radio.channels()
 ```
+
+[`redux.state.js`](redux.state.js)
+==================
+### **Why?**
+- Enhanced `getState` that accepts path parameter
+- "dispatch logging" middleware
+- Basic reducer showcasing how to leverage lodash for updating state
+
+### Extend application object
+```javascript
+var state = require('./plugins/redux.state');
+var app = new Marionette.Application();
+module.exports = Object.assign(app, state);
+```
+
+### Enhanced getState accepts path parameter
+```javascript
+app.getState();// {name: 'omaha-project', count: 42}
+app.getState('count');// 42
+```
+
+### Update state with Redux API
+```javascript
+app.getState('count');// 42
+app.dispatch('INCREMENT');
+app.getState('count');// 43
+```

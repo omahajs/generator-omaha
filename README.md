@@ -48,6 +48,7 @@ Patterns are Paramount
 - Composite architecture using Marionette.js, "The Backbone Framework"
 - Event driven interactions using Backbone.Radio (included with Marionette.js)
 - View templating with Handlebars (or Lodash) and template pre-compilation
+- Predictable state management with Redux
 - Workflow with support for linting, optimization, testing, bundling, and more
 
 > See the full webapp tech stack [here](https://github.com/omahajs/generator-omaha/blob/master/generators/app/README.md)

@@ -190,6 +190,7 @@ module.exports = Generator.extend({
                 'backbone',
                 'backbone.marionette',
                 'backbone.radio',
+                'redux',
                 'requirejs'
             ].concat(// conditional dependencies
                 useHandlebars ? 'handlebars' : []

@@ -7,8 +7,8 @@
 define(function(require, exports) {
     'use strict';
 
-    var Backbone = require('backbone');
-    var WebApp   = require('app');
+    const Backbone = require('backbone');
+    const WebApp   = require('app');
 
     /**
      * @name ExampleModel
@@ -18,9 +18,9 @@ define(function(require, exports) {
      * @prop {objects} defaults
      * @prop {string} defaults.name
     **/
-    var ExampleModel = Backbone.Model.extend({
+    let ExampleModel = Backbone.Model.extend({
         defaults: {
-            name: WebApp.model.get('name')
+            name: WebApp.getState('name')
         }
     });
     /**
@@ -30,7 +30,7 @@ define(function(require, exports) {
      * @extends Backbone.Collection
      * @prop {ExampleModel} model
     **/
-    var ExampleCollection = Backbone.Collection.extend({
+    let ExampleCollection = Backbone.Collection.extend({
         model: ExampleModel
     });
 

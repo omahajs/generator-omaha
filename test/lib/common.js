@@ -60,6 +60,7 @@ function verifyBoilerplateFiles(sourceDirectory) {
         'app/controllers/example.webworker.js',
         'app/helpers/jquery.extensions.js',
         'app/plugins/radio.logging.js',
+        'app/plugins/redux.state.js',
         'app/shims/marionette.handlebars.shim.js'
     ]
     .map(fileName => sourceDirectory + fileName)

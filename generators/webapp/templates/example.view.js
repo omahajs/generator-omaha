@@ -7,9 +7,9 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var Marionette = require('backbone.marionette');
-    var JST        = require('templates');
-    var Example    = require('models/example');
+    const Mn      = require('backbone.marionette');
+    const JST     = require('templates');
+    const Example = require('models/example');
 
     /**
      * @name ExampleView
@@ -17,7 +17,7 @@ define(function(require, exports, module) {
      * @constructor
      * @extends Marionette.View
     **/
-    var ExampleView = Marionette.View.extend({
+    let ExampleView = Mn.View.extend({
         //view code goes here
         template: JST.example,
         model: new Example.Model()
