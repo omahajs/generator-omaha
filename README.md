@@ -60,6 +60,8 @@ The default sub-generator may be for a web app, but `generator-omaha` also has [
 - [projects](https://github.com/omahajs/generator-omaha/blob/master/GENERATORS.md#project) with pre-configured modern workflows
 - [native desktop applications](https://github.com/omahajs/generator-omaha/blob/master/GENERATORS.md#native) built on Electron --> *quickly turn your web app into a desktop app*!
 
+> **A Note on Semantic Versioning**: This project strives to adhere to the principles of semantic versioning ([semver](http://semver.org/)). However, it seems unreasonable to release major versions for changes to the generated output of `generator-omaha` that are not backwards compatible with the generated output of previous versions. In general, this project will release major versions when the generator API is not backwards compatible ***or*** when the generated outputs undergo substantial changes. In the case of the latter, *a major version increment would serve more as a signifier of significant change* (not necessarily changes that are not backwards compatible). I am perhaps making this more complicated than necessary; however, I want to avoid superficial "churn", but maintain a standardized process for development and enhancement.
+
 Typical Workflows
 -----------------
 > After scaffolding a new project with `yo omaha` ...
