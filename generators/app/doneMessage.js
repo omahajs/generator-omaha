@@ -2,7 +2,7 @@
 
 const {isBoolean} = require('lodash');
 const chalk = require('chalk');
-const {blue, green, red, white, yellow, bold, dim} = require('chalk');
+const {blue, green, magenta, red, white, yellow, bold, dim} = require('chalk');
 const {maybe} = require('./utils');
 
 module.exports = function(generator) {
@@ -28,8 +28,9 @@ module.exports = function(generator) {
     let type = isApplication ? 'Application' : 'Project';
 
     let less = chalk.blue('Less');
-    let sass = chalk.hex('#CC6699')('Sass');
-    let handlebars = chalk.hex('#ED8623')('Handlebars');
+    let sass = magenta('Sass');//chalk.hex('#CC6699')('Sass');
+    let browserify = yellow('Browserify');//chalk.hex('#3C6991')('Browserify')
+    let handlebars = yellow('Handlebars');//chalk.hex('#ED8623')('Handlebars');
 
     return [].concat(
         '',
@@ -37,7 +38,7 @@ module.exports = function(generator) {
         maybe(isWebapp, ''),
         maybe(isNativeWebapp, 'Renderer:', maybe(isWebapp, 'Webapp:')),
         maybe(isWebapp, [
-            `Script Bundler:    ${bold(maybe(useBrowserify, chalk.hex('#3C6991')('Browserify'), red('r.js')))}`,
+            `Script Bundler:    ${bold(maybe(useBrowserify, browserify, red('r.js')))}`,
             `CSS pre-processor: ${bold(maybe(useLess, less, maybe(useSass, sass, dim('None'))))}`,
             `Template renderer: ${bold(maybe(useHandlebars, handlebars, blue('Lodash')))}`
         ].map(yes).map(str => `  ${str}`)),
