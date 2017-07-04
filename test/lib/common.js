@@ -63,8 +63,8 @@ function verifyBoilerplateFiles(sourceDirectory) {
         'app/plugins/redux.state.js',
         'app/shims/marionette.handlebars.shim.js'
     ]
-    .map(fileName => sourceDirectory + fileName)
-    .forEach(file => assert.file(file));
+        .map(fileName => sourceDirectory + fileName)
+        .forEach(file => assert.file(file));
 }
 function verifyDefaultConfiguration(sourceDirectory) {
     verifyCoreFiles();
@@ -72,8 +72,8 @@ function verifyDefaultConfiguration(sourceDirectory) {
     assert.fileContent('Gruntfile.js', 'csslint: ');
     assert.fileContent(ariaContent);
     assert.fileContent('Gruntfile.js', 'imagemin: ');
-    assert.noFileContent(browserifyContent);         // script bundler
-    assert.noFileContent('Gruntfile.js', 'jst');     // template technology
+    assert.noFileContent(browserifyContent); // script bundler
+    assert.noFileContent('Gruntfile.js', 'jst'); // template technology
     assert.fileContent('Gruntfile.js', 'handlebars');// template technology
 }
 function verifyNativeConfiguration(isWebapp) {

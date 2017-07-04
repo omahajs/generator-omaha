@@ -7,7 +7,8 @@ module.exports = {
     env: {
         node: true,
         browser: true,
-        es6: true
+        es6: true,
+        mocha: true
     },
     rules: {
         'max-nested-callbacks': ['warn', 4],
