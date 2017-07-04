@@ -358,7 +358,7 @@ module.exports = {
         },
         coverage: {
             autoWatch: false,
-            browsers: ['PhantomJS'],
+            browsers: ['ChromeHeadless'],
             reporters: ['spec', 'coverage']
         },
         covering: {

@@ -31,6 +31,7 @@ init_test_directory() {
     fi
 }
 prepare() {
+    export CHROME_BIN=$(which chromium-browser)
     BUILD_ID=$1
     SILENT=" > ${TEST_DIRECTORY}/${BUILD_ID}/log-setup.txt 2>&1"
     mkdir $TEST_DIRECTORY/$BUILD_ID

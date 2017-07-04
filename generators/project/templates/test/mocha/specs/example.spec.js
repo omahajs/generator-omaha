@@ -2,20 +2,25 @@ define(function(require) {
     'use strict';
 
     require('sinon');
-    var expect = require('chai').expect;
+    const expect = require('chai').expect;
+    const webapp = require('app');
 
-    describe('My Super Cool Web App', function() {
-        it('should be able to parse JSON objects', function() {
-            var data = JSON.parse('{"foo": "bar"}');
-            expect(data.foo).to.equal('bar');
+    describe('My Super Cool Web App', () => {
+        it('should have a predictable state container', () => {
+            expect(webapp.getState().name).to.equal('omaha-project');
+            expect(webapp.getState('count')).to.equal(42);
+            webapp.dispatch({type: 'INCREMENT'});
+            expect(webapp.getState('count')).to.equal(43);
+            webapp.dispatch({type: 'DECREMENT'});
+            expect(webapp.getState('count')).to.equal(42);
         });
-        it('should be able to use SinonJS for servers', function() {
-            var server = sinon.fakeServer.create();
+        it('should be able to use SinonJS for servers', () => {
+            let server = sinon.fakeServer.create();
             server.restore();
         });
-        it('should be able to use SinonJS spies', function() {
-            var object = {method: function() {}};
-            var spy = sinon.spy(object, 'method');
+        it('should be able to use SinonJS spies', () => {
+            let object = {method: () => {}};
+            let spy = sinon.spy(object, 'method');
             spy.withArgs(42);
             spy.withArgs(1);
             object.method(42);
@@ -23,8 +28,8 @@ define(function(require) {
             sinon.assert.calledOnce(spy.withArgs(42));
             sinon.assert.calledOnce(spy.withArgs(1));
         });
-        it('should be able to use SinonJS stubs', function() {
-            var callback = sinon.stub();
+        it('should be able to use SinonJS stubs', () => {
+            let callback = sinon.stub();
             callback.onFirstCall().returns(1);
             callback.onSecondCall().returns(2);
             callback.onCall(3).returns(3);

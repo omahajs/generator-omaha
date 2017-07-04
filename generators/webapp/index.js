@@ -244,7 +244,6 @@ module.exports = Generator.extend({
                 'karma',
                 'karma-chrome-launcher',
                 'karma-coverage',
-                'karma-phantomjs-launcher',
                 'karma-firefox-launcher',
                 'karma-mocha',
                 'karma-requirejs',
@@ -257,8 +256,7 @@ module.exports = Generator.extend({
                 'eslint-plugin-backbone',
                 'fs-promise',
                 'globby',
-                'json-server',
-                'phantomjs-prebuilt'
+                'json-server'
             ]
             .concat(// conditional dependencies
                 !useBrowserify ? 'babel-preset-babili' : []
