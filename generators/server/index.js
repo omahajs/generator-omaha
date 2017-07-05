@@ -107,9 +107,9 @@ module.exports = Generator.extend({
             let generator = this;
             let _copyTpl = partialRight(copyTpl, generator);
             _copyTpl('_index.js', 'index.js');
-            _copyTpl('_socket.js', 'web/socket.js'); //WebSocket server
-            _copyTpl('_server.js', 'web/server.js'); //HTTP server
-            _copyTpl('favicon.ico', 'favicon.ico');  //empty favicon
+            _copyTpl('_socket.js', 'web/socket.js');// WebSocket server
+            _copyTpl('_server.js', 'web/server.js');// HTTP server
+            _copyTpl('favicon.ico', 'favicon.ico');// empty favicon
             generator.fs.copy(
                 generator.templatePath('ssl/**/*.*'),
                 generator.destinationPath('web/ssl')

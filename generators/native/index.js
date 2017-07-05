@@ -60,9 +60,9 @@ module.exports = Generator.extend({
             let devDependencies = [
                 'spectron'
             ].concat(// work in progress
-              // 'devtron',// waiting on https://github.com/electron/devtron/issues/96
-              // 'electron-builder',// https://github.com/electron-userland/electron-builder
-              // 'electron-packager'// https://github.com/electron-userland/electron-packager
+                // 'devtron',// waiting on https://github.com/electron/devtron/issues/96
+                // 'electron-builder',// https://github.com/electron-userland/electron-builder
+                // 'electron-packager'// https://github.com/electron-userland/electron-packager
             );
             this.npmInstall(dependencies, {save: true});
             this.npmInstall(devDependencies, {saveDev: true});

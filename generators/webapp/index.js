@@ -7,10 +7,10 @@ const Gruntfile = require('gruntfile-editor');
 const {webapp}  = require('../app/prompts');
 const tasks     = require('../app/gruntTaskConfigs');
 const {
-  copy,
-  copyTpl,
-  maybeInclude,
-  json: {extend}
+    copy,
+    copyTpl,
+    maybeInclude,
+    json: {extend}
 } = require('../app/utils');
 
 const commandLineOptions = {
@@ -257,11 +257,9 @@ module.exports = Generator.extend({
                 'fs-promise',
                 'globby',
                 'json-server'
-            ]
-            .concat(// conditional dependencies
+            ].concat(// conditional dependencies
                 !useBrowserify ? 'babel-preset-babili' : []
-            )
-            .concat(
+            ).concat(
                 gruntDependencies,
                 karmaDependencies,
                 requirejsDevDependencies,
@@ -442,17 +440,17 @@ function getTasks(generator) {
         'requirejs',
         'watch'
     ]
-    .concat(// Project tasks enabled by user
-        maybeInclude(useBenchmark, 'benchmark'),
-        maybeInclude(useCoveralls, 'coveralls'),
-        maybeInclude(useJsinspect, 'jsinspect')
-    )
-    .concat(// Webapp tasks enabled by user
-        maybeInclude(useAria, ['a11y', 'accessibility']),
-        maybeInclude(useBrowserify, ['browserify', 'replace', 'uglify']),
-        maybeInclude(useHandlebars, 'handlebars', 'jst'),
-        maybeInclude(useImagemin, ['imagemin', 'copy']),
-        maybeInclude(useLess, 'less'),
-        maybeInclude(useSass, 'sass')
-    );
+        .concat(// Project tasks enabled by user
+            maybeInclude(useBenchmark, 'benchmark'),
+            maybeInclude(useCoveralls, 'coveralls'),
+            maybeInclude(useJsinspect, 'jsinspect')
+        )
+        .concat(// Webapp tasks enabled by user
+            maybeInclude(useAria, ['a11y', 'accessibility']),
+            maybeInclude(useBrowserify, ['browserify', 'replace', 'uglify']),
+            maybeInclude(useHandlebars, 'handlebars', 'jst'),
+            maybeInclude(useImagemin, ['imagemin', 'copy']),
+            maybeInclude(useLess, 'less'),
+            maybeInclude(useSass, 'sass')
+        );
 }
