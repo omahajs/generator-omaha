@@ -4,10 +4,9 @@ const {merge, mapValues, isBoolean} = require('lodash');
 const path      = require('path');
 const sinon     = require('sinon');
 const helpers   = require('yeoman-test');
-const assert    = require('yeoman-assert');
+const {noFile, fileContent, noFileContent} = require('yeoman-assert');
 const Generator = require('yeoman-generator');
 const prompts   = require('../generators/app/prompts');
-
 const {
     verifyCoreFiles,
     verifyBoilerplateFiles,
@@ -55,11 +54,11 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFileContent(browserifyContent);
-                    assert.noFileContent(ariaContent);
-                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
-                    assert.fileContent('config/.eslintrc.js', 'amd: true,');
-                    assert.fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
+                    noFileContent(browserifyContent);
+                    noFileContent(ariaContent);
+                    noFileContent('Gruntfile.js', 'imagemin: ');
+                    fileContent('config/.eslintrc.js', 'amd: true,');
+                    fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
                 });
         });
         it('all prompts TRUE (default configuration)', () => {
@@ -71,8 +70,8 @@ describe('Default generator', function() {
                     verifyBoilerplateFiles('./');
                     verifyDefaultConfiguration();
                     verifyDefaultTasksConfiguration();
-                    assert.fileContent('config/.eslintrc.js', 'es6: true,');
-                    assert.fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
+                    fileContent('config/.eslintrc.js', 'es6: true,');
+                    fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
                 });
         });
         it('all prompts TRUE (--script-bundler browserify)', () => {
@@ -82,9 +81,9 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.fileContent(browserifyContent);
-                    assert.fileContent(ariaContent);
-                    assert.fileContent('Gruntfile.js', 'imagemin: ');
+                    fileContent(browserifyContent);
+                    fileContent(ariaContent);
+                    fileContent('Gruntfile.js', 'imagemin: ');
 
                 });
         });
@@ -102,8 +101,8 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.fileContent('Gruntfile.js', 'jst');
-                    assert.noFileContent('Gruntfile.js', 'handlebars');
+                    fileContent('Gruntfile.js', 'jst');
+                    noFileContent('Gruntfile.js', 'handlebars');
                 });
         });
         it('all prompts TRUE (--skip-aria)', () => {
@@ -113,8 +112,8 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFileContent(ariaContent);
-                    assert.fileContent('Gruntfile.js', 'imagemin: ');
+                    noFileContent(ariaContent);
+                    fileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
         it('all prompts TRUE (--skip-imagemin)', () => {
@@ -124,8 +123,8 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.fileContent(ariaContent);
-                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                    fileContent(ariaContent);
+                    noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
         it('only aria prompt FALSE', () => {
@@ -135,7 +134,7 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFileContent(ariaContent);
+                    noFileContent(ariaContent);
                 });
         });
         it('only imagemin prompt FALSE', () => {
@@ -145,7 +144,7 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                    noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
         it('select browserify via prompt', () => {
@@ -155,9 +154,9 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.fileContent(browserifyContent);
-                    assert.fileContent(ariaContent);
-                    assert.fileContent('Gruntfile.js', 'imagemin: ');
+                    fileContent(browserifyContent);
+                    fileContent(ariaContent);
+                    fileContent('Gruntfile.js', 'imagemin: ');
 
                 });
         });
@@ -175,11 +174,11 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFile('assets/css/reset.css');
-                    assert.noFile('assets/less/style.less');
-                    assert.noFile('assets/sass/style.scss');
-                    assert.noFileContent('Gruntfile.js', 'sass: ');
-                    assert.noFileContent('Gruntfile.js', 'less: ');
+                    noFile('assets/css/reset.css');
+                    noFile('assets/less/style.less');
+                    noFile('assets/sass/style.scss');
+                    noFileContent('Gruntfile.js', 'sass: ');
+                    noFileContent('Gruntfile.js', 'less: ');
                 });
         });
     });
@@ -204,7 +203,7 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.fileContent(browserifyContent);
+                    fileContent(browserifyContent);
                 });
         });
         it('--defaults --css-preprocessor sass', () => {
@@ -219,11 +218,11 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFile('assets/css/reset.css');
-                    assert.noFile('assets/less/style.less');
-                    assert.noFile('assets/sass/style.scss');
-                    assert.noFileContent('Gruntfile.js', 'sass: ');
-                    assert.noFileContent('Gruntfile.js', 'less: ');
+                    noFile('assets/css/reset.css');
+                    noFile('assets/less/style.less');
+                    noFile('assets/sass/style.scss');
+                    noFileContent('Gruntfile.js', 'sass: ');
+                    noFileContent('Gruntfile.js', 'less: ');
                 });
         });
         it('--defaults --template-technology lodash', () => {
@@ -232,8 +231,8 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.fileContent('Gruntfile.js', 'jst');
-                    assert.noFileContent('Gruntfile.js', 'handlebars');
+                    fileContent('Gruntfile.js', 'jst');
+                    noFileContent('Gruntfile.js', 'handlebars');
                 });
         });
         it('--defaults --skip-aria --skip-imagemin', () => {
@@ -245,8 +244,8 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFileContent(ariaContent);
-                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                    noFileContent(ariaContent);
+                    noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
         it('--defaults --skip-aria --skip-imagemin --script-bundler browserify', () => {
@@ -259,9 +258,9 @@ describe('Default generator', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.fileContent(browserifyContent);
-                    assert.noFileContent(ariaContent);
-                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                    fileContent(browserifyContent);
+                    noFileContent(ariaContent);
+                    noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
         it('--defaults --script-bundler browserify --css-preprocessor sass --template-technology lodash', () => {
@@ -275,11 +274,11 @@ describe('Default generator', function() {
                 .then(() => {
                     verify();
                     verifySassConfigured();
-                    assert.fileContent(browserifyContent);
-                    assert.fileContent('Gruntfile.js', 'jst');
-                    assert.noFileContent('Gruntfile.js', 'handlebars');
-                    assert.fileContent(ariaContent);
-                    assert.fileContent('Gruntfile.js', 'imagemin: ');
+                    fileContent(browserifyContent);
+                    fileContent('Gruntfile.js', 'jst');
+                    noFileContent('Gruntfile.js', 'handlebars');
+                    fileContent(ariaContent);
+                    fileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
     });
@@ -316,9 +315,9 @@ describe('Default generator (with custom source directory)', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFileContent(browserifyContent);
-                    assert.noFileContent(ariaContent);
-                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                    noFileContent(browserifyContent);
+                    noFileContent(ariaContent);
+                    noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
         it('only aria prompt FALSE', () => {
@@ -328,9 +327,9 @@ describe('Default generator (with custom source directory)', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFileContent(browserifyContent);
-                    assert.noFileContent(ariaContent);
-                    assert.fileContent('Gruntfile.js', 'imagemin: ');
+                    noFileContent(browserifyContent);
+                    noFileContent(ariaContent);
+                    fileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
         it('only imagemin prompt FALSE', () => {
@@ -340,9 +339,9 @@ describe('Default generator (with custom source directory)', function() {
                 .toPromise()
                 .then(() => {
                     verify();
-                    assert.noFileContent(browserifyContent);
-                    assert.fileContent(ariaContent);
-                    assert.noFileContent('Gruntfile.js', 'imagemin: ');
+                    noFileContent(browserifyContent);
+                    fileContent(ariaContent);
+                    noFileContent('Gruntfile.js', 'imagemin: ');
                 });
         });
     });
