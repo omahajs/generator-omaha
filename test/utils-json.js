@@ -1,22 +1,22 @@
 'use strict';
 
-const path         = require('path');
+const {join}       = require('path');
 const {unlinkSync} = require('fs');
 const {json}       = require('../generators/app/utils');
 const chai         = require('chai');
 const {assert}     = chai;
 chai.use(require('chai-shallow-deep-equal'));
 
-describe('Generator JSON utility', function() {
+describe('Generator JSON utility', () => {
     let content;
-    let testJSON = path.join(__dirname, 'test.json');
-    beforeEach(function() {
+    let testJSON = join(__dirname, 'test.json');
+    beforeEach(() => {
         json.write(testJSON, {foo: 'bar'});
     });
-    afterEach(function() {
+    afterEach(() => {
         unlinkSync(testJSON);
     });
-    it('can extend JSON files', function() {
+    it('can extend JSON files', () => {
         content = json.read(testJSON);
         assert.shallowDeepEqual(content, {foo: 'bar'});
         json.extend(testJSON, {bar: 'baz'});

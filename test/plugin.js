@@ -2,103 +2,90 @@
 
 const path    = require('path');
 const helpers = require('yeoman-test');
-const assert  = require('yeoman-assert');
+const {fileContent, noFileContent}  = require('yeoman-assert');
 
-describe('Plugin generator', function() {
-    let pluginName = 'pluginName';
-    let pluginPath = 'app/plugins/' + pluginName + '.js';
-    it('can create a vanilla JavaScript plugin', function() {
-        return createPlugin({
-            name: pluginName,
-            dependencies: []
-        }).then(function() {
-            assert.fileContent(pluginPath, '* @exports ' + pluginName);
-            assert.fileContent(pluginPath, 'define([], function() {');
-            assert.fileContent(pluginPath, 'module.exports = factory(root);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root);');
-            assert.fileContent(pluginPath, '}(this, function(root) {');
+describe('Plugin generator', () => {
+    let name = 'pluginName';
+    let pluginPath = 'app/plugins/' + name + '.js';
+    it('can create a vanilla JavaScript plugin', () => {
+        let dependencies = [];
+        return createPlugin({name, dependencies}).then(() => {
+            fileContent(pluginPath, '* @exports ' + name);
+            fileContent(pluginPath, 'define([], function() {');
+            fileContent(pluginPath, 'module.exports = factory(root);');
+            fileContent(pluginPath, 'root.' + name + ' = factory(root);');
+            fileContent(pluginPath, '}(this, function(root) {');
             ['jquery', 'underscore', 'backbone', 'marionette'].forEach(function(alias) {
-                assert.noFileContent(pluginPath, 'var ' + alias + ' = require(\'');
+                noFileContent(pluginPath, 'var ' + alias + ' = require(\'');
             });
         });
     });
-    it('can create a jQuery plugin', function() {
-        return createPlugin({
-            name: pluginName,
-            dependencies: ['jquery']
-        }).then(function() {
-            assert.fileContent(pluginPath, '* @exports ' + pluginName);
-            assert.fileContent(pluginPath, 'define([\'jquery\'], function($) {');
-            assert.fileContent(pluginPath, 'var $ = require(\'jquery\');');
-            assert.fileContent(pluginPath, 'module.exports = factory(root, $);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, $);');
-            assert.fileContent(pluginPath, '}(this, function(root, $) {');
+    it('can create a jQuery plugin', () => {
+        let dependencies = ['jquery'];
+        return createPlugin({name, dependencies}).then(() => {
+            fileContent(pluginPath, '* @exports ' + name);
+            fileContent(pluginPath, 'define([\'jquery\'], function($) {');
+            fileContent(pluginPath, 'var $ = require(\'jquery\');');
+            fileContent(pluginPath, 'module.exports = factory(root, $);');
+            fileContent(pluginPath, 'root.' + name + ' = factory(root, $);');
+            fileContent(pluginPath, '}(this, function(root, $) {');
         });
     });
-    it('can create an Underscore.js plugin', function() {
-        return createPlugin({
-            name: pluginName,
-            dependencies: ['underscore']
-        }).then(function() {
-            assert.fileContent(pluginPath, '* @exports ' + pluginName);
-            assert.fileContent(pluginPath, 'define([\'underscore\'], function(_) {');
-            assert.fileContent(pluginPath, 'var _ = require(\'underscore\');');
-            assert.fileContent(pluginPath, 'module.exports = factory(root, _);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _);');
-            assert.fileContent(pluginPath, '}(this, function(root, _) {');
+    it('can create an Underscore.js plugin', () => {
+        let dependencies = ['underscore'];
+        return createPlugin({name, dependencies}).then(() => {
+            fileContent(pluginPath, '* @exports ' + name);
+            fileContent(pluginPath, 'define([\'underscore\'], function(_) {');
+            fileContent(pluginPath, 'var _ = require(\'underscore\');');
+            fileContent(pluginPath, 'module.exports = factory(root, _);');
+            fileContent(pluginPath, 'root.' + name + ' = factory(root, _);');
+            fileContent(pluginPath, '}(this, function(root, _) {');
         });
     });
-    it('can create a Backbone.js plugin', function() {
-        return createPlugin({
-            name: pluginName,
-            dependencies: ['backbone']
-        }).then(function() {
-            assert.fileContent(pluginPath, '* @exports ' + pluginName);
-            assert.fileContent(pluginPath, 'define([\'underscore\',\'backbone\'], function(_, Backbone) {');
-            assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone);');
-            assert.fileContent(pluginPath, '}(this, function(root, _, Backbone) {');
+    it('can create a Backbone.js plugin', () => {
+        let dependencies = ['backbone'];
+        return createPlugin({name, dependencies}).then(() => {
+            fileContent(pluginPath, '* @exports ' + name);
+            fileContent(pluginPath, 'define([\'underscore\',\'backbone\'], function(_, Backbone) {');
+            fileContent(pluginPath, 'module.exports = factory(root, _, Backbone);');
+            fileContent(pluginPath, 'root.' + name + ' = factory(root, _, Backbone);');
+            fileContent(pluginPath, '}(this, function(root, _, Backbone) {');
         });
     });
-    it('can create a MarionetteJS plugin', function() {
-        return createPlugin({
-            name: pluginName,
-            dependencies: ['marionette']
-        }).then(function() {
-            assert.fileContent(pluginPath, '* @exports ' + pluginName);
-            assert.fileContent(pluginPath, 'define([\'underscore\',\'backbone\',\'marionette\'], function(_, Backbone, Marionette) {');
-            assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone, Marionette);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone, Marionette);');
-            assert.fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
+    it('can create a MarionetteJS plugin', () => {
+        let dependencies = ['marionette'];
+        return createPlugin({name, dependencies}).then(() => {
+            fileContent(pluginPath, '* @exports ' + name);
+            fileContent(pluginPath, 'define([\'underscore\',\'backbone\',\'marionette\'], function(_, Backbone, Marionette) {');
+            fileContent(pluginPath, 'module.exports = factory(root, _, Backbone, Marionette);');
+            fileContent(pluginPath, 'root.' + name + ' = factory(root, _, Backbone, Marionette);');
+            fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
         });
     });
-    it('can create a MarionetteJS plugin using command line options', function() {
-        return createPlugin({
-            name: pluginName,
-            dependencies: ['marionette'],
-            useCommandLineOptions: true
-        }).then(function() {
-            assert.fileContent(pluginPath, '* @exports ' + pluginName);
-            assert.fileContent(pluginPath, 'define([\'underscore\',\'backbone\',\'marionette\'], function(_, Backbone, Marionette) {');
-            assert.fileContent(pluginPath, 'module.exports = factory(root, _, Backbone, Marionette);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, _, Backbone, Marionette);');
-            assert.fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
+    it('can create a MarionetteJS plugin using command line options', () => {
+        let dependencies = ['marionette'];
+        return createPlugin({name, dependencies, useCommandLineOptions: true}).then(() => {
+            fileContent(pluginPath, '* @exports ' + name);
+            fileContent(pluginPath, 'define([\'underscore\',\'backbone\',\'marionette\'], function(_, Backbone, Marionette) {');
+            fileContent(pluginPath, 'module.exports = factory(root, _, Backbone, Marionette);');
+            fileContent(pluginPath, 'root.' + name + ' = factory(root, _, Backbone, Marionette);');
+            fileContent(pluginPath, '}(this, function(root, _, Backbone, Marionette) {');
         });
     });
-    it('can create a plugin with a custom dependency', function() {
+    it('can create a plugin with a custom dependency', () => {
         return createPlugin({
-            name: pluginName,
+            name,
             dependencies: [],
             customDependency: 'FooBar',
             alias: 'foo',
             useCommandLineOptions: true
-        }).then(function() {
-            assert.fileContent(pluginPath, '* @exports ' + pluginName);
-            assert.fileContent(pluginPath, 'define([\'FooBar\'], function(foo) {');
-            assert.fileContent(pluginPath, 'var foo = require(\'FooBar\');');
-            assert.fileContent(pluginPath, 'module.exports = factory(root, foo);');
-            assert.fileContent(pluginPath, 'root.' + pluginName + ' = factory(root, foo);');
-            assert.fileContent(pluginPath, '}(this, function(root, foo) {');
+        }).then(() => {
+            fileContent(pluginPath, '* @exports ' + name);
+            fileContent(pluginPath, 'define([\'FooBar\'], function(foo) {');
+            fileContent(pluginPath, 'var foo = require(\'FooBar\');');
+            fileContent(pluginPath, 'module.exports = factory(root, foo);');
+            fileContent(pluginPath, 'root.' + name + ' = factory(root, foo);');
+            fileContent(pluginPath, '}(this, function(root, foo) {');
         });
     });
 });
@@ -112,10 +99,11 @@ function createPlugin(options) {
             testOptions[dep] = true;
         });
     }
+    let {dependencies} = options;
     return helpers.run(path.join(__dirname, '../generators/plugin'))
         .withLocalConfig({pluginDirectory: './'})
         .withArguments([options.name])
-        .withPrompts({dependencies: options.dependencies})
+        .withPrompts({dependencies})
         .withOptions(options.useCommandLineOptions ? testOptions : {})
         .toPromise();
 }
