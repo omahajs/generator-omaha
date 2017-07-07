@@ -137,7 +137,7 @@ module.exports = Generator.extend({
             config.set('useImagemin', useImagemin);
             config.set('pluginDirectory', sourceDirectory);
             _copyTpl('_README.md', 'README.md');
-            _copyTpl('config/_csslintrc', 'config/.csslintrc');
+            _copyTpl('config/stylelint.config.js', 'config/stylelint.config.js');
             _copyTpl('tasks/webapp.js', 'tasks/webapp.js');
             _copyTpl('_config.js', `${sourceDirectory}app/config.js`);
         },
@@ -200,10 +200,11 @@ module.exports = Generator.extend({
                 'grunt-htmlhint-plus'
             ];
             let cssDevDependencies = [
-                'grunt-contrib-csslint',
                 'grunt-postcss',
                 'autoprefixer',
+                'stylelint',
                 'cssnano',
+                'postcss-reporter',
                 'postcss-safe-parser',
                 'mdcss',
                 'mdcss-theme-github'
@@ -310,7 +311,7 @@ module.exports = Generator.extend({
             let scripts = {
                 lint:         'grunt eslint:src',
                 'lint:watch': 'grunt eslint:ing watch:eslint',
-                'lnit:tests': 'grunt eslint:tests',
+                'lint:tests': 'grunt eslint:tests',
                 test:         'grunt test',
                 'test:watch': 'grunt karma:covering'
             };
@@ -378,7 +379,8 @@ module.exports = Generator.extend({
                 presets = presets.concat('babili');
             }
             let babel = {plugins, presets};
-            updatePackageJson({main, scripts, babel});
+            let stylelint = {extends: './config/stylelint.config.js'};
+            updatePackageJson({main, scripts, babel, stylelint});
         },
         configureWorkflowTasks: function() {
             const placeholder = '/* -- load tasks placeholder -- */';
@@ -428,7 +430,6 @@ function getTasks(generator) {
         'browserSync',
         'clean',
         'copy',
-        'csslint',
         'eslint',
         'htmlmin',
         'htmlhintplus',

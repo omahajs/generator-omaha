@@ -12,7 +12,6 @@ module.exports = function(grunt) {
     task('lint', 'Lint JSON, CSS, and JS code', [
         'jsonlint',
         'htmlhintplus',
-        'csslint',
         'eslint:src'
     ]);
     task('linting', 'Watch task for real-time linting', [
@@ -21,7 +20,6 @@ module.exports = function(grunt) {
     ]);
     task('styling', 'Watch task for real-time styling', [
         'process-styles',
-        'csslint',
         'watch:style'
     ]);
     task('test', 'Run full test and validation battery', [

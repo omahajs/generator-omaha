@@ -29,10 +29,10 @@ Folder Structure
     |       |- reset.scss
     |       \- style.scss<% } %>
     +- config
-    |   |- .csslintrc
     |   |- .eslintrc.js
     |   |- default.js
-    |   \- karma.conf.js
+    |   |- karma.conf.js
+    |   \- stylelint.config.js
     +- tasks
     |   \- webapp.js
     +- test

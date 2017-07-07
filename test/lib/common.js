@@ -36,7 +36,7 @@ function verifyCoreFiles() {
         'Gruntfile.js',
         'config/default.json',
         'config/karma.conf.js',
-        'config/.csslintrc',
+        'config/stylelint.config.js',
         'tasks/webapp.js'
     ];
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
@@ -69,7 +69,6 @@ function verifyBoilerplateFiles(sourceDirectory) {
 function verifyDefaultConfiguration(sourceDirectory) {
     verifyCoreFiles();
     verifyLessConfigured(sourceDirectory);
-    assert.fileContent('Gruntfile.js', 'csslint: ');
     assert.fileContent(ariaContent);
     assert.fileContent('Gruntfile.js', 'imagemin: ');
     assert.noFileContent(browserifyContent); // script bundler
