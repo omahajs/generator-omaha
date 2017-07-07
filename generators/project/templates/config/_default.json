@@ -20,9 +20,8 @@
         },
         "files": {
             "config": {
-                "csslint": "./config/.csslintrc",
-                "eslint":  "./config/.eslintrc.js",
-                "karma":   "./config/karma.conf.js"
+                "eslint": "./config/.eslintrc.js",
+                "karma":  "./config/karma.conf.js"
             },
             "index":        "index.html",
             "scripts":      "**/*.js",

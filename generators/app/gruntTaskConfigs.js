@@ -160,14 +160,6 @@ module.exports = {
         }
     }`,
     /**
-     * Lint compiled CSS output file
-     * @see {@link https://github.com/gruntjs/grunt-contrib-csslint}
-    **/
-    csslint: `{
-        options: {csslintrc: '<%= files.config.csslint %>'},
-        src: ['<%= folders.app %>/style.css']
-    }`,
-    /**
      * Validate files with ESLint
      * @see {@link https://www.npmjs.com/package/grunt-eslint}
     **/
@@ -311,7 +303,7 @@ module.exports = {
      * @see {@link https://github.com/brandonramirez/grunt-jsonlint}
     **/
     jsonlint: `{
-        project: {src: ['./*.json', '<%= files.config.csslint %>']}
+        project: {src: ['./*.json']}
     }`,
     /**
      * Pre-compile templates
@@ -428,21 +420,23 @@ module.exports = {
     postcss: function(sourceDirectory) {
         return `{
             options: {
-                parser: require("postcss-safe-parser"),
+                parser: require('postcss-safe-parser'),
                 processors: [
-                    require("autoprefixer")({browsers: "last 2 versions"}),
-                    require("cssnano")()
+                    require('autoprefixer')({browsers: 'last 2 versions'}),
+                    require('stylelint')(),
+                    require('cssnano')(),
+                    require('postcss-reporter')({clearReportedMessages: true})
                 ]
             },
             dev: {
                 options: {
                     map: {
                         inline: false,
-                        annotation: "<%= folders.app %>"
+                        annotation: '<%= folders.app %>'
                     }
                 },
-                src: ["<%= folders.app %>/*.css", "<%= folders.assets %>/css/style.css"],
-                dest: "<%= folders.app %>/style.css"
+                src: ['<%= folders.app %>/*.css', '<%= folders.assets %>/css/style.css'],
+                dest: '<%= folders.app %>/style.css'
             },
             prod: {
                 src:  "<%= folders.app %>/*.css",
@@ -540,7 +534,7 @@ module.exports = {
     watch: `{
         style: {
             files: ['<%= folders.assets %>/<%= files.styles %>'],
-            tasks: ['process-styles', 'csslint'],
+            tasks: ['process-styles'],
             options: {spawn: false}
         },
         eslint: {
@@ -550,8 +544,8 @@ module.exports = {
         },
         lint: {
             files: [
-                '<%= folders.app %>/style.css',            //CSS
-                '<%= folders.app %>/<%= files.scripts %>' //Scripts
+                '<%= folders.app %>/style.css',// CSS
+                '<%= folders.app %>/<%= files.scripts %>'// Scripts
             ],
             tasks: ['lint'],
             options: {spawn: false}
