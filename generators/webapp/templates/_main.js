@@ -16,12 +16,12 @@ define(function(require) {
     let name = WebApp.getState('name');
 
     WebApp.on('before:start', () => {
-        console.info(name + ' is starting...');
+        WebApp.info(name + ' is starting...');
         WebApp.router = new Example.Router();
     });
     WebApp.on('start', () => {
         Backbone.history.start();
-        console.info(name + ' is started!');
+        WebApp.info(name + ' is started!');
         WebApp.getRegion().show(new View());
     });
     if (typeof(define) === 'undefined') {
