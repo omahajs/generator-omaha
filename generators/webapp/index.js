@@ -185,11 +185,12 @@ module.exports = Generator.extend({
             let generator = this;
             let {useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
             let dependencies = [// always included
-                'jquery',
-                'lodash',
                 'backbone',
                 'backbone.marionette',
                 'backbone.radio',
+                'jquery',
+                'lodash',
+                'morphdom',
                 'redux',
                 'requirejs'
             ].concat(// conditional dependencies
@@ -365,7 +366,8 @@ module.exports = Generator.extend({
                             'models/(\\w+)':      `./${sourceDirectory}app/models/$1`,
                             'views/(\\w+)':       `./${sourceDirectory}app/views/$1`,
                             'controllers/(\\w+)': `./${sourceDirectory}app/controllers/$1`,
-                            'plugins/(\\w+)':     `./${sourceDirectory}app/plugins/$1`
+                            'plugins/(\\w+)':     `./${sourceDirectory}app/plugins/$1`,
+                            'shims/(\\w+)':       `./${sourceDirectory}app/shims/$1`
                         }
                     }
                 });
