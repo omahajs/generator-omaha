@@ -1,7 +1,7 @@
 /**
  * This shim replaces lodash template functions with Handlebars.js
  * (not needed if templates are pre-compiled)
- */
+**/
 define(function(require) {
     'use strict';
 

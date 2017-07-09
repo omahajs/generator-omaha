@@ -61,7 +61,7 @@ function verifyBoilerplateFiles(sourceDirectory) {
         'app/helpers/jquery.extensions.js',
         'app/plugins/radio.logging.js',
         'app/plugins/redux.state.js',
-        'app/shims/marionette.handlebars.shim.js'
+        'app/shims/mn.morphdom.renderer.shim.js'
     ]
         .map(fileName => sourceDirectory + fileName)
         .forEach(file => assert.file(file));

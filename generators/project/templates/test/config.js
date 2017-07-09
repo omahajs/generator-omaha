@@ -18,6 +18,7 @@ requirejs.config({
         //Backbone Libraries, Frameworks and Dependencies
         jquery:                '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/jquery/dist/jquery',
         lodash:                '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/lodash/lodash.min',
+        morphdom:              '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/morphdom/dist/morphdom-umd.min',
         redux:                 '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/redux/dist/redux.min',
         'backbone':            '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone/backbone',
         'backbone.radio':      '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone.radio/build/backbone.radio',

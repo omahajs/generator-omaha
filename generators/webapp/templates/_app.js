@@ -13,7 +13,7 @@ define(function(require, exports, module) {
     const logging = require('./plugins/radio.logging');
     const state   = require('./plugins/redux.state');
 
-    require('./shims/marionette.radio.shim');<% if (useHandlebars) { %>
+    require('./shims/mn.morphdom.renderer.shim');<% if (useHandlebars) { %>
     require('./helpers/handlebars.helpers');<% } %>
     require('./helpers/jquery.extensions');
 
