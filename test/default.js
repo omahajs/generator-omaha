@@ -24,7 +24,6 @@ const browserifyContent = [
     ['package.json', '"browserify":'],
     ['package.json', '"aliasify":'],
     ['Gruntfile.js', 'browserify'],
-    ['Gruntfile.js', 'replace:'],
     ['Gruntfile.js', 'uglify:']
 ];
 const ariaContent = [

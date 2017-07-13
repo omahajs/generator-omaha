@@ -7,7 +7,7 @@ module.exports = {
     **/
     a11y: `{
         index: {
-            options: {urls: ["<%= folders.app %>/<%= files.index %>"]}
+            options: {urls: ['<%= folders.app %>/<%= files.index %>']}
         }
     }`,
     /**
@@ -22,24 +22,24 @@ module.exports = {
                     warning: true,
                     error: true
                 },
-                accessibilityLevel: "WCAG2AAA",
+                accessibilityLevel: 'WCAG2AAA',
                 ignore : [
-                    "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2"
+                    'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2'
                 ]
             },
-            src: ["<%= folders.app %>/<%= files.index %>"]
+            src: ['<%= folders.app %>/<%= files.index %>']
         },
         templates: {
             options: {
-                accessibilityLevel: "WCAG2AAA",
+                accessibilityLevel: 'WCAG2AAA',
                 ignore : [
                     //Templates will tend to always violate these rules and need not be reported
-                    "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2",
-                    "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl",
-                    "WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2"
+                    'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2',
+                    'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',
+                    'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
                 ]
             },
-            src: ["<%= folders.assets %>/<%= files.templates %>"]
+            src: ['<%= folders.assets %>/<%= files.templates %>']
         }
     }`,
     /**
@@ -51,8 +51,8 @@ module.exports = {
             displayResults: true
         },
         all: {
-            src: ["<%= folders.test %>/benchmarks/*.js"],
-            dest: "<%= folders.reports %>/benchmarks/results.csv"
+            src: ['<%= folders.test %>/benchmarks/*.js'],
+            dest: '<%= folders.reports %>/benchmarks/results.csv'
         }
     }`,
     /**
@@ -62,7 +62,7 @@ module.exports = {
     browserify: `{
         bundle: {
             files: {
-                "<%= folders.dist %>/<%= folders.client %>/bundle.js": ["<%= folders.app %>/main.js"]
+                '<%= folders.dist %>/<%= folders.client %>/bundle.js': ['<%= folders.app %>/main.js']
             }
         }
     }`,
@@ -132,7 +132,11 @@ module.exports = {
             files: [{
                 expand: true,
                 flatten: true,
-                src: ['<%= folders.assets %>/library/*.js'],
+                src: [
+                    '<%= folders.assets %>/library/*.js',
+                    '!<%= folders.assets %>/library/almond.min.js',
+                    '!<%= folders.assets %>/library/require.min.js'
+                ],
                 dest: '<%= folders.dist %>/<%= deployed.assets %>/library',
                 filter: 'isFile'
             }]
@@ -154,7 +158,7 @@ module.exports = {
     coveralls: `{
         options: {
             // LCOV coverage file relevant to every target
-            coverageDir: "<%= folders.reports %>/<%= folders.coverage %>/",
+            coverageDir: '<%= folders.reports %>/<%= folders.coverage %>/',
             recursive: true,
             force: true
         }
@@ -217,16 +221,16 @@ module.exports = {
             options: {
                 amd: true,
                 //Use processName to name the template keys within the compiled templates.js file
-                //"assets/templates/example.hbs" --> "example"
+                //'assets/templates/example.hbs' --> 'example'
                 processName: function(filePath) {
                     return filePath
-                        .replace(config.folders.assets, "")
-                        .replace(/[/]templates[/]/, "")
-                        .replace(/[.]hbs/, "");
+                        .replace(config.folders.assets, '')
+                        .replace(/[/]templates[/]/, '')
+                        .replace(/[.]hbs/, '');
                 }
             },
             files: {
-                "<%= folders.app %>/templates.js": ["<%= folders.assets %>/<%= files.templates %>"]
+                '<%= folders.app %>/templates.js': ['<%= folders.assets %>/<%= files.templates %>']
             }
         }
     }`,
@@ -237,8 +241,8 @@ module.exports = {
     htmlhintplus: `{
         app: {
             src: [
-              "<%= folders.assets %>/<%= files.templates %>",
-              "<%= folders.app %>/<%= files.index %>"
+              '<%= folders.assets %>/<%= files.templates %>',
+              '<%= folders.app %>/<%= files.index %>'
             ]
         }
     }`,
@@ -254,8 +258,8 @@ module.exports = {
         build: {
             files: [
                 {
-                    src:  "<%= folders.app %>/<%= files.index %>",
-                    dest: "<%= folders.dist %>/<%= folders.client %>/<%= files.index %>"
+                    src:  '<%= folders.app %>/<%= files.index %>',
+                    dest: '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>'
                 }
             ]
         }
@@ -269,9 +273,9 @@ module.exports = {
             files: [{
                 expand: true,
                 flatten: false,
-                cwd: "./",
-                src: ["<%= folders.assets %>/<%= files.images %>"],
-                dest: "<%= folders.dist %>"
+                cwd: './',
+                src: ['<%= folders.assets %>/<%= files.images %>'],
+                dest: '<%= folders.dist %>'
             }]
         }
     }`,
@@ -293,10 +297,10 @@ module.exports = {
      * @see {@link https://github.com/stefanjudis/grunt-jsinspect}
     **/
     jsinspect: `{
-        app:         {src: ["<%= folders.app %>/<%= files.scripts %>"]},
-        models:      {src: ["<%= folders.app %>/<%= files.models %>"]},
-        views:       {src: ["<%= folders.app %>/<%= files.views %>"]},
-        controllers: {src: ["<%= folders.app %>/<%= files.controllers %>"]}
+        app:         {src: ['<%= folders.app %>/<%= files.scripts %>']},
+        models:      {src: ['<%= folders.app %>/<%= files.models %>']},
+        views:       {src: ['<%= folders.app %>/<%= files.views %>']},
+        controllers: {src: ['<%= folders.app %>/<%= files.controllers %>']}
     }`,
     /**
      * Lint project JSON files
@@ -314,12 +318,12 @@ module.exports = {
             options: {
                 amd: true,
                 //Use processName to name the template keys within the compiled templates.js file
-                //"assets/templates/example.hbs" --> "example"
+                //'assets/templates/example.hbs' --> 'example'
                 processName: function(filePath) {
                     return filePath
-                        .replace(config.folders.assets, "")
-                        .replace(/[/]templates[/]/, "")
-                        .replace(/[.]hbs/, "");
+                        .replace(config.folders.assets, '')
+                        .replace(/[/]templates[/]/, '')
+                        .replace(/[.]hbs/, '');
                 },
                 templateSettings: {
                     variable: 'data',
@@ -327,7 +331,7 @@ module.exports = {
                 }
             },
             files: {
-                "<%= folders.app %>/templates.js": ["<%= folders.assets %>/<%= files.templates %>"]
+                '<%= folders.app %>/templates.js': ['<%= folders.assets %>/<%= files.templates %>']
             }
         }
     }`,
@@ -369,10 +373,10 @@ module.exports = {
             options: {
                 sourceMap: true,
                 sourceMapFileInline: true,
-                paths: ["<%= folders.assets %>/<%= files.styles %>"]
+                paths: ['<%= folders.assets %>/<%= files.styles %>']
             },
             files: {
-                "<%= folders.app %>/style.css": "<%= folders.assets %>/less/style.less"
+                '<%= folders.app %>/style.css': '<%= folders.assets %>/less/style.less'
             }
         }
     }`,
@@ -439,21 +443,21 @@ module.exports = {
                 dest: '<%= folders.app %>/style.css'
             },
             prod: {
-                src:  "<%= folders.app %>/*.css",
-                dest: "<%= folders.dist %>/<%= folders.client %>/style.css"
+                src:  '<%= folders.app %>/*.css',
+                dest: '<%= folders.dist %>/<%= folders.client %>/style.css'
             },
             styleguide: {
                 options: {
-                    processors: [require("mdcss")({
+                    processors: [require('mdcss')({
                         examples: {
                             css: [
-                                "../${sourceDirectory}app/style.css",
-                                "../${sourceDirectory}assets/css/style.css"
+                                '../${sourceDirectory}app/style.css',
+                                '../${sourceDirectory}assets/css/style.css'
                             ],
                         }
                     })],
                 },
-                src:  ["<%= folders.app %>/*.css", "<%= folders.assets %>/css/*.css"]
+                src:  ['<%= folders.app %>/*.css', '<%= folders.assets %>/css/*.css']
             }
         }`;
     },
@@ -462,6 +466,18 @@ module.exports = {
      * @see {@link https://github.com/outaTiME/grunt-replace}
     **/
     replace: `{
+        'almond-shim': {
+            options: {
+                patterns: [{
+                    match: /<script.*<\\/script>/g,
+                    replacement: '<script src="config.js"></script>'
+                }]
+            },
+            files: [{
+                src:  '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>',
+                dest: '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>'
+            }]
+        },
         'bundle-url': {
             options: {
                 patterns: [{
@@ -470,8 +486,8 @@ module.exports = {
                 }]
             },
             files: [{
-                src:  "<%= folders.dist %>/<%= folders.client %>/<%= files.index %>",
-                dest: "<%= folders.dist %>/<%= folders.client %>/<%= files.index %>"
+                src:  '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>',
+                dest: '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>'
             }]
         }
     }`,
@@ -486,7 +502,7 @@ module.exports = {
                 out: '<%= folders.dist %>/<%= folders.client %>/temp.js',
                 mainConfigFile: '<%= folders.app %>/<%= files.configScript %>',
                 baseUrl: '<%= folders.app %>',
-                include: ['<%= files.configScript %>'],
+                include: [join(__dirname, '/<%= folders.assets %>/library/almond.min.js'), '<%= files.configScript %>'],
                 preserveLicenseComments: false,
                 findNestedDependencies: true,
                 optimize: 'none'
@@ -500,11 +516,11 @@ module.exports = {
     sass: `{
         main: {
             options: {
-                style: "expanded",
-                sourcemap: "inline"
+                style: 'expanded',
+                sourcemap: 'inline'
             },
             files: {
-                "<%= folders.app %>/style.css": "<%= folders.assets %>/sass/style.scss"
+                '<%= folders.app %>/style.css': '<%= folders.assets %>/sass/style.scss'
             }
         }
     }`,
@@ -520,10 +536,10 @@ module.exports = {
                 compress: {
                     drop_console: true //discard calls to console.* functions
                 },
-                banner: "/* <%= package.name %> - v<%= package.version %> - 2016-02-07 */"
+                banner: '/* <%= package.name %> - v<%= package.version %> - 2017-07-12 */'
             },
             files: {
-                "<%= folders.dist %>/<%= folders.client %>/bundle.min.js": ["<%= folders.dist %>/<%= folders.client %>/bundle.js"]
+                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': ['<%= folders.dist %>/<%= folders.client %>/bundle.js']
             }
         }
     }`,

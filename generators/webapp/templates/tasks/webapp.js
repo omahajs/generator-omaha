@@ -64,7 +64,8 @@ module.exports = function(grunt) {
         'bundle-scripts',
         'htmlmin',
         'copy:fonts',
-        <% if (useBrowserify) { %>'replace:bundle-url',<% } else { %>'copy:library',<% } %>
+        'copy:library',
+        <% if (useBrowserify) { %>'replace:bundle-url',<% } else { %>'replace:almond-shim',<% } %>
         <% if (useImagemin) { %>'imagemin:build'<% } else { %>'copy:images'<% } %>
     ]);
     task('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
