@@ -155,7 +155,7 @@ module.exports = Generator.extend({
             let {sourceDirectory} = this;
             let _copy = partialRight(copy, this);
             ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${sourceDirectory}assets/${path}`));
-            _copy('library/require.min.js', `${sourceDirectory}assets/library/require.min.js`);
+            _copy('library/*', `${sourceDirectory}assets/library`);
             _copy('omaha.png', `${sourceDirectory}assets/images/logo.png`);
         },
         writeBoilerplateFiles: function() {
@@ -220,8 +220,7 @@ module.exports = Generator.extend({
                 'aliasify',
                 'babelify',
                 'deamdify',
-                'grunt-browserify',
-                'grunt-replace'
+                'grunt-browserify'
             ];
             let gruntDependencies = [
                 'grunt',
@@ -239,6 +238,7 @@ module.exports = Generator.extend({
                 'grunt-open',
                 'grunt-parallel',
                 'grunt-plato',
+                'grunt-replace',
                 'load-grunt-tasks',
                 'time-grunt'
             ];
@@ -440,6 +440,7 @@ function getTasks(generator) {
         'karma',
         'open',
         'plato',
+        'replace',
         'requirejs',
         'watch'
     ]
@@ -450,7 +451,7 @@ function getTasks(generator) {
         )
         .concat(// Webapp tasks enabled by user
             maybeInclude(useAria, ['a11y', 'accessibility']),
-            maybeInclude(useBrowserify, ['browserify', 'replace', 'uglify']),
+            maybeInclude(useBrowserify, ['browserify', 'uglify']),
             maybeInclude(useHandlebars, 'handlebars', 'jst'),
             maybeInclude(useImagemin, ['imagemin', 'copy']),
             maybeInclude(useLess, 'less'),

@@ -1,4 +1,6 @@
-var config = require('config').grunt;//Load external parameters using config node module
+const {join} = require('path');
+const config = require('config').grunt;
+
 module.exports = function(grunt) {
     'use strict';
 

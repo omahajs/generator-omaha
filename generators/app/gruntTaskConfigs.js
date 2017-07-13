@@ -132,7 +132,11 @@ module.exports = {
             files: [{
                 expand: true,
                 flatten: true,
-                src: ['<%= folders.assets %>/library/*.js'],
+                src: [
+                    '<%= folders.assets %>/library/*.js',
+                    '!<%= folders.assets %>/library/almond.min.js',
+                    '!<%= folders.assets %>/library/require.min.js'
+                ],
                 dest: '<%= folders.dist %>/<%= deployed.assets %>/library',
                 filter: 'isFile'
             }]
@@ -462,6 +466,18 @@ module.exports = {
      * @see {@link https://github.com/outaTiME/grunt-replace}
     **/
     replace: `{
+        'almond-shim': {
+            options: {
+                patterns: [{
+                    match: /<script.*<\\/script>/g,
+                    replacement: '<script src="config.js"></script>'
+                }]
+            },
+            files: [{
+                src:  "<%= folders.dist %>/<%= folders.client %>/<%= files.index %>",
+                dest: "<%= folders.dist %>/<%= folders.client %>/<%= files.index %>"
+            }]
+        },
         'bundle-url': {
             options: {
                 patterns: [{
@@ -486,7 +502,7 @@ module.exports = {
                 out: '<%= folders.dist %>/<%= folders.client %>/temp.js',
                 mainConfigFile: '<%= folders.app %>/<%= files.configScript %>',
                 baseUrl: '<%= folders.app %>',
-                include: ['<%= files.configScript %>'],
+                include: [join(__dirname, '/<%= folders.assets %>/library/almond.min.js'), '<%= files.configScript %>'],
                 preserveLicenseComments: false,
                 findNestedDependencies: true,
                 optimize: 'none'
