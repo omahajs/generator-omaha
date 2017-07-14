@@ -13,15 +13,14 @@ const {
 
 module.exports = Generator.extend({
     configuring: function() {
-        let isWebapp = this.config.get('isWebapp');
-        if (!isWebapp) {
-            this.log(yosay(red('Not so fast!') + '\nUse ' + white.bgBlack(' yo omaha ') + ' first!'));
-            process.exit(1);
-        } else {
+        if (this.config.get('isWebapp')) {
             let isLinux = includes(['linux', 'freebsd'], process.platform);
             let chromedriver = isLinux ? 'chromedriver' : 'chromedriver.exe';
             copySync(join(__dirname, `/bin/${chromedriver}`), `bin/${chromedriver}`);// v2.30
             copySync(join(__dirname, '/bin/selenium-server-standalone-3.4.0.jar'), 'bin/selenium-server-standalone.jar');
+        } else {
+            this.log(yosay(red('Not so fast!') + '\nUse ' + white.bgBlack(' yo omaha ') + ' first!'));
+            process.exit(1);
         }
     },
     writing: {
