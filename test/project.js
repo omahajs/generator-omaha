@@ -1,16 +1,15 @@
 'use strict';
 
-const {merge}         = require('lodash');
-const path            = require('path');
-const sinon           = require('sinon');
-const helpers         = require('yeoman-test');
-const assert          = require('yeoman-assert');
-const Generator       = require('yeoman-generator');
-const {clone}         = require('../generators/app/utils').object;
-const projectDefaults = require('../generators/app/prompts').project.defaults;
+const {merge}    = require('lodash');
+const {join}     = require('path');
+const sinon      = require('sinon');
+const helpers    = require('yeoman-test');
+const assert     = require('yeoman-assert');
+const Generator  = require('yeoman-generator');
+const {clone}    = require('../generators/app/utils').object;
+const {defaults} = require('../generators/app/prompts').project;
 
 const SKIP_INSTALL = {skipInstall: true};
-const defaults = true;
 const useBoth = [true, true];
 const useNeither = [false, false];
 const onlyBenchmark = [true, false];
@@ -30,16 +29,16 @@ describe('Project generator', () => {
     });
     describe('can create and configure files with prompt choices', () => {
         it('all prompts TRUE', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
+            return helpers.run(join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(projectDefaults)
+                .withPrompts(defaults)
                 .toPromise()
                 .then(() => verify(...useBoth));
         });
         it('all prompts FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
+            return helpers.run(join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(merge(clone(projectDefaults), {
+                .withPrompts(merge(clone(defaults), {
                     benchmark: false,
                     coveralls: false,
                     jsinspect: false
@@ -48,27 +47,27 @@ describe('Project generator', () => {
                 .then(() => verify(...useNeither));
         });
         it('only benchmark FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
+            return helpers.run(join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(merge(clone(projectDefaults), {
+                .withPrompts(merge(clone(defaults), {
                     benchmark: false
                 }))
                 .toPromise()
                 .then(() => verify(...onlyCoveralls));
         });
         it('only coveralls FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
+            return helpers.run(join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(merge(clone(projectDefaults), {
+                .withPrompts(merge(clone(defaults), {
                     coveralls: false
                 }))
                 .toPromise()
                 .then(() => verify(...onlyBenchmark));
         });
         it('only jsinspect FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
+            return helpers.run(join(__dirname, '../generators/project'))
                 .withOptions(SKIP_INSTALL)
-                .withPrompts(merge(clone(projectDefaults), {
+                .withPrompts(merge(clone(defaults), {
                     jsinspect: false
                 }))
                 .toPromise()
@@ -77,38 +76,38 @@ describe('Project generator', () => {
     });
     describe('can create and configure files with command line options', () => {
         it('--defaults', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults}))
+            return helpers.run(join(__dirname, '../generators/project'))
+                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}))
                 .toPromise()
                 .then(() => verify(...useBoth));
         });
         it('--defaults --skip-benchmark', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults}, {
+            return helpers.run(join(__dirname, '../generators/project'))
+                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                     'skip-benchmark': true
                 }))
                 .toPromise()
                 .then(() => verify(...onlyCoveralls));
         });
         it('--defaults --skip-coveralls', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults}, {
+            return helpers.run(join(__dirname, '../generators/project'))
+                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                     'skip-coveralls': true
                 }))
                 .toPromise()
                 .then(() => verify(...onlyBenchmark));
         });
         it('--defaults --skip-jsinspect', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults}, {
+            return helpers.run(join(__dirname, '../generators/project'))
+                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                     'skip-jsinspect': true
                 }))
                 .toPromise()
                 .then(() => verify(...useBoth));
         });
         it('--defaults --skip-benchmark --skip-coveralls --skip-jsinspect', () => {
-            return helpers.run(path.join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults}, {
+            return helpers.run(join(__dirname, '../generators/project'))
+                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                     'skip-benchmark': true,
                     'skip-coveralls': true,
                     'skip-jsinspect': true

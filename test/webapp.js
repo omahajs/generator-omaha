@@ -28,7 +28,7 @@ describe('Webapp generator', () => {
     it('can create and configure files with default prompt choices', () => {
         return helpers.run(join(__dirname, '../generators/webapp'))
             .inTmpDir((dir) => {
-                var projectTemplatesDirectory = '../generators/project/templates/';
+                let projectTemplatesDirectory = '../generators/project/templates/';
                 ['_Gruntfile.js', '_package.json'].forEach(function(file) {
                     copySync(
                         join(__dirname, `${projectTemplatesDirectory}${file}`),

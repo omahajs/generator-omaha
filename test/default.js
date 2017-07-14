@@ -1,7 +1,7 @@
 'use strict';
 
 const {merge, mapValues, isBoolean} = require('lodash');
-const path      = require('path');
+const {join}    = require('path');
 const sinon     = require('sinon');
 const helpers   = require('yeoman-test');
 const {noFile, fileContent, noFileContent} = require('yeoman-assert');
@@ -47,7 +47,7 @@ describe('Default generator', function() {
             verifyBoilerplateFiles('./');
         };
         it('all prompts FALSE (default configuration)', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(ALL_FALSE)
                 .toPromise()
@@ -61,7 +61,7 @@ describe('Default generator', function() {
                 });
         });
         it('all prompts TRUE (default configuration)', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(ALL_TRUE)
                 .toPromise()
@@ -74,7 +74,7 @@ describe('Default generator', function() {
                 });
         });
         it('all prompts TRUE (--script-bundler browserify)', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {scriptBundler: 'browserify'}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
@@ -87,14 +87,14 @@ describe('Default generator', function() {
                 });
         });
         it('all prompts TRUE (--css-preprocessor sass)', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {cssPreprocessor: 'sass'}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
                 .then(verify);
         });
         it('all prompts TRUE (--template-technology lodash)', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {templateTechnology: 'lodash'}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
@@ -105,7 +105,7 @@ describe('Default generator', function() {
                 });
         });
         it('all prompts TRUE (--skip-aria)', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {'skip-aria': true}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
@@ -116,7 +116,7 @@ describe('Default generator', function() {
                 });
         });
         it('all prompts TRUE (--skip-imagemin)', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {'skip-imagemin': true}))
                 .withPrompts(ALL_TRUE)
                 .toPromise()
@@ -127,7 +127,7 @@ describe('Default generator', function() {
                 });
         });
         it('only aria prompt FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge({}, ALL_TRUE, {aria: false}))
                 .toPromise()
@@ -137,7 +137,7 @@ describe('Default generator', function() {
                 });
         });
         it('only imagemin prompt FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge({}, ALL_TRUE, {imagemin: false}))
                 .toPromise()
@@ -147,7 +147,7 @@ describe('Default generator', function() {
                 });
         });
         it('select browserify via prompt', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge({}, ALL_TRUE, {scriptBundler: 'browserify'}))
                 .toPromise()
@@ -160,14 +160,14 @@ describe('Default generator', function() {
                 });
         });
         it('select sass via prompt', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge({}, ALL_TRUE, {cssPreprocessor: 'sass'}))
                 .toPromise()
                 .then(verify);
         });
         it('select no CSS pre-processor via prompt', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge({}, ALL_TRUE, {cssPreprocessor: 'none'}))
                 .toPromise()
@@ -188,7 +188,7 @@ describe('Default generator', function() {
             verifyBoilerplateFiles('./');
         };
         it('--defaults', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {defaults}))
                 .toPromise()
                 .then(() => {
@@ -197,7 +197,7 @@ describe('Default generator', function() {
                 });
         });
         it('--defaults --script-bundler browserify', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {defaults}, {scriptBundler: 'browserify'}))
                 .toPromise()
                 .then(() => {
@@ -206,13 +206,13 @@ describe('Default generator', function() {
                 });
         });
         it('--defaults --css-preprocessor sass', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {defaults}, {cssPreprocessor: 'sass'}))
                 .toPromise()
                 .then(verify);
         });
         it('--defaults --css-preprocessor none', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {defaults}, {cssPreprocessor: 'none'}))
                 .toPromise()
                 .then(() => {
@@ -225,7 +225,7 @@ describe('Default generator', function() {
                 });
         });
         it('--defaults --template-technology lodash', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {defaults}, {templateTechnology: 'lodash'}))
                 .toPromise()
                 .then(() => {
@@ -235,7 +235,7 @@ describe('Default generator', function() {
                 });
         });
         it('--defaults --skip-aria --skip-imagemin', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {
                     defaults: true,
                     'skip-aria': true,
@@ -248,7 +248,7 @@ describe('Default generator', function() {
                 });
         });
         it('--defaults --skip-aria --skip-imagemin --script-bundler browserify', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {
                     defaults: true,
                     'skip-aria': true,
@@ -263,7 +263,7 @@ describe('Default generator', function() {
                 });
         });
         it('--defaults --script-bundler browserify --css-preprocessor sass --template-technology lodash', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(merge({}, SKIP_INSTALL, {
                     defaults: true,
                     scriptBundler: 'browserify',
@@ -298,7 +298,7 @@ describe('Default generator (with custom source directory)', function() {
             stub.restore();
         });
         it('all prompts TRUE', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge(ALL_TRUE, {sourceDirectory}))
                 .toPromise()
@@ -308,7 +308,7 @@ describe('Default generator (with custom source directory)', function() {
                 });
         });
         it('all prompts FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge(ALL_FALSE, {sourceDirectory}))
                 .toPromise()
@@ -320,7 +320,7 @@ describe('Default generator (with custom source directory)', function() {
                 });
         });
         it('only aria prompt FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge({}, ALL_TRUE, {sourceDirectory, aria: false}))
                 .toPromise()
@@ -332,7 +332,7 @@ describe('Default generator (with custom source directory)', function() {
                 });
         });
         it('only imagemin prompt FALSE', () => {
-            return helpers.run(path.join(__dirname, '../generators/app'))
+            return helpers.run(join(__dirname, '../generators/app'))
                 .withOptions(SKIP_INSTALL)
                 .withPrompts(merge({}, ALL_TRUE, {sourceDirectory, imagemin: false}))
                 .toPromise()
