@@ -6,6 +6,7 @@ module.exports = {
     'Sanity Check': (browser) => {
         browser
             .url(browser.launch_url)
+            .waitForElementVisible('body', 5000)
             .assert.title('Omaha Web App');
     },
     'End': (browser) => {
