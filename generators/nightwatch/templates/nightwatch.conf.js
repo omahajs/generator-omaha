@@ -34,6 +34,9 @@ module.exports = {
             },
             desiredCapabilities: {
                 browserName: 'chrome',
+                chromeOptions: {
+                    args: ['headless']
+                },
                 javascriptEnabled: true,
                 webStorageEnabled: true,
                 acceptSslCerts: true

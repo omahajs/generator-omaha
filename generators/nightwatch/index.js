@@ -42,11 +42,17 @@ module.exports = Generator.extend({
     },
     install: {
         installDependencies: function() {
-            this.npmInstall('nightwatch', {saveDev: true});
+            let dependencies = [
+                'http-server',
+                'nightwatch'
+            ];
+            this.npmInstall(dependencies, {saveDev: true});
         },
         configurePackageJson: function() {
             let scripts = {
-                'test:e2e': 'nightwatch --config ./config/nightwatch.conf.js --env default'
+                'pretest:e2e':  'nohup http-server -p 1337 &',
+                'test:e2e':     'nightwatch --config ./config/nightwatch.conf.js --env default',
+                'posttest:e2e': 'kill $(echo `ps -ef | grep -m 1 http-server` | awk -F \" \" \'{print $2}\')'
             };
             extend(this.destinationPath('package.json'), {scripts});
         }
