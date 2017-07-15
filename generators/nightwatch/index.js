@@ -1,11 +1,11 @@
 'use strict';
 
 const {includes, partialRight} = require('lodash');
-const {copySync}   = require('fs-extra');
-const {join}       = require('path');
-const Generator    = require('yeoman-generator');
-const yosay        = require('yosay');
-const {red, white} = require('chalk');
+const {bold, green, magenta, red, white} = require('chalk');
+const {copySync} = require('fs-extra');
+const {join}     = require('path');
+const Generator  = require('yeoman-generator');
+const yosay      = require('yosay');
 const {
     copyTpl,
     json: {extend}
@@ -43,6 +43,7 @@ module.exports = Generator.extend({
     install: {
         installDependencies: function() {
             let dependencies = [
+                'chalk',
                 'http-server',
                 'nightwatch'
             ];
@@ -56,5 +57,19 @@ module.exports = Generator.extend({
             };
             extend(this.destinationPath('package.json'), {scripts});
         }
+    },
+    end: function() {
+        let checkmark = bold(green('✔ '));
+        let doneMessage = () => {
+            let msg = [].concat(
+                '',
+                `${checkmark}End-to-end browser testing support added!`,
+                '',
+                `  ${magenta('Thank you')} ${white.bgBlack(' Nightwatch.js ')}`,
+                ''
+            ).join('\n');
+            return msg;
+        };
+        this.log(doneMessage());
     }
 });
