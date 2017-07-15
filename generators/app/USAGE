@@ -30,3 +30,7 @@ Examples:
 
     yo omaha:native --skip-webapp
         Creates a native application without omaha webapp (bare-bones renderer)
+
+    yo omaha:nightwatch
+        Add end-to-end (E2E) browser testing support using nightwatch.js
+        ** Designed to be used with default webapp generator **

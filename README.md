@@ -49,7 +49,8 @@ Patterns are Paramount
 - [Event driven interactions using Backbone.Radio](https://github.com/omahajs/generator-omaha/tree/master/generators/webapp/templates/plugins#radiologgingjs)
 - View templating with Handlebars (or Lodash) and template pre-compilation
 - [Predictable state management with Redux](https://github.com/omahajs/generator-omaha/tree/master/generators/webapp/templates/plugins#reduxstatejs)
-- Workflow with support for linting, optimization, testing, bundling, and more
+- Workflow with support for linting, optimization, testing, bundling, documentation and transpilation.
+- End-to-end (E2E) browser testing with [Nightwatch.js](http://nightwatchjs.org/)
 
 > See the full webapp tech stack [here](https://github.com/omahajs/generator-omaha/blob/master/generators/app/README.md)
 

@@ -1,8 +1,27 @@
 'use strict';
 
-const path    = require('path');
+const {join}  = require('path');
 const helpers = require('yeoman-test');
 const {fileContent, noFileContent}  = require('yeoman-assert');
+
+let createPlugin = (options) => {
+    let testOptions = {};
+    if (options.customDependency && options.alias) {
+        testOptions.customDependency = options.customDependency;
+        testOptions.alias = options.alias;
+    } else {
+        options.dependencies.forEach((dep) => {
+            testOptions[dep] = true;
+        });
+    }
+    let {dependencies} = options;
+    return helpers.run(join(__dirname, '../generators/plugin'))
+        .withLocalConfig({pluginDirectory: './'})
+        .withArguments([options.name])
+        .withPrompts({dependencies})
+        .withOptions(options.useCommandLineOptions ? testOptions : {})
+        .toPromise();
+};
 
 describe('Plugin generator', () => {
     let name = 'pluginName';
@@ -89,21 +108,3 @@ describe('Plugin generator', () => {
         });
     });
 });
-function createPlugin(options) {
-    let testOptions = {};
-    if (options.customDependency && options.alias) {
-        testOptions.customDependency = options.customDependency;
-        testOptions.alias = options.alias;
-    } else {
-        options.dependencies.forEach(function(dep) {
-            testOptions[dep] = true;
-        });
-    }
-    let {dependencies} = options;
-    return helpers.run(path.join(__dirname, '../generators/plugin'))
-        .withLocalConfig({pluginDirectory: './'})
-        .withArguments([options.name])
-        .withPrompts({dependencies})
-        .withOptions(options.useCommandLineOptions ? testOptions : {})
-        .toPromise();
-}

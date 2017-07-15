@@ -4,6 +4,7 @@ Generators
 - [Plugin](#plugin)
 - [Server](#server)
 - [Native](#native)
+- [Nightwatch](#nightwatch)
 
 Project
 -------
@@ -133,4 +134,19 @@ yo omaha:native --defaults
 
 ```bash
 yo omaha:native --skip-webapp
+```
+
+Nightwatch
+----------
+> Add end-to-end (E2E) browser testing with [Nightwatch.js](http://nightwatchjs.org/)
+
+> **Caution**: This generator is designed to be used with the default webapp generator
+
+**Options**
+- This generator has no options
+
+**Example:**
+
+```bash
+yo omaha --defaults && yo omaha:nightwatch
 ```

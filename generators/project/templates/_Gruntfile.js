@@ -1,9 +1,9 @@
+'use strict';
+
 const {join} = require('path');
 const config = require('config').grunt;
 
 module.exports = function(grunt) {
-    'use strict';
-
     grunt.initConfig({
         package: grunt.file.readJSON('package.json'),
         ports:   config.ports,
