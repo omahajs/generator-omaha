@@ -8,6 +8,9 @@
     <a href="https://coveralls.io/github/omahajs/generator-omaha?branch=master">
         <img src="https://coveralls.io/repos/omahajs/generator-omaha/badge.svg?branch=master&service=github" alt="Coveralls.io Coverage Status" title="Coveralls.io Coverage Status"/>
     </a>
+    <a href="https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha?ref=badge_shield" alt="FOSSA Status">
+        <img src="https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha.svg?type=shield"/>
+    </a>
     <a href="http://packagequality.com/#?package=generator-omaha">
         <img src="http://npm.packagequality.com/shield/generator-omaha.svg" alt="Package Quality" title="Package Quality"/>
     </a>
@@ -133,4 +136,7 @@ A Note on Semantic Versioning
 -----------------------------
 > This project strives to follow the principles of semantic versioning ([semver](http://semver.org/)). However, it seems unreasonable to release major versions for changes to the generated output of `generator-omaha` that are not backwards compatible with the generated output of previous versions. In general, this project will release major versions when the generator API is not backwards compatible ***or*** when the generated outputs undergo substantial changes. In the case of the latter, *a major version increment would serve more as a signifier of significant change* (not necessarily changes that are not backwards compatible). I am perhaps making this more complicated than necessary; however, I want to avoid superficial "churn" while still maintaining a standardized process for development and enhancement.
 
+License
+-------
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha?ref=badge_large)
+
