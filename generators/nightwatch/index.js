@@ -20,7 +20,7 @@ module.exports = Generator.extend({
             copySync(join(__dirname, '/bin/selenium-server-standalone-3.4.0.jar'), 'bin/selenium-server-standalone.jar');
         } else {
             this.log(yosay(red('Not so fast!') + '\nUse ' + white.bgBlack(' yo omaha ') + ' first!'));
-            process.exit(1);
+            (process.env.mode !== 'TESTING') && process.exit(1);
         }
     },
     writing: {

@@ -21,7 +21,7 @@ let createPlugin = (options) => {
         .withPrompts({dependencies})
         .withOptions(options.useCommandLineOptions ? testOptions : {})
         .toPromise();
-}
+};
 
 describe('Plugin generator', () => {
     let name = 'pluginName';
