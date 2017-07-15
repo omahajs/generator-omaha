@@ -132,3 +132,5 @@ Credits
 A Note on Semantic Versioning
 -----------------------------
 > This project strives to follow the principles of semantic versioning ([semver](http://semver.org/)). However, it seems unreasonable to release major versions for changes to the generated output of `generator-omaha` that are not backwards compatible with the generated output of previous versions. In general, this project will release major versions when the generator API is not backwards compatible ***or*** when the generated outputs undergo substantial changes. In the case of the latter, *a major version increment would serve more as a signifier of significant change* (not necessarily changes that are not backwards compatible). I am perhaps making this more complicated than necessary; however, I want to avoid superficial "churn" while still maintaining a standardized process for development and enhancement.
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha?ref=badge_large)
