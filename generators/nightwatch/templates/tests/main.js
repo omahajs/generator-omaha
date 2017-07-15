@@ -13,6 +13,7 @@ module.exports = {
         var page = client.page.dev();
         page.navigate()
             .waitForElementVisible('@main', 5000)
+            .log('This is a custom command!')
             .assert.title('Omaha Web App');
         client.end();
     },
