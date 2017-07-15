@@ -39,6 +39,7 @@ function verifyCoreFiles() {
         'config/nightwatch.conf.js',
         'test/nightwatch/globals.js',
         'test/nightwatch/commands/log.js',
+        'test/nightwatch/pages/dev.js',
         'test/nightwatch/tests/main.js'
     ];
     assert.fileContent('package.json', '"test:e2e": "nightwatch ');

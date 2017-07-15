@@ -31,9 +31,9 @@ module.exports = Generator.extend({
             _copyTpl('globals.js', `${testDirectory}/globals.js`);
             _copyTpl('commands/log.js', `${testDirectory}/commands/log.js`);
             _copyTpl('tests/main.js', `${testDirectory}/tests/main.js`);
+            _copyTpl('pages/*', `${testDirectory}/pages`);
             [// placeholder directories
                 'assertions',
-                'pages',
                 'screenshots'
             ].forEach((dir) => {
                 _copyTpl(`${dir}/.gitkeep`, `${testDirectory}/${dir}/.gitkeep`);
