@@ -260,7 +260,7 @@ module.exports = Generator.extend({
                 'globby',
                 'json-server'
             ].concat(// conditional dependencies
-                !useBrowserify ? 'babel-preset-babili' : []
+                !useBrowserify ? 'babel-preset-minify' : []
             ).concat(
                 gruntDependencies,
                 karmaDependencies,
@@ -378,7 +378,7 @@ module.exports = Generator.extend({
                 assign(scripts, {
                     postbuild: `babel ${temp} -o ${dist}config.js && rm ${temp}`
                 });
-                presets = presets.concat('babili');
+                presets = presets.concat('minify');
             }
             let babel = {plugins, presets};
             let stylelint = {extends: './config/stylelint.config.js'};
