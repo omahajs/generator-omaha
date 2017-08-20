@@ -1,6 +1,6 @@
 {
   "name": "<%= projectName %>",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "author": "<%= userName %>",
   "license": "MIT",
   "description": "Slightly opinionated boilerplate and workflow for crafting sustainable code",
