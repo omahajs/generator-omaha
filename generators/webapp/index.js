@@ -136,7 +136,6 @@ module.exports = Generator.extend({
             config.set('useAria', useAria);
             config.set('useImagemin', useImagemin);
             config.set('pluginDirectory', sourceDirectory);
-            _copyTpl('_README.md', 'README.md');
             _copyTpl('config/stylelint.config.js', 'config/stylelint.config.js');
             _copyTpl('tasks/webapp.js', 'tasks/webapp.js');
             _copyTpl('_config.js', `${sourceDirectory}app/config.js`);

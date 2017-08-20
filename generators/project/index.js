@@ -90,6 +90,7 @@ module.exports = Generator.extend({
             config.set('useBenchmark', generator.useBenchmark);
             config.set('useCoveralls', generator.useCoveralls);
             config.set('useJsinspect', generator.useJsinspect);
+            _copyTpl('_README.md', 'README.md');
             _copyTpl('_LICENSE', 'LICENSE');
             _copyTpl('_package.json', 'package.json');
             _copyTpl('config/_gitignore', '.gitignore');

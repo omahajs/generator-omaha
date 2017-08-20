@@ -29,7 +29,7 @@ describe('Webapp generator', () => {
         return helpers.run(join(__dirname, '../generators/webapp'))
             .inTmpDir((dir) => {
                 let projectTemplatesDirectory = '../generators/project/templates/';
-                ['_Gruntfile.js', '_package.json'].forEach(function(file) {
+                ['_README.md', '_Gruntfile.js', '_package.json'].forEach(function(file) {
                     copySync(
                         join(__dirname, `${projectTemplatesDirectory}${file}`),
                         join(dir, file.split('_')[1])
