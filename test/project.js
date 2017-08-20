@@ -119,6 +119,7 @@ describe('Project generator', () => {
 });
 function verifyCoreFiles() {
     let ALWAYS_INCLUDED = [
+        'README.md',
         'LICENSE',
         'package.json',
         '.gitignore',
