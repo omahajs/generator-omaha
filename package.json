@@ -37,16 +37,14 @@
     "coveralls": "^2.11.6",
     "eslint": "^4.1.1",
     "eslint-config-omaha-prime-grade": "^4.0.0",
+    "http-server": "^0.10.0",
     "jest": "^20.0.4",
+    "jest-image-snapshot": "^1.0.0",
+    "puppeteer": "^0.10.2",
     "sinon": "^3.0.0",
     "watch": "^1.0.1",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.4.0"
-  },
-  "optionalDependencies": {
-    "http-server": "^0.10.0",
-    "nightmare": "^2.5.2",
-    "node-resemble": "^2.0.0"
   },
   "jest": {
     "testMatch": [
@@ -64,13 +62,19 @@
     "test:watch": "npm test -- --watch",
     "test:ci": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:travis": "npm run test:ci",
-    "test:suite": "npm test && npm run test:builds && npm run test:visual",
+    "test:all": "npm test && npm run test:builds && npm run test:visual",
     "pretest:builds": "mkdir -p ~/.omahajs-builds-output-directory",
     "test:builds": "bash ./test/lib/generate-build-test.sh",
-    "pretest:visual": "rm -f ./test/lib/screenshots/*.png && nohup http-server ~/.omahajs-builds-output-directory -p 1234 &",
-    "test:visual": "node ./test/lib/visual-regression-check",
-    "posttest:visual": "kill $(echo `ps -ef | grep -m 1 http-server` | awk -F \" \" '{print $2}')",
+    "pretest:visual": "npm run capture",
+    "test:visual": "jest visual-regression",
     "preversion": "npm test",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "precapture": "npm run server:start",
+    "capture": "node ./test/lib/captureScreenshots",
+    "postcapture": "npm run server:stop",
+    "capture:reset": "rm -frd ./test/__image_snapshots__ && npm run capture",
+    "capture:delete": "rm ./test/lib/screenshots/*.png",
+    "server:start": "nohup http-server ~/.omahajs-builds-output-directory -p 1234 &",
+    "server:stop": "kill $(echo `ps -ef | grep -m 1 http-server` | awk -F \" \" '{print $2}')"
   }
 }
