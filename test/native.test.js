@@ -13,13 +13,11 @@ const {
     verifyNativeConfiguration
 } = require('./lib/common');
 
-const ENOUGH_TIME_FOR_SETUP = 5000;
 const SKIP_INSTALL = {skipInstall: true};
 const ALL_TRUE = merge({}, prompts.project.defaults, prompts.webapp.defaults);
 const ALL_FALSE = mapValues(ALL_TRUE, (option) => {return isBoolean(option) ? false : option;});
 
 describe('Native generator', function() {
-    this.timeout(ENOUGH_TIME_FOR_SETUP);
     let sourceDirectory = './renderer/';
     let isWebapp = true;
     let verify = (isWebapp) => {

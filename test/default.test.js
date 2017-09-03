@@ -15,7 +15,6 @@ const {
     verifySassConfigured
 } = require('./lib/common');
 
-const ENOUGH_TIME_FOR_SETUP = 5000;
 const ALL_TRUE = merge({}, prompts.project.defaults, prompts.webapp.defaults);
 const ALL_FALSE = mapValues(ALL_TRUE, (option) => {return isBoolean(option) ? false : option;});
 const SKIP_INSTALL = {skipInstall: true};
@@ -33,7 +32,6 @@ const ariaContent = [
 ];
 
 describe('Default generator', function() {
-    this.timeout(ENOUGH_TIME_FOR_SETUP);
     let stub;
     beforeEach(() => {
         stub = sinon.stub(Generator.prototype.user.git, 'name').returns(null);
@@ -283,7 +281,6 @@ describe('Default generator', function() {
     });
 });
 describe('Default generator (with custom source directory)', function() {
-    this.timeout(ENOUGH_TIME_FOR_SETUP);
     let stub;
     let sourceDirectory = 'webapp/';
     let verify = () => {
@@ -291,10 +288,10 @@ describe('Default generator (with custom source directory)', function() {
         verifyBoilerplateFiles(sourceDirectory);
     };
     describe('can create and configure files with prompt choices', () => {
-        before(() => {
+        beforeAll(() => {
             stub = sinon.stub(Generator.prototype.user.git, 'name').returns(null);
         });
-        after(() => {
+        afterAll(() => {
             stub.restore();
         });
         it('all prompts TRUE', () => {
