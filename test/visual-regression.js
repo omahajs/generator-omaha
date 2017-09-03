@@ -13,10 +13,13 @@ let hasPngExtension = name => (name.split('').slice(-1 * '.png'.length).join('')
 
 describe('Omaha Generator', function() {
     it('can build the same webapp with myriad tech stack configurations', () => {
+        const customDiffConfig = {
+            threshold: 0.001
+        };
         return readdir(screenshotDirectory)
             .filter(hasPngExtension)
             .map(name => join(screenshotDirectory, name))
             .map(path => readFile(path))
-            .each(image => expect(image).toMatchImageSnapshot());
+            .each(image => expect(image).toMatchImageSnapshot({customDiffConfig}));
     });
 });
