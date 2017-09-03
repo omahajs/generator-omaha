@@ -3,9 +3,6 @@
 const {join}       = require('path');
 const {unlinkSync} = require('fs');
 const {json}       = require('../generators/app/utils');
-const chai         = require('chai');
-const {assert}     = chai;
-chai.use(require('chai-shallow-deep-equal'));
 
 describe('Generator JSON utility', () => {
     let content;
@@ -18,9 +15,9 @@ describe('Generator JSON utility', () => {
     });
     it('can extend JSON files', () => {
         content = json.read(testJSON);
-        assert.shallowDeepEqual(content, {foo: 'bar'});
+        expect(content).toMatchSnapshot();
         json.extend(testJSON, {bar: 'baz'});
         content = json.read(testJSON);
-        assert.shallowDeepEqual(content, {foo: 'bar', bar: 'baz'});
+        expect(content).toMatchSnapshot();
     });
 });

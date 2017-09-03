@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Generator JSON utility can extend JSON files 1`] = `
+Object {
+  "foo": "bar",
+}
+`;
+
+exports[`Generator JSON utility can extend JSON files 2`] = `
+Object {
+  "bar": "baz",
+  "foo": "bar",
+}
+`;

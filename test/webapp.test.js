@@ -19,10 +19,10 @@ describe('Webapp generator', () => {
         verifyBoilerplateFiles(sourceDirectory);
         verifyDefaultConfiguration();
     };
-    before(() => {
+    beforeAll(() => {
         stub = sinon.stub(Generator.prototype.user.git, 'name').returns(null);
     });
-    after(() => {
+    afterAll(() => {
         stub.restore();
     });
     it('can create and configure files with default prompt choices', () => {
