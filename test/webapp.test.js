@@ -2,7 +2,6 @@
 
 const {join}     = require('path');
 const {copySync} = require('fs-extra');
-const sinon      = require('sinon');
 const helpers    = require('yeoman-test');
 const Generator  = require('yeoman-generator');
 const {defaults} = require('../generators/app/prompts').webapp;
@@ -20,10 +19,10 @@ describe('Webapp generator', () => {
         verifyDefaultConfiguration();
     };
     beforeAll(() => {
-        stub = sinon.stub(Generator.prototype.user.git, 'name').returns(null);
+        stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
     });
     afterAll(() => {
-        stub.restore();
+        stub.mockRestore();
     });
     it('can create and configure files with default prompt choices', () => {
         return helpers.run(join(__dirname, '../generators/webapp'))

@@ -2,7 +2,6 @@
 
 const {merge, mapValues, isBoolean} = require('lodash');
 const {join}    = require('path');
-const sinon     = require('sinon');
 const helpers   = require('yeoman-test');
 const Generator = require('yeoman-generator');
 const prompts   = require('../generators/app/prompts');
@@ -35,7 +34,7 @@ describe('Native generator', function() {
             });
     });
     it('all prompts FALSE (default configuration - no user)', () => {
-        let stub = sinon.stub(Generator.prototype.user.git, 'name').returns(null);
+        let stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
         return helpers.run(join(__dirname, '../generators/native'))
             .withOptions(SKIP_INSTALL)
             .withPrompts(ALL_FALSE)
@@ -43,7 +42,7 @@ describe('Native generator', function() {
             .then(() => {
                 verify(isWebapp);
                 verifyBoilerplateFiles(sourceDirectory);
-                stub.restore();
+                stub.mockRestore();
             });
     });
     it('all prompts TRUE', () => {

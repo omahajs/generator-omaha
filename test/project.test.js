@@ -2,7 +2,6 @@
 
 const {merge}    = require('lodash');
 const {join}     = require('path');
-const sinon      = require('sinon');
 const helpers    = require('yeoman-test');
 const assert     = require('yeoman-assert');
 const Generator  = require('yeoman-generator');
@@ -22,10 +21,10 @@ describe('Project generator', () => {
         verifyProjectConfigs(...args);
     };
     beforeEach(() => {
-        stub = sinon.stub(Generator.prototype.user.git, 'name').returns(null);
+        stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
     });
     afterEach(() => {
-        stub.restore();
+        stub.mockRestore();
     });
     describe('can create and configure files with prompt choices', () => {
         it('all prompts TRUE', () => {
