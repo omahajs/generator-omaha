@@ -41,7 +41,6 @@
     "jest": "^20.0.4",
     "jest-image-snapshot": "^1.0.0",
     "puppeteer": "^0.10.2",
-    "sinon": "^3.0.0",
     "watch": "^1.0.1",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.4.0"

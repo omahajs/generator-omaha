@@ -2,7 +2,6 @@
 
 const {merge, mapValues, isBoolean} = require('lodash');
 const {join}    = require('path');
-const sinon     = require('sinon');
 const helpers   = require('yeoman-test');
 const {noFile, fileContent, noFileContent} = require('yeoman-assert');
 const Generator = require('yeoman-generator');
@@ -34,10 +33,10 @@ const ariaContent = [
 describe('Default generator', function() {
     let stub;
     beforeEach(() => {
-        stub = sinon.stub(Generator.prototype.user.git, 'name').returns(null);
+        stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
     });
     afterEach(() => {
-        stub.restore();
+        stub.mockRestore();
     });
     describe('can create and configure files with prompt choices', () => {
         let verify = () => {
@@ -289,10 +288,10 @@ describe('Default generator (with custom source directory)', function() {
     };
     describe('can create and configure files with prompt choices', () => {
         beforeAll(() => {
-            stub = sinon.stub(Generator.prototype.user.git, 'name').returns(null);
+            stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
         });
         afterAll(() => {
-            stub.restore();
+            stub.mockRestore();
         });
         it('all prompts TRUE', () => {
             return helpers.run(join(__dirname, '../generators/app'))
