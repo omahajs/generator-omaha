@@ -17,7 +17,7 @@ requirejs.config({
         lodash:                '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/lodash/lodash.min',
         redux:                 '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/redux/dist/redux.min',
         morphdom:              '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/morphdom/dist/morphdom-umd.min',
-        'backbone':            '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone/backbone',
+        backbone:              '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone/backbone',
         'backbone.radio':      '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone.radio/build/backbone.radio',
         'backbone.marionette': '<% if (sourceDirectory !== './') { %>../<% } %>../node_modules/backbone.marionette/lib/backbone.marionette',
         // Helpers and extensions

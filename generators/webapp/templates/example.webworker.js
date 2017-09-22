@@ -21,7 +21,7 @@ self.onmessage = function(data) {
     'use strict';
     msg.push(data);
 };
-var PREVENT_IMPORTSCRIPTS_ERROR = {baseUrl: '../', map: {'*': {'main': 'config'}}};
+var PREVENT_IMPORTSCRIPTS_ERROR = {baseUrl: '../', map: {'*': {main: 'config'}}};
 require(PREVENT_IMPORTSCRIPTS_ERROR, ['config'], function() {
     'use strict';
     require(PREVENT_IMPORTSCRIPTS_ERROR, [/*paths from config go here*/], function() {
