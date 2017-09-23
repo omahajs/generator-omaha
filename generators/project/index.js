@@ -76,59 +76,52 @@ module.exports = class extends Generator {
         }
     }
     writing() {
-        //
-        // Write configuration files
-        //
         let generator = this;
-        let {config, options, use} = generator;
-        let _copy = partialRight(copy, generator);
-        let _copyTpl = partialRight(copyTpl, generator);
-        let isWebapp = config.get('isWebapp');
+        const {config, options, use} = generator;
+        const iff = (condition, data, defaultValue = []) => (condition ? data : defaultValue);
+        const _copy = partialRight(copy, generator);
+        const _copyTpl = partialRight(copyTpl, generator);
+        const isWebapp = config.get('isWebapp');
         assign(generator, {
             useBenchmark: use.benchmark && !options.skipBenchmark,
             useCoveralls: use.coveralls && !options.skipCoveralls,
             useJsinspect: use.jsinspect && !options.skipJsinspect
         });
-        config.set('projectName', generator.projectName);
-        config.set('useBenchmark', generator.useBenchmark);
-        config.set('useCoveralls', generator.useCoveralls);
-        config.set('useJsinspect', generator.useJsinspect);
-        _copyTpl('_README.md', 'README.md');
-        _copyTpl('_LICENSE', 'LICENSE');
-        _copyTpl('_package.json', 'package.json');
-        _copyTpl('config/_gitignore', '.gitignore');
-        _copyTpl('config/_default.json', 'config/default.json');
-        if (isWebapp) {
-            _copyTpl('_Gruntfile.js', 'Gruntfile.js');
-            _copyTpl('config/_karma.conf.js', 'config/karma.conf.js');
-            _copyTpl('config/_eslintrc_webapp.js', 'config/.eslintrc.js');
-        } else {
-            _copyTpl('config/_eslintrc.js', 'config/.eslintrc.js');
-        }
-        if (generator.useCoveralls) {
-            _copyTpl('_travis.yml', '.travis.yml');
-        }
+        const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
+        config.set('projectName', projectName);
+        config.set('useBenchmark', useBenchmark);
+        config.set('useCoveralls', useCoveralls);
+        config.set('useJsinspect', useJsinspect);
         mkdirp(generator.sourceDirectory);
-        //
-        // Write test files
-        //
-        let {useBenchmark} = generator;
-        isWebapp && _copyTpl('test/config.js', 'test/config.js');
+        const defaultTemplateData = [
+            ['_README.md', 'README.md'],
+            ['_LICENSE', 'LICENSE'],
+            ['_package.json', 'package.json'],
+            ['config/_gitignore', '.gitignore'],
+            ['config/_default.json', 'config/default.json']
+        ];
+        const webappTemplateData = [
+            ['_Gruntfile.js', 'Gruntfile.js'],
+            ['config/_karma.conf.js', 'config/karma.conf.js'],
+            ['config/_eslintrc_webapp.js', 'config/.eslintrc.js'],
+            ['test/config.js', 'test/config.js']
+        ];
+        defaultTemplateData.concat(
+            iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]),
+            iff(useCoveralls, [['_travis.yml', '.travis.yml']]),
+            iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]),
+            iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']])
+        ).forEach(data => _copyTpl(...data));
         _copy('test/data/**/*.*', 'test/data');
         _copy('test/mocha.opts', 'test/mocha.opts');
-        _copy('test/mocha/specs/' + (isWebapp ? 'example' : 'simple') + '.spec.js', 'test/mocha/specs/example.spec.js');
-        if (useBenchmark) {
-            _copyTpl('test/example.benchmark.js', 'test/benchmarks/example.benchmark.js');
-            isWebapp || _copyTpl('_Gruntfile.js', 'Gruntfile.js');
-        }
+        _copy(`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js');
     }
     install() {
-        //
-        // Install dependencies
-        //
-        let generator = this;
-        let {config, useBenchmark, useCoveralls, useJsinspect} = generator;
-        let isWebapp = config.get('isWebapp');
+        const generator = this;
+        const {config, useBenchmark, useCoveralls, useJsinspect} = generator;
+        const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
+        const isWebapp = config.get('isWebapp');
+        const isNotWindows = includes(['linux', 'freebsd'], process.platform);
         let devDependencies = flatten(maybeInclude(useBenchmark, ['lodash', 'grunt-benchmark']));
         if (isWebapp) {
             devDependencies = devDependencies.concat(
@@ -140,42 +133,21 @@ module.exports = class extends Generator {
                 ['nyc', 'coveralls', 'watch'],
                 maybeInclude(useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
                 maybeInclude(useCoveralls, 'coveralls'),
-                maybeInclude(useJsinspect, 'jsinspect')
+                maybeInclude(useJsinspect, 'jsinspect'),
+                maybeInclude(isNotWindows, 'stmux')
             );
         }
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
-        //
-        // Configure package.json
-        //
-        let updatePackageJson = partial(extend, generator.destinationPath('package.json'));
-        let scripts = {coverage: 'nyc report -r text'};
-        if (useBenchmark) {
-            assign(scripts, {
-                'test:perf': 'grunt benchmark'
-            });
-        }
-        if (useCoveralls) {
-            assign(scripts, {
-                'test:travis': 'nyc report --reporter=text-lcov | coveralls'
-            });
-        }
-        /* istanbul ignore else */
-        if (includes(['linux', 'freebsd'], process.platform)) {
-            generator.npmInstall('stmux', {saveDev: true});
-            assign(scripts, {
-                dev: 'stmux [ \"npm run test:watch\" .. \"npm run lint:watch\" ]'
-            });
-        }
-        updatePackageJson({scripts});
+        updatePackageJson(getScripts(generator));
         //
         // Configure workflow tasks
         //
-        const placeholder = '/* -- load tasks placeholder -- */';
         if (useBenchmark) {
+            const placeholder = '/* -- load tasks placeholder -- */';
             let text = readFileSync(generator.destinationPath('Gruntfile.js'))
                 .toString()
-                .replace(placeholder, config.get('isWebapp') ? placeholder : '');
+                .replace(placeholder, isWebapp ? placeholder : '');
             let gruntfile = new Gruntfile(text);
             gruntfile.insertConfig('benchmark', tasks.benchmark);
             writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
@@ -183,7 +155,7 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        let projectParameters = pick(this, [
+        const projectParameters = pick(this, [
             'projectName',
             'useBenchmark',
             'useCoveralls',
@@ -192,7 +164,28 @@ module.exports = class extends Generator {
         this.config.set({projectParameters});
     }
     end() {
-        let {config, log} = this;
+        const {config, log} = this;
         config.get('isComposed') || log(footer(this));
     }
 };
+function getScripts(generator) {
+    const {useBenchmark, useCoveralls} = generator;
+    let scripts = {coverage: 'nyc report -r text'};
+    if (useBenchmark) {
+        assign(scripts, {
+            'test:perf': 'grunt benchmark'
+        });
+    }
+    if (useCoveralls) {
+        assign(scripts, {
+            'test:travis': 'nyc report --reporter=text-lcov | coveralls'
+        });
+    }
+    /* istanbul ignore else */
+    if (includes(['linux', 'freebsd'], process.platform)) {
+        assign(scripts, {
+            dev: 'stmux [ \"npm run test:watch\" .. \"npm run lint:watch\" ]'
+        });
+    }
+    return {scripts};
+}

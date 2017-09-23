@@ -1,6 +1,6 @@
 'use strict';
 
-const {assign, partial, partialRight, pick} = require('lodash');
+const {assign, flow, partial, partialRight, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
@@ -179,29 +179,20 @@ module.exports = class extends Generator {
         }
     }
     install() {
-        //
-        // Install dependencies
-        //
-        let generator = this;
-        let {config, isNative, sourceDirectory} = generator;
-        let {useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
-        let dependencies = [// always included
-            'backbone',
-            'backbone.marionette',
-            'backbone.radio',
-            'jquery',
-            'lodash',
-            'morphdom',
-            'redux',
-            'requirejs'
-        ].concat(// conditional dependencies
-            useHandlebars ? 'handlebars' : []
-        );
-        let htmlDevDependencies = [
+        const generator = this;
+        const {config, sourceDirectory} = generator;
+        const {useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
+        const type = resolveCssPreprocessor(generator);
+        const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
+        const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
+        const configurePackageJson = flow(getPackageJsonAttributes, updatePackageJson).bind(generator);
+        const placeholder = '/* -- load tasks placeholder -- */';
+        const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
+        const htmlDevDependencies = [
             'grunt-contrib-htmlmin',
             'grunt-htmlhint-plus'
         ];
-        let cssDevDependencies = [
+        const cssDevDependencies = [
             'grunt-postcss',
             'autoprefixer',
             'stylelint',
@@ -211,11 +202,11 @@ module.exports = class extends Generator {
             'mdcss',
             'mdcss-theme-github'
         ];
-        let requirejsDevDependencies = [
+        const requirejsDevDependencies = [
             'grunt-contrib-requirejs',
             'karma-requirejs'
         ];
-        let browserifyDependencies = [
+        const browserifyDependencies = [
             'browserify',
             'browserify-shim',
             'aliasify',
@@ -223,7 +214,7 @@ module.exports = class extends Generator {
             'deamdify',
             'grunt-browserify'
         ];
-        let gruntDependencies = [
+        const gruntDependencies = [
             'grunt',
             'grunt-browser-sync',
             'grunt-cli',
@@ -243,7 +234,7 @@ module.exports = class extends Generator {
             'load-grunt-tasks',
             'time-grunt'
         ];
-        let karmaDependencies = [
+        const karmaDependencies = [
             'karma',
             'karma-chrome-launcher',
             'karma-coverage',
@@ -252,7 +243,19 @@ module.exports = class extends Generator {
             'karma-requirejs',
             'karma-spec-reporter'
         ];
-        let workflowDependencies = [
+        const dependencies = [// always included
+            'backbone',
+            'backbone.marionette',
+            'backbone.radio',
+            'jquery',
+            'lodash',
+            'morphdom',
+            'redux',
+            'requirejs'
+        ].concat(// conditional dependencies
+            useHandlebars ? 'handlebars' : []
+        );
+        const workflowDependencies = [
             'babel-cli',
             'babel-preset-env',
             'config',
@@ -261,7 +264,7 @@ module.exports = class extends Generator {
             'globby',
             'json-server'
         ].concat(// conditional dependencies
-            !useBrowserify ? 'babel-preset-minify' : []
+            maybeInclude(!useBrowserify, 'babel-preset-minify')
         ).concat(
             gruntDependencies,
             karmaDependencies,
@@ -269,7 +272,7 @@ module.exports = class extends Generator {
             htmlDevDependencies,
             cssDevDependencies
         );
-        let devDependencies = workflowDependencies.concat(
+        const devDependencies = workflowDependencies.concat(
             maybeInclude(useBrowserify, browserifyDependencies),
             maybeInclude(useAria, ['grunt-a11y', 'grunt-accessibility']),
             maybeInclude(useImagemin, 'grunt-contrib-imagemin'),
@@ -282,8 +285,6 @@ module.exports = class extends Generator {
         //
         // Configure default.json
         //
-        let type = resolveCssPreprocessor(generator);
-        let ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
         if (type !== 'none') {
             extend(generator.destinationPath('config/default.json'), {
                 grunt: {
@@ -304,45 +305,7 @@ module.exports = class extends Generator {
         //
         // Configure package.json
         //
-        let useCoveralls = config.get('useCoveralls');
-        let useJsinspect = config.get('useJsinspect');
-        let updatePackageJson = partial(extend, generator.destinationPath('package.json'));
-        let main = `${sourceDirectory}app/main.js`;
-        let scripts = {
-            lint:         'grunt eslint:src',
-            'lint:watch': 'grunt eslint:ing watch:eslint',
-            'lint:tests': 'grunt eslint:tests',
-            test:         'grunt test',
-            'test:watch': 'grunt karma:covering'
-        };
-        let plugins = [];// babel plugins
-        let presets = [['env', {modules: false}]];// babel presets
-        if (isNative) {
-            main = './index.js';
-            assign(scripts, {
-                start:          'grunt compile && electron index',
-                build:          'echo under construction',
-                'build:webapp': 'grunt build'
-            });
-        } else {
-            assign(scripts, {
-                start:     'grunt serve',
-                build:     'grunt build',
-                predemo:   'npm run build',
-                demo:      'grunt browserSync:demo',
-                predeploy: 'npm run build'
-            });
-        }
-        if (useCoveralls) {
-            assign(scripts, {
-                'test:ci': 'npm test && grunt coveralls'
-            });
-        }
-        if (useJsinspect) {
-            assign(scripts, {
-                inspect: 'grunt jsinspect:app'
-            });
-        }
+        configurePackageJson();
         if (useBrowserify) {
             updatePackageJson({
                 browser: {
@@ -370,23 +333,10 @@ module.exports = class extends Generator {
                     }
                 }
             });
-        } else {
-            // CAUTION: This is a static reference to dist/client directory
-            let dist = './dist/client/';
-            let temp = `${dist}temp.js`;
-            assign(scripts, {
-                postbuild: `babel ${temp} -o ${dist}config.js && rm ${temp}`
-            });
-            presets = presets.concat('minify');
         }
-        let babel = {plugins, presets};
-        let stylelint = {extends: './config/stylelint.config.js'};
-        updatePackageJson({main, scripts, babel, stylelint});
         //
         // Configure workflow tasks
         //
-        const placeholder = '/* -- load tasks placeholder -- */';
-        const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
         let text = readFileSync(generator.destinationPath('Gruntfile.js'))
             .toString()
             .replace(placeholder, loadTasks);
@@ -408,7 +358,7 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        let projectParameters = assign(config.get('projectParameters'), pick(generator, [
+        const projectParameters = assign(config.get('projectParameters'), pick(generator, [
             'useAria',
             'useBrowserify',
             'useHandlebars',
@@ -419,6 +369,73 @@ module.exports = class extends Generator {
         config.set({projectParameters});
     }
 };
+function getPackageJsonAttributes() {
+    const generator = this;
+    const {isNative, sourceDirectory} = generator;
+    const main = isNative ? './index.js' : `${sourceDirectory}app/main.js`;
+    const scripts = getScripts(generator);
+    const babel = {
+        plugins: [],
+        presets: getBabelPresets(generator)
+    };
+    const stylelint = {extends: './config/stylelint.config.js'};
+    return {main, scripts, babel, stylelint};
+}
+function getBabelPresets(generator) {
+    const {useBrowserify} = generator;
+    return [
+        ['env', {modules: false}]
+    ].concat(
+        maybeInclude(!useBrowserify, 'minify')
+    );
+
+}
+function getScripts(generator) {
+    const {isNative, config, useBrowserify} = generator;
+    const useCoveralls = config.get('useCoveralls');
+    const useJsinspect = config.get('useJsinspect');
+    let scripts = {
+        lint:         'grunt eslint:src',
+        'lint:watch': 'grunt eslint:ing watch:eslint',
+        'lint:tests': 'grunt eslint:tests',
+        test:         'grunt test',
+        'test:watch': 'grunt karma:covering'
+    };
+    if (isNative) {
+        assign(scripts, {
+            start:          'grunt compile && electron index',
+            build:          'echo under construction',
+            'build:webapp': 'grunt build'
+        });
+    } else {
+        assign(scripts, {
+            start:     'grunt serve',
+            build:     'grunt build',
+            predemo:   'npm run build',
+            demo:      'grunt browserSync:demo',
+            predeploy: 'npm run build'
+        });
+    }
+    if (!useBrowserify) {
+        // CAUTION: This is a static reference to dist/client directory
+        const dist = './dist/client/';
+        const temp = `${dist}temp.js`;
+        assign(scripts, {
+            postbuild: `babel ${temp} -o ${dist}config.js && rm ${temp}`
+        });
+    }
+    if (useCoveralls) {
+        assign(scripts, {
+            'test:ci': 'npm test && grunt coveralls'
+        });
+    }
+    if (useJsinspect) {
+        assign(scripts, {
+            inspect: 'grunt jsinspect:app'
+        });
+    }
+    return scripts;
+}
 function getTasks(generator) {
     let {config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
     let useBenchmark = config.get('useBenchmark');
