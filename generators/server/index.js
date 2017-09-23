@@ -55,15 +55,15 @@ const prompts = [
     }
 ];
 
-module.exports = Generator.extend({
-    constructor: function() {
-        Generator.apply(this, arguments);
+module.exports = class extends Generator {
+    constructor(args, opts) {
+        super(args, opts);
         let generator = this;
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
-    },
-    prompting: function() {
+    }
+    prompting() {
         let generator = this;
         let options = this.options;
         let customPortSelected = (options.http || options.https || options.ws);
@@ -87,47 +87,45 @@ module.exports = Generator.extend({
                 ]));
             }.bind(this));
         }
-    },
-    configuring: {
-        projectfiles: function() {
-            let generator = this;
-            let _copyTpl = partialRight(copyTpl, generator);
-            if (generator.markdownSupport) {
-                generator.log(yosay('Place Markdown files in ' + chalk.blue('./web/client/')));
-            }
-            _copyTpl('_package.json', 'package.json');
-            _copyTpl('config/_gitignore', '.gitignore');
-            _copyTpl('config/_env', '.env');
-            _copyTpl('config/_default.js', 'config/default.js');
-            _copyTpl('../../project/templates/config/_eslintrc.js', 'config/.eslintrc.js');
+    }
+    configuring() {
+        let generator = this;
+        let _copyTpl = partialRight(copyTpl, generator);
+        if (generator.markdownSupport) {
+            generator.log(yosay('Place Markdown files in ' + chalk.blue('./web/client/')));
         }
-    },
-    writing: {
-        serverFiles: function() {
-            let generator = this;
-            let _copyTpl = partialRight(copyTpl, generator);
-            _copyTpl('_index.js', 'index.js');
-            _copyTpl('_socket.js', 'web/socket.js');// WebSocket server
-            _copyTpl('_server.js', 'web/server.js');// HTTP server
-            _copyTpl('favicon.ico', 'favicon.ico');// empty favicon
-            generator.fs.copy(
-                generator.templatePath('ssl/**/*.*'),
-                generator.destinationPath('web/ssl')
-            );
-        },
-        boilerplate: function() {
-            let generator = this;
-            let _copyTpl = partialRight(copyTpl, generator);
-            _copyTpl('_index.html', 'web/client/index.html');
-            if (generator.markdownSupport) {
-                _copyTpl('example.md', 'web/client/example.md');
-            }
+        _copyTpl('_package.json', 'package.json');
+        _copyTpl('config/_gitignore', '.gitignore');
+        _copyTpl('config/_env', '.env');
+        _copyTpl('config/_default.js', 'config/default.js');
+        _copyTpl('../../project/templates/config/_eslintrc.js', 'config/.eslintrc.js');
+    }
+    writing() {
+        let generator = this;
+        let _copyTpl = partialRight(copyTpl, generator);
+        //
+        // Write server files
+        //
+        _copyTpl('_index.js', 'index.js');
+        _copyTpl('_socket.js', 'web/socket.js');// WebSocket server
+        _copyTpl('_server.js', 'web/server.js');// HTTP server
+        _copyTpl('favicon.ico', 'favicon.ico');// empty favicon
+        generator.fs.copy(
+            generator.templatePath('ssl/**/*.*'),
+            generator.destinationPath('web/ssl')
+        );
+        //
+        // Write boilerplate files
+        //
+        _copyTpl('_index.html', 'web/client/index.html');
+        if (generator.markdownSupport) {
+            _copyTpl('example.md', 'web/client/example.md');
         }
-    },
-    install: function() {
+    }
+    install() {
         this.npmInstall();
-    },
-    end: function() {
+    }
+    end() {
         if (includes(['linux', 'freebsd'], process.platform)) {
             this.npmInstall('stmux', {saveDev: true});
             extend('package.json', {
@@ -135,4 +133,4 @@ module.exports = Generator.extend({
             });
         }
     }
-});
+};

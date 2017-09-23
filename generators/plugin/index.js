@@ -50,16 +50,16 @@ const questions = [{
     ]
 }];
 
-module.exports = Generator.extend({
-    constructor: function() {
-        Generator.apply(this, arguments);
+module.exports = class extends Generator {
+    constructor(args, opts) {
+        super(args, opts);
         let generator = this;
         generator.argument('name', {type: String, required: true});
         Object.keys(commandLineOptions).forEach(option => {
             generator.option(option, commandLineOptions[option]);
         });
-    },
-    prompting: function() {
+    }
+    prompting() {
         let generator = this;
         let {options, user} = generator;
         let customDepName = options.customDependency;
@@ -91,8 +91,8 @@ module.exports = Generator.extend({
                 });
             }.bind(generator));
         }
-    },
-    writing: function() {
+    }
+    writing() {
         let generator = this;
         let {config, pluginName, use} = generator;
         let pluginDirectory = config.get('pluginDirectory');
@@ -112,7 +112,7 @@ module.exports = Generator.extend({
         generator.requireStatements = generator.dependencies.map(requireStatementFor).join('\n\t\t');
         copyTpl('umd.template.js', `${pathBase}${pluginName}.js`, generator);
     }
-});
+};
 function aliasFor(dep) {return globalNameLookup[dep];}
 function requireStatementFor(dep) {return 'var ' + aliasFor(dep) + ' = require(\'' + npmModuleNameLookup[dep] + '\');';}
 function removeSingleQuotes(str) {return str.replace(/'/g, '');}
