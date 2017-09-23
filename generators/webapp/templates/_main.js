@@ -13,15 +13,15 @@ define(function(require) {
     const Example  = require('router');
     const View     = require('views/example');
 
-    let name = WebApp.getState('name');
+    const name = WebApp.getState('name');
 
     WebApp.on('before:start', () => {
-        WebApp.info(name + ' is starting...');
+        WebApp.info(`${name} is starting...`);
         WebApp.router = new Example.Router();
     });
     WebApp.on('start', () => {
         Backbone.history.start();
-        WebApp.info(name + ' is started!');
+        WebApp.info(`${name} is started!`);
         WebApp.getRegion().show(new View());
     });
     if (typeof(define) === 'undefined') {

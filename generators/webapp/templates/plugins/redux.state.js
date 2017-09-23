@@ -51,7 +51,7 @@ define(function(require, exports, module) {
     // middleware
     function dispatchLogger() {
         return next => action => {
-            console.log('Dispatch: ' + action.type);
+            // console.log(`Dispatch: ${action.type}`);
             return next(action);
         };
     }
@@ -59,14 +59,14 @@ define(function(require, exports, module) {
     function addGetStatePathParameter() {
         return createStore => (reducer, preloadedState, enhancer) => {
             const store = createStore(reducer, preloadedState, enhancer);
-            let getState = path => {
+            const getState = path => {
                 if (typeof(path) === 'string') {
                     return get(store.getState(), path);
                 } else {
                     return store.getState();
                 }
             };
-            let {dispatch, subscribe} = store;
+            const {dispatch, subscribe} = store;
             return {getState, dispatch, subscribe};
         };
     }

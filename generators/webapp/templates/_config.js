@@ -7,7 +7,7 @@ requirejs.config({
     baseUrl: '',
     //urlArgs is used to cache bust.
     //development should use timestamp, production should use version
-    urlArgs: 'bust=' + (new Date()).getTime(),
+    urlArgs: `bust=${Date.now()}`,
     deps: ['main'],
     paths: {
         // Project Dependencies

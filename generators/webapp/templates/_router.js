@@ -14,7 +14,7 @@ define(function(require, exports) {
      * @extends Marionette.Object
      * @prop {function} foo Example callback function to be called by ExampleAppRouter
     **/
-    let RouterController = Mn.Object.extend({
+    const RouterController = Mn.Object.extend({
         foo: function() {
             //code to be executed for 'foo' route
         }
@@ -27,7 +27,7 @@ define(function(require, exports) {
      * @prop {object} appRoutes
      * @prop {string} appRoutes.foo
     **/
-    let ExampleAppRouter = Mn.AppRouter.extend({
+    const ExampleAppRouter = Mn.AppRouter.extend({
         appRoutes: {
             foo: 'foo'
         },

@@ -18,7 +18,7 @@ define(function(require, exports) {
      * @prop {objects} defaults
      * @prop {string} defaults.name
     **/
-    let ExampleModel = Backbone.Model.extend({
+    const ExampleModel = Backbone.Model.extend({
         defaults: {
             name: WebApp.getState('name')
         }
@@ -30,7 +30,7 @@ define(function(require, exports) {
      * @extends Backbone.Collection
      * @prop {ExampleModel} model
     **/
-    let ExampleCollection = Backbone.Collection.extend({
+    const ExampleCollection = Backbone.Collection.extend({
         model: ExampleModel
     });
 

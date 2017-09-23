@@ -87,7 +87,7 @@ define(function(require, exports) {
         var level = MSG_DICT[type];
         var msg = arguments.length > 2 ? arguments[2] : arguments[1];
         if (level < channelMethods.level()) {
-            consoleMessage(type)('[' + channelName + '] ', msg, _.now());
+            consoleMessage(type)(`[${channelName}] `, msg, _.now());
         }
     };
 

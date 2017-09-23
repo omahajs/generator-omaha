@@ -14,7 +14,7 @@ define(function(require, exports, module) {
      * @constructor
      * @extends Marionette.Object
     **/
-    let ExampleController = Mn.Object.extend({
+    const ExampleController = Mn.Object.extend({
         //controller code goes here
     });
 

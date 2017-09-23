@@ -23,7 +23,7 @@ define(function(require, exports, module) {
      * @extends Marionette.Application
      * @prop {string} region='body'
     **/
-    let Application = Mn.Application.extend({
+    const Application = Mn.Application.extend({
         region: 'body'
     });
 

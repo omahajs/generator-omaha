@@ -5,8 +5,8 @@ define(function(require) {
     const morphdom = require('morphdom');
 
     Mn.View.setRenderer(function(template, data) {
-        let {el} = this;
-        let node = el.cloneNode(false);// shallow clone
+        const {el} = this;
+        const node = el.cloneNode(false);// shallow clone
         node.innerHTML = template(data);
         morphdom(el, node);
     });

@@ -17,7 +17,7 @@ define(function(require, exports, module) {
      * @constructor
      * @extends Marionette.View
     **/
-    let ExampleView = Mn.View.extend({
+    const ExampleView = Mn.View.extend({
         //view code goes here
         template: JST.example,
         model: new Example.Model()
