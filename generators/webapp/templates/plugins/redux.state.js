@@ -50,16 +50,16 @@ define(function(require, exports, module) {
     }
     // middleware
     function dispatchLogger() {
-        return (next) => (action) => {
+        return next => action => {
             console.log('Dispatch: ' + action.type);
             return next(action);
         };
     }
     // store enhancer
     function addGetStatePathParameter() {
-        return (createStore) => (reducer, preloadedState, enhancer) => {
+        return createStore => (reducer, preloadedState, enhancer) => {
             const store = createStore(reducer, preloadedState, enhancer);
-            let getState = (path) => {
+            let getState = path => {
                 if (typeof(path) === 'string') {
                     return get(store.getState(), path);
                 } else {
