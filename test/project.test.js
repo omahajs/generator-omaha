@@ -94,6 +94,18 @@ describe('Project generator', () => {
             }))
             .toPromise()
             .then(() => verify(...useNeither)));
+        it('--defaults --use-jest', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
+                'use-jest': true
+            }))
+            .toPromise()
+            .then(() => {
+                assert.fileContent('package.json', '"testMatch":');
+                assert.file('test/example.test.js');
+                assert.noFile('test/mocha.opts');
+                assert.noFileContent('package.json', 'nyc');
+                assert.noFileContent('package.json', 'mocha');
+            }));
     });
 });
 function verifyCoreFiles() {
@@ -106,6 +118,8 @@ function verifyCoreFiles() {
         'test/data/db.json',
         'test/mocha/specs/example.spec.js'
     ];
+    assert.noFile('test/example.test.js');
+    assert.noFileContent('package.json', '"testMatch":');
     assert.fileContent('package.json', '"name": "omaha-project"');
     assert.fileContent('package.json', '"author": "A. Developer"');
     assert.fileContent('config/.eslintrc.js', 'es6: true,');

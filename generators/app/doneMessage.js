@@ -8,6 +8,7 @@ const {maybe} = require('./utils');
 module.exports = function(generator) {
     const LETS_GET_STARTED = 'npm start';
     const ELECTRON_TAGLINE = '⚡ Powered by Electron!';
+    const JEST_TAGLINE = 'Delightful testing provided by Jest ;)'
     const {config} = generator;
     const {
         projectName,
@@ -17,6 +18,7 @@ module.exports = function(generator) {
         useCoveralls,
         useHandlebars,
         useImagemin,
+        useJest,
         useJsinspect,
         useLess,
         useSass
@@ -50,6 +52,7 @@ module.exports = function(generator) {
             yesNo(useAria)('Perform accessibility audit on HTML code'),
             yesNo(useImagemin)('Compress production images with imagemin')
         ]),
+        maybe(useJest, ['', white.bgMagenta.bold(JEST_TAGLINE)]),
         maybe(isNative, ['', yellow.bgBlack.bold(ELECTRON_TAGLINE)]),
         '',
         green.bold('All done!'),

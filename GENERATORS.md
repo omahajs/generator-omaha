@@ -19,6 +19,7 @@ yo omaha:project
 > Default in **bold**
 
 - `--defaults`: scaffold app with no user input using defaults
+- `--use-jest`: use Facebook's Jest instead of mocha (projects only)
 - `--skip-benchmark`: use with `--defaults`
 - `--skip-coveralls`: use with `--defaults`
 - `--skip-jsinspect`: use with `--defaults`
