@@ -16,8 +16,8 @@ const ariaContent = [
     ['Gruntfile.js', 'aria-audit']
 ];
 
-let verifyLessConfigured = _.partial(verifyPreprocessorConfigured, 'less');
-let verifySassConfigured = _.partial(verifyPreprocessorConfigured, 'sass');
+const verifyLessConfigured = _.partial(verifyPreprocessorConfigured, 'less');
+const verifySassConfigured = _.partial(verifyPreprocessorConfigured, 'sass');
 
 module.exports = {
     verifyCoreFiles,
@@ -30,7 +30,7 @@ module.exports = {
 };
 
 function verifyCoreFiles() {
-    let ALWAYS_INCLUDED = [
+    const ALWAYS_INCLUDED = [
         'README.md',
         'Gruntfile.js',
         'config/default.json',
@@ -41,7 +41,7 @@ function verifyCoreFiles() {
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
 function verifyNativeFiles(isWebapp) {
-    let ALWAYS_INCLUDED = [
+    const ALWAYS_INCLUDED = [
         'bin/preload.js',
         'index.js',
         isWebapp ? 'renderer/app/index.html' : 'renderer/index.html'
@@ -75,7 +75,7 @@ function verifyDefaultConfiguration(sourceDirectory) {
     assert.fileContent('Gruntfile.js', 'handlebars');// template technology
 }
 function verifyNativeConfiguration(isWebapp) {
-    let startScript = isWebapp ? '"grunt compile && electron index"' : '"electron index"';
+    const startScript = isWebapp ? '"grunt compile && electron index"' : '"electron index"';
     assert.fileContent('package.json', `"start": ${startScript}`);
 }
 function verifyDefaultTasksConfiguration() {

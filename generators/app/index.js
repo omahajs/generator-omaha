@@ -6,7 +6,7 @@ const footer    = require('./doneMessage');
 
 module.exports = class extends Generator {
     initializing() {
-        let options = this.options;
+        const options = this.options;
         this.log(banner);
         this.config.defaults({
             isComposed: true,

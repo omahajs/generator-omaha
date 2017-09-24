@@ -8,8 +8,8 @@ const {maybe} = require('./utils');
 module.exports = function(generator) {
     const LETS_GET_STARTED = 'npm start';
     const ELECTRON_TAGLINE = '⚡ Powered by Electron!';
-    let {config} = generator;
-    let {
+    const {config} = generator;
+    const {
         projectName,
         useAria,
         useBenchmark,
@@ -21,16 +21,16 @@ module.exports = function(generator) {
         useLess,
         useSass
     } = config.get('projectParameters');
-    let isNative = config.get('isNative');
-    let isWebapp = config.get('isWebapp');
-    let isApplication = (isNative || isWebapp);
-    let isNativeWebapp = (isNative && isWebapp);
-    let type = isApplication ? 'Application' : 'Project';
+    const isNative = config.get('isNative');
+    const isWebapp = config.get('isWebapp');
+    const isApplication = (isNative || isWebapp);
+    const isNativeWebapp = (isNative && isWebapp);
+    const type = isApplication ? 'Application' : 'Project';
 
-    let less = chalk.blue('Less');
-    let sass = magenta('Sass');//chalk.hex('#CC6699')('Sass');
-    let browserify = yellow('Browserify');//chalk.hex('#3C6991')('Browserify')
-    let handlebars = yellow('Handlebars');//chalk.hex('#ED8623')('Handlebars');
+    const less = chalk.blue('Less');
+    const sass = magenta('Sass');//chalk.hex('#CC6699')('Sass');
+    const browserify = yellow('Browserify');//chalk.hex('#3C6991')('Browserify')
+    const handlebars = yellow('Handlebars');//chalk.hex('#ED8623')('Handlebars');
 
     return [].concat(
         '',
@@ -58,6 +58,6 @@ module.exports = function(generator) {
     ).join('\n');
 };
 function yes(str) {return bold(green('✔ ') + white(str));}
-function no(str) {return bold.gray('✗ ' + str);}
+function no(str) {return bold.gray(`✗ ${ str}`);}
 function yesNo(val) {return (isBoolean(val) && val) ? yes : no;}
 function spaceWrap(str) {return ` ${str} `;}

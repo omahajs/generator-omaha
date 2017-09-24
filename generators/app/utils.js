@@ -3,7 +3,7 @@
 const {isBoolean, merge, partialRight} = require('lodash');
 const {readFileSync, writeFileSync} = require('fs-extra');
 
-let maybeInclude = partialRight(maybe, []);
+const maybeInclude = partialRight(maybe, []);
 
 module.exports = {
     copy,
@@ -38,7 +38,7 @@ function readJSON(fileName) {
 }
 function writeJSON(fileName, content) {
     var INDENT_SPACES = 4;
-    writeFileSync(fileName, JSON.stringify(content, null, INDENT_SPACES) + '\n');
+    writeFileSync(fileName, `${JSON.stringify(content, null, INDENT_SPACES) }\n`);
 }
 function extendJSON(fileName, obj) {
     writeJSON(fileName, merge(readJSON(fileName), obj));

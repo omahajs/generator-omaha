@@ -66,18 +66,18 @@ const webappQuestions = [
         default: true
     }
 ];
-let getPromptQuestions = curry(function(type, isWebapp) {
-    let questionLookup = {
+const getPromptQuestions = curry(function(type, isWebapp) {
+    const questionLookup = {
         project: projectQuestions,
         webapp: webappQuestions
     };
     return questionLookup[type].map(promptMessageFormat(type, isWebapp));
 });
-let webappDefaults = webappQuestions
+const webappDefaults = webappQuestions
     .map(question => pick(question, ['name', 'default', 'choices']))
     .map(item => set({}, item.name, Array.isArray(item.choices) ? head(item.choices.map(toLower)) : item.default))
     .reduce(extend);
-let defaults = {
+const defaults = {
     project: projectQuestions
         .map(question => set({}, question.name, question.default))
         .reduce(extend),
@@ -90,12 +90,12 @@ let defaults = {
 };
 
 function promptMessageFormat(type, isWebapp) {
-    function addLeadingZero(step) {return (step < 10) ? ('0' + step) : step;}
+    function addLeadingZero(step) {return (step < 10) ? (`0${ step}`) : step;}
     let total = projectQuestions.length;
     total += isWebapp ? webappQuestions.length : 0;
     return function(question, index) {
-        let step = index + 1 + ((type === 'webapp') ? projectQuestions.length : 0);
-        question.message = require('chalk')[step === total ? 'green' : 'gray']('(' + addLeadingZero(step) + '/' + total + ') ') + question.message;
+        const step = index + 1 + ((type === 'webapp') ? projectQuestions.length : 0);
+        question.message = require('chalk')[step === total ? 'green' : 'gray'](`(${ addLeadingZero(step) }/${ total }) `) + question.message;
         return question;
     };
 }

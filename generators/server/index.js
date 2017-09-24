@@ -58,18 +58,18 @@ const prompts = [
 module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
-        let generator = this;
+        const generator = this;
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
     }
     prompting() {
-        let generator = this;
-        let options = this.options;
-        let customPortSelected = (options.http || options.https || options.ws);
+        const generator = this;
+        const options = this.options;
+        const customPortSelected = (options.http || options.https || options.ws);
         if (options.defaults || customPortSelected) {
-            let done = this.async();
-            let defaults = prompts.map(val => val.default);
+            const done = this.async();
+            const defaults = prompts.map(val => val.default);
             assign(generator, {
                 httpPort: defaultTo(options.http, defaults[0]),
                 httpsPort: defaultTo(options.https, defaults[1]),
@@ -89,10 +89,10 @@ module.exports = class extends Generator {
         }
     }
     configuring() {
-        let generator = this;
-        let _copyTpl = partialRight(copyTpl, generator);
+        const generator = this;
+        const _copyTpl = partialRight(copyTpl, generator);
         if (generator.markdownSupport) {
-            generator.log(yosay('Place Markdown files in ' + chalk.blue('./web/client/')));
+            generator.log(yosay(`Place Markdown files in ${ chalk.blue('./web/client/')}`));
         }
         _copyTpl('_package.json', 'package.json');
         _copyTpl('config/_gitignore', '.gitignore');
@@ -101,8 +101,8 @@ module.exports = class extends Generator {
         _copyTpl('../../project/templates/config/_eslintrc.js', 'config/.eslintrc.js');
     }
     writing() {
-        let generator = this;
-        let _copyTpl = partialRight(copyTpl, generator);
+        const generator = this;
+        const _copyTpl = partialRight(copyTpl, generator);
         //
         // Write server files
         //

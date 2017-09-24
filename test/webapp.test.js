@@ -12,9 +12,9 @@ const {
 
 describe('Webapp generator', () => {
     let stub;
-    let projectName = 'omaha-project';
-    let sourceDirectory = './';
-    let verify = () => {
+    const projectName = 'omaha-project';
+    const sourceDirectory = './';
+    const verify = () => {
         verifyBoilerplateFiles(sourceDirectory);
         verifyDefaultConfiguration();
     };
@@ -24,29 +24,27 @@ describe('Webapp generator', () => {
     afterAll(() => {
         stub.mockRestore();
     });
-    it('can create and configure files with default prompt choices', () => {
-        return helpers.run(join(__dirname, '../generators/webapp'))
-            .inTmpDir((dir) => {
-                let projectTemplatesDirectory = '../generators/project/templates/';
-                ['_README.md', '_Gruntfile.js', '_package.json'].forEach(function(file) {
-                    copySync(
-                        join(__dirname, `${projectTemplatesDirectory}${file}`),
-                        join(dir, file.split('_')[1])
-                    );
-                });
+    it('can create and configure files with default prompt choices', () => helpers.run(join(__dirname, '../generators/webapp'))
+        .inTmpDir(dir => {
+            const projectTemplatesDirectory = '../generators/project/templates/';
+            ['_README.md', '_Gruntfile.js', '_package.json'].forEach(function(file) {
                 copySync(
-                    join(__dirname, `${projectTemplatesDirectory}config/_default.json`),
-                    join(dir, 'config', 'default.json')
+                    join(__dirname, `${projectTemplatesDirectory}${file}`),
+                    join(dir, file.split('_')[1])
                 );
-                copySync(
-                    join(__dirname, `${projectTemplatesDirectory}config/_karma.conf.js`),
-                    join(dir, 'config', 'karma.conf.js')
-                );
-            })
-            .withOptions({skipInstall: true})
-            .withPrompts(defaults)
-            .withLocalConfig({projectName, sourceDirectory})
-            .toPromise()
-            .then(verify);
-    });
+            });
+            copySync(
+                join(__dirname, `${projectTemplatesDirectory}config/_default.json`),
+                join(dir, 'config', 'default.json')
+            );
+            copySync(
+                join(__dirname, `${projectTemplatesDirectory}config/_karma.conf.js`),
+                join(dir, 'config', 'karma.conf.js')
+            );
+        })
+        .withOptions({skipInstall: true})
+        .withPrompts(defaults)
+        .withLocalConfig({projectName, sourceDirectory})
+        .toPromise()
+        .then(verify));
 });

@@ -58,23 +58,23 @@ function resolveCssPreprocessor(generator) {
 module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
-        let generator = this;
+        const generator = this;
         Object.keys(commandLineOptions).forEach(option => {
             generator.option(option, commandLineOptions[option]);
         });
     }
     prompting() {
-        let generator = this;
+        const generator = this;
         if (generator.options.defaults) {
-            let done = this.async();
+            const done = this.async();
             generator.use = webapp.defaults;
             Object.keys(webapp.defaults).forEach(option => {
                 generator[option] = webapp.defaults[option];
             });
-            let bundler = generator.options.scriptBundler;
-            let preprocessor = generator.options.cssPreprocessor;
-            let templateTechnology = generator.options.templateTechnology;
-            let options = {
+            const bundler = generator.options.scriptBundler;
+            const preprocessor = generator.options.cssPreprocessor;
+            const templateTechnology = generator.options.templateTechnology;
+            const options = {
                 useBrowserify: (bundler === 'browserify') || webapp.defaults.useBrowserify,
                 useLess:       (preprocessor === 'less'),
                 useSass:       (preprocessor === 'sass'),
@@ -88,10 +88,10 @@ module.exports = class extends Generator {
             function isUnAnswered(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             }
-            let isWebapp = true;
+            const isWebapp = true;
             return generator.prompt(webapp.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
-                let bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
+                const bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
                 let preprocessor;
                 if (generator.options.cssPreprocessor === commandLineOptions.cssPreprocessor.defaults) {
                     preprocessor = generator.use.cssPreprocessor.toLowerCase();
@@ -104,7 +104,7 @@ module.exports = class extends Generator {
                 } else {
                     templateTechnology = generator.options.templateTechnology;
                 }
-                let options = {
+                const options = {
                     useBrowserify: (bundler === 'browserify'),
                     useLess:       (preprocessor === 'less'),
                     useSass:       (preprocessor === 'sass'),
@@ -120,9 +120,9 @@ module.exports = class extends Generator {
         //
         // Write configuration files
         //
-        let generator = this;
-        let {config, options, use, user, useHandlebars} = generator;
-        let attributes = {
+        const generator = this;
+        const {config, options, use, user, useHandlebars} = generator;
+        const attributes = {
             sourceDirectory: config.get('sourceDirectory'),
             isNative:        config.get('isNative'),
             projectName:     config.get('projectName'),
@@ -133,9 +133,9 @@ module.exports = class extends Generator {
         Object.keys(attributes).forEach(name => {
             generator[name] = attributes[name];
         });
-        let {sourceDirectory, useAria, useImagemin} = attributes;
-        let _copy = partialRight(copy, this);
-        let _copyTpl = partialRight(copyTpl, this);
+        const {sourceDirectory, useAria, useImagemin} = attributes;
+        const _copy = partialRight(copy, this);
+        const _copyTpl = partialRight(copyTpl, this);
         config.set('useAria', useAria);
         config.set('useImagemin', useImagemin);
         config.set('pluginDirectory', sourceDirectory);
@@ -146,7 +146,7 @@ module.exports = class extends Generator {
         // Write application files
         //
         if (useHandlebars) {
-            _copyTpl('helpers/handlebars.helpers.js', sourceDirectory + 'app/helpers/handlebars.helpers.js');
+            _copyTpl('helpers/handlebars.helpers.js', `${sourceDirectory }app/helpers/handlebars.helpers.js`);
         }
         _copyTpl('helpers/jquery.extensions.js', `${sourceDirectory}app/helpers/jquery.extensions.js`);
         _copyTpl('plugins/*.js', `${sourceDirectory}app/plugins`);
@@ -169,8 +169,8 @@ module.exports = class extends Generator {
         _copyTpl('example.controller.js', `${sourceDirectory}app/controllers/example.js`);
         _copyTpl('example.webworker.js', `${sourceDirectory}app/controllers/example.webworker.js`);
         _copyTpl('example.template.hbs', `${sourceDirectory}assets/templates/example.hbs`);
-        let type = resolveCssPreprocessor(this);
-        let ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
+        const type = resolveCssPreprocessor(this);
+        const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
         if (type === 'none') {
             _copyTpl('_style.css', `${sourceDirectory}assets/css/style.css`);
         } else {
@@ -337,10 +337,10 @@ module.exports = class extends Generator {
         //
         // Configure workflow tasks
         //
-        let text = readFileSync(generator.destinationPath('Gruntfile.js'))
+        const text = readFileSync(generator.destinationPath('Gruntfile.js'))
             .toString()
             .replace(placeholder, loadTasks);
-        let gruntfile = new Gruntfile(text);
+        const gruntfile = new Gruntfile(text);
         //
         // Get grunt tasks based on user input
         //
@@ -394,7 +394,7 @@ function getScripts(generator) {
     const {isNative, config, useBrowserify} = generator;
     const useCoveralls = config.get('useCoveralls');
     const useJsinspect = config.get('useJsinspect');
-    let scripts = {
+    const scripts = {
         lint:         'grunt eslint:src',
         'lint:watch': 'grunt eslint:ing watch:eslint',
         'lint:tests': 'grunt eslint:tests',
@@ -437,10 +437,10 @@ function getScripts(generator) {
     return scripts;
 }
 function getTasks(generator) {
-    let {config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
-    let useBenchmark = config.get('useBenchmark');
-    let useCoveralls = config.get('useCoveralls');
-    let useJsinspect = config.get('useJsinspect');
+    const {config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
+    const useBenchmark = config.get('useBenchmark');
+    const useCoveralls = config.get('useCoveralls');
+    const useJsinspect = config.get('useJsinspect');
     return [// Tasks enabled by default
         'browserSync',
         'clean',

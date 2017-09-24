@@ -14,27 +14,25 @@ const {
 
 const SKIP_INSTALL = {skipInstall: true};
 const ALL_TRUE = merge({}, prompts.project.defaults, prompts.webapp.defaults);
-const ALL_FALSE = mapValues(ALL_TRUE, (option) => {return isBoolean(option) ? false : option;});
+const ALL_FALSE = mapValues(ALL_TRUE, option => isBoolean(option) ? false : option);
 
 describe('Native generator', function() {
-    let sourceDirectory = './renderer/';
-    let isWebapp = true;
-    let verify = (isWebapp) => {
+    const sourceDirectory = './renderer/';
+    const isWebapp = true;
+    const verify = isWebapp => {
         verifyNativeFiles(isWebapp);
         verifyNativeConfiguration(isWebapp);
     };
-    it('all prompts FALSE (default configuration)', () => {
-        return helpers.run(join(__dirname, '../generators/native'))
-            .withOptions(SKIP_INSTALL)
-            .withPrompts(ALL_FALSE)
-            .toPromise()
-            .then(() => {
-                verify(isWebapp);
-                verifyBoilerplateFiles(sourceDirectory);
-            });
-    });
+    it('all prompts FALSE (default configuration)', () => helpers.run(join(__dirname, '../generators/native'))
+        .withOptions(SKIP_INSTALL)
+        .withPrompts(ALL_FALSE)
+        .toPromise()
+        .then(() => {
+            verify(isWebapp);
+            verifyBoilerplateFiles(sourceDirectory);
+        }));
     it('all prompts FALSE (default configuration - no user)', () => {
-        let stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
+        const stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
         return helpers.run(join(__dirname, '../generators/native'))
             .withOptions(SKIP_INSTALL)
             .withPrompts(ALL_FALSE)
@@ -45,22 +43,18 @@ describe('Native generator', function() {
                 stub.mockRestore();
             });
     });
-    it('all prompts TRUE', () => {
-        return helpers.run(join(__dirname, '../generators/native'))
-            .withOptions(SKIP_INSTALL)
-            .withPrompts(ALL_TRUE)
-            .toPromise()
-            .then(() => {
-                verify(isWebapp);
-                verifyBoilerplateFiles(sourceDirectory);
-                verifyDefaultConfiguration(sourceDirectory);
-            });
-    });
+    it('all prompts TRUE', () => helpers.run(join(__dirname, '../generators/native'))
+        .withOptions(SKIP_INSTALL)
+        .withPrompts(ALL_TRUE)
+        .toPromise()
+        .then(() => {
+            verify(isWebapp);
+            verifyBoilerplateFiles(sourceDirectory);
+            verifyDefaultConfiguration(sourceDirectory);
+        }));
 
-    it('--defaults --skip-webapp', () => {
-        return helpers.run(join(__dirname, '../generators/native'))
-            .withOptions(merge({}, SKIP_INSTALL, {defaults: true, skipWebapp: true}))
-            .toPromise()
-            .then(() => verify());
-    });
+    it('--defaults --skip-webapp', () => helpers.run(join(__dirname, '../generators/native'))
+        .withOptions(merge({}, SKIP_INSTALL, {defaults: true, skipWebapp: true}))
+        .toPromise()
+        .then(() => verify()));
 });

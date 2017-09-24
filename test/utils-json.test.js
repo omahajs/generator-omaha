@@ -6,7 +6,7 @@ const {json}       = require('../generators/app/utils');
 
 describe('Generator JSON utility', () => {
     let content;
-    let testJSON = join(__dirname, 'test.json');
+    const testJSON = join(__dirname, 'test.json');
     beforeEach(() => {
         json.write(testJSON, {foo: 'bar'});
     });

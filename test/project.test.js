@@ -16,7 +16,7 @@ const onlyCoveralls = [false, true];
 
 describe('Project generator', () => {
     let stub;
-    let verify = (...args) => {
+    const verify = (...args) => {
         verifyCoreFiles();
         verifyProjectConfigs(...args);
     };
@@ -27,97 +27,77 @@ describe('Project generator', () => {
         stub.mockRestore();
     });
     describe('can create and configure files with prompt choices', () => {
-        it('all prompts TRUE', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(defaults)
-                .toPromise()
-                .then(() => verify(...useBoth));
-        });
-        it('all prompts FALSE', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(merge(clone(defaults), {
-                    benchmark: false,
-                    coveralls: false,
-                    jsinspect: false
-                }))
-                .toPromise()
-                .then(() => verify(...useNeither));
-        });
-        it('only benchmark FALSE', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(merge(clone(defaults), {
-                    benchmark: false
-                }))
-                .toPromise()
-                .then(() => verify(...onlyCoveralls));
-        });
-        it('only coveralls FALSE', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(merge(clone(defaults), {
-                    coveralls: false
-                }))
-                .toPromise()
-                .then(() => verify(...onlyBenchmark));
-        });
-        it('only jsinspect FALSE', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(SKIP_INSTALL)
-                .withPrompts(merge(clone(defaults), {
-                    jsinspect: false
-                }))
-                .toPromise()
-                .then(() => verify(...useBoth));
-        });
+        it('all prompts TRUE', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(SKIP_INSTALL)
+            .withPrompts(defaults)
+            .toPromise()
+            .then(() => verify(...useBoth)));
+        it('all prompts FALSE', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(SKIP_INSTALL)
+            .withPrompts(merge(clone(defaults), {
+                benchmark: false,
+                coveralls: false,
+                jsinspect: false
+            }))
+            .toPromise()
+            .then(() => verify(...useNeither)));
+        it('only benchmark FALSE', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(SKIP_INSTALL)
+            .withPrompts(merge(clone(defaults), {
+                benchmark: false
+            }))
+            .toPromise()
+            .then(() => verify(...onlyCoveralls)));
+        it('only coveralls FALSE', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(SKIP_INSTALL)
+            .withPrompts(merge(clone(defaults), {
+                coveralls: false
+            }))
+            .toPromise()
+            .then(() => verify(...onlyBenchmark)));
+        it('only jsinspect FALSE', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(SKIP_INSTALL)
+            .withPrompts(merge(clone(defaults), {
+                jsinspect: false
+            }))
+            .toPromise()
+            .then(() => verify(...useBoth)));
     });
     describe('can create and configure files with command line options', () => {
-        it('--defaults', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}))
-                .toPromise()
-                .then(() => verify(...useBoth));
-        });
-        it('--defaults --skip-benchmark', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
-                    'skip-benchmark': true
-                }))
-                .toPromise()
-                .then(() => verify(...onlyCoveralls));
-        });
-        it('--defaults --skip-coveralls', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
-                    'skip-coveralls': true
-                }))
-                .toPromise()
-                .then(() => verify(...onlyBenchmark));
-        });
-        it('--defaults --skip-jsinspect', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
-                    'skip-jsinspect': true
-                }))
-                .toPromise()
-                .then(() => verify(...useBoth));
-        });
-        it('--defaults --skip-benchmark --skip-coveralls --skip-jsinspect', () => {
-            return helpers.run(join(__dirname, '../generators/project'))
-                .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
-                    'skip-benchmark': true,
-                    'skip-coveralls': true,
-                    'skip-jsinspect': true
-                }))
-                .toPromise()
-                .then(() => verify(...useNeither));
-        });
+        it('--defaults', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}))
+            .toPromise()
+            .then(() => verify(...useBoth)));
+        it('--defaults --skip-benchmark', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
+                'skip-benchmark': true
+            }))
+            .toPromise()
+            .then(() => verify(...onlyCoveralls)));
+        it('--defaults --skip-coveralls', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
+                'skip-coveralls': true
+            }))
+            .toPromise()
+            .then(() => verify(...onlyBenchmark)));
+        it('--defaults --skip-jsinspect', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
+                'skip-jsinspect': true
+            }))
+            .toPromise()
+            .then(() => verify(...useBoth)));
+        it('--defaults --skip-benchmark --skip-coveralls --skip-jsinspect', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
+                'skip-benchmark': true,
+                'skip-coveralls': true,
+                'skip-jsinspect': true
+            }))
+            .toPromise()
+            .then(() => verify(...useNeither)));
     });
 });
 function verifyCoreFiles() {
-    let ALWAYS_INCLUDED = [
+    const ALWAYS_INCLUDED = [
         'README.md',
         'LICENSE',
         'package.json',
@@ -133,7 +113,7 @@ function verifyCoreFiles() {
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
 function verifyProjectConfigs(useBenchmark, useCoveralls) {
-    let verify = (feature) => {return assert[feature ? 'fileContent' : 'noFileContent'];};
+    const verify = feature => assert[feature ? 'fileContent' : 'noFileContent'];
     (useBenchmark ? assert.file : assert.noFile)('Gruntfile.js');
     (useCoveralls ? assert.file : assert.noFile)('.travis.yml');
     verify(useBenchmark)('package.json', '"test:perf": "');

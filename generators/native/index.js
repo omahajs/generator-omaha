@@ -24,8 +24,8 @@ module.exports = class extends Generator {
     }
     constructor(args, opts) {
         super(args, opts);
-        let generator = this;
-        let {config, options} = generator;
+        const generator = this;
+        const {config, options} = generator;
         Object.keys(commandLineOptions).forEach(option => {
             generator.option(option, commandLineOptions[option]);
         });
@@ -42,9 +42,9 @@ module.exports = class extends Generator {
         }
     }
     writing() {
-        let generator = this;
-        let {config} = generator;
-        let rendererIndexPath = config.get('isWebapp') ? 'app/index.html' : 'index.html';
+        const generator = this;
+        const {config} = generator;
+        const rendererIndexPath = config.get('isWebapp') ? 'app/index.html' : 'index.html';
         config.set('sourceDirectory', 'renderer/');
         copy('bin/preload.js', 'bin/preload.js', generator);
         copyTpl('_index.html', config.get('sourceDirectory') + rendererIndexPath, generator);
@@ -54,12 +54,12 @@ module.exports = class extends Generator {
         //
         // Install dependencies
         //
-        let dependencies = [
+        const dependencies = [
             'electron',
             'electron-debug',
             'electron-is-dev'
         ];
-        let devDependencies = [
+        const devDependencies = [
             'spectron'
         ].concat(// work in progress
             // 'devtron',// waiting on https://github.com/electron/devtron/issues/96

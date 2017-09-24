@@ -12,7 +12,7 @@ const SKIP_INSTALL = {skipInstall: true};
 describe('Nightwatch Generator', function() {
     it('can scaffold files needed to use nightwatch for E2E testing', function() {
         return helpers.run(join(__dirname, '../generators/nightwatch'))
-            .inTmpDir((dir) => {
+            .inTmpDir(dir => {
                 copySync(
                     join(__dirname, '../generators/project/templates/_package.json'),
                     join(dir, 'package.json')
@@ -25,7 +25,7 @@ describe('Nightwatch Generator', function() {
     });
     it('can exit when run in empty directory', function() {
         return helpers.run(join(__dirname, '../generators/nightwatch'))
-            .inTmpDir((dir) => {
+            .inTmpDir(dir => {
                 copySync(
                     join(__dirname, '../generators/project/templates/_package.json'),
                     join(dir, 'package.json')
@@ -35,7 +35,7 @@ describe('Nightwatch Generator', function() {
     });
 });
 function verifyCoreFiles() {
-    let ALWAYS_INCLUDED = [
+    const ALWAYS_INCLUDED = [
         'config/nightwatch.conf.js',
         'test/nightwatch/globals.js',
         'test/nightwatch/commands/log.js',

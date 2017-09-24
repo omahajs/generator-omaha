@@ -41,42 +41,42 @@ const commandLineOptions = {
 module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
-        let generator = this;
-        let {config, user} = generator;
+        const generator = this;
+        const {config, user} = generator;
         Object.keys(commandLineOptions).forEach(function(option) {
             generator.option(option, commandLineOptions[option]);
         });
         config.set('userName', user.git.name() ? user.git.name() : 'A. Developer');
     }
     prompting() {
-        let generator = this;
-        let {config} = generator;
+        const generator = this;
+        const {config} = generator;
         generator.userName = config.get('userName');
         generator.use = project.defaults;
         !config.get('hideBanner') && generator.log(banner);
         if (generator.options.defaults) {
-            let done = this.async();
-            let sourceDirectory = generator.use.sourceDirectory;
+            const done = this.async();
+            const sourceDirectory = generator.use.sourceDirectory;
             generator.projectName = generator.use.projectName;
             config.set('projectName', generator.projectName);
-            generator.sourceDirectory = (!/\/$/.test(sourceDirectory)) ? sourceDirectory + '/' : sourceDirectory;
+            generator.sourceDirectory = (!/\/$/.test(sourceDirectory)) ? `${sourceDirectory }/` : sourceDirectory;
             config.set('sourceDirectory', generator.sourceDirectory);
             done();
         } else {
-            let isUnAnswered = function(option) {
+            const isUnAnswered = function(option) {
                 return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
             };
-            let isWebapp = config.get('isWebapp');
+            const isWebapp = config.get('isWebapp');
             return generator.prompt(project.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
                 generator.projectName = answers.projectName;
-                generator.sourceDirectory = (!/\/$/.test(answers.sourceDirectory)) ? answers.sourceDirectory + '/' : answers.sourceDirectory;
+                generator.sourceDirectory = (!/\/$/.test(answers.sourceDirectory)) ? `${answers.sourceDirectory }/` : answers.sourceDirectory;
                 config.set('sourceDirectory', generator.sourceDirectory);
             }.bind(generator));
         }
     }
     writing() {
-        let generator = this;
+        const generator = this;
         const {config, options, use} = generator;
         const iff = (condition, data, defaultValue = []) => (condition ? data : defaultValue);
         const _copy = partialRight(copy, generator);
@@ -145,10 +145,10 @@ module.exports = class extends Generator {
         //
         if (useBenchmark) {
             const placeholder = '/* -- load tasks placeholder -- */';
-            let text = readFileSync(generator.destinationPath('Gruntfile.js'))
+            const text = readFileSync(generator.destinationPath('Gruntfile.js'))
                 .toString()
                 .replace(placeholder, isWebapp ? placeholder : '');
-            let gruntfile = new Gruntfile(text);
+            const gruntfile = new Gruntfile(text);
             gruntfile.insertConfig('benchmark', tasks.benchmark);
             writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
         }
@@ -170,7 +170,7 @@ module.exports = class extends Generator {
 };
 function getScripts(generator) {
     const {useBenchmark, useCoveralls} = generator;
-    let scripts = {coverage: 'nyc report -r text'};
+    const scripts = {coverage: 'nyc report -r text'};
     if (useBenchmark) {
         assign(scripts, {
             'test:perf': 'grunt benchmark'

@@ -1,8 +1,8 @@
 'use strict';
 
-var chalk = require('chalk');
-var color = 'black';
-var omaha = '\n' + chalk[color].bgYellow(
+const chalk = require('chalk');
+const color = 'black';
+let omaha = `\n${ chalk[color].bgYellow(
     '                                                                   \n',
     '  ██████╗ ███╗   ███╗ █████╗ ██╗  ██╗ █████╗          ██╗███████╗ \n',
     ' ██╔═══██╗████╗ ████║██╔══██╗██║  ██║██╔══██╗         ██║██╔════╝ \n',
@@ -10,7 +10,7 @@ var omaha = '\n' + chalk[color].bgYellow(
     ' ██║   ██║██║╚██╔╝██║██╔══██║██╔══██║██╔══██║    ██   ██║╚════██║ \n',
     ' ╚██████╔╝██║ ╚═╝ ██║██║  ██║██║  ██║██║  ██║    ╚█████╔╝███████║ \n',
     '  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚════╝ ╚══════╝ '
-);
-omaha = omaha + '\n';
+)}`;
+omaha = `${omaha }\n`;
 
 module.exports = omaha;

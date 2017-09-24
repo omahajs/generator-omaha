@@ -14,18 +14,18 @@ const {
 module.exports = class extends Generator {
     configuring() {
         if (this.config.get('isWebapp')) {
-            let isLinux = includes(['linux', 'freebsd'], process.platform);
-            let chromedriver = isLinux ? 'chromedriver' : 'chromedriver.exe';
+            const isLinux = includes(['linux', 'freebsd'], process.platform);
+            const chromedriver = isLinux ? 'chromedriver' : 'chromedriver.exe';
             copySync(join(__dirname, `/bin/${chromedriver}`), `bin/${chromedriver}`);// v2.30
             copySync(join(__dirname, '/bin/selenium-server-standalone-3.4.0.jar'), 'bin/selenium-server-standalone.jar');
         } else {
-            this.log(yosay(red('Not so fast!') + '\nUse ' + white.bgBlack(' yo omaha ') + ' first!'));
+            this.log(yosay(`${red('Not so fast!') }\nUse ${ white.bgBlack(' yo omaha ') } first!`));
             (process.env.mode !== 'TESTING') && process.exit(1);
         }
     }
     writing() {
-        let testDirectory = 'test/nightwatch';
-        let _copyTpl = partialRight(copyTpl, this);
+        const testDirectory = 'test/nightwatch';
+        const _copyTpl = partialRight(copyTpl, this);
         _copyTpl('nightwatch.conf.js', 'config/nightwatch.conf.js');
         _copyTpl('globals.js', `${testDirectory}/globals.js`);
         _copyTpl('commands/log.js', `${testDirectory}/commands/log.js`);
@@ -34,7 +34,7 @@ module.exports = class extends Generator {
         [// placeholder directories
             'assertions',
             'screenshots'
-        ].forEach((dir) => {
+        ].forEach(dir => {
             _copyTpl(`${dir}/.gitkeep`, `${testDirectory}/${dir}/.gitkeep`);
         });
     }
@@ -42,7 +42,7 @@ module.exports = class extends Generator {
         //
         // Install dependencies
         //
-        let dependencies = [
+        const dependencies = [
             'chalk',
             'http-server',
             'nightwatch'
@@ -51,7 +51,7 @@ module.exports = class extends Generator {
         //
         // Configure package.json
         //
-        let scripts = {
+        const scripts = {
             'pretest:e2e':  'nohup http-server -p 1337 &',
             'test:e2e':     'nightwatch --config ./config/nightwatch.conf.js --env default',
             'posttest:e2e': 'kill $(echo `ps -ef | grep -m 1 http-server` | awk -F \" \" \'{print $2}\')'
@@ -59,9 +59,9 @@ module.exports = class extends Generator {
         extend(this.destinationPath('package.json'), {scripts});
     }
     end() {
-        let checkmark = bold(green('✔ '));
-        let doneMessage = () => {
-            let msg = [].concat(
+        const checkmark = bold(green('✔ '));
+        const doneMessage = () => {
+            const msg = [].concat(
                 '',
                 `${checkmark}End-to-end browser testing support added!`,
                 '',
