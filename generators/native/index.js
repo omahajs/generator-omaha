@@ -18,12 +18,12 @@ const commandLineOptions = {
     }
 };
 
-module.exports = Generator.extend({
-    initializing: function() {
+module.exports = class extends Generator {
+    initializing() {
         this.log(banner);
-    },
-    constructor: function() {
-        Generator.apply(this, arguments);
+    }
+    constructor(args, opts) {
+        super(args, opts);
         let generator = this;
         let {config, options} = generator;
         Object.keys(commandLineOptions).forEach(option => {
@@ -40,8 +40,8 @@ module.exports = Generator.extend({
         if (config.get('isWebapp')) {
             generator.composeWith(require.resolve('../webapp'), options);
         }
-    },
-    writing: function() {
+    }
+    writing() {
         let generator = this;
         let {config} = generator;
         let rendererIndexPath = config.get('isWebapp') ? 'app/index.html' : 'index.html';
@@ -49,34 +49,36 @@ module.exports = Generator.extend({
         copy('bin/preload.js', 'bin/preload.js', generator);
         copyTpl('_index.html', config.get('sourceDirectory') + rendererIndexPath, generator);
         copyTpl('_index.js', 'index.js', set(generator, 'rendererIndexPath', rendererIndexPath));
-    },
-    install: {
-        installDependencies: function() {
-            let dependencies = [
-                'electron',
-                'electron-debug',
-                'electron-is-dev'
-            ];
-            let devDependencies = [
-                'spectron'
-            ].concat(// work in progress
-                // 'devtron',// waiting on https://github.com/electron/devtron/issues/96
-                // 'electron-builder',// https://github.com/electron-userland/electron-builder
-                // 'electron-packager'// https://github.com/electron-userland/electron-packager
-            );
-            this.npmInstall(dependencies, {save: true});
-            this.npmInstall(devDependencies, {saveDev: true});
-        },
-        configurePackageJson: function() {
-            extend(this.destinationPath('package.json'), {
-                main: './index.js',
-                scripts: {
-                    start: 'electron index'
-                }
-            });
-        }
-    },
-    end: function() {
+    }
+    install() {
+        //
+        // Install dependencies
+        //
+        let dependencies = [
+            'electron',
+            'electron-debug',
+            'electron-is-dev'
+        ];
+        let devDependencies = [
+            'spectron'
+        ].concat(// work in progress
+            // 'devtron',// waiting on https://github.com/electron/devtron/issues/96
+            // 'electron-builder',// https://github.com/electron-userland/electron-builder
+            // 'electron-packager'// https://github.com/electron-userland/electron-packager
+        );
+        this.npmInstall(dependencies, {save: true});
+        this.npmInstall(devDependencies, {saveDev: true});
+        //
+        // Configure package.json
+        //
+        extend(this.destinationPath('package.json'), {
+            main: './index.js',
+            scripts: {
+                start: 'electron index'
+            }
+        });
+    }
+    end() {
         this.log(footer(this));
     }
-});
+};
