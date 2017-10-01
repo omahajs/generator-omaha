@@ -1,6 +1,6 @@
 'use strict';
 
-const {assign, flatten, includes, partial, partialRight, pick} = require('lodash');
+const {assign, flatten, includes, partial, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
@@ -9,7 +9,6 @@ const footer    = require('../app/doneMessage');
 const {project} = require('../app/prompts');
 const tasks     = require('../app/gruntTaskConfigs');
 const {
-    copy,
     copyTpl,
     maybeInclude,
     json: {extend}
@@ -79,13 +78,13 @@ module.exports = class extends Generator {
         const generator = this;
         const {config, options, use} = generator;
         const iff = (condition, data, defaultValue = []) => (condition ? data : defaultValue);
-        const _copy = partialRight(copy, generator);
-        const _copyTpl = partialRight(copyTpl, generator);
         const isWebapp = config.get('isWebapp');
+        const {skipBenchmark, skipCoveralls, skipJsinspect, useJest} = options;
         assign(generator, {
-            useBenchmark: use.benchmark && !options.skipBenchmark,
-            useCoveralls: use.coveralls && !options.skipCoveralls,
-            useJsinspect: use.jsinspect && !options.skipJsinspect
+            useJest,
+            useBenchmark: use.benchmark && !skipBenchmark,
+            useCoveralls: use.coveralls && !skipCoveralls,
+            useJsinspect: use.jsinspect && !skipJsinspect
         });
         const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
         config.set('projectName', projectName);
@@ -106,40 +105,50 @@ module.exports = class extends Generator {
             ['config/_eslintrc_webapp.js', 'config/.eslintrc.js'],
             ['test/config.js', 'test/config.js']
         ];
+        const mochaTemplateData = [
+            ['test/', 'test/mocha.opts'],
+            [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']
+        ];
+        const jestTemplateData = [
+            ['test/jest/example.test.js', 'test/example.test.js']
+        ];
         defaultTemplateData.concat(
             iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]),
             iff(useCoveralls, [['_travis.yml', '.travis.yml']]),
             iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]),
-            iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']])
-        ).forEach(data => _copyTpl(...data));
-        _copy('test/data/**/*.*', 'test/data');
-        _copy('test/mocha.opts', 'test/mocha.opts');
-        _copy(`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js');
+            iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]),
+            iff((isWebapp || !useJest), mochaTemplateData, jestTemplateData)
+        ).forEach(data => copyTpl(...data, generator));
+        copyTpl('test/data/**/*.*', 'test/data', generator);
     }
     install() {
         const generator = this;
-        const {config, useBenchmark, useCoveralls, useJsinspect} = generator;
+        const {config, useBenchmark, useCoveralls, useJest, useJsinspect} = generator;
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
         const isWebapp = config.get('isWebapp');
         const isNotWindows = includes(['linux', 'freebsd'], process.platform);
         let devDependencies = flatten(maybeInclude(useBenchmark, ['lodash', 'grunt-benchmark']));
         if (isWebapp) {
             devDependencies = devDependencies.concat(
+                ['mocha', 'chai', 'sinon'], // testing devDependencies
                 maybeInclude(useCoveralls, 'grunt-karma-coveralls'),
                 maybeInclude(useJsinspect, ['jsinspect', 'grunt-jsinspect'])
             );
         } else {
             devDependencies = devDependencies.concat(
-                ['nyc', 'coveralls', 'watch'],
+                ['coveralls', 'watch'],
                 maybeInclude(useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
                 maybeInclude(useCoveralls, 'coveralls'),
+                maybeInclude(useJest, 'jest', 'nyc'),
                 maybeInclude(useJsinspect, 'jsinspect'),
                 maybeInclude(isNotWindows, 'stmux')
             );
         }
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
+        updatePackageJson(getJestConfig(generator));
         updatePackageJson(getScripts(generator));
+
         //
         // Configure workflow tasks
         //
@@ -159,6 +168,7 @@ module.exports = class extends Generator {
             'projectName',
             'useBenchmark',
             'useCoveralls',
+            'useJest',
             'useJsinspect'
         ]);
         this.config.set({projectParameters});
@@ -168,8 +178,16 @@ module.exports = class extends Generator {
         config.get('isComposed') || log(footer(this));
     }
 };
+function getJestConfig(generator) {
+    const {useJest} = generator;
+    return !useJest ? {} : {
+        jest: {
+            testMatch: ['**/test/**/*.js']
+        }
+    };
+}
 function getScripts(generator) {
-    const {useBenchmark, useCoveralls} = generator;
+    const {useBenchmark, useCoveralls, useJest} = generator;
     const scripts = {coverage: 'nyc report -r text'};
     if (useBenchmark) {
         assign(scripts, {
@@ -179,6 +197,15 @@ function getScripts(generator) {
     if (useCoveralls) {
         assign(scripts, {
             'test:travis': 'nyc report --reporter=text-lcov | coveralls'
+        });
+    }
+    if (useJest) {
+        assign(scripts, {
+            test: 'jest .*.test.js',
+            coverage: 'npm test -- --coverage',
+            'test:watch': 'npm test -- --watch',
+            'test:travis': 'npm run coverage && cat ./coverage/lcov.info | coveralls',
+            'lint:tests': 'eslint -c ./config/.eslintrc.js ./test/*.js'
         });
     }
     /* istanbul ignore else */
