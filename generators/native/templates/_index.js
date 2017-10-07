@@ -1,12 +1,12 @@
-const {app, BrowserWindow, Menu} = require('electron');
 const {join} = require('path');
-
+const {app, BrowserWindow, Menu} = require('electron');
+const ContextMenu = require('electron-context-menu');
 //
 // Add debug features like hotkeys for triggering dev tools and reload
 //
 require('electron-debug')();
 
-const menu = Menu.buildFromTemplate([
+const menuItems = [
     {
         label: 'Application',
         submenu: [{
@@ -22,7 +22,8 @@ const menu = Menu.buildFromTemplate([
             click: () => mainWindow.toggleDevTools()
         }]
     }
-]);
+];
+const applicationMenu = Menu.buildFromTemplate(menuItems);
 
 let mainWindow;
 let preload = join(__dirname, 'bin', 'preload.js');
@@ -33,8 +34,9 @@ const createWindow = () => {
         height: 600,
         webPreferences: {preload}
     });
-    Menu.setApplicationMenu(menu);
-    mainWindow.loadURL(`file://${__dirname}/renderer/<%= rendererIndexPath %>`);
+    Menu.setApplicationMenu(applicationMenu);
+    ContextMenu({prepend: (params, browserWindow) => menuItems});
+    mainWindow.loadURL(`file://${__dirname}/renderer/app/index.html`);
     //
     // Open dev console
     //
