@@ -75,7 +75,8 @@ module.exports = class extends Generator {
         extend(this.destinationPath('package.json'), {
             main: './index.js',
             scripts: {
-                start: 'electron index'
+                start: 'electron index',
+                'start:dev': 'npm start -- --enable-logging'
             }
         });
     }

@@ -48,7 +48,8 @@
   "jest": {
     "testMatch": [
       "**/test/*.js"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "./test/lib/jestSetup.js"
   },
   "scripts": {
     "dev": "stmux --mouse --title 'Omaha Generator Dev task' [ \"npm run lint:watch\" .. \"npm run test:watch -- --coverage\" ]",
