@@ -56,6 +56,7 @@ module.exports = class extends Generator {
         //
         const dependencies = [
             'electron',
+            'electron-context-menu',
             'electron-debug',
             'electron-is-dev'
         ];
