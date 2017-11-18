@@ -75,18 +75,22 @@ module.exports = class extends Generator {
         }
     }
     writing() {
-        const generator = this;
-        const {config, options, use} = generator;
         const iff = (condition, data, defaultValue = []) => (condition ? data : defaultValue);
-        const isWebapp = config.get('isWebapp');
+        const generator = this;
+        const {config, options, sourceDirectory, use} = generator;
         const {skipBenchmark, skipCoveralls, skipJsinspect, useJest} = options;
+        const isNative = config.get('isNative');
+        const isWebapp = config.get('isWebapp');
+        const hasRenderer = isNative && isWebapp;
         assign(generator, {
             useJest,
-            useBenchmark: use.benchmark && !skipBenchmark,
-            useCoveralls: use.coveralls && !skipCoveralls,
-            useJsinspect: use.jsinspect && !skipJsinspect
+            sourceDirectory: hasRenderer ? 'renderer/' : sourceDirectory,
+            useBenchmark:    use.benchmark && !skipBenchmark,
+            useCoveralls:    use.coveralls && !skipCoveralls,
+            useJsinspect:    use.jsinspect && !skipJsinspect
         });
         const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
+        config.set('sourceDirectory', generator.sourceDirectory);
         config.set('projectName', projectName);
         config.set('useBenchmark', useBenchmark);
         config.set('useCoveralls', useCoveralls);
