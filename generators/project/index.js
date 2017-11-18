@@ -106,7 +106,7 @@ module.exports = class extends Generator {
             ['test/config.js', 'test/config.js']
         ];
         const mochaTemplateData = [
-            ['test/', 'test/mocha.opts'],
+            ['test/mocha.opts', 'test/mocha.opts'],
             [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']
         ];
         const jestTemplateData = [
