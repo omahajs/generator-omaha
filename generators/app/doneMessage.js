@@ -8,7 +8,7 @@ const {maybe} = require('./utils');
 module.exports = function(generator) {
     const LETS_GET_STARTED = 'npm start';
     const ELECTRON_TAGLINE = '⚡ Powered by Electron!';
-    const JEST_TAGLINE = 'Delightful testing provided by Jest ;)'
+    const JEST_TAGLINE = 'Delightful testing provided by Jest ;)';
     const {config} = generator;
     const {
         projectName,

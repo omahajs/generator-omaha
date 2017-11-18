@@ -1,6 +1,6 @@
 'use strict';
 
-const {assign, flow, partial, partialRight, pick} = require('lodash');
+const {assign, flow, partial, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
@@ -134,49 +134,100 @@ module.exports = class extends Generator {
             generator[name] = attributes[name];
         });
         const {sourceDirectory, useAria, useImagemin} = attributes;
-        const _copy = partialRight(copy, this);
-        const _copyTpl = partialRight(copyTpl, this);
+        const appDirectory = `${sourceDirectory}app/`;
+        const assetsDirectory = `${sourceDirectory}assets/`;
+        const type = resolveCssPreprocessor(this);
+        const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
         config.set('useAria', useAria);
         config.set('useImagemin', useImagemin);
         config.set('pluginDirectory', sourceDirectory);
-        _copyTpl('config/stylelint.config.js', 'config/stylelint.config.js');
-        _copyTpl('tasks/webapp.js', 'tasks/webapp.js');
-        _copyTpl('_config.js', `${sourceDirectory}app/config.js`);
-        //
-        // Write application files
-        //
-        if (useHandlebars) {
-            _copyTpl('helpers/handlebars.helpers.js', `${sourceDirectory }app/helpers/handlebars.helpers.js`);
-        }
-        _copyTpl('helpers/jquery.extensions.js', `${sourceDirectory}app/helpers/jquery.extensions.js`);
-        _copyTpl('plugins/*.js', `${sourceDirectory}app/plugins`);
-        _copyTpl('shims/*.js', `${sourceDirectory}app/shims`);
-        //
-        // Write assets files
-        //
-        ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${sourceDirectory}assets/${path}`));
-        _copy('library/*', `${sourceDirectory}assets/library`);
-        _copy('omaha.png', `${sourceDirectory}assets/images/logo.png`);
+        [].concat(
+            [['config/stylelint.config.js', 'config/stylelint.config.js']],
+            [['tasks/webapp.js', 'tasks/webapp.js']],
+            [['_config.js', `${appDirectory}config.js`]]
+        ).forEach(data => copyTpl(...data, generator));
         //
         // Write boilerplate files
         //
-        _copyTpl('_index.html', `${sourceDirectory}app/index.html`);
-        _copyTpl('_app.js', `${sourceDirectory}app/app.js`);
-        _copyTpl('_main.js', `${sourceDirectory}app/main.js`);
-        _copyTpl('_router.js', `${sourceDirectory}app/router.js`);
-        _copyTpl('example.model.js', `${sourceDirectory}app/models/example.js`);
-        _copyTpl('example.view.js', `${sourceDirectory}app/views/example.js`);
-        _copyTpl('example.controller.js', `${sourceDirectory}app/controllers/example.js`);
-        _copyTpl('example.webworker.js', `${sourceDirectory}app/controllers/example.webworker.js`);
-        _copyTpl('example.template.hbs', `${sourceDirectory}assets/templates/example.hbs`);
-        const type = resolveCssPreprocessor(this);
-        const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
-        if (type === 'none') {
-            _copyTpl('_style.css', `${sourceDirectory}assets/css/style.css`);
-        } else {
-            _copyTpl('_reset.css', `${sourceDirectory}assets/${type}/reset.${ext}`);
-            _copyTpl(`_style.${ext}`, `${sourceDirectory}assets/${type}/style.${ext}`);
-        }
+        [].concat(
+            maybeInclude(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]),
+            [[
+                'helpers/jquery.extensions.js',
+                'helpers/jquery.extensions.js'
+            ]],
+            [[
+                'plugins/*.js',
+                'plugins'
+            ]],
+            [[
+                'shims/*.js',
+                'shims'
+            ]],
+            [[
+                '_index.html',
+                'index.html'
+            ]],
+            [[
+                '_app.js',
+                'app.js'
+            ]],
+            [[
+                '_main.js',
+                'main.js'
+            ]],
+            [[
+                '_router.js',
+                'router.js'
+            ]],
+            [[
+                'example.model.js',
+                'models/example.js'
+            ]],
+            [[
+                'example.view.js',
+                'views/example.js'
+            ]],
+            [[
+                'example.controller.js',
+                'controllers/example.js'
+            ]],
+            [[
+                'example.webworker.js',
+                'controllers/example.webworker.js'
+            ]]
+        )
+            .map(data => [data[0], `${appDirectory}${data[1]}`])
+            .forEach(data => copyTpl(...data, generator));
+        //
+        // Write assets files
+        //
+        ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${assetsDirectory}${path}`));
+        copy('library/*', `${assetsDirectory}library`, generator);
+        copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
+        [].concat(
+            maybeInclude((type === 'none'),
+                [[// No CSS pre-processor
+                    '_style.css',
+                    'css/style.css'
+                ]],
+                [
+                    [// Separate reset file (combined by pre-processor)
+                        '_reset.css',
+                        `${type}/reset.${ext}`
+                    ],
+                    [// Main style sheet
+                        `_style.${ext}`,
+                        `${type}/style.${ext}`
+                    ]
+                ]
+            ),
+            [[
+                'example.template.hbs',
+                'templates/example.hbs'
+            ]]
+        )
+            .map(data => [data[0], `${assetsDirectory}${data[1]}`])
+            .forEach(data => copyTpl(...data, generator));
     }
     install() {
         const generator = this;

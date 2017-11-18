@@ -3,7 +3,7 @@
 const {merge, mapValues, isBoolean} = require('lodash');
 const {join}    = require('path');
 const helpers   = require('yeoman-test');
-const {noFile, fileContent, noFileContent} = require('yeoman-assert');
+const {file, noFile, fileContent, noFileContent} = require('yeoman-assert');
 const Generator = require('yeoman-generator');
 const prompts   = require('../generators/app/prompts');
 const {
@@ -63,6 +63,7 @@ describe('Default generator', function() {
                 verifyBoilerplateFiles('./');
                 verifyDefaultConfiguration();
                 verifyDefaultTasksConfiguration();
+                file('app/helpers/handlebars.helpers.js')
                 fileContent('config/.eslintrc.js', 'es6: true,');
                 fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
             }));
@@ -90,6 +91,7 @@ describe('Default generator', function() {
                 verify();
                 fileContent('Gruntfile.js', 'jst');
                 noFileContent('Gruntfile.js', 'handlebars');
+                noFile('app/helpers/handlebars.helpers.js')
             }));
         it('all prompts TRUE (--skip-aria)', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {'skip-aria': true}))
