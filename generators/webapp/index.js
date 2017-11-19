@@ -10,19 +10,30 @@ const {
     copy,
     copyTpl,
     maybeInclude,
+    parseModuleData,
     json: {extend}
 } = require('../app/utils');
 
-const commandLineOptions = {
+const COMMAND_LINE_OPTIONS = {
     defaults: {
         type: Boolean,
         desc: 'Scaffold app with no user input using default settings',
         defaults: false
     },
-    scriptBundler: {
-        type: String,
-        desc: 'Choose script bundler',
-        defaults: ''
+    amd: {
+        type: Boolean,
+        desc: 'Use Asynchronous Module Definition (AMD) module format',
+        defaults: true
+    },
+    browserify: {
+        type: Boolean,
+        desc: 'Use Browserify to bundle scripts',
+        defaults: false
+    },
+    webpack: {
+        type: Boolean,
+        desc: 'Use Webpack to bundle scripts',
+        defaults: false
     },
     cssPreprocessor: {
         type: String,
@@ -59,59 +70,53 @@ module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
         const generator = this;
-        Object.keys(commandLineOptions).forEach(option => {
-            generator.option(option, commandLineOptions[option]);
+        Object.keys(COMMAND_LINE_OPTIONS).forEach(option => {
+            generator.option(option, COMMAND_LINE_OPTIONS[option]);
         });
     }
     prompting() {
         const generator = this;
-        if (generator.options.defaults) {
+        const {options} = generator;
+        const isWebapp = true;
+        const useAmd = !(options.browserify || options.webpack);
+        const moduleFormat = useAmd ? 'amd' : 'commonjs';
+        const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
+        generator.moduleFormat = moduleFormat;
+        if (options.defaults) {
             const done = this.async();
             generator.use = webapp.defaults;
             Object.keys(webapp.defaults).forEach(option => {
                 generator[option] = webapp.defaults[option];
             });
-            const bundler = generator.options.scriptBundler;
-            const preprocessor = generator.options.cssPreprocessor;
-            const templateTechnology = generator.options.templateTechnology;
-            const options = {
-                useBrowserify: (bundler === 'browserify') || webapp.defaults.useBrowserify,
-                useLess:       (preprocessor === 'less'),
-                useSass:       (preprocessor === 'sass'),
-                useHandlebars: (templateTechnology === 'handlebars')
+            const _options = {
+                useBrowserify: options.browserify,
+                useWebpack:    options.webpack,
+                useLess:       options.cssPreprocessor === 'less',
+                useSass:       options.cssPreprocessor === 'sass',
+                useHandlebars: options.templateTechnology === 'handlebars'
             };
-            Object.keys(options).forEach(option => {
-                generator[option] = options[option];
+            Object.keys(_options).forEach(option => {
+                generator[option] = _options[option];
             });
             done();
         } else {
-            function isUnAnswered(option) {
-                return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
-            }
-            const isWebapp = true;
             return generator.prompt(webapp.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
-                const bundler = (generator.options.scriptBundler || generator.use.scriptBundler).toLowerCase();
-                let preprocessor;
-                if (generator.options.cssPreprocessor === commandLineOptions.cssPreprocessor.defaults) {
-                    preprocessor = generator.use.cssPreprocessor.toLowerCase();
-                } else {
-                    preprocessor = generator.options.cssPreprocessor;
-                }
-                let templateTechnology;
-                if (generator.options.templateTechnology === commandLineOptions.templateTechnology.defaults) {
-                    templateTechnology = generator.use.templateTechnology.toLowerCase();
-                } else {
-                    templateTechnology = generator.options.templateTechnology;
-                }
-                const options = {
-                    useBrowserify: (bundler === 'browserify'),
-                    useLess:       (preprocessor === 'less'),
-                    useSass:       (preprocessor === 'sass'),
-                    useHandlebars: (templateTechnology === 'handlebars')
+                const {cssPreprocessor, templateTechnology} = options;
+                const USE_DEFAULT_CSS_PREPROCESSOR = (cssPreprocessor === COMMAND_LINE_OPTIONS.cssPreprocessor.defaults);
+                const USE_DEFAULT_TEMPLATE_RENDERER = (templateTechnology === COMMAND_LINE_OPTIONS.templateTechnology.defaults);
+                const SCRIPT_BUNDLER = parseModuleData(generator.use.moduleData)[1].toLowerCase();
+                const CSS_PREPROCESSOR = USE_DEFAULT_CSS_PREPROCESSOR ? generator.use.cssPreprocessor.toLowerCase() : cssPreprocessor;
+                const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? generator.use.templateTechnology.toLowerCase() : templateTechnology;
+                const _options = {
+                    useBrowserify: (SCRIPT_BUNDLER === 'browserify') || options.browserify,
+                    useWebpack:    (SCRIPT_BUNDLER === 'webpack') || options.webpack,
+                    useLess:       (CSS_PREPROCESSOR === 'less'),
+                    useSass:       (CSS_PREPROCESSOR === 'sass'),
+                    useHandlebars: (TEMPLATE_TECHNOLOGY === 'handlebars')
                 };
-                Object.keys(options).forEach(option => {
-                    generator[option] = options[option];
+                Object.keys(_options).forEach(option => {
+                    generator[option] = _options[option];
                 });
             }.bind(generator));
         }
@@ -410,6 +415,7 @@ module.exports = class extends Generator {
         // Save configuration
         //
         const projectParameters = assign(config.get('projectParameters'), pick(generator, [
+            'moduleFormat',
             'useAria',
             'useBrowserify',
             'useHandlebars',

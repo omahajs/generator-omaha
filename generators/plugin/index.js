@@ -1,8 +1,8 @@
 'use strict';
 
-const Generator          = require('yeoman-generator');
-const commandLineOptions = require('./commandLineOptions');
-const {copyTpl}          = require('../app/utils');
+const Generator            = require('yeoman-generator');
+const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
+const {copyTpl}            = require('../app/utils');
 
 const globalNameLookup = {
     root: 'root',
@@ -55,8 +55,8 @@ module.exports = class extends Generator {
         super(args, opts);
         const generator = this;
         generator.argument('name', {type: String, required: true});
-        Object.keys(commandLineOptions).forEach(option => {
-            generator.option(option, commandLineOptions[option]);
+        Object.keys(COMMAND_LINE_OPTIONS).forEach(option => {
+            generator.option(option, COMMAND_LINE_OPTIONS[option]);
         });
     }
     prompting() {
@@ -64,18 +64,18 @@ module.exports = class extends Generator {
         const {options, user} = generator;
         const customDepName = options.customDependency;
         if (customDepName && options.alias) {
-            commandLineOptions[customDepName] = true;
+            COMMAND_LINE_OPTIONS[customDepName] = true;
             options[customDepName] = true;
             globalNameLookup[customDepName] = options.alias;
             npmModuleNameLookup[customDepName] = customDepName;
         }
-        const dependencySelected = Object.keys(commandLineOptions).map(key => options[key]).indexOf(true) > -1;
+        const dependencySelected = Object.keys(COMMAND_LINE_OPTIONS).map(key => options[key]).indexOf(true) > -1;
         generator.pluginName = generator.options.name.substring(generator.options.name.charAt(0) === '/' ? 1 : 0).replace('.', '_');
         generator.userName = user.git.name() ? user.git.name() : 'A.Developer';
         generator.use = {};
         if (dependencySelected) {
             const done = generator.async();
-            generator.dependencies = Object.keys(commandLineOptions).filter(name => options[name] === true);
+            generator.dependencies = Object.keys(COMMAND_LINE_OPTIONS).filter(name => options[name] === true);
             generator.depList = generator.dependencies.map(wrapSingleQuotes);
             generator.dependencies.forEach(dep => {
                 generator.use[dep] = true;

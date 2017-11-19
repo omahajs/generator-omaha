@@ -14,7 +14,7 @@ const {
     json: {extend}
 } = require('../app/utils');
 
-const commandLineOptions = {
+const COMMAND_LINE_OPTIONS = {
     defaults: {
         type: Boolean,
         desc: 'Scaffold app with no user input using default settings',
@@ -42,8 +42,8 @@ module.exports = class extends Generator {
         super(args, opts);
         const generator = this;
         const {config, user} = generator;
-        Object.keys(commandLineOptions).forEach(function(option) {
-            generator.option(option, commandLineOptions[option]);
+        Object.keys(COMMAND_LINE_OPTIONS).forEach(function(option) {
+            generator.option(option, COMMAND_LINE_OPTIONS[option]);
         });
         config.set('userName', user.git.name() ? user.git.name() : 'A. Developer');
     }
@@ -63,7 +63,7 @@ module.exports = class extends Generator {
             done();
         } else {
             const isUnAnswered = function(option) {
-                return !!!generator.options[option.name] || (generator.options[option.name] === commandLineOptions[option.name].defaults);
+                return !!!generator.options[option.name] || (generator.options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults);
             };
             const isWebapp = config.get('isWebapp');
             return generator.prompt(project.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {

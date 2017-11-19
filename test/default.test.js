@@ -2,6 +2,7 @@
 
 const {merge, mapValues, isBoolean} = require('lodash');
 const {join}    = require('path');
+const {yellow}  = require('chalk');
 const helpers   = require('yeoman-test');
 const {file, noFile, fileContent, noFileContent} = require('yeoman-assert');
 const Generator = require('yeoman-generator');
@@ -67,8 +68,8 @@ describe('Default generator', function() {
                 fileContent('config/.eslintrc.js', 'es6: true,');
                 fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
             }));
-        it('all prompts TRUE (--script-bundler browserify)', () => helpers.run(join(__dirname, '../generators/app'))
-            .withOptions(merge({}, SKIP_INSTALL, {scriptBundler: 'browserify'}))
+        it('all prompts TRUE (--browserify)', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {browserify: true}))
             .withPrompts(ALL_TRUE)
             .toPromise()
             .then(() => {
@@ -129,7 +130,7 @@ describe('Default generator', function() {
             }));
         it('select browserify via prompt', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(SKIP_INSTALL)
-            .withPrompts(merge({}, ALL_TRUE, {scriptBundler: 'browserify'}))
+            .withPrompts(merge({}, ALL_TRUE, {moduleData: `CommonJS with ${yellow('Browserify')}`}))
             .toPromise()
             .then(() => {
                 verify();
@@ -169,8 +170,8 @@ describe('Default generator', function() {
                 verifyBoilerplateFiles('./');
                 verifyDefaultConfiguration();
             }));
-        it('--defaults --script-bundler browserify', () => helpers.run(join(__dirname, '../generators/app'))
-            .withOptions(merge({}, SKIP_INSTALL, {defaults}, {scriptBundler: 'browserify'}))
+        it('--defaults --browserify', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {defaults}, {browserify: true}))
             .toPromise()
             .then(() => {
                 verify();
@@ -210,12 +211,12 @@ describe('Default generator', function() {
                 noFileContent(ariaContent);
                 noFileContent('Gruntfile.js', 'imagemin: ');
             }));
-        it('--defaults --skip-aria --skip-imagemin --script-bundler browserify', () => helpers.run(join(__dirname, '../generators/app'))
+        it('--defaults --skip-aria --skip-imagemin --browserify', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {
                 defaults: true,
                 'skip-aria': true,
                 'skip-imagemin': true,
-                scriptBundler: 'browserify'}))
+                browserify: true}))
             .toPromise()
             .then(() => {
                 verify();
@@ -223,10 +224,10 @@ describe('Default generator', function() {
                 noFileContent(ariaContent);
                 noFileContent('Gruntfile.js', 'imagemin: ');
             }));
-        it('--defaults --script-bundler browserify --css-preprocessor sass --template-technology lodash', () => helpers.run(join(__dirname, '../generators/app'))
+        it('--defaults --browserify --css-preprocessor sass --template-technology lodash', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {
                 defaults: true,
-                scriptBundler: 'browserify',
+                browserify: true,
                 cssPreprocessor: 'sass',
                 templateTechnology: 'lodash'}))
             .toPromise()
