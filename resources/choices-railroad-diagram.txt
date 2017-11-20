@@ -7,11 +7,6 @@ Diagram(
         Terminal('a11y')
     ),
     Choice(1,
-        Comment('Test Framework'),
-        Terminal('Mocha/Chai'),
-        Terminal('Jest')
-    ),
-    Choice(1,
         Comment('Style Processing'),
         Sequence(
             Choice(0,
@@ -31,12 +26,17 @@ Diagram(
         Comment('Script Bundling'),
         Sequence(
             Terminal('AMD'),
-            Terminal('r.js')
+            NonTerminal('r.js')
         ),
         Sequence(
             Terminal('CommonJS'),
             Choice(1, Terminal('Browserify'), Terminal('Webpack'))
         )
+    ),
+    Choice(1,
+        Comment('Testing'),
+        Sequence(Terminal('Mocha/Chai'), NonTerminal('Karma')),
+        Terminal('Jest')
     ),
     MultipleChoice(1, 'any',
         Comment('Optimization'),
