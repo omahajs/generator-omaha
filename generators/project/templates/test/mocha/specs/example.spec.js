@@ -1,6 +1,6 @@
-define(function(require) {
+<% if (moduleFormat === 'amd') { %>define(function(require) {
     'use strict';
-
+<% } %>
     const sinon  = require('sinon');
     const expect = require('chai').expect;
     const webapp = require('app');
@@ -42,5 +42,5 @@ define(function(require) {
             expect(callback()).to.equal(3);
             expect(callback(2)).to.equal(1);
         });
-    });
-});
+    });<% if (moduleFormat === 'amd') { %>
+});<% } %>

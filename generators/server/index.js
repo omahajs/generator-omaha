@@ -66,14 +66,16 @@ module.exports = class extends Generator {
     prompting() {
         const generator = this;
         const options = this.options;
-        const customPortSelected = (options.http || options.https || options.ws);
+        const {http, https, useJest, ws} = options;
+        const customPortSelected = (http || https || ws);
+        generator.useJest = useJest;
         if (options.defaults || customPortSelected) {
             const done = this.async();
             const defaults = prompts.map(val => val.default);
             assign(generator, {
-                httpPort: defaultTo(options.http, defaults[0]),
-                httpsPort: defaultTo(options.https, defaults[1]),
-                websocketPort: defaultTo(options.ws, defaults[2]),
+                httpPort: defaultTo(http, defaults[0]),
+                httpsPort: defaultTo(https, defaults[1]),
+                websocketPort: defaultTo(ws, defaults[2]),
                 markdownSupport: defaults[3]
             });
             done();

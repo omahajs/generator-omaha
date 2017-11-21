@@ -1,8 +1,9 @@
 /**
  * @file Helpers that augment Handlebars
  * @author Jason Wohlgemuth
-**/
+**/<% if (moduleFormat === 'amd') { %>
 define(function(require) {
+<% } %>
     'use strict';
 
     var Handlebars = require('handlebars');
@@ -17,5 +18,5 @@ define(function(require) {
         } else {
             return opts.inverse(this);
         }
-    });
-});
+    });<% if (moduleFormat === 'amd') { %>
+});<% } %>

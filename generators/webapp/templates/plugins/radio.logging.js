@@ -39,8 +39,9 @@
  * // Note: Unless directly set with level(), the default behavior is to show no logs
  * // Note: Return current logging level with app.radio.level()
  * // Note: Return channels with app.radio.channels()
-**/
+**/<% if (moduleFormat === 'amd') { %>
 define(function(require, exports) {
+<% } %>
     'use strict';
 
     var _     = require('lodash');
@@ -95,5 +96,5 @@ define(function(require, exports) {
 
     MSG_TYPES.forEach(function(type) {
         exports[type] = APP_LOGGING ? consoleMessage(type) : function() {};
-    });
-});
+    });<% if (moduleFormat === 'amd') { %>
+});<% } %>

@@ -1,10 +1,12 @@
 module.exports = {
     env: {
-        amd: true,
+        amd: <%= (moduleFormat === 'amd') %>,
+        commonjs: <%= (moduleFormat === 'commonjs') %>,
         es6: true,
         browser: true,
         jquery: true,
-        mocha: true,
+        mocha: <%= !useJest %>,
+        jest: <%= useJest %>
     },
     globals: {
         sinon: true

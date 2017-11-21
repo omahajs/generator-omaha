@@ -16,8 +16,9 @@
  * app.getState('count');// 42
  * app.dispatch('INCREMENT');
  * app.getState('count');// 43
-**/
+**/<% if (moduleFormat === 'amd') { %>
 define(function(require, exports, module) {
+<% } %>
     'use strict';
 
     const {get, update} = require('lodash');
@@ -76,5 +77,5 @@ define(function(require, exports, module) {
     }
     function decrement(val) {
         return val - 1;
-    }
-});
+    }<% if (moduleFormat === 'amd') { %>
+});<% } %>

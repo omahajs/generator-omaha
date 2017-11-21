@@ -8,6 +8,7 @@ const {file, noFile, fileContent, noFileContent} = require('yeoman-assert');
 const Generator = require('yeoman-generator');
 const prompts   = require('../generators/app/prompts');
 const {
+    verifyAmdFiles,
     verifyCoreFiles,
     verifyBoilerplateFiles,
     verifyDefaultConfiguration,
@@ -50,6 +51,7 @@ describe('Default generator', function() {
             .toPromise()
             .then(() => {
                 verify();
+                verifyAmdFiles(),
                 noFileContent(browserifyContent);
                 noFileContent(ariaContent);
                 noFileContent('Gruntfile.js', 'imagemin: ');

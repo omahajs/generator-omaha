@@ -5,8 +5,9 @@
  * @license MIT
  * @module app
  * @exports app
-**/
+**/<% if (moduleFormat === 'amd') { %>
 define(function(require, exports, module) {
+<% } %>
     'use strict';
 
     const Mn      = require('backbone.marionette');
@@ -17,12 +18,6 @@ define(function(require, exports, module) {
     require('./helpers/handlebars.helpers');<% } %>
     require('./helpers/jquery.extensions');
 
-    /**
-     * @name Application
-     * @constructor
-     * @extends Marionette.Application
-     * @prop {string} region='body'
-    **/
     const Application = Mn.Application.extend({
         region: 'body'
     });
@@ -30,5 +25,5 @@ define(function(require, exports, module) {
     module.exports = Object.assign(new Application(),
         logging,
         state
-    );
-});
+    );<% if (moduleFormat === 'amd') { %>
+});<% } %>

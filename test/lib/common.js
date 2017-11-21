@@ -20,6 +20,7 @@ const verifyLessConfigured = _.partial(verifyPreprocessorConfigured, 'less');
 const verifySassConfigured = _.partial(verifyPreprocessorConfigured, 'sass');
 
 module.exports = {
+    verifyAmdFiles,
     verifyCoreFiles,
     verifyNativeFiles,
     verifyBoilerplateFiles,
@@ -29,6 +30,12 @@ module.exports = {
     verifySassConfigured
 };
 
+function verifyAmdFiles() {
+    [
+        'app/config.js',
+        'app/controllers/example.webworker.js'
+    ].forEach(file => assert.file(file))
+}
 function verifyCoreFiles() {
     const ALWAYS_INCLUDED = [
         'README.md',
@@ -53,15 +60,16 @@ function verifyBoilerplateFiles(sourceDirectory) {
         'app/index.html',
         'app/app.js',
         'app/main.js',
-        'app/config.js',
         'app/router.js',
         'assets/images/logo.png',
-        'app/controllers/example.webworker.js',
         'app/helpers/jquery.extensions.js',
         'app/plugins/radio.logging.js',
         'app/plugins/redux.state.js',
         'app/shims/mn.morphdom.renderer.shim.js'
     ]
+        .concat(
+            // useAmd ? ['app/config.js', 'app/controllers/example.webworker.js'] : []
+        )
         .map(fileName => sourceDirectory + fileName)
         .forEach(file => assert.file(file));
 }

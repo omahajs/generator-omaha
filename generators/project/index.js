@@ -1,6 +1,6 @@
 'use strict';
 
-const {assign, flatten, includes, partial, pick} = require('lodash');
+const {assign, flatten, partial, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
@@ -49,23 +49,29 @@ module.exports = class extends Generator {
     }
     prompting() {
         const generator = this;
-        const {config} = generator;
-        generator.userName = config.get('userName');
-        generator.use = project.defaults;
+        const {config, options} = generator;
+        const {browserify, useJest, webpack} = options;
+        const useAmd = !(browserify || webpack);
+        const isWebapp = config.get('isWebapp');
+        const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
+        const moduleFormat = (useJest || !useAmd) ? 'commonjs' : 'amd';
+        assign(generator, {
+            moduleFormat,
+            useAmd,
+            useJest,
+            use: project.defaults,
+            userName: config.get('userName')
+        });
         !config.get('hideBanner') && generator.log(banner);
-        if (generator.options.defaults) {
+        if (options.defaults) {
             const done = this.async();
             const sourceDirectory = generator.use.sourceDirectory;
             generator.projectName = generator.use.projectName;
-            config.set('projectName', generator.projectName);
             generator.sourceDirectory = (!/\/$/.test(sourceDirectory)) ? `${sourceDirectory }/` : sourceDirectory;
+            config.set('projectName', generator.projectName);
             config.set('sourceDirectory', generator.sourceDirectory);
             done();
         } else {
-            const isUnAnswered = function(option) {
-                return !!!generator.options[option.name] || (generator.options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults);
-            };
-            const isWebapp = config.get('isWebapp');
             return generator.prompt(project.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
                 generator.projectName = answers.projectName;
@@ -83,7 +89,6 @@ module.exports = class extends Generator {
         const isWebapp = config.get('isWebapp');
         const hasRenderer = isNative && isWebapp;
         assign(generator, {
-            useJest,
             sourceDirectory: hasRenderer ? 'renderer/' : sourceDirectory,
             useBenchmark:    use.benchmark && !skipBenchmark,
             useCoveralls:    use.coveralls && !skipCoveralls,
@@ -105,10 +110,13 @@ module.exports = class extends Generator {
         ];
         const webappTemplateData = [
             ['_Gruntfile.js', 'Gruntfile.js'],
-            ['config/_karma.conf.js', 'config/karma.conf.js'],
-            ['config/_eslintrc_webapp.js', 'config/.eslintrc.js'],
-            ['test/config.js', 'test/config.js']
-        ];
+            ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']
+        ].concat(// conditional dependencies
+            maybeInclude(!useJest, [
+                ['test/config.js', 'test/config.js'],
+                ['config/_karma.conf.js', 'config/karma.conf.js']
+            ])
+        );
         const mochaTemplateData = [
             ['test/mocha.opts', 'test/mocha.opts'],
             [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']
@@ -121,7 +129,7 @@ module.exports = class extends Generator {
             iff(useCoveralls, [['_travis.yml', '.travis.yml']]),
             iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]),
             iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]),
-            iff((isWebapp || !useJest), mochaTemplateData, jestTemplateData)
+            iff(useJest, jestTemplateData, mochaTemplateData)
         ).forEach(data => copyTpl(...data, generator));
         copyTpl('test/data/**/*.*', 'test/data', generator);
     }
@@ -130,29 +138,18 @@ module.exports = class extends Generator {
         const {config, useBenchmark, useCoveralls, useJest, useJsinspect} = generator;
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
         const isWebapp = config.get('isWebapp');
-        const isNotWindows = includes(['linux', 'freebsd'], process.platform);
-        let devDependencies = flatten(maybeInclude(useBenchmark, ['lodash', 'grunt-benchmark']));
-        if (isWebapp) {
-            devDependencies = devDependencies.concat(
-                ['mocha', 'chai', 'sinon'], // testing devDependencies
-                maybeInclude(useCoveralls, 'grunt-karma-coveralls'),
-                maybeInclude(useJsinspect, ['jsinspect', 'grunt-jsinspect'])
-            );
-        } else {
-            devDependencies = devDependencies.concat(
-                ['coveralls', 'watch'],
-                maybeInclude(useBenchmark, ['grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
-                maybeInclude(useCoveralls, 'coveralls'),
-                maybeInclude(useJest, 'jest', 'nyc'),
-                maybeInclude(useJsinspect, 'jsinspect'),
-                maybeInclude(isNotWindows, 'stmux')
-            );
-        }
+        const isNotWindows = ['linux', 'freebsd'].includes(process.platform);
+        let devDependencies = [].concat(
+            maybeInclude(isNotWindows, 'stmux'),
+            maybeInclude(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc']),
+            maybeInclude(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']),
+            maybeInclude(isWebapp && useCoveralls, 'grunt-karma-coveralls', 'coveralls'),
+            maybeInclude(isWebapp && useJsinspect, ['jsinspect', 'grunt-jsinspect'], 'jsinspect')
+        );
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});
         updatePackageJson(getJestConfig(generator));
         updatePackageJson(getScripts(generator));
-
         //
         // Configure workflow tasks
         //
@@ -168,14 +165,15 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        const projectParameters = pick(this, [
+        const projectParameters = pick(generator, [
             'projectName',
+            'useAmd',
             'useBenchmark',
             'useCoveralls',
             'useJest',
             'useJsinspect'
         ]);
-        this.config.set({projectParameters});
+        config.set({projectParameters});
     }
     end() {
         const {config, log} = this;
@@ -192,7 +190,7 @@ function getJestConfig(generator) {
 }
 function getScripts(generator) {
     const {useBenchmark, useCoveralls, useJest} = generator;
-    const scripts = {coverage: 'nyc report -r text'};
+    const scripts = {coverage: 'nyc report -rnpm  text'};
     if (useBenchmark) {
         assign(scripts, {
             'test:perf': 'grunt benchmark'
@@ -213,7 +211,7 @@ function getScripts(generator) {
         });
     }
     /* istanbul ignore else */
-    if (includes(['linux', 'freebsd'], process.platform)) {
+    if (['linux', 'freebsd'].includes(process.platform)) {
         assign(scripts, {
             dev: 'stmux [ \"npm run test:watch\" .. \"npm run lint:watch\" ]'
         });

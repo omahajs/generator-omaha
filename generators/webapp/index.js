@@ -77,26 +77,20 @@ module.exports = class extends Generator {
     prompting() {
         const generator = this;
         const {options} = generator;
-        const isWebapp = true;
-        const useAmd = !(options.browserify || options.webpack);
-        const moduleFormat = useAmd ? 'amd' : 'commonjs';
+        const {browserify, useJest, webpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
-        generator.moduleFormat = moduleFormat;
+        const isWebapp = true;
+        const useAmd = !(browserify || webpack);
+        generator.moduleFormat = (useJest || !useAmd) ? 'commonjs' : 'amd';;
         if (options.defaults) {
             const done = this.async();
             generator.use = webapp.defaults;
-            Object.keys(webapp.defaults).forEach(option => {
-                generator[option] = webapp.defaults[option];
-            });
-            const _options = {
-                useBrowserify: options.browserify,
+            assign(generator, generator.use, {
+                useBrowserify: options.browserify || options.useJest,
                 useWebpack:    options.webpack,
                 useLess:       options.cssPreprocessor === 'less',
                 useSass:       options.cssPreprocessor === 'sass',
                 useHandlebars: options.templateTechnology === 'handlebars'
-            };
-            Object.keys(_options).forEach(option => {
-                generator[option] = _options[option];
             });
             done();
         } else {
@@ -108,15 +102,12 @@ module.exports = class extends Generator {
                 const SCRIPT_BUNDLER = parseModuleData(generator.use.moduleData)[1].toLowerCase();
                 const CSS_PREPROCESSOR = USE_DEFAULT_CSS_PREPROCESSOR ? generator.use.cssPreprocessor.toLowerCase() : cssPreprocessor;
                 const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? generator.use.templateTechnology.toLowerCase() : templateTechnology;
-                const _options = {
-                    useBrowserify: (SCRIPT_BUNDLER === 'browserify') || options.browserify,
+                assign(generator, {
+                    useBrowserify: (SCRIPT_BUNDLER === 'browserify') || options.browserify || options.useJest,
                     useWebpack:    (SCRIPT_BUNDLER === 'webpack') || options.webpack,
                     useLess:       (CSS_PREPROCESSOR === 'less'),
                     useSass:       (CSS_PREPROCESSOR === 'sass'),
                     useHandlebars: (TEMPLATE_TECHNOLOGY === 'handlebars')
-                };
-                Object.keys(_options).forEach(option => {
-                    generator[option] = _options[option];
                 });
             }.bind(generator));
         }
@@ -126,36 +117,35 @@ module.exports = class extends Generator {
         // Write configuration files
         //
         const generator = this;
-        const {config, options, use, user, useHandlebars} = generator;
-        const attributes = {
+        const {config, moduleFormat, options, use, user} = generator;
+        assign(generator, {
             sourceDirectory: config.get('sourceDirectory'),
             isNative:        config.get('isNative'),
             projectName:     config.get('projectName'),
-            userName:        config.get('userName') || user.git.name(),
+            useAmd:          (moduleFormat === 'amd'),
             useAria:         use.aria && !options.skipAria,
-            useImagemin:     use.imagemin && !options.skipImagemin
-        };
-        Object.keys(attributes).forEach(name => {
-            generator[name] = attributes[name];
+            useImagemin:     use.imagemin && !options.skipImagemin,
+            userName:        config.get('userName') || user.git.name()
         });
-        const {sourceDirectory, useAria, useImagemin} = attributes;
+        const {sourceDirectory, useAria, useAmd, useHandlebars, useImagemin} = generator;
         const appDirectory = `${sourceDirectory}app/`;
         const assetsDirectory = `${sourceDirectory}assets/`;
         const type = resolveCssPreprocessor(this);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
-        config.set('useAria', useAria);
-        config.set('useImagemin', useImagemin);
+        config.set({useAmd, useAria, useImagemin});
         config.set('pluginDirectory', sourceDirectory);
-        [].concat(
-            [['config/stylelint.config.js', 'config/stylelint.config.js']],
-            [['tasks/webapp.js', 'tasks/webapp.js']],
-            [['_config.js', `${appDirectory}config.js`]]
+        [// always included
+            ['config/stylelint.config.js', 'config/stylelint.config.js'],
+            ['tasks/webapp.js', 'tasks/webapp.js']
+        ].concat(// optional dependencies
+            maybeInclude(useAmd, [['_config.js', `${appDirectory}config.js`]])
         ).forEach(data => copyTpl(...data, generator));
         //
         // Write boilerplate files
         //
         [].concat(
             maybeInclude(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]),
+            maybeInclude(useAmd, [['example.webworker.js', 'controllers/example.webworker.js']]),
             [[
                 'helpers/jquery.extensions.js',
                 'helpers/jquery.extensions.js'
@@ -195,10 +185,6 @@ module.exports = class extends Generator {
             [[
                 'example.controller.js',
                 'controllers/example.js'
-            ]],
-            [[
-                'example.webworker.js',
-                'controllers/example.webworker.js'
             ]]
         )
             .map(data => [data[0], `${appDirectory}${data[1]}`])
@@ -236,14 +222,26 @@ module.exports = class extends Generator {
     }
     install() {
         const generator = this;
-        const {config, sourceDirectory} = generator;
-        const {useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass} = generator;
+        const {config, moduleFormat, sourceDirectory} = generator;
+        const {useAria, useBrowserify, useHandlebars, useImagemin, useJest, useLess, useSass} = generator;
         const type = resolveCssPreprocessor(generator);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
         const configurePackageJson = flow(getPackageJsonAttributes, updatePackageJson).bind(generator);
         const placeholder = '/* -- load tasks placeholder -- */';
         const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
+        const dependencies = [// always included
+            'backbone',
+            'backbone.marionette',
+            'backbone.radio',
+            'jquery',
+            'lodash',
+            'morphdom',
+            'redux'
+        ].concat(// conditional dependencies
+            maybeInclude(useHandlebars, 'handlebars'),
+            maybeInclude((moduleFormat === 'amd'), 'requirejs')
+        );
         const htmlDevDependencies = [
             'grunt-contrib-htmlmin',
             'grunt-htmlhint-plus'
@@ -299,18 +297,6 @@ module.exports = class extends Generator {
             'karma-requirejs',
             'karma-spec-reporter'
         ];
-        const dependencies = [// always included
-            'backbone',
-            'backbone.marionette',
-            'backbone.radio',
-            'jquery',
-            'lodash',
-            'morphdom',
-            'redux',
-            'requirejs'
-        ].concat(// conditional dependencies
-            useHandlebars ? 'handlebars' : []
-        );
         const workflowDependencies = [
             'babel-cli',
             'babel-preset-env',
@@ -320,11 +306,10 @@ module.exports = class extends Generator {
             'globby',
             'json-server'
         ].concat(// conditional dependencies
-            maybeInclude(!useBrowserify, 'babel-preset-minify')
+            maybeInclude(!useBrowserify, 'babel-preset-minify'),
+            maybeInclude(!useJest, karmaDependencies.concat(requirejsDevDependencies))
         ).concat(
             gruntDependencies,
-            karmaDependencies,
-            requirejsDevDependencies,
             htmlDevDependencies,
             cssDevDependencies
         );
@@ -416,6 +401,7 @@ module.exports = class extends Generator {
         //
         const projectParameters = assign(config.get('projectParameters'), pick(generator, [
             'moduleFormat',
+            'useAmd',
             'useAria',
             'useBrowserify',
             'useHandlebars',
@@ -448,7 +434,8 @@ function getBabelPresets(generator) {
 
 }
 function getScripts(generator) {
-    const {isNative, config, useBrowserify} = generator;
+    const {config, isNative, options, useBrowserify} = generator;
+    const {useJest} = config.get('projectParameters') || options;
     const useCoveralls = config.get('useCoveralls');
     const useJsinspect = config.get('useJsinspect');
     const scripts = {
@@ -458,6 +445,15 @@ function getScripts(generator) {
         test:         'grunt test',
         'test:watch': 'grunt karma:covering'
     };
+    if (useJest) {
+        assign(scripts, {
+            test: 'jest .*.test.js',
+            coverage: 'npm test -- --coverage',
+            'test:watch': 'npm test -- --watch',
+            'test:travis': 'npm run coverage && cat ./coverage/lcov.info | coveralls',
+            'lint:tests': 'eslint -c ./config/.eslintrc.js ./test/*.js'
+        });
+    }
     if (isNative) {
         assign(scripts, {
             start:          'grunt compile && electron index',
