@@ -110,12 +110,14 @@ yo omaha --defaults --template-technology lodash --skip-coveralls
 > Default in **bold**
 
 - `--defaults`: scaffold app with no user input using defaults
+- `--amd`: use AMD module format (with r.js as script bundler)
+- `--browserify`: use Browserify as script bundler (auto selects CommonJS module format)
+- `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)
 - `--skip-benchmark`: use with `--defaults`
 - `--skip-coveralls`: use with `--defaults`
 - `--skip-jsinspect`: use with `--defaults`
 - `--skip-aria`: use with `--defaults`
 - `--skip-imagemin`: use with `--defaults`
-- `--script-bundler`: **`requirejs`** | `browserify`
 - `--css-preprocessor`: **`less`** | `sass` | `none`
 - `--template-technology`: **`handlebars`** | `lodash`
 
@@ -139,4 +141,3 @@ A Note on Semantic Versioning
 License
 -------
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha?ref=badge_large)
-

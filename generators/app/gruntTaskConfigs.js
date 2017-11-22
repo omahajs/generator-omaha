@@ -62,7 +62,9 @@ module.exports = {
     browserify: `{
         bundle: {
             files: {
-                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': ['<%= folders.app %>/main.js']
+                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': [
+                    '<%= folders.app %>/main.js'
+                ]
             }
         }
     }`,
@@ -96,7 +98,7 @@ module.exports = {
         cjs: {
             bsFiles: {
                 src: [
-                    '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>'
+                    '<%= folders.dist %>/<%= folders.client %>/bundle.min.js'
                 ]
             },
             options: {
@@ -544,15 +546,17 @@ module.exports = {
     uglify: `{
         bundle: {
             options: {
+                banner: '/* <%= package.name %> - v<%= package.version %> - 2017-11-22 */',
                 mangle: true,
                 comments: false,
                 compress: {
                     drop_console: true //discard calls to console.* functions
-                },
-                banner: '/* <%= package.name %> - v<%= package.version %> - 2017-07-12 */'
+                }
             },
             files: {
-                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': ['<%= folders.dist %>/<%= folders.client %>/bundle.js']
+                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': [
+                    '<%= folders.dist %>/<%= folders.client %>/bundle.min.js'
+                ]
             }
         }
     }`,

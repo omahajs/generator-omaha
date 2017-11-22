@@ -5,8 +5,8 @@ module.exports = function(grunt) {
 
     // Default Task
     task('serve', 'Start a live-reload enabled browser (no tests)', [
-        'compile',<% if (moduleFormat === 'amd') { %>
-        'browserSync:amd'<% } else { %>'browserSync:cjs'<% } %>,
+        <% if (moduleFormat === 'amd') { %>'compile'<% } else { %>'build'<% } %>,
+        <% if (moduleFormat === 'amd') { %>'browserSync:amd'<% } else { %>'browserSync:cjs'<% } %>,
         'watch:browser'
     ]);
     task('lint', 'Lint JSON, CSS, and JS code', [
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         'compile',
         'lint',
         'cover'
-    ]);<% if (moduleFormat === 'amd') { %>
+    ]);<% if (!!useJest) { %>
     task('cover', 'Generate code coverage report using Karma and Istanbul', [
         'clean:coverage',
         'clean:compile',
