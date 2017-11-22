@@ -5,8 +5,8 @@ module.exports = function(grunt) {
 
     // Default Task
     task('serve', 'Start a live-reload enabled browser (no tests)', [
-        'compile',
-        'browserSync:main',
+        'compile',<% if (moduleFormat === 'amd') { %>
+        'browserSync:amd'<% } else { %>'browserSync:cjs'<% } %>,
         'watch:browser'
     ]);
     task('lint', 'Lint JSON, CSS, and JS code', [
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         'compile',
         'lint',
         'cover'
-    ]);
+    ]);<% if (moduleFormat === 'amd') { %>
     task('cover', 'Generate code coverage report using Karma and Istanbul', [
         'clean:coverage',
         'clean:compile',
@@ -38,30 +38,30 @@ module.exports = function(grunt) {
         'clean:compile',
         'precompile-templates',
         'karma:covering'
-    ]);
+    ]);<% } %>
     task('precompile-templates', [
         <% if (useHandlebars) { %>'handlebars:main'<% } else { %>'jst:main'<% } %>
     ]);
     task('process-styles', [<% if (useLess) { %>
-        'less:main', /* pre-process */<% } %><% if (useSass) { %>
-        'sass:main', /* pre-process */<% } %>
-        'postcss:dev', /* post-process */
+        'less:main',/* pre-process */<% } %><% if (useSass) { %>
+        'sass:main',/* pre-process */<% } %>
+        'postcss:dev',/* post-process */
         'postcss:prod'
     ]);
-    task('bundle-scripts', [<% if (useBrowserify) { %>
-        'browserify:bundle',
-        'uglify:bundle'<% } else { %>
-        'requirejs:bundle'<% } %>
+    task('bundle-scripts', [
+        'browserify:bundle'
     ]);
     task('compile', [
         'clean:compile',
         'process-styles',
-        'precompile-templates'
+        'precompile-templates'<% if (useBrowserify) { %>,
+        'bundle-scripts'<% } %>
     ]);
     task('build', [
         'clean:build',
-        'compile',
-        'bundle-scripts',
+        'compile',<% if (useBrowserify) { %>
+        'uglify:bundle',<% } else if (moduleFormat === 'amd') { %>
+        'requirejs:bundle',<% } %>
         'htmlmin',
         'copy:fonts',
         'copy:library',

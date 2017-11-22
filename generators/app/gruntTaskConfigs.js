@@ -62,7 +62,7 @@ module.exports = {
     browserify: `{
         bundle: {
             files: {
-                '<%= folders.dist %>/<%= folders.client %>/bundle.js': ['<%= folders.app %>/main.js']
+                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': ['<%= folders.app %>/main.js']
             }
         }
     }`,
@@ -71,7 +71,7 @@ module.exports = {
      * @see {@link https://www.browsersync.io/docs/grunt}
     **/
     browserSync: `{
-        main: {
+        amd: {
             bsFiles: {
                 src: [
                     '<%= folders.app %>/<%= files.index %>',
@@ -91,6 +91,19 @@ module.exports = {
                     },
                     index: '<%= files.index %>'
                 }
+            }
+        },
+        cjs: {
+            bsFiles: {
+                src: [
+                    '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>'
+                ]
+            },
+            options: {
+                port: '<%= ports.server %>',
+                watchTask: true,
+                reloadDelay: 500,
+                server: ['<%= folders.dist %>', '<%= folders.dist %>/<%= folders.client %>']
             }
         },
         demo: {
