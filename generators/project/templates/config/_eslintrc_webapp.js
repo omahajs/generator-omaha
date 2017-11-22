@@ -6,7 +6,7 @@ module.exports = {
         browser: true,
         jquery: true,
         mocha: <%= !useJest %>,
-        jest: <%= useJest %>
+        jest: <%= !!useJest %>
     },
     globals: {
         sinon: true
