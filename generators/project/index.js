@@ -54,7 +54,7 @@ module.exports = class extends Generator {
         const useAmd = !(browserify || webpack);
         const isWebapp = config.get('isWebapp');
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
-        const moduleFormat = (useJest || !useAmd) ? 'commonjs' : 'amd';
+        const moduleFormat = (useJest || browserify) ? 'commonjs' : 'amd';
         assign(generator, {
             moduleFormat,
             useAmd,

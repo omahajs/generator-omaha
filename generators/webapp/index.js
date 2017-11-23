@@ -285,14 +285,15 @@ module.exports = class extends Generator {
             'grunt-express',
             'grunt-jsdoc',
             'grunt-jsonlint',
-            'grunt-karma',
             'grunt-open',
             'grunt-parallel',
             'grunt-plato',
             'grunt-replace',
             'load-grunt-tasks',
             'time-grunt'
-        ];
+        ].concat(
+            maybeInclude(!useJest, 'grunt-karma')
+        );
         const workflowDependencies = [
             'babel-cli',
             'babel-preset-env',
