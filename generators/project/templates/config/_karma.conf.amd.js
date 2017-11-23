@@ -1,20 +1,19 @@
 'use strict';
 
-var config = require('config').get('grunt');
-var scripts = config.folders.app + '/' + config.files.scripts;// app source
-var templates = config.folders.assets + '/' + config.files.templates;// templates
+const config = require('config').get('grunt');
+const scripts = config.folders.app + '/' + config.files.scripts;// app source
+const templates = config.folders.assets + '/' + config.files.templates;// templates
+const specs = config.folders.test + '/' + config.folders.specs + '/**/*.js';// test files
 module.exports = function(karmaConfig) {
     karmaConfig.set({
         basePath: '../',
-        frameworks: ['requirejs', 'mocha'],
+        frameworks: ['requirejs', 'mocha', 'chai', 'sinon'],
         files: [
             {pattern: config.folders.test + '/config.js'},
             {pattern: scripts, included: false},// JS scripts
             {pattern: templates, included: false},// HTML templates
-            {pattern: config.folders.test + '/' + config.folders.specs + '/**/*.js', included: false},// Mocha specs
+            {pattern: specs, included: false},// Mocha specs
             {pattern: config.folders.test + '/data/plugins/*.js', included: false},// Data modules
-            {pattern: 'node_modules/sinon/pkg/sinon.js', included: false},// SinonJS
-            {pattern: 'node_modules/chai/chai.js', included: false},// Chai
             {pattern: 'node_modules/jquery/dist/jquery.js', included: false},// jQuery
             {pattern: 'node_modules/handlebars/dist/handlebars.js', included: false},// Handlebars
             {pattern: 'node_modules/lodash/lodash.min.js', included: false},// Lodash

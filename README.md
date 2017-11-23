@@ -74,6 +74,7 @@ Typical Workflows
   - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
 - Run tests with `npm test`
 - One-time lint with `npm run lint`
+- Run tests and lint code as a watch task in one terminal with: `npm run dev` (*linux only*)
 - Demo your bundled project in a browser with `npm run demo`
 - View reports, documentation and styleguide:
   - code coverage: `grunt cover open:coverage`
@@ -97,7 +98,7 @@ yo omaha --defaults
 - Use "silent" web app defaults with browserify
 
 ```bash
-yo omaha --defaults --script-bundler browserify
+yo omaha --defaults --browserify
 ```
 
 - Use "silent" web app defaults with custom modifications
@@ -106,16 +107,24 @@ yo omaha --defaults --script-bundler browserify
 yo omaha --defaults --template-technology lodash --skip-coveralls
 ```
 
+- Scaffold a web app after making some choices via prompts (options are not honored without the use of `--defaults`)
+
+```bash
+yo omaha
+```
+
 **Available options**
 > Default in **bold**
 
 - `--defaults`: scaffold app with no user input using defaults
+- `--amd`: use AMD module format (with r.js as script bundler)
+- `--browserify`: use Browserify as script bundler (auto selects CommonJS module format)
+- `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)
 - `--skip-benchmark`: use with `--defaults`
 - `--skip-coveralls`: use with `--defaults`
 - `--skip-jsinspect`: use with `--defaults`
 - `--skip-aria`: use with `--defaults`
 - `--skip-imagemin`: use with `--defaults`
-- `--script-bundler`: **`requirejs`** | `browserify`
 - `--css-preprocessor`: **`less`** | `sass` | `none`
 - `--template-technology`: **`handlebars`** | `lodash`
 
@@ -139,4 +148,3 @@ A Note on Semantic Versioning
 License
 -------
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha?ref=badge_large)
-

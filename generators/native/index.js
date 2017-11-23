@@ -10,7 +10,7 @@ const {
     json: {extend}
 } = require('../app/utils');
 
-const commandLineOptions = {
+const COMMAND_LINE_OPTIONS = {
     skipWebapp: {
         type: Boolean,
         desc: 'DO NOT compose with WebApp generator',
@@ -26,8 +26,8 @@ module.exports = class extends Generator {
         super(args, opts);
         const generator = this;
         const {config, options} = generator;
-        Object.keys(commandLineOptions).forEach(option => {
-            generator.option(option, commandLineOptions[option]);
+        Object.keys(COMMAND_LINE_OPTIONS).forEach(option => {
+            generator.option(option, COMMAND_LINE_OPTIONS[option]);
         });
         config.set('userName', generator.user.git.name() ? generator.user.git.name() : 'A. Developer');
         config.defaults({

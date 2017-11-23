@@ -9,7 +9,7 @@ const {
     json: {extend}
 } = require('../app/utils');
 
-const commandLineOptions = {
+const COMMAND_LINE_OPTIONS = {
     defaults: {
         type: Boolean,
         desc: 'Scaffold server with defaults settings and no user interaction',
@@ -59,21 +59,23 @@ module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
         const generator = this;
-        Object.keys(commandLineOptions).forEach(function(option) {
-            generator.option(option, commandLineOptions[option]);
+        Object.keys(COMMAND_LINE_OPTIONS).forEach(function(option) {
+            generator.option(option, COMMAND_LINE_OPTIONS[option]);
         });
     }
     prompting() {
         const generator = this;
         const options = this.options;
-        const customPortSelected = (options.http || options.https || options.ws);
+        const {http, https, useJest, ws} = options;
+        const customPortSelected = (http || https || ws);
+        generator.useJest = useJest;
         if (options.defaults || customPortSelected) {
             const done = this.async();
             const defaults = prompts.map(val => val.default);
             assign(generator, {
-                httpPort: defaultTo(options.http, defaults[0]),
-                httpsPort: defaultTo(options.https, defaults[1]),
-                websocketPort: defaultTo(options.ws, defaults[2]),
+                httpPort: defaultTo(http, defaults[0]),
+                httpsPort: defaultTo(https, defaults[1]),
+                websocketPort: defaultTo(ws, defaults[2]),
                 markdownSupport: defaults[3]
             });
             done();

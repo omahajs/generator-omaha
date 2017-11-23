@@ -62,7 +62,9 @@ module.exports = {
     browserify: `{
         bundle: {
             files: {
-                '<%= folders.dist %>/<%= folders.client %>/bundle.js': ['<%= folders.app %>/main.js']
+                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': [
+                    '<%= folders.app %>/main.js'
+                ]
             }
         }
     }`,
@@ -71,7 +73,7 @@ module.exports = {
      * @see {@link https://www.browsersync.io/docs/grunt}
     **/
     browserSync: `{
-        main: {
+        amd: {
             bsFiles: {
                 src: [
                     '<%= folders.app %>/<%= files.index %>',
@@ -91,6 +93,19 @@ module.exports = {
                     },
                     index: '<%= files.index %>'
                 }
+            }
+        },
+        cjs: {
+            bsFiles: {
+                src: [
+                    '<%= folders.dist %>/<%= folders.client %>/bundle.min.js'
+                ]
+            },
+            options: {
+                port: '<%= ports.server %>',
+                watchTask: true,
+                reloadDelay: 500,
+                server: ['<%= folders.dist %>', '<%= folders.dist %>/<%= folders.client %>']
             }
         },
         demo: {
@@ -179,7 +194,7 @@ module.exports = {
         },
         src: {
             options: {
-                fix: false
+                fix: true
             },
             src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js']
         },
@@ -531,15 +546,17 @@ module.exports = {
     uglify: `{
         bundle: {
             options: {
+                banner: '/* <%= package.name %> - v<%= package.version %> - 2017-11-22 */',
                 mangle: true,
                 comments: false,
                 compress: {
                     drop_console: true //discard calls to console.* functions
-                },
-                banner: '/* <%= package.name %> - v<%= package.version %> - 2017-07-12 */'
+                }
             },
             files: {
-                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': ['<%= folders.dist %>/<%= folders.client %>/bundle.js']
+                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': [
+                    '<%= folders.dist %>/<%= folders.client %>/bundle.min.js'
+                ]
             }
         }
     }`,

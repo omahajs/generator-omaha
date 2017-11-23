@@ -1,6 +1,6 @@
 'use strict';
 
-const {isBoolean, merge, partialRight} = require('lodash');
+const {isBoolean, findKey, merge, partialRight} = require('lodash');
 const {readFileSync, writeFileSync} = require('fs-extra');
 
 const maybeInclude = partialRight(maybe, []);
@@ -10,6 +10,7 @@ module.exports = {
     copyTpl,
     maybe,
     maybeInclude,
+    parseModuleData,
     json: {
         read:   readJSON,
         write:  writeJSON,
@@ -20,6 +21,15 @@ module.exports = {
     }
 };
 
+function parseModuleData(str) {
+    const BUNDLER_LOOKUP = {
+        browserify: /browserify/i,
+        webpack: /webpack/i,
+        rjs: /r[.]js/i
+    };
+    const data = str.split(' with ');
+    return [data[0], findKey(BUNDLER_LOOKUP, re => re.test(data[1]))];
+}
 function maybe(bool, val, defaultValue = []) {
     return (isBoolean(bool) && bool) ? val : defaultValue;
 }

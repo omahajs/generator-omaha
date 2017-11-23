@@ -1,0 +1,47 @@
+Diagram(
+    MultipleChoice(1, 'any',
+        Comment('Code Quality'),
+        NonTerminal('ESLint'),
+        Terminal('ESLint auto-fix'),
+        Terminal('JSInspect'),
+        Terminal('a11y')
+    ),
+    Choice(1,
+        Comment('Style Processing'),
+        Sequence(
+            Choice(0,
+                Terminal('less.js'),
+                Terminal('Sass'),
+                Terminal('none')
+            ),
+            NonTerminal('PostCSS')
+        )
+    ),
+    Choice(1,
+        Comment('Template Precompilation'),
+        Terminal('Handlebars'),
+        Terminal('Lodash')
+    ),
+    Choice(1,
+        Comment('Script Bundling'),
+        Sequence(
+            Terminal('AMD'),
+            NonTerminal('r.js')
+        ),
+        Sequence(
+            Terminal('CommonJS'),
+            Choice(1, Terminal('Browserify'), Terminal('Webpack'))
+        )
+    ),
+    Choice(1,
+        Comment('Testing'),
+        Sequence(Terminal('Mocha/Chai'), NonTerminal('Karma')),
+        Terminal('Jest')
+    ),
+    MultipleChoice(1, 'any',
+        Comment('Optimization'),
+        NonTerminal('babel-preset-minify'),
+        Terminal('imagemin'),
+        Terminal('benchmark.js')
+    )
+)

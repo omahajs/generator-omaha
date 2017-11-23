@@ -1,6 +1,7 @@
 'use strict';
 
 const {extend, curry, head, pick, set, toLower} = require('lodash');
+const {blue, red, yellow} = require('chalk');
 
 const projectQuestions = [
     {
@@ -37,9 +38,13 @@ const projectQuestions = [
 const webappQuestions = [
     {
         type: 'list',
-        name: 'scriptBundler',
-        message: 'Which technology for bundling scripts before deployment?',
-        choices: ['requirejs', 'browserify']
+        name: 'moduleData',
+        message: 'Which module format & bundler?',
+        choices: [
+            `AMD with ${red('r.js')}`,
+            `CommonJS with ${yellow('Browserify')}`,
+            `CommonJS with ${blue('Webpack')}`
+        ]
     },
     {
         type: 'list',
@@ -73,20 +78,14 @@ const getPromptQuestions = curry(function(type, isWebapp) {
     };
     return questionLookup[type].map(promptMessageFormat(type, isWebapp));
 });
-const webappDefaults = webappQuestions
-    .map(question => pick(question, ['name', 'default', 'choices']))
-    .map(item => set({}, item.name, Array.isArray(item.choices) ? head(item.choices.map(toLower)) : item.default))
-    .reduce(extend);
 const defaults = {
     project: projectQuestions
         .map(question => set({}, question.name, question.default))
         .reduce(extend),
-    webapp: extend(webappDefaults, {
-        useBrowserify: webappDefaults.scriptBundler === 'browserify',
-        useLess: webappDefaults.cssPreprocessor === 'less',
-        useSass: webappDefaults.cssPreprocessor === 'sass',
-        useHandlebars: webappDefaults.templateTechnology === 'handlebars'
-    })
+    webapp: webappQuestions
+        .map(question => pick(question, ['name', 'default', 'choices']))
+        .map(item => set({}, item.name, Array.isArray(item.choices) ? head(item.choices.map(toLower)) : item.default))
+        .reduce(extend)
 };
 
 function promptMessageFormat(type, isWebapp) {

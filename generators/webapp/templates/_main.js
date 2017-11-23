@@ -4,8 +4,9 @@
  * @requires app
  * @requires router
  * @requires views/example
-**/
+**/<% if (moduleFormat === 'amd') { %>
 define(function(require) {
+<% } %>
     'use strict';
 
     const Backbone = require('backbone');
@@ -30,5 +31,5 @@ define(function(require) {
     } else {
         //AMD == > Bundled with r.js
         WebApp.start();
-    }
-});
+    }<% if (moduleFormat === 'amd') { %>
+});<% } %>
