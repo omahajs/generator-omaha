@@ -194,7 +194,7 @@ module.exports = {
         },
         src: {
             options: {
-                fix: false
+                fix: true
             },
             src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js']
         },
