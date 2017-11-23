@@ -172,6 +172,16 @@ describe('Default generator', function() {
                 verifyBoilerplateFiles('./');
                 verifyDefaultConfiguration();
             }));
+        it('--defaults --use-jest', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {defaults, 'use-jest': true}))
+            .toPromise()
+            .then(() => {
+                verify();
+                fileContent(browserifyContent);
+                fileContent('package.json', '"testMatch":');
+                file('test/example.test.js');
+                noFile('test/mocha.opts');
+            }));
         it('--defaults --browserify', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {defaults}, {browserify: true}))
             .toPromise()
