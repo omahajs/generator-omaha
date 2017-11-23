@@ -51,10 +51,10 @@ module.exports = class extends Generator {
         const generator = this;
         const {config, options} = generator;
         const {browserify, useJest, webpack} = options;
-        const useAmd = !(browserify || webpack);
         const isWebapp = config.get('isWebapp');
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
         const moduleFormat = (useJest || browserify) ? 'commonjs' : 'amd';
+        const useAmd = (moduleFormat === 'amd');
         assign(generator, {
             moduleFormat,
             useAmd,
@@ -94,7 +94,7 @@ module.exports = class extends Generator {
             useCoveralls:    use.coveralls && !skipCoveralls,
             useJsinspect:    use.jsinspect && !skipJsinspect
         });
-        const {projectName, useAmd, useBenchmark, useCoveralls, useJsinspect} = generator;
+        const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
         config.set('sourceDirectory', generator.sourceDirectory);
         config.set('projectName', projectName);
         config.set('useBenchmark', useBenchmark);
@@ -112,7 +112,7 @@ module.exports = class extends Generator {
             ['_Gruntfile.js', 'Gruntfile.js'],
             ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']
         ].concat(// conditional dependencies
-            maybeInclude(useAmd,
+            maybeInclude(config.get('useAmd'),
                 [// --> AMD module format
                     ['test/config.js', 'test/config.js'],
                     ['config/_karma.conf.amd.js', 'config/karma.conf.js']

@@ -76,16 +76,19 @@ module.exports = class extends Generator {
     }
     prompting() {
         const generator = this;
-        const {options} = generator;
+        const {config, options} = generator;
         const {browserify, useJest, webpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
         const isWebapp = true;
-        const useAmd = !(browserify || webpack);
-        generator.moduleFormat = (useJest || !useAmd) ? 'commonjs' : 'amd';;
+        const moduleFormat = (useJest || browserify) ? 'commonjs' : 'amd';
+        const useAmd = (moduleFormat === 'amd');
+        generator.moduleFormat = (useJest || !useAmd) ? 'commonjs' : 'amd';
+        config.set('useAmd', useAmd);
         if (options.defaults) {
             const done = this.async();
             generator.use = webapp.defaults;
             assign(generator, generator.use, {
+                useAmd,
                 useJest,
                 useBrowserify: options.browserify || options.useJest,
                 useWebpack:    options.webpack,
@@ -104,11 +107,17 @@ module.exports = class extends Generator {
                 const CSS_PREPROCESSOR = USE_DEFAULT_CSS_PREPROCESSOR ? generator.use.cssPreprocessor.toLowerCase() : cssPreprocessor;
                 const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? generator.use.templateTechnology.toLowerCase() : templateTechnology;
                 assign(generator, {
+                    useAmd,
+                    useJest,
                     useBrowserify: (SCRIPT_BUNDLER === 'browserify') || options.browserify || options.useJest,
                     useWebpack:    (SCRIPT_BUNDLER === 'webpack') || options.webpack,
                     useLess:       (CSS_PREPROCESSOR === 'less'),
                     useSass:       (CSS_PREPROCESSOR === 'sass'),
                     useHandlebars: (TEMPLATE_TECHNOLOGY === 'handlebars')
+                });
+                assign(generator.options, {
+                    browserify: generator.useBrowserify,
+                    webpack: generator.useWebpack
                 });
             }.bind(generator));
         }
@@ -271,7 +280,7 @@ module.exports = class extends Generator {
             'deamdify',
             'grunt-browserify'
         ].concat(
-            maybeInclude(!useAmd, ['karma-browserify', 'browserify-istanbul'])
+            maybeInclude(useAmd, [], ['karma-browserify', 'browserify-istanbul'])
         );
         const gruntDependencies = [
             'grunt',

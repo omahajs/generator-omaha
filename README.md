@@ -107,6 +107,12 @@ yo omaha --defaults --browserify
 yo omaha --defaults --template-technology lodash --skip-coveralls
 ```
 
+- Scaffold a web app after making some choices via prompts (options are not honored without the use of `--defaults`)
+
+```bash
+yo omaha
+```
+
 **Available options**
 > Default in **bold**
 

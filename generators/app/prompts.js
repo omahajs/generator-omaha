@@ -42,7 +42,6 @@ const webappQuestions = [
         message: 'Which module format & bundler?',
         choices: [
             `AMD with ${red('r.js')}`,
-            `AMD with ${yellow('Browserify')}`,
             `CommonJS with ${yellow('Browserify')}`,
             `CommonJS with ${blue('Webpack')}`
         ]
