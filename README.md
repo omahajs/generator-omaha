@@ -74,6 +74,7 @@ Typical Workflows
   - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
 - Run tests with `npm test`
 - One-time lint with `npm run lint`
+- Run tests and lint code as a watch task in one terminal with: `npm run dev` (*linux only*)
 - Demo your bundled project in a browser with `npm run demo`
 - View reports, documentation and styleguide:
   - code coverage: `grunt cover open:coverage`
@@ -97,7 +98,7 @@ yo omaha --defaults
 - Use "silent" web app defaults with browserify
 
 ```bash
-yo omaha --defaults --script-bundler browserify
+yo omaha --defaults --browserify
 ```
 
 - Use "silent" web app defaults with custom modifications

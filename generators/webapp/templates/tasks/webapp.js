@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         'compile',
         'lint',
         'cover'
-    ]);<% if (!!useJest) { %>
+    ]);<% if (useJest !== true) { %>
     task('cover', 'Generate code coverage report using Karma and Istanbul', [
         'clean:coverage',
         'clean:compile',

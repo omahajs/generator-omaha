@@ -94,7 +94,7 @@ module.exports = class extends Generator {
             useCoveralls:    use.coveralls && !skipCoveralls,
             useJsinspect:    use.jsinspect && !skipJsinspect
         });
-        const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
+        const {projectName, useAmd, useBenchmark, useCoveralls, useJsinspect} = generator;
         config.set('sourceDirectory', generator.sourceDirectory);
         config.set('projectName', projectName);
         config.set('useBenchmark', useBenchmark);
@@ -112,10 +112,15 @@ module.exports = class extends Generator {
             ['_Gruntfile.js', 'Gruntfile.js'],
             ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']
         ].concat(// conditional dependencies
-            maybeInclude(!useJest, [
-                ['test/config.js', 'test/config.js'],
-                ['config/_karma.conf.js', 'config/karma.conf.js']
-            ])
+            maybeInclude(useAmd,
+                [// --> AMD module format
+                    ['test/config.js', 'test/config.js'],
+                    ['config/_karma.conf.amd.js', 'config/karma.conf.js']
+                ],
+                [// --> CommonJS module format
+                    ['config/_karma.conf.cjs.js', 'config/karma.conf.js']
+                ]
+            )
         );
         const mochaTemplateData = [
             ['test/mocha.opts', 'test/mocha.opts'],
@@ -139,9 +144,19 @@ module.exports = class extends Generator {
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
         const isWebapp = config.get('isWebapp');
         const isNotWindows = ['linux', 'freebsd'].includes(process.platform);
+        const karmaDependencies = [
+            'karma',
+            'karma-chrome-launcher',
+            'karma-coverage',
+            'karma-firefox-launcher',
+            'karma-mocha',
+            'karma-chai',
+            'karma-sinon',
+            'karma-spec-reporter'
+        ];
         let devDependencies = [].concat(
             maybeInclude(isNotWindows, 'stmux'),
-            maybeInclude(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc']),
+            maybeInclude(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]),
             maybeInclude(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']),
             maybeInclude(isWebapp && useCoveralls, 'grunt-karma-coveralls', 'coveralls'),
             maybeInclude(isWebapp && useJsinspect, ['jsinspect', 'grunt-jsinspect'], 'jsinspect')
@@ -190,7 +205,7 @@ function getJestConfig(generator) {
 }
 function getScripts(generator) {
     const {useBenchmark, useCoveralls, useJest} = generator;
-    const scripts = {coverage: 'nyc report -rnpm  text'};
+    const scripts = {coverage: 'nyc report -r text'};
     if (useBenchmark) {
         assign(scripts, {
             'test:perf': 'grunt benchmark'

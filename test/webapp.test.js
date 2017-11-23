@@ -38,7 +38,7 @@ describe('Webapp generator', () => {
                 join(dir, 'config', 'default.json')
             );
             copySync(
-                join(__dirname, `${projectTemplatesDirectory}config/_karma.conf.js`),
+                join(__dirname, `${projectTemplatesDirectory}config/_karma.conf.amd.js`),
                 join(dir, 'config', 'karma.conf.js')
             );
         })

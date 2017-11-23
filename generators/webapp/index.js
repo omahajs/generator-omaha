@@ -86,6 +86,7 @@ module.exports = class extends Generator {
             const done = this.async();
             generator.use = webapp.defaults;
             assign(generator, generator.use, {
+                useJest,
                 useBrowserify: options.browserify || options.useJest,
                 useWebpack:    options.webpack,
                 useLess:       options.cssPreprocessor === 'less',
@@ -125,14 +126,15 @@ module.exports = class extends Generator {
             useAmd:          (moduleFormat === 'amd'),
             useAria:         use.aria && !options.skipAria,
             useImagemin:     use.imagemin && !options.skipImagemin,
+            useJest:         options.useJest,
             userName:        config.get('userName') || user.git.name()
         });
-        const {sourceDirectory, useAria, useAmd, useHandlebars, useImagemin} = generator;
+        const {sourceDirectory, useAria, useAmd, useHandlebars, useImagemin, useJest} = generator;
         const appDirectory = `${sourceDirectory}app/`;
         const assetsDirectory = `${sourceDirectory}assets/`;
         const type = resolveCssPreprocessor(this);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
-        config.set({useAmd, useAria, useImagemin});
+        config.set({useAmd, useAria, useImagemin, useJest});
         config.set('pluginDirectory', sourceDirectory);
         [// always included
             ['config/stylelint.config.js', 'config/stylelint.config.js'],
@@ -230,6 +232,7 @@ module.exports = class extends Generator {
         const configurePackageJson = flow(getPackageJsonAttributes, updatePackageJson).bind(generator);
         const placeholder = '/* -- load tasks placeholder -- */';
         const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
+        const useAmd = (moduleFormat === 'amd');
         const dependencies = [// always included
             'backbone',
             'backbone.marionette',
@@ -240,7 +243,7 @@ module.exports = class extends Generator {
             'redux'
         ].concat(// conditional dependencies
             maybeInclude(useHandlebars, 'handlebars'),
-            maybeInclude((moduleFormat === 'amd'), 'requirejs')
+            maybeInclude(useAmd, 'requirejs')
         );
         const htmlDevDependencies = [
             'grunt-contrib-htmlmin',
@@ -267,7 +270,9 @@ module.exports = class extends Generator {
             'babelify',
             'deamdify',
             'grunt-browserify'
-        ];
+        ].concat(
+            maybeInclude(!useAmd, ['karma-browserify', 'browserify-istanbul'])
+        );
         const gruntDependencies = [
             'grunt',
             'grunt-browser-sync',
@@ -288,15 +293,6 @@ module.exports = class extends Generator {
             'load-grunt-tasks',
             'time-grunt'
         ];
-        const karmaDependencies = [
-            'karma',
-            'karma-chrome-launcher',
-            'karma-coverage',
-            'karma-firefox-launcher',
-            'karma-mocha',
-            'karma-requirejs',
-            'karma-spec-reporter'
-        ];
         const workflowDependencies = [
             'babel-cli',
             'babel-preset-env',
@@ -307,11 +303,10 @@ module.exports = class extends Generator {
             'json-server'
         ].concat(// conditional dependencies
             maybeInclude(!useBrowserify, 'babel-preset-minify'),
-            maybeInclude(!useJest, karmaDependencies.concat(requirejsDevDependencies))
-        ).concat(
-            gruntDependencies,
-            htmlDevDependencies,
-            cssDevDependencies
+            maybeInclude(!useJest, requirejsDevDependencies),
+            ...gruntDependencies,
+            ...htmlDevDependencies,
+            ...cssDevDependencies
         );
         const devDependencies = workflowDependencies.concat(
             maybeInclude(useBrowserify, browserifyDependencies),
