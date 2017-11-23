@@ -14,8 +14,6 @@ module.exports = function(karmaConfig) {
             {pattern: templates, included: false},// HTML templates
             {pattern: specs, included: false},// Mocha specs
             {pattern: config.folders.test + '/data/plugins/*.js', included: false},// Data modules
-            {pattern: 'node_modules/sinon/pkg/sinon.js', included: false},// SinonJS
-            {pattern: 'node_modules/chai/chai.js', included: false},// Chai
             {pattern: 'node_modules/jquery/dist/jquery.js', included: false},// jQuery
             {pattern: 'node_modules/handlebars/dist/handlebars.js', included: false},// Handlebars
             {pattern: 'node_modules/lodash/lodash.min.js', included: false},// Lodash
