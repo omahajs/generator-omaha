@@ -442,11 +442,9 @@ function getScripts(generator) {
     };
     if (useJest) {
         assign(scripts, {
-            test: 'jest .*.test.js',
-            coverage: 'npm test -- --coverage',
-            'test:watch': 'npm test -- --watch',
-            'test:travis': 'npm run coverage && cat ./coverage/lcov.info | coveralls',
-            'lint:tests': 'eslint -c ./config/.eslintrc.js ./test/*.js'
+            pretest: 'npm run lint',
+            test: 'jest .*.test.js --coverage',
+            'test:watch': 'npm test -- --watch'
         });
     }
     if (isNative) {
