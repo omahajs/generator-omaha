@@ -1,3 +1,4 @@
+/* @flow */
 const {assign, partial, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
@@ -36,7 +37,7 @@ const COMMAND_LINE_OPTIONS = {
 };
 
 module.exports = class extends Generator {
-    constructor(args, opts) {
+    constructor(args: any, opts: any) {
         super(args, opts);
         const generator = this;
         const {config, user} = generator;

@@ -63,7 +63,6 @@
     "setupTestFrameworkScriptFile": "./test/lib/jestSetup.js"
   },
   "scripts": {
-    "dev": "stmux --mouse --title 'Omaha Generator Dev task' [ \"npm run lint:watch\" .. \"npm run test:watch -- --coverage\" ]",
     "lint": "flow && eslint --fix -c ./.eslintrc.js ./src/**/*.js",
     "lint:watch": "watch 'npm run lint' ./src",
     "lint:tests": "eslint --fix --env jest -c ./.eslintrc.js ./test/**; exit 0;",

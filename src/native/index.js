@@ -1,4 +1,4 @@
-
+/* @flow */
 const {set}     = require('lodash');
 const Generator = require('yeoman-generator');
 const banner    = require('../app/banner');
@@ -21,7 +21,7 @@ module.exports = class extends Generator {
     initializing() {
         this.log(banner);
     }
-    constructor(args, opts) {
+    constructor(args: any, opts: any) {
         super(args, opts);
         const generator = this;
         const {config, options} = generator;

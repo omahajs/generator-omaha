@@ -1,4 +1,3 @@
-
 const { assign, flow, partial, pick } = require('lodash');
 const { mkdirp, readFileSync, writeFileSync } = require('fs-extra');
 const Generator = require('yeoman-generator');
@@ -76,7 +75,7 @@ module.exports = class extends Generator {
         const isWebapp = true;
         const moduleFormat = useJest || browserify ? 'commonjs' : 'amd';
         const useAmd = moduleFormat === 'amd';
-        generator.moduleFormat = useJest || !useAmd ? 'commonjs' : 'amd';
+        generator.moduleFormat = moduleFormat;
         config.set('useAmd', useAmd);
         if (options.defaults) {
             const done = this.async();
@@ -103,7 +102,7 @@ module.exports = class extends Generator {
                 assign(generator, {
                     useAmd,
                     useJest,
-                    useBrowserify: SCRIPT_BUNDLER === 'browserify' || options.browserify || options.useJest,
+                    useBrowserify: SCRIPT_BUNDLER === 'browserify' || moduleFormat !== 'amd',
                     useWebpack: SCRIPT_BUNDLER === 'webpack' || options.webpack,
                     useLess: CSS_PREPROCESSOR === 'less',
                     useSass: CSS_PREPROCESSOR === 'sass',
@@ -277,7 +276,7 @@ function getBabelPresets(generator) {
 }
 function getScripts(generator) {
     const { config, isNative, options, useBrowserify } = generator;
-    const { useJest } = config.get('projectParameters') || options;
+    const { useJest } = options;
     const useCoveralls = config.get('useCoveralls');
     const useJsinspect = config.get('useJsinspect');
     const scripts = {

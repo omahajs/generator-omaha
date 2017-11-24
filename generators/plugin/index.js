@@ -1,4 +1,3 @@
-
 const Generator = require('yeoman-generator');
 const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
 const { copyTpl } = require('../app/utils');

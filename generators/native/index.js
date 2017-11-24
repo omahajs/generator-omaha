@@ -1,4 +1,3 @@
-
 const { set } = require('lodash');
 const Generator = require('yeoman-generator');
 const banner = require('../app/banner');

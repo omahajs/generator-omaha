@@ -1,4 +1,4 @@
-
+/* @flow */
 const {includes, partialRight} = require('lodash');
 const {bold, green, magenta, red, white} = require('chalk');
 const {copySync} = require('fs-extra');

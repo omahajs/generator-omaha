@@ -1,4 +1,3 @@
-
 const { assign, defaultTo, includes, partialRight, pick } = require('lodash');
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');

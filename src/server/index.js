@@ -1,4 +1,4 @@
-
+/* @flow */
 const {assign, defaultTo, includes, partialRight, pick} = require('lodash');
 const Generator = require('yeoman-generator');
 const chalk     = require('chalk');
@@ -55,7 +55,7 @@ const prompts = [
 ];
 
 module.exports = class extends Generator {
-    constructor(args, opts) {
+    constructor(args: any, opts: any) {
         super(args, opts);
         const generator = this;
         Object.keys(COMMAND_LINE_OPTIONS).forEach(function(option) {

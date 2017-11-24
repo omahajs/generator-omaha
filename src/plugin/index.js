@@ -1,4 +1,4 @@
-
+/* @flow */
 const Generator            = require('yeoman-generator');
 const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
 const {copyTpl}            = require('../app/utils');
@@ -50,7 +50,7 @@ const questions = [{
 }];
 
 module.exports = class extends Generator {
-    constructor(args, opts) {
+    constructor(args: any, opts: any) {
         super(args, opts);
         const generator = this;
         generator.argument('name', {type: String, required: true});
