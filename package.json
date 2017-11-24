@@ -77,7 +77,7 @@
     "test:builds": "bash ./test/lib/generate-build-test.sh",
     "pretest:visual": "npm run capture",
     "test:visual": "jest visual-regression",
-    "prebuild": "del generators && ncp src generators",
+    "prebuild": "./node_modules/.bin/del generators && ncp src generators",
     "build": "babel src -d generators --ignore templates",
     "preversion": "npm run lint && npm test && npm run build",
     "postversion": "git push && git push --tags",
