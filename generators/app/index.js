@@ -1,8 +1,7 @@
-'use strict';
 
 const Generator = require('yeoman-generator');
-const banner    = require('./banner');
-const footer    = require('./doneMessage');
+const banner = require('./banner');
+const footer = require('./doneMessage');
 
 module.exports = class extends Generator {
     initializing() {
@@ -14,9 +13,7 @@ module.exports = class extends Generator {
             isNative: false,
             hideBanner: true
         });
-        this
-            .composeWith(require.resolve('../project'), options)
-            .composeWith(require.resolve('../webapp'), options);
+        this.composeWith(require.resolve('../project'), options).composeWith(require.resolve('../webapp'), options);
     }
     end() {
         this.log(footer(this));

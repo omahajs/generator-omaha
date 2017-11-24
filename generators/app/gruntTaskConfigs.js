@@ -1,4 +1,3 @@
-'use strict';
 
 module.exports = {
     /**
@@ -436,7 +435,7 @@ module.exports = {
      * Apply several post-processors to your CSS using PostCSS
      * @see {@link https://github.com/nDmitry/grunt-postcss}
     **/
-    postcss: function(sourceDirectory) {
+    postcss: function (sourceDirectory) {
         return `{
             options: {
                 parser: require('postcss-safe-parser'),

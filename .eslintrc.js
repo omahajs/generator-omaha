@@ -3,6 +3,7 @@
 // -> Maximum auto-fix capability
 // -> Secure coding practices baked in
 module.exports = {
+    parser: 'babel-eslint',
     extends: 'omaha-prime-grade',
     env: {
         node: true,

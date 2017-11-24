@@ -1,8 +1,7 @@
-'use strict';
 
-const Generator            = require('yeoman-generator');
+const Generator = require('yeoman-generator');
 const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
-const {copyTpl}            = require('../app/utils');
+const { copyTpl } = require('../app/utils');
 
 const globalNameLookup = {
     root: 'root',
@@ -26,42 +25,37 @@ const questions = [{
     type: 'checkbox',
     name: 'dependencies',
     message: 'Choose plugin dependencies:',
-    choices: [
-        {
-            name: `${indent }jQuery`,
-            value: 'jquery',
-            checked: false
-        },
-        {
-            name: `${indent }Underscore.js`,
-            value: 'underscore',
-            checked: false
-        },
-        {
-            name: `${indent }Backbone.js`,
-            value: 'backbone',
-            checked: false
-        },
-        {
-            name: `${indent }MarionetteJS`,
-            value: 'marionette',
-            checked: false
-        }
-    ]
+    choices: [{
+        name: `${indent}jQuery`,
+        value: 'jquery',
+        checked: false
+    }, {
+        name: `${indent}Underscore.js`,
+        value: 'underscore',
+        checked: false
+    }, {
+        name: `${indent}Backbone.js`,
+        value: 'backbone',
+        checked: false
+    }, {
+        name: `${indent}MarionetteJS`,
+        value: 'marionette',
+        checked: false
+    }]
 }];
 
 module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
         const generator = this;
-        generator.argument('name', {type: String, required: true});
+        generator.argument('name', { type: String, required: true });
         Object.keys(COMMAND_LINE_OPTIONS).forEach(option => {
             generator.option(option, COMMAND_LINE_OPTIONS[option]);
         });
     }
     prompting() {
         const generator = this;
-        const {options, user} = generator;
+        const { options, user } = generator;
         const customDepName = options.customDependency;
         if (customDepName && options.alias) {
             COMMAND_LINE_OPTIONS[customDepName] = true;
@@ -82,7 +76,7 @@ module.exports = class extends Generator {
             });
             done();
         } else {
-            return generator.prompt(questions).then(function(answers) {
+            return generator.prompt(questions).then(function (answers) {
                 const dependencies = answers.dependencies;
                 generator.depList = dependencies.map(wrapSingleQuotes);
                 generator.dependencies = dependencies;
@@ -94,7 +88,7 @@ module.exports = class extends Generator {
     }
     writing() {
         const generator = this;
-        const {config, pluginName, use} = generator;
+        const { config, pluginName, use } = generator;
         const pluginDirectory = config.get('pluginDirectory');
         let pathBase = pluginDirectory ? `${pluginDirectory}/app/plugins/` : config.get('sourceDirectory');
         pathBase = pathBase ? pathBase : './';
@@ -113,7 +107,15 @@ module.exports = class extends Generator {
         copyTpl('umd.template.js', `${pathBase}${pluginName}.js`, generator);
     }
 };
-function aliasFor(dep) {return globalNameLookup[dep];}
-function requireStatementFor(dep) {return `var ${ aliasFor(dep) } = require('${ npmModuleNameLookup[dep] }');`;}
-function removeSingleQuotes(str) {return str.replace(/'/g, '');}
-function wrapSingleQuotes(str) {return `'${str}'`;}
+function aliasFor(dep) {
+    return globalNameLookup[dep];
+}
+function requireStatementFor(dep) {
+    return `var ${aliasFor(dep)} = require('${npmModuleNameLookup[dep]}');`;
+}
+function removeSingleQuotes(str) {
+    return str.replace(/'/g, '');
+}
+function wrapSingleQuotes(str) {
+    return `'${str}'`;
+}

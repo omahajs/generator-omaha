@@ -1,0 +1,32 @@
+{
+  "name": "<%= projectName %>",
+  "version": "0.0.0",
+  "author": "<%= userName %>",
+  "license": "MIT",
+  "description": "Slightly opinionated boilerplate and workflow for crafting sustainable code",
+  "main": "path to module entry point",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/some-user/<%= projectName %>.git"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "eslint": "^3.0.0",
+    "eslint-config-omaha-prime-grade": "^1.0.0"
+  },
+  "scripts": {
+    "lint": "eslint -c ./config/.eslintrc.js index.js",
+    "lint:watch": "watch 'npm run lint' .",
+    "lint:tests": "eslint -c ./config/.eslintrc.js ./test/mocha/specs/*.js",
+    "test": "nyc mocha",
+    "test:watch": "mocha -w",
+    "test:ci": "npm test",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags",
+    "rest-api": "json-server --port 8080 --watch test/data/db.json",
+    "deploy": "cp -a dist/. dist/."
+  }
+}

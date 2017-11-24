@@ -33,17 +33,28 @@
     "yosay": "^2.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-preset-flow": "^6.23.0",
     "bluebird": "^3.4.1",
     "coveralls": "^3.0.0",
+    "del-cli": "^1.1.0",
     "eslint": "^4.1.1",
     "eslint-config-omaha-prime-grade": "^4.0.1",
+    "flow-bin": "^0.59.0",
     "http-server": "^0.10.0",
     "jest": "^20.0.4",
     "jest-image-snapshot": "^2.0.0",
+    "ncp": "^2.0.0",
     "puppeteer": "^0.12.0",
     "watch": "^1.0.1",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.4.0"
+  },
+  "babel": {
+    "presets": [
+      "flow"
+    ]
   },
   "jest": {
     "testMatch": [
@@ -53,11 +64,11 @@
   },
   "scripts": {
     "dev": "stmux --mouse --title 'Omaha Generator Dev task' [ \"npm run lint:watch\" .. \"npm run test:watch -- --coverage\" ]",
-    "lint": "eslint --fix -c ./.eslintrc.js ./generators/**/*.js",
-    "lint:watch": "watch 'npm run lint' ./generators",
+    "lint": "flow && eslint --fix -c ./.eslintrc.js ./src/**/*.js",
+    "lint:watch": "watch 'npm run lint' ./src",
     "lint:tests": "eslint --fix --env jest -c ./.eslintrc.js ./test/**; exit 0;",
     "lint:tests:watch": "watch 'npm run lint:tests' ./test",
-    "test": "jest .*.test.js",
+    "test": "npm run build && jest .*.test.js",
     "coverage": "npm test -- --coverage",
     "test:watch": "npm test -- --watch",
     "test:ci": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
@@ -67,7 +78,9 @@
     "test:builds": "bash ./test/lib/generate-build-test.sh",
     "pretest:visual": "npm run capture",
     "test:visual": "jest visual-regression",
-    "preversion": "npm test",
+    "prebuild": "del generators && ncp src generators",
+    "build": "babel src -d generators --ignore templates",
+    "preversion": "npm run lint && npm test && npm run build",
     "postversion": "git push && git push --tags",
     "precapture": "npm run server:start",
     "capture": "node ./test/lib/captureScreenshots",

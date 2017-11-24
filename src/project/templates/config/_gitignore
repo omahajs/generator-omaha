@@ -1,0 +1,20 @@
+nohup.out
+node_modules/
+.yo-rc.json
+
+#Grunt template files
+.grunt/
+_SpecRunner.html
+
+# Dynamically generated workflow files and folders
+reports/
+dist
+app/templates.js
+app/style.css
+app/style.css.map
+
+# Symlink to normalize "npm start" and "npm run demo"
+app/assets
+
+# SASS projects
+.sass-cache/

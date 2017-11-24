@@ -1,0 +1,28 @@
+Description:
+    Creates Node.js HTTP and WebSocket servers with security baked in
+
+Options:
+    > HTTP server port?
+        Port that will serve HTTP content
+
+    > HTTPS server port?
+        Port that will serve HTTPS content (default certificate is for localhost)
+
+    > WebSocket server port?
+        Port that will serve WebSocket content
+
+    > Add support for rendering Markdown files?
+        This will add a Markdown engine to the server using marked
+        Any .md file inside web/markdown will be auto-rendered
+        (MD extension not required in page path)
+
+Example:
+    yo omaha:server
+
+        This will create:
+            package.json          - Development packages installed by npm
+            app.json              - Configuration file for deploying to Heroku
+            index.js              - Server entry point
+            web/server.js         - HTTP server module
+            web/socket.js         - WebSocket server module
+            web/client/index.html - Default client entry point
