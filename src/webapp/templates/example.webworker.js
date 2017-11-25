@@ -15,13 +15,13 @@
  * }, 1000);
 **/
 importScripts('../../assets/library/require.min.js');
-var q = new Promise(function() {});
-var msg = [];
+let q = new Promise(function() {});
+let msg = [];
 self.onmessage = function(data) {
     'use strict';
     msg.push(data);
 };
-var PREVENT_IMPORTSCRIPTS_ERROR = {baseUrl: '../', map: {'*': {main: 'config'}}};
+const PREVENT_IMPORTSCRIPTS_ERROR = {baseUrl: '../', map: {'*': {main: 'config'}}};
 require(PREVENT_IMPORTSCRIPTS_ERROR, ['config'], function() {
     'use strict';
     require(PREVENT_IMPORTSCRIPTS_ERROR, [/*paths from config go here*/], function() {
