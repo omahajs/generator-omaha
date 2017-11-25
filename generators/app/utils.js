@@ -1,7 +1,5 @@
-'use strict';
-
-const {isBoolean, findKey, merge, partialRight} = require('lodash');
-const {readFileSync, writeFileSync} = require('fs-extra');
+const { isBoolean, findKey, merge, partialRight } = require('lodash');
+const { readFileSync, writeFileSync } = require('fs-extra');
 
 const maybeInclude = partialRight(maybe, []);
 
@@ -12,12 +10,12 @@ module.exports = {
     maybeInclude,
     parseModuleData,
     json: {
-        read:   readJSON,
-        write:  writeJSON,
+        read: readJSON,
+        write: writeJSON,
         extend: extendJSON
     },
     object: {
-        clone:  cloneObject
+        clone: cloneObject
     }
 };
 
@@ -30,8 +28,8 @@ function parseModuleData(str) {
     const data = str.split(' with ');
     return [data[0], findKey(BUNDLER_LOOKUP, re => re.test(data[1]))];
 }
-function maybe(bool, val, defaultValue = []) {
-    return (isBoolean(bool) && bool) ? val : defaultValue;
+function maybe(condition, val, defaultValue = []) {
+    return isBoolean(condition) && condition ? val : defaultValue;
 }
 function copy(from, to, context) {
     var source = context.templatePath(from);
@@ -48,7 +46,7 @@ function readJSON(fileName) {
 }
 function writeJSON(fileName, content) {
     var INDENT_SPACES = 4;
-    writeFileSync(fileName, `${JSON.stringify(content, null, INDENT_SPACES) }\n`);
+    writeFileSync(fileName, `${JSON.stringify(content, null, INDENT_SPACES)}\n`);
 }
 function extendJSON(fileName, obj) {
     writeJSON(fileName, merge(readJSON(fileName), obj));

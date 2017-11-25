@@ -1,0 +1,36 @@
+Description:
+
+    Software workbench to craft maintainable code for the web
+
+Examples:
+
+    yo omaha
+        Scaffold a web app, tool-chain, and workflow
+
+    yo omaha --defaults
+        Runs default app generator silently using defaults
+
+    yo omaha --defaults --script-bundler browserify
+        Runs default app generator silently using modified defaults (browserify instead of requirejs)
+
+    yo omaha --css-preprocessor sass
+        Starts prompting with sass as selected CSS preprocessor
+
+    yo omaha:plugin <plugin name>
+        Create a UMD-compliant JavaScript module for developing with various JavaScript libraries
+        ** Saves generated plugin to app/plugins folder **
+
+    yo omaha:server
+        Creates a functional node server project with security industry best practices baked in using Kraken.js and Helmet.js
+        ** Should be run in an empty project folder **
+
+    yo omaha:native
+        Creates a native application using Electron (composed with webapp generator)
+        ** Accepts same options as default generator **
+
+    yo omaha:native --skip-webapp
+        Creates a native application without omaha webapp (bare-bones renderer)
+
+    yo omaha:nightwatch
+        Add end-to-end (E2E) browser testing support using nightwatch.js
+        ** Designed to be used with default webapp generator **
