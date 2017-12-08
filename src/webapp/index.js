@@ -235,7 +235,7 @@ module.exports = class extends Generator {
         const configurePackageJson = flow(getPackageJsonAttributes, updatePackageJson).bind(generator);
         const placeholder = '/* -- load tasks placeholder -- */';
         const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
-        const useAmd = (moduleFormat === 'amd');
+        const useAmd = config.get('useAmd');
         const dependencies = [// always included
             'backbone',
             'backbone.marionette',

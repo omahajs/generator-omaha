@@ -98,7 +98,7 @@ module.exports = class extends Generator {
         assign(generator, {
             sourceDirectory: hasRenderer ? 'renderer/' : sourceDirectory
         });
-        const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
+        const {projectName, useAmd, useBenchmark, useCoveralls, useJsinspect} = generator;
         config.set('sourceDirectory', generator.sourceDirectory);
         config.set('projectName', projectName);
         config.set('useBenchmark', useBenchmark);
@@ -116,7 +116,7 @@ module.exports = class extends Generator {
             ['_Gruntfile.js', 'Gruntfile.js'],
             ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']
         ].concat(// conditional dependencies
-            maybeInclude(config.get('useAmd'),
+            maybeInclude(useAmd,
                 [// --> AMD module format
                     ['test/config.js', 'test/config.js'],
                     ['config/_karma.conf.amd.js', 'config/karma.conf.js']

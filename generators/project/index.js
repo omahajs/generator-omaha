@@ -97,7 +97,7 @@ module.exports = class extends Generator {
         assign(generator, {
             sourceDirectory: hasRenderer ? 'renderer/' : sourceDirectory
         });
-        const { projectName, useBenchmark, useCoveralls, useJsinspect } = generator;
+        const { projectName, useAmd, useBenchmark, useCoveralls, useJsinspect } = generator;
         config.set('sourceDirectory', generator.sourceDirectory);
         config.set('projectName', projectName);
         config.set('useBenchmark', useBenchmark);
@@ -106,7 +106,7 @@ module.exports = class extends Generator {
         mkdirp(generator.sourceDirectory);
         const defaultTemplateData = [['_README.md', 'README.md'], ['_LICENSE', 'LICENSE'], ['_package.json', 'package.json'], ['config/_gitignore', '.gitignore'], ['config/_default.json', 'config/default.json']];
         const webappTemplateData = [['_Gruntfile.js', 'Gruntfile.js'], ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']].concat( // conditional dependencies
-        maybeInclude(config.get('useAmd'), [// --> AMD module format
+        maybeInclude(useAmd, [// --> AMD module format
         ['test/config.js', 'test/config.js'], ['config/_karma.conf.amd.js', 'config/karma.conf.js']], [// --> CommonJS module format
         ['config/_karma.conf.cjs.js', 'config/karma.conf.js']]));
         const mochaTemplateData = [['test/mocha.opts', 'test/mocha.opts'], [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']];
