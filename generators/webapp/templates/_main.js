@@ -25,11 +25,8 @@ define(function(require) {
         WebApp.info(`${name} is started!`);
         WebApp.getRegion().show(new View());
     });
-    if (typeof(define) === 'undefined') {
-        //Not AMD ==> Bundled with Browserify
-        document.addEventListener('DOMContentLoaded', () => WebApp.start());
-    } else {
-        //AMD == > Bundled with r.js
-        WebApp.start();
-    }<% if (moduleFormat === 'amd') { %>
-});<% } %>
+<% if (moduleFormat === 'amd') { %>
+    WebApp.start();
+});<% } else { %>
+    document.addEventListener('DOMContentLoaded', () => WebApp.start());
+<% } %>
