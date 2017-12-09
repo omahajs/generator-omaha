@@ -19,12 +19,17 @@ const COMMAND_LINE_OPTIONS = {
         desc: 'Scaffold app with no user input using default settings',
         defaults: false
     },
-    browserify: {
+    useBrowserify: {
         type: Boolean,
         desc: 'Use Browserify to bundle scripts',
         defaults: false
     },
-    webpack: {
+    useJest: {
+        type: Boolean,
+        desc: 'Use Jest to run tests',
+        defaults: false
+    },
+    useWebpack: {
         type: Boolean,
         desc: 'Use Webpack to bundle scripts',
         defaults: false
@@ -70,22 +75,22 @@ module.exports = class extends Generator {
     }
     prompting() {
         const generator = this;
-        const {config, options} = generator;
-        const {browserify, useJest} = options;
+        const {options} = generator;
+        const {useBrowserify, useJest, useWebpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
         const isWebapp = true;
-        const moduleFormat = (useJest || browserify) ? 'commonjs' : 'amd';
+        const moduleFormat = (useJest || useBrowserify || useWebpack) ? 'commonjs' : 'amd';
         const useAmd = (moduleFormat === 'amd');
         generator.moduleFormat = moduleFormat;
-        config.set('useAmd', useAmd);
         if (options.defaults) {
             const done = this.async();
             generator.use = webapp.defaults;
             assign(generator, generator.use, {
+                moduleFormat,
                 useAmd,
                 useJest,
-                useBrowserify: options.browserify || options.useJest,
-                useWebpack:    options.webpack,
+                useWebpack,
+                useBrowserify: options.useBrowserify || (moduleFormat !== 'amd'), // Browserify if default "non-AMD" bundler
                 useLess:       options.cssPreprocessor === 'less',
                 useSass:       options.cssPreprocessor === 'sass',
                 useHandlebars: options.templateTechnology === 'handlebars'
@@ -103,15 +108,11 @@ module.exports = class extends Generator {
                 assign(generator, {
                     useAmd,
                     useJest,
-                    useBrowserify: (SCRIPT_BUNDLER === 'browserify') || (moduleFormat !== 'amd'),
-                    useWebpack:    (SCRIPT_BUNDLER === 'webpack') || options.webpack,
+                    useBrowserify: (SCRIPT_BUNDLER === 'browserify') || (moduleFormat !== 'amd'), // Browserify if default "non-AMD" bundler
+                    useWebpack:    (SCRIPT_BUNDLER === 'webpack'),
                     useLess:       (CSS_PREPROCESSOR === 'less'),
                     useSass:       (CSS_PREPROCESSOR === 'sass'),
                     useHandlebars: (TEMPLATE_TECHNOLOGY === 'handlebars')
-                });
-                assign(generator.options, {
-                    browserify: generator.useBrowserify,
-                    webpack: generator.useWebpack
                 });
             }.bind(generator));
         }
@@ -121,18 +122,17 @@ module.exports = class extends Generator {
         // Write configuration files
         //
         const generator = this;
-        const {config, moduleFormat, options, use, user} = generator;
+        const {config, options, use, user} = generator;
+        const {skipAria, skipImagemin} = options;
         assign(generator, {
             sourceDirectory: config.get('sourceDirectory'),
             isNative:        config.get('isNative'),
             projectName:     config.get('projectName'),
-            useAmd:          (moduleFormat === 'amd'),
-            useAria:         use.aria && !options.skipAria,
-            useImagemin:     use.imagemin && !options.skipImagemin,
-            useJest:         options.useJest,
+            useAria:         use.aria && !skipAria,
+            useImagemin:     use.imagemin && !skipImagemin,
             userName:        config.get('userName') || user.git.name()
         });
-        const {sourceDirectory, useAria, useAmd, useHandlebars, useImagemin, useJest} = generator;
+        const {sourceDirectory, useAria, useAmd, useHandlebars, useJest, useImagemin} = generator;
         const appDirectory = `${sourceDirectory}app/`;
         const assetsDirectory = `${sourceDirectory}assets/`;
         const type = resolveCssPreprocessor(this);
@@ -227,7 +227,7 @@ module.exports = class extends Generator {
     }
     install() {
         const generator = this;
-        const {config, moduleFormat, sourceDirectory} = generator;
+        const {config, sourceDirectory} = generator;
         const {useAria, useBrowserify, useHandlebars, useImagemin, useJest, useLess, useSass} = generator;
         const type = resolveCssPreprocessor(generator);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
@@ -235,7 +235,7 @@ module.exports = class extends Generator {
         const configurePackageJson = flow(getPackageJsonAttributes, updatePackageJson).bind(generator);
         const placeholder = '/* -- load tasks placeholder -- */';
         const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
-        const useAmd = (moduleFormat === 'amd');
+        const useAmd = config.get('useAmd');
         const dependencies = [// always included
             'backbone',
             'backbone.marionette',
@@ -400,11 +400,17 @@ module.exports = class extends Generator {
         //
         const projectParameters = assign(config.get('projectParameters'), pick(generator, [
             'moduleFormat',
+            'projectName',
+            'sourceDirectory',
             'useAmd',
             'useAria',
+            'useBenchmark',
             'useBrowserify',
+            'useCoveralls',
             'useHandlebars',
             'useImagemin',
+            'useJest',
+            'useJsinspect',
             'useLess',
             'useSass'
         ]));
@@ -433,8 +439,7 @@ function getBabelPresets(generator) {
 
 }
 function getScripts(generator) {
-    const {config, isNative, options, useBrowserify} = generator;
-    const {useJest} = options;
+    const {config, isNative, useBrowserify, useJest} = generator;
     const useCoveralls = config.get('useCoveralls');
     const useJsinspect = config.get('useJsinspect');
     const scripts = {

@@ -44,17 +44,17 @@ define(function(require, exports) {
 <% } %>
     'use strict';
 
-    var _     = require('lodash');
-    var Radio = require('backbone.radio');
+    const _     = require('lodash');
+    const Radio = require('backbone.radio');
 
     Radio.DEBUG = false;// Show & Hide Backbone.Radio debug messages
-    var APP_LOGGING = true;// Show & Hide Application console messages
-    var MSG_PREFIX  = '%c APP ❱❱ %c';
-    var MSG_TYPES   = ['error', 'warn', 'info', 'log', 'trace'];
-    var zipObject   = _.isFunction(_.zipObject) ? _.zipObject : _.object;
-    var MSG_DICT    = zipObject(MSG_TYPES, MSG_TYPES.map(function(type, i) {return i;}));
+    const APP_LOGGING = true;// Show & Hide Application console messages
+    const MSG_PREFIX  = '%c APP ❱❱ %c';
+    const MSG_TYPES   = ['error', 'warn', 'info', 'log', 'trace'];
+    const zipObject   = _.isFunction(_.zipObject) ? _.zipObject : _.object;
+    const MSG_DICT    = zipObject(MSG_TYPES, MSG_TYPES.map(function(type, i) {return i;}));
 
-    var STYLE = {
+    const STYLE = {
         none:  'background:inherit;color:inherit;',
         error: 'background:red;color:white;',
         warn:  'background:yellow;color:black;',
@@ -72,7 +72,7 @@ define(function(require, exports) {
     };
     channelMethods.level = function(value) {
         if (typeof(value) !== 'undefined') {
-            var level;
+            let level;
             if (_.isNumber(value) && value < MSG_TYPES.length) {
                 level = value;
             } else if (_.isString(value)) {
@@ -83,12 +83,12 @@ define(function(require, exports) {
         return channelMethods._level;
     };
 
-    Radio.log = function(channelName, type) {
+    Radio.log = function(channelName, type, ...args) {
         type = _.includes(MSG_TYPES, type) ? type : 'log';
-        var level = MSG_DICT[type];
-        var msg = arguments.length > 2 ? arguments[2] : arguments[1];
+        const level = MSG_DICT[type];
+        const msg = args.length > 2 ? args[2] : args[1];
         if (level < channelMethods.level()) {
-            consoleMessage(type)(`[${channelName}] `, msg, _.now());
+            consoleMessage(type)(`[${channelName}] `, msg, Date.now());
         }
     };
 

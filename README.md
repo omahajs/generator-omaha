@@ -118,7 +118,7 @@ yo omaha
 
 - `--defaults`: scaffold app with no user input using defaults
 - `--amd`: use AMD module format (with r.js as script bundler)
-- `--browserify`: use Browserify as script bundler (auto selects CommonJS module format)
+- `--use-browserify`: use Browserify as script bundler (auto selects CommonJS module format)
 - `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)
 - `--skip-benchmark`: use with `--defaults`
 - `--skip-coveralls`: use with `--defaults`

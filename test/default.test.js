@@ -70,8 +70,8 @@ describe('Default generator', function() {
                 fileContent('config/.eslintrc.js', 'es6: true,');
                 fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
             }));
-        it('all prompts TRUE (--browserify)', () => helpers.run(join(__dirname, '../generators/app'))
-            .withOptions(merge({}, SKIP_INSTALL, {browserify: true}))
+        it('all prompts TRUE (--use-browserify)', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {'use-browserify': true}))
             .withPrompts(ALL_TRUE)
             .toPromise()
             .then(() => {
@@ -182,8 +182,8 @@ describe('Default generator', function() {
                 file('test/example.test.js');
                 noFile('test/mocha.opts');
             }));
-        it('--defaults --browserify', () => helpers.run(join(__dirname, '../generators/app'))
-            .withOptions(merge({}, SKIP_INSTALL, {defaults}, {browserify: true}))
+        it('--defaults --use-browserify', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {defaults}, {'use-browserify': true}))
             .toPromise()
             .then(() => {
                 verify();
@@ -223,12 +223,12 @@ describe('Default generator', function() {
                 noFileContent(ariaContent);
                 noFileContent('Gruntfile.js', 'imagemin: ');
             }));
-        it('--defaults --skip-aria --skip-imagemin --browserify', () => helpers.run(join(__dirname, '../generators/app'))
+        it('--defaults --skip-aria --skip-imagemin --use-browserify', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {
                 defaults: true,
                 'skip-aria': true,
                 'skip-imagemin': true,
-                browserify: true}))
+                'use-browserify': true}))
             .toPromise()
             .then(() => {
                 verify();
@@ -236,10 +236,10 @@ describe('Default generator', function() {
                 noFileContent(ariaContent);
                 noFileContent('Gruntfile.js', 'imagemin: ');
             }));
-        it('--defaults --browserify --css-preprocessor sass --template-technology lodash', () => helpers.run(join(__dirname, '../generators/app'))
+        it('--defaults --use-browserify --css-preprocessor sass --template-technology lodash', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {
                 defaults: true,
-                browserify: true,
+                'use-browserify': true,
                 cssPreprocessor: 'sass',
                 templateTechnology: 'lodash'}))
             .toPromise()

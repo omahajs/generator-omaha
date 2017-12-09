@@ -549,7 +549,7 @@ module.exports = {
                 mangle: true,
                 comments: false,
                 compress: {
-                    drop_console: true //discard calls to console.* functions
+                    drop_console: true// discard calls to console.* functions
                 }
             },
             files: {
@@ -576,8 +576,8 @@ module.exports = {
         },
         lint: {
             files: [
-                '<%= folders.app %>/style.css',// CSS
-                '<%= folders.app %>/<%= files.scripts %>'// Scripts
+                '<%= folders.app %>/style.css',
+                '<%= folders.app %>/<%= files.scripts %>'
             ],
             tasks: ['lint'],
             options: {spawn: false}
