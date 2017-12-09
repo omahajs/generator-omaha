@@ -158,7 +158,7 @@ module.exports = class extends Generator {
     }
     install() {
         const generator = this;
-        const { config, moduleFormat, sourceDirectory } = generator;
+        const { config, sourceDirectory } = generator;
         const { useAria, useBrowserify, useHandlebars, useImagemin, useJest, useLess, useSass } = generator;
         const type = resolveCssPreprocessor(generator);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
