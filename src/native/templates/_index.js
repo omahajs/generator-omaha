@@ -26,7 +26,7 @@ const menuItems = [
 const applicationMenu = Menu.buildFromTemplate(menuItems);
 
 let mainWindow;
-let preload = join(__dirname, 'bin', 'preload.js');
+const preload = join(__dirname, 'bin', 'preload.js');
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({

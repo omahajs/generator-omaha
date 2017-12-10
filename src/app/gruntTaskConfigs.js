@@ -595,5 +595,12 @@ module.exports = {
                 spawn: false
             }
         }
+    }`,
+    /**
+     * Integrate webpack into grunt build process
+     * @see {@link https://github.com/webpack-contrib/grunt-webpack}
+    **/
+    webpack: `{
+        bundle: require('./config/webpack.config.js')
     }`
 };

@@ -87,12 +87,12 @@ module.exports = class extends Generator {
             assign(generator, generator.use, {
                 moduleFormat,
                 useAmd,
-                useJest,
-                useWebpack,
-                useBrowserify: options.useBrowserify || moduleFormat !== 'amd', // Browserify if default "non-AMD" bundler
+                useBrowserify: useBrowserify || !(useAmd || useWebpack), // Browserify is default
+                useJest: useJest || useWebpack,
                 useLess: options.cssPreprocessor === 'less',
                 useSass: options.cssPreprocessor === 'sass',
-                useHandlebars: options.templateTechnology === 'handlebars'
+                useHandlebars: options.templateTechnology === 'handlebars',
+                useWebpack: useWebpack
             });
             done();
         } else {
@@ -106,12 +106,12 @@ module.exports = class extends Generator {
                 const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? generator.use.templateTechnology.toLowerCase() : templateTechnology;
                 assign(generator, {
                     useAmd,
-                    useJest,
-                    useBrowserify: SCRIPT_BUNDLER === 'browserify' || moduleFormat !== 'amd', // Browserify if default "non-AMD" bundler
-                    useWebpack: SCRIPT_BUNDLER === 'webpack',
+                    useBrowserify: SCRIPT_BUNDLER === 'browserify' || !(useAmd || useWebpack), // Browserify is default
+                    useJest: useJest || useWebpack,
                     useLess: CSS_PREPROCESSOR === 'less',
                     useSass: CSS_PREPROCESSOR === 'sass',
-                    useHandlebars: TEMPLATE_TECHNOLOGY === 'handlebars'
+                    useHandlebars: TEMPLATE_TECHNOLOGY === 'handlebars',
+                    useWebpack: SCRIPT_BUNDLER === 'webpack'
                 });
             }.bind(generator));
         }
@@ -173,7 +173,7 @@ module.exports = class extends Generator {
         const htmlDevDependencies = ['grunt-contrib-htmlmin', 'grunt-htmlhint-plus'];
         const cssDevDependencies = ['grunt-postcss', 'autoprefixer', 'stylelint', 'cssnano', 'postcss-reporter', 'postcss-safe-parser', 'mdcss', 'mdcss-theme-github'];
         const requirejsDevDependencies = ['grunt-contrib-requirejs', 'karma-requirejs'];
-        const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(maybeInclude(useAmd, [], ['karma-browserify', 'browserify-istanbul']));
+        const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(maybeInclude(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul']));
         const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-eslint', 'grunt-express', 'grunt-jsdoc', 'grunt-jsonlint', 'grunt-open', 'grunt-parallel', 'grunt-plato', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(maybeInclude(!useJest, 'grunt-karma'));
         const workflowDependencies = ['babel-cli', 'babel-preset-env', 'config', 'eslint-plugin-backbone', 'fs-promise', 'globby', 'json-server'].concat( // conditional dependencies
         maybeInclude(!useBrowserify, 'babel-preset-minify'), maybeInclude(!useJest, requirejsDevDependencies), ...gruntDependencies, ...htmlDevDependencies, ...cssDevDependencies);
@@ -254,7 +254,7 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        const projectParameters = assign(config.get('projectParameters'), pick(generator, ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass']));
+        const projectParameters = assign(config.get('projectParameters'), pick(generator, ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']));
         config.set({ projectParameters });
     }
 };
@@ -275,7 +275,7 @@ function getBabelPresets(generator) {
     return [['env', { modules: false }]].concat(maybeInclude(!useBrowserify, 'minify'));
 }
 function getScripts(generator) {
-    const { config, isNative, useBrowserify, useJest } = generator;
+    const { config, isNative, useAmd, useBrowserify, useJest } = generator;
     const useCoveralls = config.get('useCoveralls');
     const useJsinspect = config.get('useJsinspect');
     const scripts = {
@@ -285,13 +285,6 @@ function getScripts(generator) {
         test: 'grunt test',
         'test:watch': 'grunt karma:covering'
     };
-    if (useJest) {
-        assign(scripts, {
-            pretest: 'npm run lint',
-            test: 'jest .*.test.js --coverage',
-            'test:watch': 'npm test -- --watch'
-        });
-    }
     if (isNative) {
         assign(scripts, {
             start: 'grunt compile && electron index',
@@ -307,7 +300,7 @@ function getScripts(generator) {
             predeploy: 'npm run build'
         });
     }
-    if (!useBrowserify) {
+    if (useAmd) {
         // CAUTION: This is a static reference to dist/client directory
         const dist = './dist/client/';
         const temp = `${dist}temp.js`;
@@ -320,6 +313,13 @@ function getScripts(generator) {
             'test:ci': 'npm test && grunt coveralls'
         });
     }
+    if (useJest) {
+        assign(scripts, {
+            pretest: 'npm run lint',
+            test: 'jest .*.test.js --coverage',
+            'test:watch': 'npm test -- --watch'
+        });
+    }
     if (useJsinspect) {
         assign(scripts, {
             inspect: 'grunt jsinspect:app'
@@ -328,12 +328,12 @@ function getScripts(generator) {
     return scripts;
 }
 function getTasks(generator) {
-    const { config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass } = generator;
+    const { config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass, useWebpack } = generator;
     const useBenchmark = config.get('useBenchmark');
     const useCoveralls = config.get('useCoveralls');
     const useJsinspect = config.get('useJsinspect');
     return [// Tasks enabled by default
     'browserSync', 'clean', 'copy', 'eslint', 'htmlmin', 'htmlhintplus', 'jsdoc', 'jsonlint', 'karma', 'open', 'plato', 'replace', 'requirejs', 'watch'].concat( // Project tasks enabled by user
     maybeInclude(useBenchmark, 'benchmark'), maybeInclude(useCoveralls, 'coveralls'), maybeInclude(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user
-    maybeInclude(useAria, ['a11y', 'accessibility']), maybeInclude(useBrowserify, ['browserify', 'uglify']), maybeInclude(useHandlebars, 'handlebars', 'jst'), maybeInclude(useImagemin, ['imagemin', 'copy']), maybeInclude(useLess, 'less'), maybeInclude(useSass, 'sass'));
+    maybeInclude(useAria, ['a11y', 'accessibility']), maybeInclude(useBrowserify, 'browserify'), maybeInclude(useHandlebars, 'handlebars', 'jst'), maybeInclude(useImagemin, ['imagemin', 'copy']), maybeInclude(useLess, 'less'), maybeInclude(useSass, 'sass'), maybeInclude(useWebpack, 'webpack'), maybeInclude(useWebpack || useBrowserify, 'uglify'));
 }

@@ -100,7 +100,7 @@ module.exports = {
         // 'no-invalid-double-slash-comments': true,
         // 'no-missing-end-of-source-newline': true,
         // 'no-unknown-animations': true,
-        'number-leading-zero': 'always',
+        'number-leading-zero': 'always'
         // 'number-max-precision': int,
         // 'number-no-trailing-zeros': true,
         // 'property-blacklist': string|[],

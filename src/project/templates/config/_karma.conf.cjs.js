@@ -1,7 +1,6 @@
-'use strict';
 
 const config = require('config').get('grunt');
-const specs = config.folders.test + '/' + config.folders.specs + '/**/*.js';// test files
+const specs = `${config.folders.test }/${ config.folders.specs }/**/*.js`;// test files
 module.exports = function(karmaConfig) {
     karmaConfig.set({
         basePath: '../',
@@ -18,7 +17,7 @@ module.exports = function(karmaConfig) {
         },
         reporters: ['progress', 'mocha', 'coverage'],
         coverageReporter: {
-            dir: config.folders.reports + '/' + config.folders.coverage,
+            dir: `${config.folders.reports }/${ config.folders.coverage}`,
             includeAllSources: true,
             reporters: [
                 {type: 'text-summary', subdir: '.', file: 'text-summary.txt'},
@@ -29,7 +28,7 @@ module.exports = function(karmaConfig) {
             ]
         },
         colors: true,
-        logLevel: 'INFO',// DISABLE, ERROR, WARN, INFO, DEBUG
+        logLevel: 'INFO', // DISABLE, ERROR, WARN, INFO, DEBUG
         captureTimeout: 60000,
         singleRun: true
     });

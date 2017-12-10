@@ -11,16 +11,17 @@ module.exports = function(generator) {
     const {config} = generator;
     const {
         projectName,
+        useAmd,
         useAria,
         useBenchmark,
-        useBrowserify,
         useCoveralls,
         useHandlebars,
         useImagemin,
         useJest,
         useJsinspect,
         useLess,
-        useSass
+        useSass,
+        useWebpack
     } = config.get('projectParameters');
     const isNative = config.get('isNative');
     const isWebapp = config.get('isWebapp');
@@ -29,9 +30,12 @@ module.exports = function(generator) {
     const type = isApplication ? 'Application' : 'Project';
 
     const less = chalk.blue('Less');
+    const lodash = blue('Lodash');
     const sass = magenta('Sass');//chalk.hex('#CC6699')('Sass');
     const browserify = yellow('Browserify');//chalk.hex('#3C6991')('Browserify')
     const handlebars = yellow('Handlebars');//chalk.hex('#ED8623')('Handlebars');
+    const rjs = red('r.js');
+    const webpack = blue('Webpack');
 
     return [].concat(
         '',
@@ -39,9 +43,9 @@ module.exports = function(generator) {
         maybe(isWebapp, ''),
         maybe(isNativeWebapp, 'Renderer:', maybe(isWebapp, 'Webapp:')),
         maybe(isWebapp, [
-            `Script Bundler:    ${bold(maybe(useBrowserify, browserify, red('r.js')))}`,
+            `Script Bundler:    ${bold(maybe(useAmd, rjs, maybe(useWebpack, webpack, browserify)))}`,
             `CSS pre-processor: ${bold(maybe(useLess, less, maybe(useSass, sass, dim('None'))))}`,
-            `Template renderer: ${bold(maybe(useHandlebars, handlebars, blue('Lodash')))}`
+            `Template renderer: ${bold(maybe(useHandlebars, handlebars, lodash))}`
         ].map(yes).map(str => `  ${str}`)),
         '',
         yesNo(useBenchmark)('Install benchmarks.js support'),

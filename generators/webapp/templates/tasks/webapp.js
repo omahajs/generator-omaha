@@ -47,25 +47,26 @@ module.exports = function(grunt) {
         'sass:main',/* pre-process */<% } %>
         'postcss:dev',/* post-process */
         'postcss:prod'
-    ]);
+    ]);<% if (moduleFormat !== 'amd') { %>
     task('bundle-scripts', [
-        'browserify:bundle'
-    ]);
+        <% if (useBrowserify) { %>'browserify:bundle'<% } %>
+        <% if (useWebpack) { %>'webpack:bundle'<% } %>
+    ]);<% } %>
     task('compile', [
         'clean:compile',
         'process-styles',
-        'precompile-templates'<% if (useBrowserify) { %>,
+        'precompile-templates'<% if (moduleFormat !== 'amd') { %>,
         'bundle-scripts'<% } %>
     ]);
     task('build', [
         'clean:build',
-        'compile',<% if (useBrowserify) { %>
-        'uglify:bundle',<% } else if (moduleFormat === 'amd') { %>
-        'requirejs:bundle',<% } %>
+        'compile',<% if (moduleFormat === 'amd') { %>
+        'requirejs:bundle',<% } else { %>
+        'uglify:bundle',<% } %>
         'htmlmin',
         'copy:fonts',
         'copy:library',
-        <% if (useBrowserify) { %>'replace:bundle-url',<% } else { %>'replace:almond-shim',<% } %>
+        <% if (moduleFormat !== 'amd') { %>'replace:bundle-url',<% } else { %>'replace:almond-shim',<% } %>
         <% if (useImagemin) { %>'imagemin:build'<% } else { %>'copy:images'<% } %>
     ]);
     task('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [

@@ -23,8 +23,8 @@ const browserifyContent = [
     ['package.json', '"browser":'],
     ['package.json', '"browserify":'],
     ['package.json', '"aliasify":'],
-    ['Gruntfile.js', 'browserify'],
-    ['Gruntfile.js', 'uglify:']
+    ['Gruntfile.js', 'browserify']
+    // ['Gruntfile.js', 'uglify:']
 ];
 const ariaContent = [
     ['Gruntfile.js', 'a11y: '],
@@ -55,6 +55,7 @@ describe('Default generator', function() {
                 noFileContent(browserifyContent);
                 noFileContent(ariaContent);
                 noFileContent('Gruntfile.js', 'imagemin: ');
+                noFileContent('Gruntfile.js', 'webpack: ');
                 fileContent('config/.eslintrc.js', 'amd: true,');
                 fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
             }));
@@ -188,6 +189,18 @@ describe('Default generator', function() {
             .then(() => {
                 verify();
                 fileContent(browserifyContent);
+                noFile('config/webpack.config.js');
+                noFileContent('Gruntfile.js', 'webpack: ');
+            }));
+        it('--defaults --use-webpack', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {defaults}, {'use-webpack': true}))
+            .toPromise()
+            .then(() => {
+                verify();
+                file('config/webpack.config.js');
+                fileContent('Gruntfile.js', 'webpack: ');
+                fileContent('Gruntfile.js', 'uglify: ')
+                noFileContent(browserifyContent);
             }));
         it('--defaults --css-preprocessor sass', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {defaults}, {cssPreprocessor: 'sass'}))

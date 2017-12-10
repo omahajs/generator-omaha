@@ -1,8 +1,8 @@
-var fibonacci = function(n) {
+const fibonacci = function(n) {
     return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2);
 };
 
-var fibonacci_memoized = (function() {
+const fibonacci_memoized = (function() {
     var memo = [0, 1];
     var fib = function(n) {
         var result = memo[n];
@@ -18,11 +18,11 @@ var fibonacci_memoized = (function() {
 module.exports = {
     name: 'Fibonacci Showdown',
     tests: {
-        'Fibonacci': function() {
+        Fibonacci: function() {
             fibonacci(10);
             fibonacci(5);
         },
-        'Fibonacci2': function() {
+        Fibonacci2: function() {
             fibonacci_memoized(10);
             fibonacci_memoized(5);
         }

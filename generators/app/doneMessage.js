@@ -11,16 +11,17 @@ module.exports = function (generator) {
     const { config } = generator;
     const {
         projectName,
+        useAmd,
         useAria,
         useBenchmark,
-        useBrowserify,
         useCoveralls,
         useHandlebars,
         useImagemin,
         useJest,
         useJsinspect,
         useLess,
-        useSass
+        useSass,
+        useWebpack
     } = config.get('projectParameters');
     const isNative = config.get('isNative');
     const isWebapp = config.get('isWebapp');
@@ -29,11 +30,14 @@ module.exports = function (generator) {
     const type = isApplication ? 'Application' : 'Project';
 
     const less = chalk.blue('Less');
+    const lodash = blue('Lodash');
     const sass = magenta('Sass'); //chalk.hex('#CC6699')('Sass');
     const browserify = yellow('Browserify'); //chalk.hex('#3C6991')('Browserify')
     const handlebars = yellow('Handlebars'); //chalk.hex('#ED8623')('Handlebars');
+    const rjs = red('r.js');
+    const webpack = blue('Webpack');
 
-    return [].concat('', `${type} Name:  ${bold.inverse(spaceWrap(projectName))}`, maybe(isWebapp, ''), maybe(isNativeWebapp, 'Renderer:', maybe(isWebapp, 'Webapp:')), maybe(isWebapp, [`Script Bundler:    ${bold(maybe(useBrowserify, browserify, red('r.js')))}`, `CSS pre-processor: ${bold(maybe(useLess, less, maybe(useSass, sass, dim('None'))))}`, `Template renderer: ${bold(maybe(useHandlebars, handlebars, blue('Lodash')))}`].map(yes).map(str => `  ${str}`)), '', yesNo(useBenchmark)('Install benchmarks.js support'), yesNo(useCoveralls)('Integrate Coveralls.io support'), yesNo(useJsinspect)('Find duplicate code with JSInspect'), maybe(isWebapp, [yesNo(useAria)('Perform accessibility audit on HTML code'), yesNo(useImagemin)('Compress production images with imagemin')]), maybe(useJest, ['', white.bgMagenta.bold(JEST_TAGLINE)]), maybe(isNative, ['', yellow.bgBlack.bold(ELECTRON_TAGLINE)]), '', green.bold('All done!'), maybe(isApplication, white('Try out your shiny new app by running ') + white.bgBlack(spaceWrap(LETS_GET_STARTED))), '').join('\n');
+    return [].concat('', `${type} Name:  ${bold.inverse(spaceWrap(projectName))}`, maybe(isWebapp, ''), maybe(isNativeWebapp, 'Renderer:', maybe(isWebapp, 'Webapp:')), maybe(isWebapp, [`Script Bundler:    ${bold(maybe(useAmd, rjs, maybe(useWebpack, webpack, browserify)))}`, `CSS pre-processor: ${bold(maybe(useLess, less, maybe(useSass, sass, dim('None'))))}`, `Template renderer: ${bold(maybe(useHandlebars, handlebars, lodash))}`].map(yes).map(str => `  ${str}`)), '', yesNo(useBenchmark)('Install benchmarks.js support'), yesNo(useCoveralls)('Integrate Coveralls.io support'), yesNo(useJsinspect)('Find duplicate code with JSInspect'), maybe(isWebapp, [yesNo(useAria)('Perform accessibility audit on HTML code'), yesNo(useImagemin)('Compress production images with imagemin')]), maybe(useJest, ['', white.bgMagenta.bold(JEST_TAGLINE)]), maybe(isNative, ['', yellow.bgBlack.bold(ELECTRON_TAGLINE)]), '', green.bold('All done!'), maybe(isApplication, white('Try out your shiny new app by running ') + white.bgBlack(spaceWrap(LETS_GET_STARTED))), '').join('\n');
 };
 function yes(str) {
     return bold(green('✔ ') + white(str));

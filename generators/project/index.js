@@ -8,9 +8,10 @@ const { project } = require('../app/prompts');
 const tasks = require('../app/gruntTaskConfigs');
 const {
     copyTpl,
-    maybeInclude,
     json: { extend }
 } = require('../app/utils');
+
+const iff = (condition, data, defaultValue = []) => condition ? data : defaultValue;
 
 const COMMAND_LINE_OPTIONS = {
     defaults: {
@@ -51,14 +52,14 @@ module.exports = class extends Generator {
         const { defaults, skipBenchmark, skipCoveralls, skipJsinspect, useBrowserify, useJest, useWebpack } = options;
         const isWebapp = config.get('isWebapp');
         const isUnAnswered = option => !!!options[option.name] || options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults;
-        const moduleFormat = useJest || useBrowserify ? 'commonjs' : 'amd';
+        const moduleFormat = useJest || useBrowserify || useWebpack ? 'commonjs' : 'amd';
         const useAmd = moduleFormat === 'amd';
         assign(generator, {
             moduleFormat,
             useAmd,
             useBrowserify,
-            useJest,
             useWebpack,
+            useJest: useJest || useWebpack,
             use: project.defaults,
             userName: config.get('userName')
         });
@@ -88,7 +89,6 @@ module.exports = class extends Generator {
         }
     }
     writing() {
-        const iff = (condition, data, defaultValue = []) => condition ? data : defaultValue;
         const generator = this;
         const { config, sourceDirectory, useJest } = generator;
         const isNative = config.get('isNative');
@@ -97,7 +97,7 @@ module.exports = class extends Generator {
         assign(generator, {
             sourceDirectory: hasRenderer ? 'renderer/' : sourceDirectory
         });
-        const { projectName, useAmd, useBenchmark, useCoveralls, useJsinspect } = generator;
+        const { projectName, useAmd, useBenchmark, useCoveralls, useJsinspect, useWebpack } = generator;
         config.set('sourceDirectory', generator.sourceDirectory);
         config.set('projectName', projectName);
         config.set('useBenchmark', useBenchmark);
@@ -106,22 +106,21 @@ module.exports = class extends Generator {
         mkdirp(generator.sourceDirectory);
         const defaultTemplateData = [['_README.md', 'README.md'], ['_LICENSE', 'LICENSE'], ['_package.json', 'package.json'], ['config/_gitignore', '.gitignore'], ['config/_default.json', 'config/default.json']];
         const webappTemplateData = [['_Gruntfile.js', 'Gruntfile.js'], ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']].concat( // conditional dependencies
-        maybeInclude(useAmd, [// --> AMD module format
-        ['test/config.js', 'test/config.js'], ['config/_karma.conf.amd.js', 'config/karma.conf.js']], [// --> CommonJS module format
-        ['config/_karma.conf.cjs.js', 'config/karma.conf.js']]));
+        iff(useAmd, [['test/config.js', 'test/config.js'], ['config/_karma.conf.amd.js', 'config/karma.conf.js']])).concat(iff(!(useAmd || useJest || useWebpack), [['config/_karma.conf.cjs.js', 'config/karma.conf.js']]));
         const mochaTemplateData = [['test/mocha.opts', 'test/mocha.opts'], [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']];
         const jestTemplateData = [['test/jest/example.test.js', 'test/example.test.js']];
-        defaultTemplateData.concat(iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]), iff(useCoveralls, [['_travis.yml', '.travis.yml']]), iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]), iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]), iff(useJest, jestTemplateData, mochaTemplateData)).forEach(data => copyTpl(...data, generator));
+        const webpackTemplateData = [['config/_webpack.config.js', 'config/webpack.config.js']];
+        defaultTemplateData.concat(iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]), iff(useCoveralls, [['_travis.yml', '.travis.yml']]), iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]), iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]), iff(useJest, jestTemplateData, mochaTemplateData), iff(useWebpack, webpackTemplateData)).forEach(data => copyTpl(...data, generator));
         copyTpl('test/data/**/*.*', 'test/data', generator);
     }
     install() {
         const generator = this;
-        const { config, useBenchmark, useCoveralls, useJest, useJsinspect } = generator;
+        const { config, useBenchmark, useCoveralls, useJest, useJsinspect, useWebpack } = generator;
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
         const isWebapp = config.get('isWebapp');
         const isNotWindows = ['linux', 'freebsd'].includes(process.platform);
         const karmaDependencies = ['karma', 'karma-chrome-launcher', 'karma-coverage', 'karma-firefox-launcher', 'karma-mocha', 'karma-chai', 'karma-sinon', 'karma-spec-reporter'];
-        const devDependencies = [].concat(maybeInclude(isNotWindows, 'stmux'), maybeInclude(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]), maybeInclude(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']), maybeInclude(isWebapp && useCoveralls, 'grunt-karma-coveralls', 'coveralls'), maybeInclude(isWebapp && useJsinspect, ['jsinspect', 'grunt-jsinspect'], 'jsinspect'));
+        const devDependencies = [].concat(iff(isNotWindows, 'stmux'), iff(isWebapp && useCoveralls, 'grunt-karma-coveralls', 'coveralls'), iff(isWebapp && useJsinspect, ['jsinspect', 'grunt-jsinspect'], 'jsinspect'), iff(isWebapp && useWebpack, 'grunt-webpack'), iff(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']), iff(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]), iff(useWebpack, ['webpack', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader']));
         generator.npmInstall();
         generator.npmInstall(devDependencies, { saveDev: true });
         updatePackageJson(getJestConfig(generator));
@@ -139,7 +138,7 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        const projectParameters = pick(generator, ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass']);
+        const projectParameters = pick(generator, ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']);
         config.set({ projectParameters });
     }
     end() {
@@ -156,7 +155,7 @@ function getJestConfig(generator) {
     };
 }
 function getScripts(generator) {
-    const { useBenchmark, useCoveralls, useJest } = generator;
+    const { useBenchmark, useCoveralls, useJest, useWebpack } = generator;
     const scripts = { coverage: 'nyc report -r text' };
     if (useBenchmark) {
         assign(scripts, {
@@ -175,6 +174,11 @@ function getScripts(generator) {
             'test:watch': 'npm test -- --watch',
             'test:travis': 'npm run coverage && cat ./coverage/lcov.info | coveralls',
             'lint:tests': 'eslint -c ./config/.eslintrc.js ./test/*.js'
+        });
+    }
+    if (useWebpack) {
+        assign(scripts, {
+            'build:watch': 'webpack-dashboard -- webpack-dev-server --config ./config/webpack.config.js'
         });
     }
     /* istanbul ignore else */
