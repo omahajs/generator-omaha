@@ -110,7 +110,7 @@ module.exports = class extends Generator {
         const mochaTemplateData = [['test/mocha.opts', 'test/mocha.opts'], [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']];
         const jestTemplateData = [['test/jest/example.test.js', 'test/example.test.js']];
         const webpackTemplateData = [['config/_webpack.config.js', 'config/webpack.config.js']];
-        defaultTemplateData.concat(iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]), iff(useCoveralls, [['_travis.yml', '.travis.yml']]), iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]), iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]), iff(useJest, jestTemplateData, mochaTemplateData), iff(useWebpack, webpackTemplateData)).forEach(data => copyTpl(...data, generator));
+        defaultTemplateData.concat(iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]), iff(useCoveralls, [['_travis.yml', '.travis.yml']]), iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]), iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]), iff(useJest, jestTemplateData, mochaTemplateData), iff(useWebpack, webpackTemplateData)).forEach(data => copyTpl(data[0], data[1], generator));
         copyTpl('test/data/**/*.*', 'test/data', generator);
     }
     install() {

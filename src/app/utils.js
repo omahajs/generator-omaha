@@ -20,7 +20,7 @@ module.exports = {
     }
 };
 
-function parseModuleData(str: string) {
+function parseModuleData(str: string): any[] {
     const BUNDLER_LOOKUP = {
         browserify: /browserify/i,
         webpack: /webpack/i,

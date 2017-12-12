@@ -146,7 +146,7 @@ module.exports = class extends Generator {
             iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]),
             iff(useJest, jestTemplateData, mochaTemplateData),
             iff(useWebpack, webpackTemplateData)
-        ).forEach(data => copyTpl(...data, generator));
+        ).forEach(data => copyTpl(data[0], data[1], generator));
         copyTpl('test/data/**/*.*', 'test/data', generator);
     }
     install() {

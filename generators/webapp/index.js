@@ -1,4 +1,7 @@
+
+
 const { assign, flow, partial, pick } = require('lodash');
+
 const { mkdirp, readFileSync, writeFileSync } = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
@@ -158,11 +161,11 @@ module.exports = class extends Generator {
     }
     install() {
         const generator = this;
-        const { config, sourceDirectory } = generator;
-        const { useAria, useBrowserify, useHandlebars, useImagemin, useJest, useLess, useSass } = generator;
+        const { config, sourceDirectory, useAria, useBrowserify, useHandlebars, useImagemin, useJest, useLess, useSass } = generator;
         const type = resolveCssPreprocessor(generator);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
+        // $FlowFixMe
         const configurePackageJson = flow(getPackageJsonAttributes, updatePackageJson).bind(generator);
         const placeholder = '/* -- load tasks placeholder -- */';
         const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
@@ -260,22 +263,18 @@ module.exports = class extends Generator {
 };
 function getPackageJsonAttributes() {
     const generator = this;
-    const { isNative, sourceDirectory } = generator;
+    const { isNative, sourceDirectory, useBrowserify } = generator;
     const main = isNative ? './index.js' : `${sourceDirectory}app/main.js`;
     const scripts = getScripts(generator);
     const babel = {
         plugins: [],
-        presets: getBabelPresets(generator)
+        presets: [['env', { modules: false }]].concat(maybeInclude(!useBrowserify, 'minify'))
     };
     const stylelint = { extends: './config/stylelint.config.js' };
     return { main, scripts, babel, stylelint };
 }
-function getBabelPresets(generator) {
-    const { useBrowserify } = generator;
-    return [['env', { modules: false }]].concat(maybeInclude(!useBrowserify, 'minify'));
-}
 function getScripts(generator) {
-    const { config, isNative, useAmd, useBrowserify, useJest } = generator;
+    const { config, isNative, useAmd, useJest } = generator;
     const useCoveralls = config.get('useCoveralls');
     const useJsinspect = config.get('useJsinspect');
     const scripts = {
