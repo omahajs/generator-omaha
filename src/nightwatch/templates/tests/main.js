@@ -1,5 +1,3 @@
-'use strict';
-
 const ENOUGH_TIME = 5000;
 
 module.exports = {

@@ -38,7 +38,7 @@ yo omaha
 ```
 ✔ Make some choices
 <div align="center">
-    <img width="100%" type="image/svg+xml" src="https://jhwohlgemuth.github.io/images/generator-rail-diagram.svg?v=1.1" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
+    <img width="100%" type="image/svg+xml" src="https://jhwohlgemuth.github.io/images/choices-railroad-diagram.svg?v=1.4" alt="Generator Choices Rail Diagram" title="Generator Choices Rail Diagram"/>
 </div>
 </br>
 ✔ Start creating your app!
@@ -89,28 +89,34 @@ Command Line Options
 --------------------
 > Beyond `yo omaha --help`
 
+- Scaffold a web app after making some choices via prompts (options are not honored without the use of `--defaults`)
+
+```bash
+yo omaha
+```
+
 - Scaffold a web app "auto-magically" with defaults and no user input
 
 ```bash
 yo omaha --defaults
 ```
 
-- Use "silent" web app defaults with browserify
+- Use "silent" web app defaults with [Webpack](https://webpack.js.org/)
 
 ```bash
-yo omaha --defaults --browserify
+yo omaha --defaults --use-webpack
+```
+
+- Use "silent" web app defaults with [Browserify](http://browserify.org/) and [Jest](https://facebook.github.io/jest/)
+
+```bash
+yo omaha --defaults --use-browserify --use-jest
 ```
 
 - Use "silent" web app defaults with custom modifications
 
 ```bash
 yo omaha --defaults --template-technology lodash --skip-coveralls
-```
-
-- Scaffold a web app after making some choices via prompts (options are not honored without the use of `--defaults`)
-
-```bash
-yo omaha
 ```
 
 **Available options**
@@ -120,6 +126,7 @@ yo omaha
 - `--amd`: use AMD module format (with r.js as script bundler)
 - `--use-browserify`: use Browserify as script bundler (auto selects CommonJS module format)
 - `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)
+- `--use-webpack`: use Webpack as script bundler (auto selects CommonJS module format and Jest test framework)
 - `--skip-benchmark`: use with `--defaults`
 - `--skip-coveralls`: use with `--defaults`
 - `--skip-jsinspect`: use with `--defaults`

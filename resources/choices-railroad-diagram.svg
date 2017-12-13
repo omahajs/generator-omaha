@@ -1,48 +1,47 @@
-<svg class="railroad-diagram" width="1447" height="212" viewBox="0 0 1447 212">
-<style type="text/css">
-    <![CDATA[
-    svg.railroad-diagram {
-        background-color: white;
-    }
-    svg.railroad-diagram path {
-        stroke-width: 2;
-        stroke: black;
-        fill: rgba(0,0,0,0);
-    }
-    svg.railroad-diagram text {
-        font: bold 14px monospace;
-        text-anchor: middle;
-    }
-    svg.railroad-diagram text.diagram-text {
-        font-size: 12px;
-    }
-    svg.railroad-diagram text.diagram-arrow {
-        font-size: 16px;
-    }
-    svg.railroad-diagram text.label {
-        text-anchor: start;
-    }
-    svg.railroad-diagram text.comment {
-        font: italic 12px monospace;
-    }
-    svg.railroad-diagram rect {
-        stroke-width: 2;
-        stroke: black;
-        fill: yellow;
-    }
-    svg.railroad-diagram path.diagram-text {
-        stroke-width: 2;
-        stroke: black;
-        fill: white;
-        cursor: help;
-    }
-    svg.railroad-diagram g.diagram-text:hover path.diagram-text {
-        fill: #eee;
-    }
+<svg class="railroad-diagram" width="1525" height="212" viewBox="0 0 1525 212" xmlns="http://www.w3.org/2000/svg">
+    <style type="text/css">
+        <![CDATA[
+        svg.railroad-diagram {
+            background-color: white;
+        }
+        svg.railroad-diagram path {
+            stroke-width: 2;
+            stroke: black;
+            fill: rgba(0,0,0,0);
+        }
+        svg.railroad-diagram text {
+            font: bold 14px monospace;
+            text-anchor: middle;
+        }
+        svg.railroad-diagram text.diagram-text {
+            font-size: 12px;
+        }
+        svg.railroad-diagram text.diagram-arrow {
+            font-size: 16px;
+        }
+        svg.railroad-diagram text.label {
+            text-anchor: start;
+        }
+        svg.railroad-diagram text.comment {
+            font: italic 12px monospace;
+        }
+        svg.railroad-diagram rect {
+            stroke-width: 2;
+            stroke: black;
+            fill: yellow;
+        }
+        svg.railroad-diagram path.diagram-text {
+            stroke-width: 2;
+            stroke: black;
+            fill: white;
+            cursor: help;
+        }
+        svg.railroad-diagram g.diagram-text:hover path.diagram-text {
+            fill: #eee;
+        }
 
-    ]]>
-</style>
-<svg class="railroad-diagram" width="1519" height="182" viewBox="0 0 1519 182">
+        ]]>
+    </style>
     <g transform="translate(.5 .5)">
         <path d="M 20 51 v 20 m 10 -20 v 20 m -10 -10 h 20.5"></path>
         <path d="M40 61h10"></path>

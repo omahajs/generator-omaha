@@ -43,8 +43,8 @@ prepare() {
 build() {
     BUILD_ID=$1
     cd $TEST_DIRECTORY/$BUILD_ID
-    npm run build --silent > $TEST_DIRECTORY/$BUILD_ID/log-build.txt
-    npm test --silent > $TEST_DIRECTORY/$BUILD_ID/log-test.txt
+    NODE_OPTIONS=--no-warnings npm run build > $TEST_DIRECTORY/$BUILD_ID/log-build.txt
+    NODE_OPTIONS=--no-warnings npm test -- --silent > $TEST_DIRECTORY/$BUILD_ID/log-test.txt 2>&1
 }
 check_build() {
     BUILD_ID=$1

@@ -19,7 +19,9 @@ yo omaha:project
 > Default in **bold**
 
 - `--defaults`: scaffold app with no user input using defaults
-- `--use-jest`: use Facebook's Jest instead of mocha
+- `--use-browserify`: use Browserify as script bundler (auto selects CommonJS module format)
+- `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)
+- `--use-webpack`: use Webpack as script bundler (auto selects CommonJS module format and Jest test framework)
 - `--skip-benchmark`: use with `--defaults`
 - `--skip-coveralls`: use with `--defaults`
 - `--skip-jsinspect`: use with `--defaults`

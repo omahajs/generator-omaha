@@ -41,7 +41,6 @@ function verifyCoreFiles() {
         'README.md',
         'Gruntfile.js',
         'config/default.json',
-        'config/karma.conf.js',
         'config/stylelint.config.js',
         'tasks/webapp.js'
     ];
