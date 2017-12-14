@@ -37,10 +37,6 @@ describe('Webapp generator', () => {
                 join(__dirname, `${projectTemplatesDirectory}config/_default.json`),
                 join(dir, 'config', 'default.json')
             );
-            copySync(
-                join(__dirname, `${projectTemplatesDirectory}config/_karma.conf.amd.js`),
-                join(dir, 'config', 'karma.conf.js')
-            );
         })
         .withOptions({skipInstall: true})
         .withPrompts(defaults)

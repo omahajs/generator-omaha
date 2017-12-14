@@ -2,7 +2,7 @@
 
 const {merge, mapValues, isBoolean} = require('lodash');
 const {join}    = require('path');
-const {yellow}  = require('chalk');
+const {blue, yellow}  = require('chalk');
 const helpers   = require('yeoman-test');
 const {file, noFile, fileContent, noFileContent} = require('yeoman-assert');
 const Generator = require('yeoman-generator');
@@ -71,17 +71,6 @@ describe('Default generator', function() {
                 fileContent('config/.eslintrc.js', 'es6: true,');
                 fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
             }));
-        it('all prompts TRUE (--use-browserify)', () => helpers.run(join(__dirname, '../generators/app'))
-            .withOptions(merge({}, SKIP_INSTALL, {'use-browserify': true}))
-            .withPrompts(ALL_TRUE)
-            .toPromise()
-            .then(() => {
-                verify();
-                fileContent(browserifyContent);
-                fileContent(ariaContent);
-                fileContent('Gruntfile.js', 'imagemin: ');
-
-            }));
         it('all prompts TRUE (--css-preprocessor sass)', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {cssPreprocessor: 'sass'}))
             .withPrompts(ALL_TRUE)
@@ -131,7 +120,7 @@ describe('Default generator', function() {
                 verify();
                 noFileContent('Gruntfile.js', 'imagemin: ');
             }));
-        it('select browserify via prompt', () => helpers.run(join(__dirname, '../generators/app'))
+        it('select Browserify via prompt', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(SKIP_INSTALL)
             .withPrompts(merge({}, ALL_TRUE, {moduleData: `CommonJS with ${yellow('Browserify')}`}))
             .toPromise()
@@ -140,6 +129,21 @@ describe('Default generator', function() {
                 fileContent(browserifyContent);
                 fileContent(ariaContent);
                 fileContent('Gruntfile.js', 'imagemin: ');
+
+            }));
+        it('select Webpack via prompt', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(SKIP_INSTALL)
+            .withPrompts(merge({}, ALL_TRUE, {moduleData: `CommonJS with ${blue('Webpack')}`}))
+            .toPromise()
+            .then(() => {
+                verify();
+                noFile('test/config.js');
+                noFileContent(browserifyContent);
+                fileContent(ariaContent);
+                fileContent('Gruntfile.js', 'imagemin: ');
+                file('config/webpack.config.js');
+                fileContent('Gruntfile.js', 'webpack: ');
+                fileContent('Gruntfile.js', 'uglify: ');
 
             }));
         it('select sass via prompt', () => helpers.run(join(__dirname, '../generators/app'))
@@ -199,7 +203,7 @@ describe('Default generator', function() {
                 verify();
                 file('config/webpack.config.js');
                 fileContent('Gruntfile.js', 'webpack: ');
-                fileContent('Gruntfile.js', 'uglify: ')
+                fileContent('Gruntfile.js', 'uglify: ');
                 noFileContent(browserifyContent);
             }));
         it('--defaults --css-preprocessor sass', () => helpers.run(join(__dirname, '../generators/app'))
