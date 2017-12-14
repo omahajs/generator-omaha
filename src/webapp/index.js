@@ -92,26 +92,27 @@ module.exports = class extends Generator {
     }
     prompting() {
         const generator = this;
-        const {options} = generator;
+        const {config, options} = generator;
         const {useBrowserify, useJest, useWebpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
         const isWebapp = true;
-        const moduleFormat = (useJest || useBrowserify || useWebpack) ? 'commonjs' : 'amd';
-        const useAmd = (moduleFormat === 'amd');
-        generator.moduleFormat = moduleFormat;
+        const bundlerData = {};
         if (options.defaults) {
             const done = this.async();
             generator.use = webapp.defaults;
-            assign(generator, generator.use, {
-                moduleFormat,
-                useAmd,
+            const moduleFormat = (useJest || useBrowserify || useWebpack) ? 'commonjs' : 'amd';
+            const useAmd = (moduleFormat === 'amd');
+            assign(bundlerData, {moduleFormat, useAmd,
                 useBrowserify: (useBrowserify || !(useAmd || useWebpack)), // Browserify is default
-                useJest:       (useJest || useWebpack),
-                useLess:       options.cssPreprocessor === 'less',
-                useSass:       options.cssPreprocessor === 'sass',
-                useHandlebars: options.templateTechnology === 'handlebars',
                 useWebpack:    useWebpack
             });
+            assign(generator, generator.use, bundlerData, {
+                useJest:       (useJest || useWebpack), // Jest is ONLY an option and does not need to be saved via config
+                useLess:       options.cssPreprocessor === 'less',
+                useSass:       options.cssPreprocessor === 'sass',
+                useHandlebars: options.templateTechnology === 'handlebars'
+            });
+            config.set(bundlerData);
             done();
         } else {
             return generator.prompt(webapp.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
@@ -122,15 +123,21 @@ module.exports = class extends Generator {
                 const SCRIPT_BUNDLER = parseModuleData(generator.use.moduleData)[1].toLowerCase();
                 const CSS_PREPROCESSOR = USE_DEFAULT_CSS_PREPROCESSOR ? generator.use.cssPreprocessor.toLowerCase() : cssPreprocessor;
                 const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? generator.use.templateTechnology.toLowerCase() : templateTechnology;
-                assign(generator, {
-                    useAmd,
-                    useBrowserify: (SCRIPT_BUNDLER === 'browserify') || !(useAmd || useWebpack), // Browserify is default
-                    useJest:       (useJest || useWebpack),
+                const USE_BROWSERIFY = (SCRIPT_BUNDLER === 'browserify');
+                const USE_WEBPACK = (SCRIPT_BUNDLER === 'webpack');
+                const moduleFormat = (SCRIPT_BUNDLER === 'rjs') ? 'amd' : 'commonjs';
+                const useAmd = (moduleFormat === 'amd');
+                assign(bundlerData, {moduleFormat, useAmd,
+                    useBrowserify: USE_BROWSERIFY || !(useAmd || USE_WEBPACK), // Browserify is default
+                    useWebpack:    USE_WEBPACK
+                });
+                assign(generator, bundlerData, {
+                    useJest:       (useJest || useWebpack), // Jest is ONLY an option and does not need to be saved via config
                     useLess:       (CSS_PREPROCESSOR === 'less'),
                     useSass:       (CSS_PREPROCESSOR === 'sass'),
-                    useHandlebars: (TEMPLATE_TECHNOLOGY === 'handlebars'),
-                    useWebpack:    (SCRIPT_BUNDLER === 'webpack')
+                    useHandlebars: (TEMPLATE_TECHNOLOGY === 'handlebars')
                 });
+                config.set(bundlerData);
             }.bind(generator));
         }
     }
@@ -149,7 +156,7 @@ module.exports = class extends Generator {
             useImagemin:     use.imagemin && !skipImagemin,
             userName:        config.get('userName') || user.git.name()
         });
-        const {sourceDirectory, useAria, useAmd, useHandlebars, useJest, useImagemin} = generator;
+        const {sourceDirectory, useAmd, useAria, useHandlebars, useJest, useImagemin, useWebpack} = generator;
         const appDirectory = `${sourceDirectory}app/`;
         const assetsDirectory = `${sourceDirectory}assets/`;
         const type = resolveCssPreprocessor(this);
@@ -161,6 +168,19 @@ module.exports = class extends Generator {
             ['tasks/webapp.js', 'tasks/webapp.js']
         ].concat(// optional dependencies
             maybeInclude(useAmd, [['_config.js', `${appDirectory}config.js`]])
+        ).concat(// conditional dependencies
+            maybeInclude(useAmd,
+                [
+                    ['test/config.js', 'test/config.js'],
+                    ['config/_karma.conf.amd.js', 'config/karma.conf.js']
+                ]
+            )
+        ).concat(
+            maybeInclude(!(useAmd || useJest || useWebpack),
+                [
+                    ['config/_karma.conf.cjs.js', 'config/karma.conf.js']
+                ]
+            )
         ).forEach(data => copyTpl(...data, generator));
         //
         // Write boilerplate files
@@ -244,7 +264,7 @@ module.exports = class extends Generator {
     }
     install() {
         const generator: WebappGenerator = this;
-        const {config, sourceDirectory, useAria, useBrowserify, useHandlebars, useImagemin, useJest, useLess, useSass} = generator;
+        const {config, sourceDirectory, useAmd, useAria, useBrowserify, useHandlebars, useImagemin, useJest, useLess, useSass} = generator;
         const type = resolveCssPreprocessor(generator);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
@@ -252,7 +272,6 @@ module.exports = class extends Generator {
         const configurePackageJson = flow(getPackageJsonAttributes, updatePackageJson).bind(generator);
         const placeholder = '/* -- load tasks placeholder -- */';
         const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
-        const useAmd = config.get('useAmd');
         const dependencies = [// always included
             'backbone',
             'backbone.marionette',

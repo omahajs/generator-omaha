@@ -50,63 +50,71 @@ module.exports = class extends Generator {
         const generator = this;
         const { config, options } = generator;
         const { defaults, skipBenchmark, skipCoveralls, skipJsinspect, useBrowserify, useJest, useWebpack } = options;
-        const isWebapp = config.get('isWebapp');
         const isUnAnswered = option => !!!options[option.name] || options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults;
-        const moduleFormat = useJest || useBrowserify || useWebpack ? 'commonjs' : 'amd';
+        const isWebapp = config.get('isWebapp');
+        const isNative = config.get('isNative');
+        const USE_BROWSERIFY = useBrowserify === true || config.get('useBrowserify');
+        const USE_WEBPACK = useWebpack === true || config.get('useWebpack');
+        const moduleFormat = useJest || USE_BROWSERIFY || USE_WEBPACK ? 'commonjs' : 'amd';
         const useAmd = moduleFormat === 'amd';
-        assign(generator, {
+        const bundlerData = {
             moduleFormat,
             useAmd,
-            useBrowserify,
-            useWebpack,
-            useJest: useJest || useWebpack,
+            useWebpack: useWebpack === true || config.get('useWebpack')
+        };
+        assign(generator, bundlerData, {
             use: project.defaults,
+            useJest: useJest || useWebpack,
             userName: config.get('userName')
         });
         !config.get('hideBanner') && generator.log(banner);
         if (defaults) {
             const done = this.async();
             const { projectName, sourceDirectory } = generator.use;
-            generator.projectName = projectName;
-            generator.sourceDirectory = !/\/$/.test(sourceDirectory) ? `${sourceDirectory}/` : sourceDirectory;
+            const SOURCE_DIRECTORY = isNative ? 'renderer/' : !/\/$/.test(sourceDirectory) ? `${sourceDirectory}/` : sourceDirectory;
             assign(generator, {
+                projectName,
+                sourceDirectory: SOURCE_DIRECTORY,
                 useBenchmark: generator.use.benchmark && !skipBenchmark,
                 useCoveralls: generator.use.coveralls && !skipCoveralls,
                 useJsinspect: generator.use.jsinspect && !skipJsinspect
             });
+            config.set({ sourceDirectory: SOURCE_DIRECTORY });
+            config.set(bundlerData);
             done();
         } else {
             return generator.prompt(project.getQuestions(isWebapp).filter(isUnAnswered)).then(function (answers) {
                 generator.use = answers;
-                generator.projectName = answers.projectName;
-                generator.sourceDirectory = !/\/$/.test(answers.sourceDirectory) ? `${answers.sourceDirectory}/` : answers.sourceDirectory;
+                const { projectName, sourceDirectory } = generator.use;
+                const SOURCE_DIRECTORY = isNative ? 'renderer/' : !/\/$/.test(sourceDirectory) ? `${sourceDirectory}/` : sourceDirectory;
                 assign(generator, {
+                    projectName,
+                    sourceDirectory: SOURCE_DIRECTORY,
                     useBenchmark: generator.use.benchmark && !skipBenchmark,
                     useCoveralls: generator.use.coveralls && !skipCoveralls,
                     useJsinspect: generator.use.jsinspect && !skipJsinspect
                 });
+                config.set({ sourceDirectory: SOURCE_DIRECTORY });
+                config.set(bundlerData);
             }.bind(generator));
         }
     }
     writing() {
         const generator = this;
         const { config, sourceDirectory, useJest } = generator;
-        const isNative = config.get('isNative');
         const isWebapp = config.get('isWebapp');
-        const hasRenderer = isNative && isWebapp;
-        assign(generator, {
-            sourceDirectory: hasRenderer ? 'renderer/' : sourceDirectory
+        const { projectName, useBenchmark, useCoveralls, useJsinspect } = generator;
+        const useWebpack = config.get('useWebpack');
+        config.set({
+            projectName,
+            sourceDirectory,
+            useBenchmark,
+            useCoveralls,
+            useJsinspect
         });
-        const { projectName, useAmd, useBenchmark, useCoveralls, useJsinspect, useWebpack } = generator;
-        config.set('sourceDirectory', generator.sourceDirectory);
-        config.set('projectName', projectName);
-        config.set('useBenchmark', useBenchmark);
-        config.set('useCoveralls', useCoveralls);
-        config.set('useJsinspect', useJsinspect);
         mkdirp(generator.sourceDirectory);
         const defaultTemplateData = [['_README.md', 'README.md'], ['_LICENSE', 'LICENSE'], ['_package.json', 'package.json'], ['config/_gitignore', '.gitignore'], ['config/_default.json', 'config/default.json']];
-        const webappTemplateData = [['_Gruntfile.js', 'Gruntfile.js'], ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']].concat( // conditional dependencies
-        iff(useAmd, [['test/config.js', 'test/config.js'], ['config/_karma.conf.amd.js', 'config/karma.conf.js']])).concat(iff(!(useAmd || useJest || useWebpack), [['config/_karma.conf.cjs.js', 'config/karma.conf.js']]));
+        const webappTemplateData = [['_Gruntfile.js', 'Gruntfile.js'], ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']];
         const mochaTemplateData = [['test/mocha.opts', 'test/mocha.opts'], [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']];
         const jestTemplateData = [['test/jest/example.test.js', 'test/example.test.js']];
         const webpackTemplateData = [['config/_webpack.config.js', 'config/webpack.config.js']];

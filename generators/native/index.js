@@ -42,8 +42,8 @@ module.exports = class extends Generator {
     writing() {
         const generator = this;
         const { config } = generator;
-        config.set('sourceDirectory', 'renderer/');
-        const rendererIndexPath = config.get('isWebapp') ? 'app/index.html' : 'index.html';
+        const isWebapp = config.get('isWebapp');
+        const rendererIndexPath = isWebapp ? 'app/index.html' : 'index.html';
         copy('bin/preload.js', 'bin/preload.js', generator);
         copyTpl('_index.html', config.get('sourceDirectory') + rendererIndexPath, generator);
         copyTpl('_index.js', 'index.js', set(generator, 'rendererIndexPath', rendererIndexPath));
