@@ -103,7 +103,8 @@ module.exports = class extends Generator {
         const generator = this;
         const {config, sourceDirectory, useJest} = generator;
         const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
-        const {isWebapp, useWebpack} = config.getAll();
+        const {isWebapp, moduleFormat, useAmd, useWebpack} = config.getAll();
+        assign(generator, {moduleFormat});
         config.set({
             projectName,
             sourceDirectory,

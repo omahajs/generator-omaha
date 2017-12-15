@@ -1,7 +1,12 @@
 'use strict';
 
-const _      = require('lodash');
-const assert = require('yeoman-assert');
+const _ = require('lodash');
+const {
+    file,
+    fileContent,
+    noFile,
+    noFileContent
+} = require('yeoman-assert');
 
 const browserifyContent = [
     ['package.json', '"browser":'],
@@ -34,7 +39,9 @@ function verifyAmdFiles() {
     [
         'app/config.js',
         'app/controllers/example.webworker.js'
-    ].forEach(file => assert.file(file))
+    ].forEach(name => file(name));
+    fileContent('config/.eslintrc.js', 'amd: true,');
+    fileContent('config/.eslintrc.js', 'commonjs: false,');
 }
 function verifyCoreFiles() {
     const ALWAYS_INCLUDED = [
@@ -44,7 +51,7 @@ function verifyCoreFiles() {
         'config/stylelint.config.js',
         'tasks/webapp.js'
     ];
-    ALWAYS_INCLUDED.forEach(file => assert.file(file));
+    ALWAYS_INCLUDED.forEach(name => file(name));
 }
 function verifyNativeFiles(isWebapp) {
     const ALWAYS_INCLUDED = [
@@ -52,7 +59,7 @@ function verifyNativeFiles(isWebapp) {
         'index.js',
         isWebapp ? 'renderer/app/index.html' : 'renderer/index.html'
     ];
-    ALWAYS_INCLUDED.forEach(file => assert.file(file));
+    ALWAYS_INCLUDED.forEach(name => file(name));
 }
 function verifyBoilerplateFiles(sourceDirectory) {
     [
@@ -66,24 +73,21 @@ function verifyBoilerplateFiles(sourceDirectory) {
         'app/plugins/redux.state.js',
         'app/shims/mn.morphdom.renderer.shim.js'
     ]
-        .concat(
-            // useAmd ? ['app/config.js', 'app/controllers/example.webworker.js'] : []
-        )
         .map(fileName => sourceDirectory + fileName)
-        .forEach(file => assert.file(file));
+        .forEach(name => file(name));
 }
 function verifyDefaultConfiguration(sourceDirectory) {
     verifyCoreFiles();
     verifyLessConfigured(sourceDirectory);
-    assert.fileContent(ariaContent);
-    assert.fileContent('Gruntfile.js', 'imagemin: ');
-    assert.noFileContent(browserifyContent); // script bundler
-    assert.noFileContent('Gruntfile.js', 'jst'); // template technology
-    assert.fileContent('Gruntfile.js', 'handlebars');// template technology
+    fileContent(ariaContent);
+    fileContent('Gruntfile.js', 'imagemin: ');
+    noFileContent(browserifyContent); // script bundler
+    noFileContent('Gruntfile.js', 'jst'); // template technology
+    fileContent('Gruntfile.js', 'handlebars');// template technology
 }
 function verifyNativeConfiguration(isWebapp) {
     const startScript = isWebapp ? '"grunt compile && electron index"' : '"electron index"';
-    assert.fileContent('package.json', `"start": ${startScript}`);
+    fileContent('package.json', `"start": ${startScript}`);
 }
 function verifyDefaultTasksConfiguration() {
     var defaultTaskConfigs = [
@@ -98,7 +102,7 @@ function verifyDefaultTasksConfiguration() {
         ['Gruntfile.js', 'configFile: \'<%= files.config.eslint %>\''], // eslint task
         ['Gruntfile.js', 'eslint: require(config.files.config.eslint)']// plato task
     ];
-    assert.fileContent(defaultTaskConfigs);
+    fileContent(defaultTaskConfigs);
 }
 function verifyPreprocessorConfigured(type, sourceDirectory) {
     var EXT_LOOKUP = {
@@ -112,10 +116,10 @@ function verifyPreprocessorConfigured(type, sourceDirectory) {
         .head();
     var notExt = EXT_LOOKUP[notType];
     var customPath = sourceDirectory || '';
-    assert.fileContent('Gruntfile.js', 'postcss: ');
-    assert.file(`${customPath}assets/${type}/reset.${ext}`);
-    assert.file(`${customPath}assets/${type}/style.${ext}`);
-    assert.fileContent('Gruntfile.js', `${type}: `);
-    assert.noFile(`${customPath}assets/${notType}/style.${notExt}`);
-    assert.noFileContent('Gruntfile.js', `${notType}: `);
+    fileContent('Gruntfile.js', 'postcss: ');
+    file(`${customPath}assets/${type}/reset.${ext}`);
+    file(`${customPath}assets/${type}/style.${ext}`);
+    fileContent('Gruntfile.js', `${type}: `);
+    noFile(`${customPath}assets/${notType}/style.${notExt}`);
+    noFileContent('Gruntfile.js', `${notType}: `);
 }

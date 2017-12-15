@@ -24,7 +24,6 @@ const browserifyContent = [
     ['package.json', '"browserify":'],
     ['package.json', '"aliasify":'],
     ['Gruntfile.js', 'browserify']
-    // ['Gruntfile.js', 'uglify:']
 ];
 const ariaContent = [
     ['Gruntfile.js', 'a11y: '],
@@ -64,10 +63,11 @@ describe('Default generator', function() {
             .withPrompts(ALL_TRUE)
             .toPromise()
             .then(() => {
+                verifyAmdFiles(),
                 verifyBoilerplateFiles('./');
                 verifyDefaultConfiguration();
                 verifyDefaultTasksConfiguration();
-                file('app/helpers/handlebars.helpers.js')
+                file('app/helpers/handlebars.helpers.js');
                 fileContent('config/.eslintrc.js', 'es6: true,');
                 fileContent('config/.eslintrc.js', 'backbone/defaults-on-top');
             }));
@@ -129,7 +129,9 @@ describe('Default generator', function() {
                 fileContent(browserifyContent);
                 fileContent(ariaContent);
                 fileContent('Gruntfile.js', 'imagemin: ');
-
+                fileContent('Gruntfile.js', 'uglify: ');
+                fileContent('config/.eslintrc.js', 'amd: false,');
+                fileContent('config/.eslintrc.js', 'commonjs: true,');
             }));
         it('select Webpack via prompt', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(SKIP_INSTALL)
@@ -140,11 +142,12 @@ describe('Default generator', function() {
                 noFile('test/config.js');
                 noFileContent(browserifyContent);
                 fileContent(ariaContent);
-                fileContent('Gruntfile.js', 'imagemin: ');
                 file('config/webpack.config.js');
+                fileContent('Gruntfile.js', 'imagemin: ');
                 fileContent('Gruntfile.js', 'webpack: ');
                 fileContent('Gruntfile.js', 'uglify: ');
-
+                fileContent('config/.eslintrc.js', 'amd: false,');
+                fileContent('config/.eslintrc.js', 'commonjs: true,');
             }));
         it('select sass via prompt', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(SKIP_INSTALL)

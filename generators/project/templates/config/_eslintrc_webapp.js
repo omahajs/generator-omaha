@@ -1,7 +1,7 @@
 module.exports = {
     env: {
         amd: <%= (moduleFormat === 'amd') %>,
-        commonjs: <%= (moduleFormat === 'commonjs') %>,
+        commonjs: <%= (moduleFormat !== 'amd') %>,
         es6: true,
         browser: true,
         jquery: true,
