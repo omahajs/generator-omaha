@@ -81,23 +81,23 @@ module.exports = class extends Generator {
         const { useBrowserify, useJest, useWebpack } = options;
         const isUnAnswered = option => !!!options[option.name] || options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults;
         const isWebapp = true;
-        const bundlerData = {};
         if (options.defaults) {
             const done = this.async();
             generator.use = webapp.defaults;
             const moduleFormat = useJest || useBrowserify || useWebpack ? 'commonjs' : 'amd';
             const useAmd = moduleFormat === 'amd';
-            assign(bundlerData, { moduleFormat, useAmd,
+            const settings = {
+                moduleFormat,
+                useAmd,
                 useBrowserify: useBrowserify || !(useAmd || useWebpack), // Browserify is default
-                useWebpack: useWebpack
-            });
-            assign(generator, generator.use, bundlerData, {
+                useWebpack: useWebpack,
                 useJest: useJest || useWebpack, // Jest is ONLY an option and does not need to be saved via config
                 useLess: options.cssPreprocessor === 'less',
                 useSass: options.cssPreprocessor === 'sass',
                 useHandlebars: options.templateTechnology === 'handlebars'
-            });
-            config.set(bundlerData);
+            };
+            assign(generator, generator.use, settings);
+            config.set(settings);
             done();
         } else {
             return generator.prompt(webapp.getQuestions(isWebapp).filter(isUnAnswered)).then(function (answers) {
@@ -112,17 +112,18 @@ module.exports = class extends Generator {
                 const USE_WEBPACK = SCRIPT_BUNDLER === 'webpack';
                 const moduleFormat = SCRIPT_BUNDLER === 'rjs' ? 'amd' : 'commonjs';
                 const useAmd = moduleFormat === 'amd';
-                assign(bundlerData, { moduleFormat, useAmd,
+                const settings = {
+                    moduleFormat,
+                    useAmd,
                     useBrowserify: USE_BROWSERIFY || !(useAmd || USE_WEBPACK), // Browserify is default
-                    useWebpack: USE_WEBPACK
-                });
-                assign(generator, bundlerData, {
+                    useWebpack: USE_WEBPACK,
                     useJest: useJest || useWebpack, // Jest is ONLY an option and does not need to be saved via config
                     useLess: CSS_PREPROCESSOR === 'less',
                     useSass: CSS_PREPROCESSOR === 'sass',
                     useHandlebars: TEMPLATE_TECHNOLOGY === 'handlebars'
-                });
-                config.set(bundlerData);
+                };
+                assign(generator, settings);
+                config.set(settings);
             }.bind(generator));
         }
     }
@@ -282,8 +283,7 @@ function getPackageJsonAttributes() {
 }
 function getScripts(generator) {
     const { config, isNative, useAmd, useJest } = generator;
-    const useCoveralls = config.get('useCoveralls');
-    const useJsinspect = config.get('useJsinspect');
+    const { useCoveralls, useJsinspect } = config.getAll();
     const scripts = {
         lint: 'grunt eslint:src',
         'lint:watch': 'grunt eslint:ing watch:eslint',
@@ -334,10 +334,8 @@ function getScripts(generator) {
     return scripts;
 }
 function getTasks(generator) {
-    const { config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass, useWebpack } = generator;
-    const useBenchmark = config.get('useBenchmark');
-    const useCoveralls = config.get('useCoveralls');
-    const useJsinspect = config.get('useJsinspect');
+    const { config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass } = generator;
+    const { useBenchmark, useCoveralls, useJsinspect, useWebpack } = config.getAll();
     return [// Tasks enabled by default
     'browserSync', 'clean', 'copy', 'eslint', 'htmlmin', 'htmlhintplus', 'jsdoc', 'jsonlint', 'karma', 'open', 'plato', 'replace', 'requirejs', 'watch'].concat( // Project tasks enabled by user
     maybeInclude(useBenchmark, 'benchmark'), maybeInclude(useCoveralls, 'coveralls'), maybeInclude(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user

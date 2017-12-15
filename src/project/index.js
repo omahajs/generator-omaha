@@ -52,23 +52,22 @@ module.exports = class extends Generator {
         const {config, options} = generator;
         const {defaults, skipBenchmark, skipCoveralls, skipJsinspect, useBrowserify, useJest, useWebpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
-        const isWebapp = config.get('isWebapp');
-        const isNative = config.get('isNative');
-        const USE_BROWSERIFY = (useBrowserify === true) || config.get('useBrowserify');
-        const USE_WEBPACK = (useWebpack === true) || config.get('useWebpack');
+        const {hideBanner, isWebapp, isNative, userName} = config.getAll();
+        const USE_BROWSERIFY = (useBrowserify === true) || !!config.get('useBrowserify');
+        const USE_WEBPACK = (useWebpack === true) || !!config.get('useWebpack');
         const moduleFormat = (useJest || USE_BROWSERIFY || USE_WEBPACK) ? 'commonjs' : 'amd';
         const useAmd = (moduleFormat === 'amd');
         const bundlerData = {
             moduleFormat,
             useAmd,
-            useWebpack: (useWebpack === true) || config.get('useWebpack')
+            useWebpack: USE_WEBPACK
         };
         assign(generator, bundlerData, {
+            userName,
             use: project.defaults,
-            useJest: (useJest || useWebpack),
-            userName: config.get('userName')
+            useJest: (useJest || USE_WEBPACK),
         });
-        !config.get('hideBanner') && generator.log(banner);
+        hideBanner || generator.log(banner);
         if (defaults) {
             const done = this.async();
             const {projectName, sourceDirectory} = generator.use;
@@ -103,9 +102,8 @@ module.exports = class extends Generator {
     writing() {
         const generator = this;
         const {config, sourceDirectory, useJest} = generator;
-        const isWebapp = config.get('isWebapp');
         const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
-        const useWebpack = config.get('useWebpack');
+        const {isWebapp, useWebpack} = config.getAll();
         config.set({
             projectName,
             sourceDirectory,
@@ -147,9 +145,9 @@ module.exports = class extends Generator {
     }
     install() {
         const generator = this;
-        const {config, useBenchmark, useCoveralls, useJest, useJsinspect, useWebpack} = generator;
+        const {config, useBenchmark, useCoveralls, useJest, useJsinspect} = generator;
+        const {isWebapp, useWebpack} = config.getAll();
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
-        const isWebapp = config.get('isWebapp');
         const isNotWindows = ['linux', 'freebsd'].includes(process.platform);
         const karmaDependencies = [
             'karma',
@@ -222,7 +220,8 @@ function getJestConfig(generator) {
     };
 }
 function getScripts(generator) {
-    const {useBenchmark, useCoveralls, useJest, useWebpack} = generator;
+    const {config, useBenchmark, useCoveralls, useJest} = generator;
+    const useWebpack = config.get('useWebpack');
     const scripts = {coverage: 'nyc report -r text'};
     if (useBenchmark) {
         assign(scripts, {
