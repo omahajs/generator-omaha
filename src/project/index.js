@@ -162,11 +162,13 @@ module.exports = class extends Generator {
         ];
         const devDependencies = [].concat(
             iff(isNotWindows, 'stmux'),
-            iff(isWebapp && useCoveralls, 'grunt-karma-coveralls', 'coveralls'),
-            iff(isWebapp && useJsinspect, ['jsinspect', 'grunt-jsinspect'], 'jsinspect'),
             iff(isWebapp && useWebpack, 'grunt-webpack'),
             iff(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']),
+            iff(useCoveralls, 'coveralls'),
+            iff(useCoveralls && isWebapp, 'grunt-karma-coveralls'),
             iff(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]),
+            iff(useJsinspect, 'jsinspect'),
+            iff(useJsinspect && isWebapp, ['jsinspect', 'grunt-jsinspect']),
             iff(useWebpack, ['webpack', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader'])
         );
         generator.npmInstall();
