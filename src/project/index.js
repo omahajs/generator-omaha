@@ -1,4 +1,6 @@
 /* @flow */
+import type {ProjectGenerator} from '../types';
+
 const {assign, partial, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
 const Generator = require('yeoman-generator');
@@ -48,7 +50,7 @@ module.exports = class extends Generator {
         config.set('userName', user.git.name() ? user.git.name() : 'A. Developer');
     }
     prompting() {
-        const generator = this;
+        const generator: ProjectGenerator = this;
         const {config, options} = generator;
         const {defaults, skipBenchmark, skipCoveralls, skipJsinspect, useBrowserify, useJest, useWebpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
@@ -65,7 +67,7 @@ module.exports = class extends Generator {
         assign(generator, bundlerData, {
             userName,
             use: project.defaults,
-            useJest: (useJest || USE_WEBPACK),
+            useJest: (useJest || USE_WEBPACK)
         });
         hideBanner || generator.log(banner);
         if (defaults) {
@@ -103,7 +105,7 @@ module.exports = class extends Generator {
         const generator = this;
         const {config, sourceDirectory, useJest} = generator;
         const {projectName, useBenchmark, useCoveralls, useJsinspect} = generator;
-        const {isWebapp, moduleFormat, useAmd, useWebpack} = config.getAll();
+        const {isWebapp, moduleFormat, useWebpack} = config.getAll();
         assign(generator, {moduleFormat});
         config.set({
             projectName,
@@ -145,7 +147,7 @@ module.exports = class extends Generator {
         copyTpl('test/data/**/*.*', 'test/data', generator);
     }
     install() {
-        const generator = this;
+        const generator: ProjectGenerator = this;
         const {config, useBenchmark, useCoveralls, useJest, useJsinspect} = generator;
         const {isWebapp, useWebpack} = config.getAll();
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
@@ -214,7 +216,7 @@ module.exports = class extends Generator {
         config.get('isComposed') || log(footer(this));
     }
 };
-function getJestConfig(generator) {
+function getJestConfig(generator: ProjectGenerator) {
     const {useJest} = generator;
     return !useJest ? {} : {
         jest: {
@@ -222,7 +224,7 @@ function getJestConfig(generator) {
         }
     };
 }
-function getScripts(generator) {
+function getScripts(generator: ProjectGenerator) {
     const {config, useBenchmark, useCoveralls, useJest} = generator;
     const useWebpack = config.get('useWebpack');
     const scripts = {coverage: 'nyc report -r text'};

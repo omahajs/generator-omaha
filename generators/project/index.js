@@ -1,4 +1,7 @@
+
+
 const { assign, partial, pick } = require('lodash');
+
 const { mkdirp, readFileSync, writeFileSync } = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
@@ -102,7 +105,7 @@ module.exports = class extends Generator {
         const generator = this;
         const { config, sourceDirectory, useJest } = generator;
         const { projectName, useBenchmark, useCoveralls, useJsinspect } = generator;
-        const { isWebapp, moduleFormat, useAmd, useWebpack } = config.getAll();
+        const { isWebapp, moduleFormat, useWebpack } = config.getAll();
         assign(generator, { moduleFormat });
         config.set({
             projectName,

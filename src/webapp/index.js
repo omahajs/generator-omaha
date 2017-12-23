@@ -1,19 +1,5 @@
 /* @flow */
-type WebappGenerator = {
-    config: any,
-    destinationPath: (path: string) => string,
-    npmInstall: (dependencies: string[], options?: {save?: boolean, saveDev?: boolean}) => void,
-    sourceDirectory: string,
-    isNative?: boolean,
-    useAmd?: boolean,
-    useAria?: boolean,
-    useBrowserify?: boolean,
-    useHandlebars?: boolean,
-    useImagemin?: boolean,
-    useJest?: boolean,
-    useLess?: boolean,
-    useSass?: boolean
-};
+import type {WebappGenerator} from '../types';
 
 const {assign, flow, partial, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
