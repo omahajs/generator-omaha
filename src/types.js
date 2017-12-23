@@ -24,7 +24,11 @@ export type WebappGenerator = {
     config: any,
     destinationPath: (path: string) => string,
     npmInstall: (dependencies: string[], options?: {save?: boolean, saveDev?: boolean}) => void,
+    options: any,
     sourceDirectory: string,
+    use: {
+        moduleData: string
+    },
     isNative: boolean,
     useAmd: boolean,
     useAria: boolean,
