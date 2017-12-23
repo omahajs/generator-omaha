@@ -1,19 +1,5 @@
 /* @flow */
-type WebappGenerator = {
-    config: any,
-    destinationPath: (path: string) => string,
-    npmInstall: (dependencies: string[], options?: {save?: boolean, saveDev?: boolean}) => void,
-    sourceDirectory: string,
-    isNative?: boolean,
-    useAmd?: boolean,
-    useAria?: boolean,
-    useBrowserify?: boolean,
-    useHandlebars?: boolean,
-    useImagemin?: boolean,
-    useJest?: boolean,
-    useLess?: boolean,
-    useSass?: boolean
-};
+import type {WebappGenerator} from '../types';
 
 const {assign, flow, partial, pick} = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
@@ -77,9 +63,20 @@ const CSS_PREPROCESSOR_EXT_LOOKUP = {
     none: 'css'
 };
 
-function resolveCssPreprocessor(generator) {
-    return generator.useLess ? 'less' : (generator.useSass ? 'sass' : 'none');
-}
+const getModuleFormat = (generator: WebappGenerator) => {
+    const {options} = generator;
+    const {useBrowserify, useJest, useWebpack} = options;
+    return (useJest || useBrowserify || useWebpack) ? 'commonjs' : 'amd';
+};
+const getScriptBundler = (generator: WebappGenerator) => parseModuleData(generator.use.moduleData)[1].toLowerCase();
+const useDefaultScriptBundler = (generator: WebappGenerator) => {
+    const scriptBundler = getScriptBundler(generator);
+    const moduleFormat = (scriptBundler !== 'rjs') ? 'commonjs' : 'amd';
+    const useWebpack = (scriptBundler === 'webpack');
+    const useAmd = (moduleFormat === 'amd');
+    return !(useAmd || useWebpack);
+};
+const resolveCssPreprocessor = (generator: WebappGenerator) => generator.useLess ? 'less' : (generator.useSass ? 'sass' : 'none');
 
 module.exports = class extends Generator {
     constructor(args: any, opts: any) {
@@ -98,7 +95,7 @@ module.exports = class extends Generator {
         if (options.defaults) {
             const done = this.async();
             generator.use = webapp.defaults;
-            const moduleFormat = (useJest || useBrowserify || useWebpack) ? 'commonjs' : 'amd';
+            const moduleFormat = getModuleFormat(generator);
             const useAmd = (moduleFormat === 'amd');
             const settings = {
                 moduleFormat,
@@ -119,9 +116,9 @@ module.exports = class extends Generator {
                 const {cssPreprocessor, templateTechnology} = options;
                 const USE_DEFAULT_CSS_PREPROCESSOR = (cssPreprocessor === COMMAND_LINE_OPTIONS.cssPreprocessor.defaults);
                 const USE_DEFAULT_TEMPLATE_RENDERER = (templateTechnology === COMMAND_LINE_OPTIONS.templateTechnology.defaults);
-                const SCRIPT_BUNDLER = parseModuleData(generator.use.moduleData)[1].toLowerCase();
                 const CSS_PREPROCESSOR = USE_DEFAULT_CSS_PREPROCESSOR ? generator.use.cssPreprocessor.toLowerCase() : cssPreprocessor;
                 const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? generator.use.templateTechnology.toLowerCase() : templateTechnology;
+                const SCRIPT_BUNDLER = parseModuleData(generator.use.moduleData)[1].toLowerCase();
                 const USE_BROWSERIFY = (SCRIPT_BUNDLER === 'browserify');
                 const USE_WEBPACK = (SCRIPT_BUNDLER === 'webpack');
                 const moduleFormat = (SCRIPT_BUNDLER === 'rjs') ? 'amd' : 'commonjs';
@@ -129,7 +126,7 @@ module.exports = class extends Generator {
                 const settings = {
                     moduleFormat,
                     useAmd,
-                    useBrowserify: USE_BROWSERIFY || !(useAmd || USE_WEBPACK), // Browserify is default
+                    useBrowserify: USE_BROWSERIFY || useDefaultScriptBundler(generator), // Browserify is default
                     useWebpack:    USE_WEBPACK,
                     useJest:       (useJest || useWebpack), // Jest is ONLY an option and does not need to be saved via config
                     useLess:       (CSS_PREPROCESSOR === 'less'),
