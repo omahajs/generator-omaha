@@ -39,6 +39,34 @@ const COMMAND_LINE_OPTIONS = {
     }
 };
 
+const showBanner = (generator: ProjectGenerator, banner: string) => {
+    const hideBanner = generator.config.get('hideBanner');
+    hideBanner || generator.log(banner);
+};
+const getSourceDirectory = (generator: ProjectGenerator, dir: string) => {
+    const isNative = generator.config.get('isNative');
+    return isNative ? 'renderer/' : (!/\/$/.test(dir)) ? `${dir }/` : dir;
+};
+const getProjectVariables = (generator: ProjectGenerator) => {
+    const {options, use} = generator;
+    const {projectName, sourceDirectory} = use;
+    const {skipBenchmark, skipCoveralls, skipJsinspect} = options;
+    return {
+        projectName,
+        sourceDirectory: getSourceDirectory(generator, sourceDirectory),
+        useBenchmark:    use.benchmark && !skipBenchmark,
+        useCoveralls:    use.coveralls && !skipCoveralls,
+        useJsinspect:    use.jsinspect && !skipJsinspect
+    };
+};
+const getModuleFormat = (generator: ProjectGenerator) => {
+    const {config, options} = generator;
+    const {useBrowserify, useJest, useWebpack} = options;
+    const USE_BROWSERIFY = (useBrowserify === true) || !!config.get('useBrowserify');
+    const USE_WEBPACK = (useWebpack === true) || !!config.get('useWebpack');
+    return (useJest || USE_BROWSERIFY || USE_WEBPACK) ? 'commonjs' : 'amd';
+};
+
 module.exports = class extends Generator {
     constructor(args: any, opts: any) {
         super(args, opts);
@@ -50,54 +78,41 @@ module.exports = class extends Generator {
         config.set('userName', user.git.name() ? user.git.name() : 'A. Developer');
     }
     prompting() {
+        showBanner(this, banner);
         const generator: ProjectGenerator = this;
         const {config, options} = generator;
-        const {defaults, skipBenchmark, skipCoveralls, skipJsinspect, useBrowserify, useJest, useWebpack} = options;
+        const {isWebapp, userName} = config.getAll();
+        const {defaults, useJest, useWebpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
-        const {hideBanner, isWebapp, isNative, userName} = config.getAll();
-        const USE_BROWSERIFY = (useBrowserify === true) || !!config.get('useBrowserify');
         const USE_WEBPACK = (useWebpack === true) || !!config.get('useWebpack');
-        const moduleFormat = (useJest || USE_BROWSERIFY || USE_WEBPACK) ? 'commonjs' : 'amd';
+        const USE_JEST = (useJest || USE_WEBPACK);
+        const moduleFormat = getModuleFormat(generator);
         const useAmd = (moduleFormat === 'amd');
         const bundlerData = {
             moduleFormat,
             useAmd,
             useWebpack: USE_WEBPACK
         };
+        config.set(bundlerData);
         assign(generator, bundlerData, {
             userName,
             use: project.defaults,
-            useJest: (useJest || USE_WEBPACK)
+            useJest: USE_JEST
         });
-        hideBanner || generator.log(banner);
         if (defaults) {
             const done = this.async();
-            const {projectName, sourceDirectory} = generator.use;
-            const SOURCE_DIRECTORY = isNative ? 'renderer/' : (!/\/$/.test(sourceDirectory)) ? `${sourceDirectory }/` : sourceDirectory;
-            assign(generator, {
-                projectName,
-                sourceDirectory: SOURCE_DIRECTORY,
-                useBenchmark:    generator.use.benchmark && !skipBenchmark,
-                useCoveralls:    generator.use.coveralls && !skipCoveralls,
-                useJsinspect:    generator.use.jsinspect && !skipJsinspect
+            assign(generator, getProjectVariables(generator));
+            config.set({
+                sourceDirectory: generator.sourceDirectory
             });
-            config.set({sourceDirectory: SOURCE_DIRECTORY});
-            config.set(bundlerData);
             done();
         } else {
             return generator.prompt(project.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
-                const {projectName, sourceDirectory} = generator.use;
-                const SOURCE_DIRECTORY = isNative ? 'renderer/' : (!/\/$/.test(sourceDirectory)) ? `${sourceDirectory }/` : sourceDirectory;
-                assign(generator, {
-                    projectName,
-                    sourceDirectory: SOURCE_DIRECTORY,
-                    useBenchmark: generator.use.benchmark && !skipBenchmark,
-                    useCoveralls: generator.use.coveralls && !skipCoveralls,
-                    useJsinspect: generator.use.jsinspect && !skipJsinspect
+                assign(generator, getProjectVariables(generator));
+                config.set({
+                    sourceDirectory: generator.sourceDirectory
                 });
-                config.set({sourceDirectory: SOURCE_DIRECTORY});
-                config.set(bundlerData);
             }.bind(generator));
         }
     }

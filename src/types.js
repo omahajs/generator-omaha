@@ -25,13 +25,13 @@ export type WebappGenerator = {
     destinationPath: (path: string) => string,
     npmInstall: (dependencies: string[], options?: {save?: boolean, saveDev?: boolean}) => void,
     sourceDirectory: string,
-    isNative?: boolean,
-    useAmd?: boolean,
-    useAria?: boolean,
-    useBrowserify?: boolean,
-    useHandlebars?: boolean,
-    useImagemin?: boolean,
-    useJest?: boolean,
-    useLess?: boolean,
-    useSass?: boolean
+    isNative: boolean,
+    useAmd: boolean,
+    useAria: boolean,
+    useBrowserify: boolean,
+    useHandlebars: boolean,
+    useImagemin: boolean,
+    useJest: boolean,
+    useLess: boolean,
+    useSass: boolean
 };
