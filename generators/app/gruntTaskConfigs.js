@@ -435,13 +435,15 @@ module.exports = {
      * Apply several post-processors to your CSS using PostCSS
      * @see {@link https://github.com/nDmitry/grunt-postcss}
     **/
-    postcss: function (sourceDirectory) {
+    postcss: function (sourceDirectory, useCssnext) {
         return `{
             options: {
                 parser: require('postcss-safe-parser'),
                 processors: [
                     require('autoprefixer')({browsers: 'last 2 versions'}),
                     require('stylelint')(),
+                    ${useCssnext ? `require('postcss-import')(),
+                    require('postcss-cssnext')({warnForDuplicates: false}),` : ''}
                     require('cssnano')(),
                     require('postcss-reporter')({clearReportedMessages: true})
                 ]

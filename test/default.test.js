@@ -160,7 +160,6 @@ describe('Default generator', function() {
             .toPromise()
             .then(() => {
                 verify();
-                noFile('assets/css/reset.css');
                 noFile('assets/less/style.less');
                 noFile('assets/sass/style.scss');
                 noFileContent('Gruntfile.js', 'sass: ');
@@ -218,7 +217,6 @@ describe('Default generator', function() {
             .toPromise()
             .then(() => {
                 verify();
-                noFile('assets/css/reset.css');
                 noFile('assets/less/style.less');
                 noFile('assets/sass/style.scss');
                 noFileContent('Gruntfile.js', 'sass: ');

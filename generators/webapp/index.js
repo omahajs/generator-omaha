@@ -175,8 +175,7 @@ module.exports = class extends Generator {
         copy('library/*', `${assetsDirectory}library`, generator);
         copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
         [].concat(maybeInclude(type === 'none', [[// No CSS pre-processor
-        '_style.css', 'css/style.css']], [[// Separate reset file (combined by pre-processor)
-        '_reset.css', `${type}/reset.${ext}`], [// Main style sheet
+        '_style.css', 'css/style.css']], [[// Main style sheet
         `_style.${ext}`, `${type}/style.${ext}`]]), [['example.template.hbs', 'templates/example.hbs']]).map(data => [data[0], `${assetsDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
     }
     install() {
@@ -193,7 +192,7 @@ module.exports = class extends Generator {
         'backbone', 'backbone.marionette', 'backbone.radio', 'jquery', 'lodash', 'morphdom', 'redux'].concat( // conditional dependencies
         maybeInclude(useHandlebars, 'handlebars'), maybeInclude(useAmd, 'requirejs'));
         const htmlDevDependencies = ['grunt-contrib-htmlmin', 'grunt-htmlhint-plus'];
-        const cssDevDependencies = ['grunt-postcss', 'autoprefixer', 'stylelint', 'cssnano', 'postcss-reporter', 'postcss-safe-parser', 'mdcss', 'mdcss-theme-github'];
+        const cssDevDependencies = ['grunt-postcss', 'autoprefixer', 'stylelint', 'cssnano', 'normalize.css', 'postcss-reporter', 'postcss-safe-parser', 'mdcss', 'mdcss-theme-github'].concat(maybeInclude(type === 'none', ['postcss-import', 'postcss-cssnext']));
         const requirejsDevDependencies = ['grunt-contrib-requirejs', 'karma-requirejs'];
         const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(maybeInclude(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul']));
         const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-eslint', 'grunt-express', 'grunt-jsdoc', 'grunt-jsonlint', 'grunt-open', 'grunt-parallel', 'grunt-plato', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(maybeInclude(!useJest, 'grunt-karma'));
@@ -266,7 +265,7 @@ module.exports = class extends Generator {
         //
         // Register custom grunt tasks
         //
-        gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory));
+        gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory, type === 'none'));
         useAria && gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
         gruntfile.registerTask('default', ['serve']);
         //
