@@ -11,10 +11,9 @@ const { project } = require('../app/prompts');
 const tasks = require('../app/gruntTaskConfigs');
 const {
     copyTpl,
+    maybeInclude: iff,
     json: { extend }
 } = require('../app/utils');
-
-const iff = (condition, data, defaultValue = []) => condition ? data : defaultValue;
 
 const COMMAND_LINE_OPTIONS = {
     defaults: {

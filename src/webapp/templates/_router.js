@@ -3,8 +3,7 @@
  * @author <%= userName %>
  * @module router
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require, exports) {
-<% } %>
+define(function(require, exports) {<% } %>
     'use strict';
 
     const Mn = require('backbone.marionette');

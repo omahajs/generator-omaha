@@ -5,6 +5,7 @@ const {join}       = require('path');
 const {unlinkSync} = require('fs');
 const {
     json,
+    maybeInclude,
     parseModuleData
 } = require('../generators/app/utils');
 
@@ -23,6 +24,14 @@ describe('Utilities Module', function() {
             'browserify',
             'webpack'
         ]);
+    });
+    it('can optionally return values', () => {
+        const result = [].concat(
+            maybeInclude(true, 'foo', 'bar'),
+            maybeInclude(false, 'a', 'b'),
+            maybeInclude(true, ['c', 'd'])
+        );
+        expect(result).toMatchSnapshot();
     });
 });
 describe('Generator JSON utility', () => {

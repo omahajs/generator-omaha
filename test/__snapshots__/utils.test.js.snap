@@ -12,3 +12,12 @@ Object {
   "foo": "bar",
 }
 `;
+
+exports[`Utilities Module can optionally return values 1`] = `
+Array [
+  "foo",
+  "b",
+  "c",
+  "d",
+]
+`;

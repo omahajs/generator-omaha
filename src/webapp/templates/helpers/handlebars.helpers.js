@@ -2,8 +2,7 @@
  * @file Helpers that augment Handlebars
  * @author Jason Wohlgemuth
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require) {
-<% } %>
+define(function(require) {<% } %>
     'use strict';
 
     var Handlebars = require('handlebars');

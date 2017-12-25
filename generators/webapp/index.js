@@ -10,8 +10,8 @@ const tasks = require('../app/gruntTaskConfigs');
 const {
     copy,
     copyTpl,
-    maybeInclude,
     parseModuleData,
+    maybeInclude: iff,
     json: { extend }
 } = require('../app/utils');
 
@@ -162,19 +162,19 @@ module.exports = class extends Generator {
         config.set('pluginDirectory', sourceDirectory);
         [// always included
         ['config/stylelint.config.js', 'config/stylelint.config.js'], ['tasks/webapp.js', 'tasks/webapp.js']].concat( // optional dependencies
-        maybeInclude(useAmd, [['_config.js', `${appDirectory}config.js`]])).concat( // conditional dependencies
-        maybeInclude(useAmd, [['test/config.js', 'test/config.js'], ['config/_karma.conf.amd.js', 'config/karma.conf.js']])).concat(maybeInclude(!(useAmd || useJest || useWebpack), [['config/_karma.conf.cjs.js', 'config/karma.conf.js']])).forEach(data => copyTpl(...data, generator));
+        iff(useAmd, [['_config.js', `${appDirectory}config.js`]])).concat( // conditional dependencies
+        iff(useAmd, [['test/config.js', 'test/config.js'], ['config/_karma.conf.amd.js', 'config/karma.conf.js']])).concat(iff(!(useAmd || useJest || useWebpack), [['config/_karma.conf.cjs.js', 'config/karma.conf.js']])).forEach(data => copyTpl(...data, generator));
         //
         // Write boilerplate files
         //
-        [].concat(maybeInclude(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]), maybeInclude(useAmd, [['example.webworker.js', 'controllers/example.webworker.js']]), [['helpers/jquery.extensions.js', 'helpers/jquery.extensions.js']], [['plugins/*.js', 'plugins']], [['shims/*.js', 'shims']], [['_index.html', 'index.html']], [['_app.js', 'app.js']], [['_main.js', 'main.js']], [['_router.js', 'router.js']], [['example.model.js', 'models/example.js']], [['example.view.js', 'views/example.js']], [['example.controller.js', 'controllers/example.js']]).map(data => [data[0], `${appDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
+        [].concat(iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]), iff(useAmd, [['example.webworker.js', 'controllers/example.webworker.js']]), [['helpers/jquery.extensions.js', 'helpers/jquery.extensions.js']], [['plugins/*.js', 'plugins']], [['shims/*.js', 'shims']], [['_index.html', 'index.html']], [['_app.js', 'app.js']], [['_main.js', 'main.js']], [['_router.js', 'router.js']], [['example.model.js', 'models/example.js']], [['example.view.js', 'views/example.js']], [['example.controller.js', 'controllers/example.js']]).map(data => [data[0], `${appDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
         //
         // Write assets files
         //
         ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${assetsDirectory}${path}`));
         copy('library/*', `${assetsDirectory}library`, generator);
         copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
-        [].concat(maybeInclude(type === 'none', [[// No CSS pre-processor
+        [].concat(iff(type === 'none', [[// No CSS pre-processor
         '_style.css', 'css/style.css']], [[// Main style sheet
         `_style.${ext}`, `${type}/style.${ext}`]]), [['example.template.hbs', 'templates/example.hbs']]).map(data => [data[0], `${assetsDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
     }
@@ -190,15 +190,15 @@ module.exports = class extends Generator {
         const loadTasks = 'grunt.loadTasks(config.folders.tasks);';
         const dependencies = [// always included
         'backbone', 'backbone.marionette', 'backbone.radio', 'jquery', 'lodash', 'morphdom', 'redux'].concat( // conditional dependencies
-        maybeInclude(useHandlebars, 'handlebars'), maybeInclude(useAmd, 'requirejs'));
+        iff(useHandlebars, 'handlebars'), iff(useAmd, 'requirejs'));
         const htmlDevDependencies = ['grunt-contrib-htmlmin', 'grunt-htmlhint-plus'];
-        const cssDevDependencies = ['grunt-postcss', 'autoprefixer', 'stylelint', 'cssnano', 'normalize.css', 'postcss-reporter', 'postcss-safe-parser', 'mdcss', 'mdcss-theme-github'].concat(maybeInclude(type === 'none', ['postcss-import', 'postcss-cssnext']));
+        const cssDevDependencies = ['grunt-postcss', 'autoprefixer', 'stylelint', 'cssnano', 'normalize.css', 'postcss-reporter', 'postcss-safe-parser', 'mdcss', 'mdcss-theme-github'].concat(iff(type === 'none', ['postcss-import', 'postcss-cssnext']));
         const requirejsDevDependencies = ['grunt-contrib-requirejs', 'karma-requirejs'];
-        const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(maybeInclude(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul']));
-        const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-eslint', 'grunt-express', 'grunt-jsdoc', 'grunt-jsonlint', 'grunt-open', 'grunt-parallel', 'grunt-plato', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(maybeInclude(!useJest, 'grunt-karma'));
+        const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(iff(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul']));
+        const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-eslint', 'grunt-express', 'grunt-jsdoc', 'grunt-jsonlint', 'grunt-open', 'grunt-parallel', 'grunt-plato', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(iff(!useJest, 'grunt-karma'));
         const workflowDependencies = ['babel-cli', 'babel-preset-env', 'config', 'eslint-plugin-backbone', 'fs-promise', 'globby', 'json-server'].concat( // conditional dependencies
-        maybeInclude(!useBrowserify, 'babel-preset-minify'), maybeInclude(!useJest, requirejsDevDependencies), ...gruntDependencies, ...htmlDevDependencies, ...cssDevDependencies);
-        const devDependencies = workflowDependencies.concat(maybeInclude(useBrowserify, browserifyDependencies), maybeInclude(useAria, ['grunt-a11y', 'grunt-accessibility']), maybeInclude(useImagemin, 'grunt-contrib-imagemin'), maybeInclude(useLess, 'grunt-contrib-less'), maybeInclude(useSass, 'grunt-contrib-sass'), maybeInclude(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst'));
+        iff(!useBrowserify, 'babel-preset-minify'), iff(!useJest, requirejsDevDependencies), ...gruntDependencies, ...htmlDevDependencies, ...cssDevDependencies);
+        const devDependencies = workflowDependencies.concat(iff(useBrowserify, browserifyDependencies), iff(useAria, ['grunt-a11y', 'grunt-accessibility']), iff(useImagemin, 'grunt-contrib-imagemin'), iff(useLess, 'grunt-contrib-less'), iff(useSass, 'grunt-contrib-sass'), iff(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst'));
         generator.npmInstall(dependencies, { save: true });
         generator.npmInstall(devDependencies, { saveDev: true });
         //
@@ -286,7 +286,7 @@ function getPackageJsonAttributes() {
     const scripts = getScripts(generator);
     const babel = {
         plugins: [],
-        presets: [['env', { modules: false }]].concat(maybeInclude(!useBrowserify, 'minify'))
+        presets: [['env', { modules: false }]].concat(iff(!useBrowserify, 'minify'))
     };
     const stylelint = { extends: './config/stylelint.config.js' };
     return { main, scripts, babel, stylelint };
@@ -348,6 +348,6 @@ function getTasks(generator) {
     const { useBenchmark, useCoveralls, useJsinspect, useWebpack } = config.getAll();
     return [// Tasks enabled by default
     'browserSync', 'clean', 'copy', 'eslint', 'htmlmin', 'htmlhintplus', 'jsdoc', 'jsonlint', 'karma', 'open', 'plato', 'replace', 'requirejs', 'watch'].concat( // Project tasks enabled by user
-    maybeInclude(useBenchmark, 'benchmark'), maybeInclude(useCoveralls, 'coveralls'), maybeInclude(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user
-    maybeInclude(useAria, ['a11y', 'accessibility']), maybeInclude(useBrowserify, 'browserify'), maybeInclude(useHandlebars, 'handlebars', 'jst'), maybeInclude(useImagemin, ['imagemin', 'copy']), maybeInclude(useLess, 'less'), maybeInclude(useSass, 'sass'), maybeInclude(useWebpack, 'webpack'), maybeInclude(useWebpack || useBrowserify, 'uglify'));
+    iff(useBenchmark, 'benchmark'), iff(useCoveralls, 'coveralls'), iff(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user
+    iff(useAria, ['a11y', 'accessibility']), iff(useBrowserify, 'browserify'), iff(useHandlebars, 'handlebars', 'jst'), iff(useImagemin, ['imagemin', 'copy']), iff(useLess, 'less'), iff(useSass, 'sass'), iff(useWebpack, 'webpack'), iff(useWebpack || useBrowserify, 'uglify'));
 }

@@ -6,8 +6,7 @@
  * @module app
  * @exports app
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require, exports, module) {
-<% } %>
+define(function(require, exports, module) {<% } %>
     'use strict';
 
     const Mn      = require('backbone.marionette');

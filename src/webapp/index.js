@@ -10,8 +10,8 @@ const tasks     = require('../app/gruntTaskConfigs');
 const {
     copy,
     copyTpl,
-    maybeInclude,
     parseModuleData,
+    maybeInclude: iff,
     json: {extend}
 } = require('../app/utils');
 
@@ -164,16 +164,16 @@ module.exports = class extends Generator {
             ['config/stylelint.config.js', 'config/stylelint.config.js'],
             ['tasks/webapp.js', 'tasks/webapp.js']
         ].concat(// optional dependencies
-            maybeInclude(useAmd, [['_config.js', `${appDirectory}config.js`]])
+            iff(useAmd, [['_config.js', `${appDirectory}config.js`]])
         ).concat(// conditional dependencies
-            maybeInclude(useAmd,
+            iff(useAmd,
                 [
                     ['test/config.js', 'test/config.js'],
                     ['config/_karma.conf.amd.js', 'config/karma.conf.js']
                 ]
             )
         ).concat(
-            maybeInclude(!(useAmd || useJest || useWebpack),
+            iff(!(useAmd || useJest || useWebpack),
                 [
                     ['config/_karma.conf.cjs.js', 'config/karma.conf.js']
                 ]
@@ -183,8 +183,8 @@ module.exports = class extends Generator {
         // Write boilerplate files
         //
         [].concat(
-            maybeInclude(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]),
-            maybeInclude(useAmd, [['example.webworker.js', 'controllers/example.webworker.js']]),
+            iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]),
+            iff(useAmd, [['example.webworker.js', 'controllers/example.webworker.js']]),
             [[
                 'helpers/jquery.extensions.js',
                 'helpers/jquery.extensions.js'
@@ -235,7 +235,7 @@ module.exports = class extends Generator {
         copy('library/*', `${assetsDirectory}library`, generator);
         copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
         [].concat(
-            maybeInclude((type === 'none'),
+            iff((type === 'none'),
                 [[// No CSS pre-processor
                     '_style.css',
                     'css/style.css'
@@ -274,8 +274,8 @@ module.exports = class extends Generator {
             'morphdom',
             'redux'
         ].concat(// conditional dependencies
-            maybeInclude(useHandlebars, 'handlebars'),
-            maybeInclude(useAmd, 'requirejs')
+            iff(useHandlebars, 'handlebars'),
+            iff(useAmd, 'requirejs')
         );
         const htmlDevDependencies = [
             'grunt-contrib-htmlmin',
@@ -292,7 +292,7 @@ module.exports = class extends Generator {
             'mdcss',
             'mdcss-theme-github'
         ].concat(
-            maybeInclude(type === 'none', ['postcss-import', 'postcss-cssnext'])
+            iff(type === 'none', ['postcss-import', 'postcss-cssnext'])
         );
         const requirejsDevDependencies = [
             'grunt-contrib-requirejs',
@@ -306,7 +306,7 @@ module.exports = class extends Generator {
             'deamdify',
             'grunt-browserify'
         ].concat(
-            maybeInclude(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul'])
+            iff(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul'])
         );
         const gruntDependencies = [
             'grunt',
@@ -327,7 +327,7 @@ module.exports = class extends Generator {
             'load-grunt-tasks',
             'time-grunt'
         ].concat(
-            maybeInclude(!useJest, 'grunt-karma')
+            iff(!useJest, 'grunt-karma')
         );
         const workflowDependencies = [
             'babel-cli',
@@ -338,19 +338,19 @@ module.exports = class extends Generator {
             'globby',
             'json-server'
         ].concat(// conditional dependencies
-            maybeInclude(!useBrowserify, 'babel-preset-minify'),
-            maybeInclude(!useJest, requirejsDevDependencies),
+            iff(!useBrowserify, 'babel-preset-minify'),
+            iff(!useJest, requirejsDevDependencies),
             ...gruntDependencies,
             ...htmlDevDependencies,
             ...cssDevDependencies
         );
         const devDependencies = workflowDependencies.concat(
-            maybeInclude(useBrowserify, browserifyDependencies),
-            maybeInclude(useAria, ['grunt-a11y', 'grunt-accessibility']),
-            maybeInclude(useImagemin, 'grunt-contrib-imagemin'),
-            maybeInclude(useLess, 'grunt-contrib-less'),
-            maybeInclude(useSass, 'grunt-contrib-sass'),
-            maybeInclude(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
+            iff(useBrowserify, browserifyDependencies),
+            iff(useAria, ['grunt-a11y', 'grunt-accessibility']),
+            iff(useImagemin, 'grunt-contrib-imagemin'),
+            iff(useLess, 'grunt-contrib-less'),
+            iff(useSass, 'grunt-contrib-sass'),
+            iff(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst')
         );
         generator.npmInstall(dependencies, {save: true});
         generator.npmInstall(devDependencies, {saveDev: true});
@@ -457,7 +457,7 @@ function getPackageJsonAttributes() {
     const scripts = getScripts(generator);
     const babel = {
         plugins: [],
-        presets: [['env', {modules: false}]].concat(maybeInclude(!useBrowserify, 'minify'))
+        presets: [['env', {modules: false}]].concat(iff(!useBrowserify, 'minify'))
     };
     const stylelint = {extends: './config/stylelint.config.js'};
     return {main, scripts, babel, stylelint};
@@ -534,18 +534,18 @@ function getTasks(generator) {
         'watch'
     ]
         .concat(// Project tasks enabled by user
-            maybeInclude(useBenchmark, 'benchmark'),
-            maybeInclude(useCoveralls, 'coveralls'),
-            maybeInclude(useJsinspect, 'jsinspect')
+            iff(useBenchmark, 'benchmark'),
+            iff(useCoveralls, 'coveralls'),
+            iff(useJsinspect, 'jsinspect')
         )
         .concat(// Webapp tasks enabled by user
-            maybeInclude(useAria, ['a11y', 'accessibility']),
-            maybeInclude(useBrowserify, 'browserify'),
-            maybeInclude(useHandlebars, 'handlebars', 'jst'),
-            maybeInclude(useImagemin, ['imagemin', 'copy']),
-            maybeInclude(useLess, 'less'),
-            maybeInclude(useSass, 'sass'),
-            maybeInclude(useWebpack, 'webpack'),
-            maybeInclude(useWebpack || useBrowserify, 'uglify')
+            iff(useAria, ['a11y', 'accessibility']),
+            iff(useBrowserify, 'browserify'),
+            iff(useHandlebars, 'handlebars', 'jst'),
+            iff(useImagemin, ['imagemin', 'copy']),
+            iff(useLess, 'less'),
+            iff(useSass, 'sass'),
+            iff(useWebpack, 'webpack'),
+            iff(useWebpack || useBrowserify, 'uglify')
         );
 }

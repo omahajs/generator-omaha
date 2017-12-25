@@ -40,8 +40,7 @@
  * // Note: Return current logging level with app.radio.level()
  * // Note: Return channels with app.radio.channels()
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require, exports) {
-<% } %>
+define(function(require, exports) {<% } %>
     'use strict';
 
     const _     = require('lodash');

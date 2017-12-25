@@ -4,8 +4,7 @@
  * @module models/example
  * @requires app
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require, exports) {
-<% } %>
+define(function(require, exports) {<% } %>
     'use strict';
 
     const Backbone = require('backbone');

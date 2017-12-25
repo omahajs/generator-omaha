@@ -2,8 +2,7 @@
  * This shim replaces lodash template functions with Handlebars.js
  * (not needed if templates are pre-compiled)
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require) {
-<% } %>
+define(function(require) {<% } %>
     'use strict';
 
     var Marionette = require('backbone.marionette');
