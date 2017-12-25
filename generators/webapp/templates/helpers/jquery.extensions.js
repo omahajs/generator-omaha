@@ -2,8 +2,7 @@
  * @file Methods that extend jQuery
  * @author Jason Wohlgemuth
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require) {
-<% } %>
+define(function(require) {<% } %>
     'use strict';
 
     var $ = require('jquery');

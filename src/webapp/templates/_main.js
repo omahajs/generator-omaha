@@ -5,8 +5,7 @@
  * @requires router
  * @requires views/example
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require) {
-<% } %>
+define(function(require) {<% } %>
     'use strict';
 
     const Backbone = require('backbone');

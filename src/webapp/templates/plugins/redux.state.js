@@ -17,8 +17,7 @@
  * app.dispatch('INCREMENT');
  * app.getState('count');// 43
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require, exports, module) {
-<% } %>
+define(function(require, exports, module) {<% } %>
     'use strict';
 
     const {get, update} = require('lodash');

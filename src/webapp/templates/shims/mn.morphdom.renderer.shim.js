@@ -3,8 +3,7 @@
  * Other options include: inferno, snabbdom, rivets, idom and virtual-dom
  * @see https://github.com/blikblum/marionette.renderers
 **/<% if (moduleFormat === 'amd') { %>
-define(function(require) {
-<% } %>
+define(function(require) {<% } %>
     'use strict';
 
     const Mn       = require('backbone.marionette');
