@@ -117,7 +117,7 @@ function verifyPreprocessorConfigured(type, sourceDirectory) {
     var notExt = EXT_LOOKUP[notType];
     var customPath = sourceDirectory || '';
     fileContent('Gruntfile.js', 'postcss: ');
-    file(`${customPath}assets/${type}/reset.${ext}`);
+    noFile(`${customPath}assets/${type}/reset.${ext}`);
     file(`${customPath}assets/${type}/style.${ext}`);
     fileContent('Gruntfile.js', `${type}: `);
     noFile(`${customPath}assets/${notType}/style.${notExt}`);

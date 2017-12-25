@@ -241,10 +241,6 @@ module.exports = class extends Generator {
                     'css/style.css'
                 ]],
                 [
-                    [// Separate reset file (combined by pre-processor)
-                        '_reset.css',
-                        `${type}/reset.${ext}`
-                    ],
                     [// Main style sheet
                         `_style.${ext}`,
                         `${type}/style.${ext}`
@@ -290,11 +286,14 @@ module.exports = class extends Generator {
             'autoprefixer',
             'stylelint',
             'cssnano',
+            'normalize.css',
             'postcss-reporter',
             'postcss-safe-parser',
             'mdcss',
             'mdcss-theme-github'
-        ];
+        ].concat(
+            maybeInclude(type === 'none', ['postcss-import', 'postcss-cssnext'])
+        );
         const requirejsDevDependencies = [
             'grunt-contrib-requirejs',
             'karma-requirejs'
@@ -421,7 +420,7 @@ module.exports = class extends Generator {
         //
         // Register custom grunt tasks
         //
-        gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory));
+        gruntfile.insertConfig('postcss', tasks.postcss(sourceDirectory, type === 'none'));
         useAria && gruntfile.registerTask('aria-audit', ['accessibility', 'a11y']);
         gruntfile.registerTask('default', ['serve']);
         //
