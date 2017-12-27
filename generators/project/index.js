@@ -87,47 +87,43 @@ module.exports = class extends Generator {
         const USE_JEST = useJest || USE_WEBPACK;
         const moduleFormat = getModuleFormat(generator);
         const useAmd = moduleFormat === 'amd';
-        const bundlerData = {
+        const settings = {
             moduleFormat,
             useAmd,
-            useWebpack: USE_WEBPACK
-        };
-        config.set(bundlerData);
-        assign(generator, bundlerData, {
             userName,
             use: project.defaults,
-            useJest: USE_JEST
-        });
+            useJest: USE_JEST,
+            useWebpack: USE_WEBPACK
+        };
+        config.set(settings);
+        assign(generator, settings);
         if (defaults) {
             const done = this.async();
-            assign(generator, getProjectVariables(generator));
-            config.set({
-                sourceDirectory: generator.sourceDirectory
-            });
+            const settings = getProjectVariables(generator);
+            config.set(settings);
+            assign(generator, settings);
             done();
         } else {
             return generator.prompt(project.getQuestions(isWebapp).filter(isUnAnswered)).then(function (answers) {
                 generator.use = answers;
-                assign(generator, getProjectVariables(generator));
-                config.set({
-                    sourceDirectory: generator.sourceDirectory
-                });
+                const settings = getProjectVariables(generator);
+                config.set(settings);
+                assign(generator, settings);
             }.bind(generator));
         }
     }
     writing() {
         const generator = this;
-        const { config, sourceDirectory, useJest } = generator;
-        const { projectName, useBenchmark, useCoveralls, useJsinspect } = generator;
-        const { isWebapp, moduleFormat, useWebpack } = config.getAll();
-        assign(generator, { moduleFormat });
-        config.set({
-            projectName,
-            sourceDirectory,
+        const { config } = generator;
+        const {
+            isWebapp,
+            moduleFormat,
             useBenchmark,
             useCoveralls,
-            useJsinspect
-        });
+            useJest,
+            useWebpack
+        } = config.getAll();
+        assign(generator, { moduleFormat });
         mkdirp(generator.sourceDirectory);
         const defaultTemplateData = [['_README.md', 'README.md'], ['_LICENSE', 'LICENSE'], ['_package.json', 'package.json'], ['config/_gitignore', '.gitignore'], ['config/_default.json', 'config/default.json']];
         const webappTemplateData = [['_Gruntfile.js', 'Gruntfile.js'], ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']];
@@ -139,8 +135,15 @@ module.exports = class extends Generator {
     }
     install() {
         const generator = this;
-        const { config, useBenchmark, useCoveralls, useJest, useJsinspect } = generator;
-        const { isWebapp, useWebpack } = config.getAll();
+        const { config } = generator;
+        const {
+            isWebapp,
+            useBenchmark,
+            useCoveralls,
+            useJest,
+            useJsinspect,
+            useWebpack
+        } = config.getAll();
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
         const isNotWindows = ['linux', 'freebsd'].includes(process.platform);
         const karmaDependencies = ['karma', 'karma-chrome-launcher', 'karma-coverage', 'karma-firefox-launcher', 'karma-mocha', 'karma-chai', 'karma-sinon', 'karma-spec-reporter'];
@@ -171,7 +174,7 @@ module.exports = class extends Generator {
     }
 };
 function getJestConfig(generator) {
-    const { useJest } = generator;
+    const useJest = generator.config.get('useJest');
     return !useJest ? {} : {
         jest: {
             testMatch: ['**/test/**/*.js']
@@ -179,8 +182,8 @@ function getJestConfig(generator) {
     };
 }
 function getScripts(generator) {
-    const { config, useBenchmark, useCoveralls, useJest } = generator;
-    const useWebpack = config.get('useWebpack');
+    const { config } = generator;
+    const { useBenchmark, useCoveralls, useJest, useWebpack } = config.getAll();
     const scripts = { coverage: 'nyc report -r text' };
     if (useBenchmark) {
         assign(scripts, {
