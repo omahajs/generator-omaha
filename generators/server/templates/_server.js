@@ -7,18 +7,23 @@
 **/
 'use strict';
 <% if (markdownSupport) { %>
-var fs         = require('fs-extra');<% } %>
-var config     = require('config');
-var express    = require('express');
-var session    = require('express-session');
-var lusca      = require('lusca');
-var helmet     = require('helmet');
-var compress   = require('compression');<% if (markdownSupport) { %>
-var hljs       = require('highlight.js');
-var Remarkable = require('remarkable');
-
-var md = new Remarkable({
-    highlight: function(str, lang) {
+const fs         = require('fs-extra');<% } %>
+const config     = require('config');
+const express    = require('express');
+const session    = require('express-session');
+const lusca      = require('lusca');
+const helmet     = require('helmet');
+const compress   = require('compression');<% if (markdownSupport) { %>
+const hljs       = require('highlight.js');
+const Remarkable = require('remarkable');<% } %><% if (Object.keys(datasources).length > 0) { %>
+    
+//
+// Data sets for REST API exploration (configuration required)
+//<% Object.entries(datasources).forEach(data => { %>
+// const data = require('<%= data[1].path %>');<% }); %><% } %>
+<% if (markdownSupport) { %>
+const md = new Remarkable({
+    highlight: (str, lang) => {
         if (lang && hljs.getLanguage(lang)) {
             try {
                 return hljs.highlight(lang, str).value;
@@ -29,18 +34,16 @@ var md = new Remarkable({
         } catch (err) {}
         return '';
     }
-});
-<% } %>
+});<% } %>
+const NINETY_DAYS_IN_MILLISECONDS = 7776000000;
 
-var NINETY_DAYS_IN_MILLISECONDS = 7776000000;
-
-var app = express()
+const app = express()
     .engine('html', require('ejs').renderFile)<% if (markdownSupport) { %>
-    .engine('md', function(path, options, fn) {
-        fs.readFile(path, 'utf8', function(err, str) {
+    .engine('md', (path, options, fn) => {
+        fs.readFile(path, 'utf8', (err, str) => {
             if (err) return fn(err);
             try {
-                var html = md.render(str);
+                const html = md.render(str);
                 fn(null, html);
             } catch (err) {
                 fn(err);
@@ -50,7 +53,7 @@ var app = express()
     .set('view engine', 'html')
     .set('views', __dirname + '/client')
     .use(session(config.get('session')))
-    .use(function (req, res, next) {
+    .use((req, res, next) => {
         res.set('X-CSRF', req.sessionID);
         return next();
     })
@@ -70,7 +73,7 @@ var app = express()
     }))
     .use(compress())                        /** Use gzip compression **/
     .use(express.static(__dirname));        /** Serve static files **/
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     if (res.get('X-CSRF') === req.sessionID) {
         res.render('index', {message: 'The server is functioning properly!'});
     } else {

@@ -27,3 +27,14 @@ export type WebappGenerator = {
         moduleData: string
     }
 };
+export type ServerGenerator = {
+    prompt: any,
+    options: any,
+    datasources: any,
+    httpPort: string,
+    httpsPort: string,
+    websocketPort: string,
+    graphqlPort: string,
+    markdownSupport: boolean,
+    useJest?: boolean
+}
