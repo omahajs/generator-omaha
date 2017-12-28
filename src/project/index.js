@@ -114,7 +114,6 @@ module.exports = class extends Generator {
     }
     writing() {
         const generator = this;
-        const {config} = generator;
         const {
             isWebapp,
             moduleFormat,
@@ -122,7 +121,7 @@ module.exports = class extends Generator {
             useCoveralls,
             useJest,
             useWebpack
-        } = config.getAll();
+        } = generator.config.getAll();
         assign(generator, {moduleFormat});
         mkdirp(generator.sourceDirectory);
         const defaultTemplateData = [
@@ -242,8 +241,7 @@ function getJestConfig(generator: ProjectGenerator) {
     };
 }
 function getScripts(generator: ProjectGenerator) {
-    const {config} = generator;
-    const {useBenchmark, useCoveralls, useJest, useWebpack} = config.getAll();
+    const {useBenchmark, useCoveralls, useJest, useWebpack} = generator.config.getAll();
     const scripts = {coverage: 'nyc report -r text'};
     if (useBenchmark) {
         assign(scripts, {

@@ -63,12 +63,13 @@ const CSS_PREPROCESSOR_EXT_LOOKUP = {
     none: 'css'
 };
 
+const resolveModuleFormat = (bundler: string) => (bundler === 'rjs') ? 'amd' : 'commonjs';
+const getScriptBundler = (generator: WebappGenerator) => parseModuleData(generator.use.moduleData)[1].toLowerCase();
 const getModuleFormat = (generator: WebappGenerator) => {
     const {options} = generator;
     const {useBrowserify, useJest, useWebpack} = options;
     return (useJest || useBrowserify || useWebpack) ? 'commonjs' : 'amd';
 };
-const getScriptBundler = (generator: WebappGenerator) => parseModuleData(generator.use.moduleData)[1].toLowerCase();
 const useDefaultScriptBundler = (generator: WebappGenerator) => {
     const scriptBundler = getScriptBundler(generator);
     const moduleFormat = (scriptBundler !== 'rjs') ? 'commonjs' : 'amd';
@@ -125,7 +126,7 @@ module.exports = class extends Generator {
                 const SCRIPT_BUNDLER = parseModuleData(generator.use.moduleData)[1].toLowerCase();
                 const USE_BROWSERIFY = (SCRIPT_BUNDLER === 'browserify');
                 const USE_WEBPACK = (SCRIPT_BUNDLER === 'webpack') || useWebpack;
-                const moduleFormat = (SCRIPT_BUNDLER === 'rjs') ? 'amd' : 'commonjs';
+                const moduleFormat = resolveModuleFormat(SCRIPT_BUNDLER);
                 const useAmd = (moduleFormat === 'amd');
                 const settings = {
                     moduleFormat,
