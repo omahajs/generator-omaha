@@ -63,12 +63,13 @@ const CSS_PREPROCESSOR_EXT_LOOKUP = {
     none: 'css'
 };
 
+const resolveModuleFormat = bundler => bundler === 'rjs' ? 'amd' : 'commonjs';
+const getScriptBundler = generator => parseModuleData(generator.use.moduleData)[1].toLowerCase();
 const getModuleFormat = generator => {
     const { options } = generator;
     const { useBrowserify, useJest, useWebpack } = options;
     return useJest || useBrowserify || useWebpack ? 'commonjs' : 'amd';
 };
-const getScriptBundler = generator => parseModuleData(generator.use.moduleData)[1].toLowerCase();
 const useDefaultScriptBundler = generator => {
     const scriptBundler = getScriptBundler(generator);
     const moduleFormat = scriptBundler !== 'rjs' ? 'commonjs' : 'amd';
@@ -76,7 +77,11 @@ const useDefaultScriptBundler = generator => {
     const useAmd = moduleFormat === 'amd';
     return !(useAmd || useWebpack);
 };
-const resolveCssPreprocessor = generator => generator.useLess ? 'less' : generator.useSass ? 'sass' : 'none';
+const resolveCssPreprocessor = generator => {
+    const { config } = generator;
+    const { useLess, useSass } = config.getAll();
+    return useLess ? 'less' : useSass ? 'sass' : 'none';
+};
 
 module.exports = class extends Generator {
     constructor(args, opts) {
@@ -107,8 +112,8 @@ module.exports = class extends Generator {
                 useSass: options.cssPreprocessor === 'sass',
                 useHandlebars: options.templateTechnology === 'handlebars'
             };
-            assign(generator, generator.use, settings);
             config.set(settings);
+            assign(generator, generator.use, settings);
             done();
         } else {
             return generator.prompt(webapp.getQuestions(isWebapp).filter(isUnAnswered)).then(function (answers) {
@@ -120,21 +125,21 @@ module.exports = class extends Generator {
                 const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? generator.use.templateTechnology.toLowerCase() : templateTechnology;
                 const SCRIPT_BUNDLER = parseModuleData(generator.use.moduleData)[1].toLowerCase();
                 const USE_BROWSERIFY = SCRIPT_BUNDLER === 'browserify';
-                const USE_WEBPACK = SCRIPT_BUNDLER === 'webpack';
-                const moduleFormat = SCRIPT_BUNDLER === 'rjs' ? 'amd' : 'commonjs';
+                const USE_WEBPACK = SCRIPT_BUNDLER === 'webpack' || useWebpack;
+                const moduleFormat = resolveModuleFormat(SCRIPT_BUNDLER);
                 const useAmd = moduleFormat === 'amd';
                 const settings = {
                     moduleFormat,
                     useAmd,
                     useBrowserify: USE_BROWSERIFY || useDefaultScriptBundler(generator), // Browserify is default
                     useWebpack: USE_WEBPACK,
-                    useJest: useJest || useWebpack, // Jest is ONLY an option and does not need to be saved via config
+                    useJest: useJest || USE_WEBPACK, // Jest is ONLY an option and does not need to be saved via config
                     useLess: CSS_PREPROCESSOR === 'less',
                     useSass: CSS_PREPROCESSOR === 'sass',
                     useHandlebars: TEMPLATE_TECHNOLOGY === 'handlebars'
                 };
-                assign(generator, settings);
                 config.set(settings);
+                assign(generator, settings);
             }.bind(generator));
         }
     }
@@ -145,25 +150,39 @@ module.exports = class extends Generator {
         const generator = this;
         const { config, options, use, user } = generator;
         const { skipAria, skipImagemin } = options;
-        assign(generator, {
-            sourceDirectory: config.get('sourceDirectory'),
-            isNative: config.get('isNative'),
-            projectName: config.get('projectName'),
-            useAria: use.aria && !skipAria,
-            useImagemin: use.imagemin && !skipImagemin,
-            userName: config.get('userName') || user.git.name()
-        });
-        const { sourceDirectory, useAmd, useAria, useHandlebars, useJest, useImagemin, useWebpack } = generator;
+        const {
+            isNative,
+            projectName,
+            sourceDirectory,
+            useAmd,
+            useHandlebars,
+            useJest,
+            useWebpack
+        } = config.getAll();
+        const userName = config.get('userName') || user.git.name();
+        const useAria = use.aria && !skipAria;
+        const useImagemin = use.imagemin && !skipImagemin;
         const appDirectory = `${sourceDirectory}app/`;
         const assetsDirectory = `${sourceDirectory}assets/`;
+        const pluginDirectory = sourceDirectory;
         const type = resolveCssPreprocessor(this);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
-        config.set({ useAmd, useAria, useImagemin, useJest });
-        config.set('pluginDirectory', sourceDirectory);
+        config.set({
+            useAria,
+            useImagemin,
+            pluginDirectory
+        });
+        assign(generator, {
+            sourceDirectory,
+            isNative,
+            projectName,
+            useAria,
+            useImagemin,
+            userName
+        });
         [// always included
         ['config/stylelint.config.js', 'config/stylelint.config.js'], ['tasks/webapp.js', 'tasks/webapp.js']].concat( // optional dependencies
-        iff(useAmd, [['_config.js', `${appDirectory}config.js`]])).concat( // conditional dependencies
-        iff(useAmd, [['test/config.js', 'test/config.js'], ['config/_karma.conf.amd.js', 'config/karma.conf.js']])).concat(iff(!(useAmd || useJest || useWebpack), [['config/_karma.conf.cjs.js', 'config/karma.conf.js']])).forEach(data => copyTpl(...data, generator));
+        iff(useAmd, [['_config.js', `${appDirectory}config.js`]])).concat(iff(useAmd, [['test/config.js', 'test/config.js'], ['config/_karma.conf.amd.js', 'config/karma.conf.js']])).concat(iff(!(useAmd || useJest || useWebpack), [['config/_karma.conf.cjs.js', 'config/karma.conf.js']])).forEach(data => copyTpl(...data, generator));
         //
         // Write boilerplate files
         //
@@ -180,7 +199,18 @@ module.exports = class extends Generator {
     }
     install() {
         const generator = this;
-        const { config, sourceDirectory, useAmd, useAria, useBrowserify, useHandlebars, useImagemin, useJest, useLess, useSass } = generator;
+        const { config } = generator;
+        const {
+            sourceDirectory,
+            useAmd,
+            useAria,
+            useBrowserify,
+            useHandlebars,
+            useImagemin,
+            useJest,
+            useLess,
+            useSass
+        } = config.getAll();
         const type = resolveCssPreprocessor(generator);
         const ext = CSS_PREPROCESSOR_EXT_LOOKUP[type];
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
@@ -281,7 +311,8 @@ module.exports = class extends Generator {
 };
 function getPackageJsonAttributes() {
     const generator = this;
-    const { isNative, sourceDirectory, useBrowserify } = generator;
+    const { config } = generator;
+    const { isNative, sourceDirectory, useBrowserify } = config.getAll();
     const main = isNative ? './index.js' : `${sourceDirectory}app/main.js`;
     const scripts = getScripts(generator);
     const babel = {
@@ -292,8 +323,8 @@ function getPackageJsonAttributes() {
     return { main, scripts, babel, stylelint };
 }
 function getScripts(generator) {
-    const { config, isNative, useAmd, useJest } = generator;
-    const { useCoveralls, useJsinspect } = config.getAll();
+    const { config } = generator;
+    const { isNative, useAmd, useJest, useCoveralls, useJsinspect } = config.getAll();
     const scripts = {
         lint: 'grunt eslint:src',
         'lint:watch': 'grunt eslint:ing watch:eslint',
@@ -344,8 +375,19 @@ function getScripts(generator) {
     return scripts;
 }
 function getTasks(generator) {
-    const { config, useAria, useBrowserify, useHandlebars, useImagemin, useLess, useSass } = generator;
-    const { useBenchmark, useCoveralls, useJsinspect, useWebpack } = config.getAll();
+    const { config } = generator;
+    const {
+        useAria,
+        useBenchmark,
+        useBrowserify,
+        useCoveralls,
+        useHandlebars,
+        useImagemin,
+        useJsinspect,
+        useLess,
+        useSass,
+        useWebpack
+    } = config.getAll();
     return [// Tasks enabled by default
     'browserSync', 'clean', 'copy', 'eslint', 'htmlmin', 'htmlhintplus', 'jsdoc', 'jsonlint', 'karma', 'open', 'plato', 'replace', 'requirejs', 'watch'].concat( // Project tasks enabled by user
     iff(useBenchmark, 'benchmark'), iff(useCoveralls, 'coveralls'), iff(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user

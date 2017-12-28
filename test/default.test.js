@@ -142,6 +142,8 @@ describe('Default generator', function() {
                 noFile('test/config.js');
                 noFileContent(browserifyContent);
                 fileContent(ariaContent);
+                fileContent('package.json', '"testMatch":');
+                fileContent('package.json', '"test": "jest ');
                 file('config/webpack.config.js');
                 fileContent('Gruntfile.js', 'imagemin: ');
                 fileContent('Gruntfile.js', 'webpack: ');
@@ -186,6 +188,7 @@ describe('Default generator', function() {
                 verify();
                 fileContent(browserifyContent);
                 fileContent('package.json', '"testMatch":');
+                fileContent('package.json', '"test": "jest ');
                 file('test/example.test.js');
                 noFile('test/mocha.opts');
             }));
@@ -204,6 +207,7 @@ describe('Default generator', function() {
             .then(() => {
                 verify();
                 file('config/webpack.config.js');
+                fileContent('package.json', 'webpack-dashboard -- webpack-dev-server --config');
                 fileContent('Gruntfile.js', 'webpack: ');
                 fileContent('Gruntfile.js', 'uglify: ');
                 noFileContent(browserifyContent);
