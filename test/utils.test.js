@@ -1,6 +1,3 @@
-'use strict';
-
-const sinon        = require('sinon');
 const {last}       = require('lodash');
 const {join}       = require('path');
 const {unlinkSync} = require('fs');
@@ -31,17 +28,15 @@ describe('Data Utilities Module', () => {
         const url = 'not a valid url';
         const path = url;
         download({url, path});
-        expect(window.console.log.mock.calls).toMatchSnapshot();
     });
     it('can format federal agency JSON data', () => {
         const results = formatFederalAgencyData(TEST_JSON_DATA);
         expect(results).toMatchSnapshot();
     });
     it('can log success and fail messages via promise chain', () => {
-        const path = 'some-path-name.json'
+        const path = 'some-path-name.json';
         expect(fin(path)([1, 2, 3])).toMatchSnapshot();
-        expect(fail(path)([4, 5, 6])).toMatchSnapshot();
-        expect(window.console.log.mock.calls).toMatchSnapshot();
+        expect(fail(path)([3, 2, 1])).toMatchSnapshot();
     });
 });
 describe('Utilities Module', () => {

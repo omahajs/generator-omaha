@@ -26,8 +26,6 @@ Array [
 ]
 `;
 
-exports[`Data Utilities Module can log failure message for invalid url 1`] = `Array []`;
-
 exports[`Data Utilities Module can log success and fail messages via promise chain 1`] = `
 Array [
   1,
@@ -38,23 +36,9 @@ Array [
 
 exports[`Data Utilities Module can log success and fail messages via promise chain 2`] = `
 Array [
-  4,
-  5,
-  6,
-]
-`;
-
-exports[`Data Utilities Module can log success and fail messages via promise chain 3`] = `
-Array [
-  Array [
-    "[31m[1m✗[22m[39m Failed to download [36mnot a valid url[39m",
-  ],
-  Array [
-    "[32m[1m✔[22m[39m Successfully downloaded [36msome-path-name.json[39m",
-  ],
-  Array [
-    "[31m[1m✗[22m[39m Failed to download [36msome-path-name.json[39m",
-  ],
+  3,
+  2,
+  1,
 ]
 `;
 

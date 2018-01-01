@@ -35,7 +35,7 @@ describe('Server generator', () => {
                 verifyPorts(http, https, ws, graphql);
                 verifyMarkdownSupport(true);
             }));
-        it('with data sets selected via prompt choices', () => helpers.run(join(__dirname, '../generators/server'))
+        xit('with data sets selected via prompt choices', () => helpers.run(join(__dirname, '../generators/server'))
             .withOptions({skipInstall})
             .withPrompts({
                 downloadData: [
