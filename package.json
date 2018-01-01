@@ -48,6 +48,7 @@
     "jest": "^22.0.0",
     "jest-image-snapshot": "^2.0.0",
     "ncp": "^2.0.0",
+    "proxyquire": "^1.8.0",
     "puppeteer": "^0.13.0",
     "watch": "^1.0.1",
     "yeoman-assert": "^3.0.0",

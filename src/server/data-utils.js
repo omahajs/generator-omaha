@@ -7,16 +7,10 @@ const csv                = require('csvtojson');
 
 const sanitizeKeyNames = item => mapKeys(item, (val, key) => camelCase(key));
 const save = path => items => fs.writeFile(path, JSON.stringify(items, null, 2), 'utf-8');
-const finished = str => items => {/* eslint-disable no-console */
-    console.log(`${green.bold('✔')} Successfully downloaded ${cyan(str)}`);/* eslint-enable no-console */
-    return items;
-};
-const failed = str => items => {/* eslint-disable no-console */
-    console.log(`${red.bold('✗')} Failed to download ${cyan(str)}`);/* eslint-enable no-console */
-    return items;
-};
 
 module.exports = {
+    fin,
+    fail,
     download,
     formatCsvData,
     formatFederalAgencyData
@@ -31,8 +25,8 @@ function download(options) {
         .then(parse)
         .then(format)
         .then(save(path))
-        .then(finished(path))
-        .catch(failed(path));
+        .then(fin(path))
+        .catch(fail(path));
 }
 function formatCsvData(data) {
     return new Promise((resolve, reject) => {
@@ -49,4 +43,16 @@ function formatFederalAgencyData(data) {
         .map(item => item.taxonomy)
         .map(sanitizeKeyNames)
         .map(item => omit(item, 'vocabulary'));
+}
+function fin(str) {/* eslint-disable no-console */
+    return items => {
+        console.log(`${green.bold('✔')} Successfully downloaded ${cyan(str)}`);/* eslint-enable no-console */
+        return items;
+    };
+}
+function fail(str) {
+    return items => {/* eslint-disable no-console */
+        console.log(`${red.bold('✗')} Failed to download ${cyan(str)}`);/* eslint-enable no-console */
+        return items;
+    };
 }

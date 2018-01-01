@@ -178,7 +178,7 @@ module.exports = class extends Generator {
         // Download selected data sets
         //
         const { downloadData } = generator;
-        if (Array.isArray(downloadData)) {
+        if (Array.isArray(downloadData) && downloadData.length > 0) {
             mkdirp(DATA_DIR);
             downloadData.forEach(data => download(DATA_LOOKUP[data]));
         }

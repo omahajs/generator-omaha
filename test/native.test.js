@@ -1,4 +1,3 @@
-'use strict';
 
 const {merge, mapValues, isBoolean} = require('lodash');
 const {join}    = require('path');

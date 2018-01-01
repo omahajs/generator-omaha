@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Data Utilities Module can format federal agency JSON data 1`] = `
+Array [
+  Object {
+    "federalAgency": "Department of Commerce",
+    "isCfo": "Y",
+    "subAgency": "National Institute of Standards and Technology",
+    "term": "nist-gov",
+    "uniqueId": "nist-gov",
+  },
+  Object {
+    "federalAgency": "Department of Justice",
+    "isCfo": "Y",
+    "subAgency": "Office of Legal Counsel",
+    "term": "olc-usdoj-gov",
+    "uniqueId": "olc-usdoj-gov",
+  },
+  Object {
+    "federalAgency": "Department of State",
+    "isCfo": "Y",
+    "subAgency": "",
+    "term": "state-gov",
+    "uniqueId": "state-gov",
+  },
+]
+`;
+
 exports[`Generator JSON utility can extend JSON files 1`] = `
 Object {
   "foo": "bar",

@@ -1,0 +1,33 @@
+{
+    "taxonomies": [{
+            "taxonomy": {
+                "vocabulary": "Federal Organization",
+                "term": "nist-gov",
+                "Federal Agency": "Department of Commerce",
+                "Sub Agency": "National Institute of Standards and Technology",
+                "unique id": "nist-gov",
+                "is_cfo": "Y"
+            }
+        },
+        {
+            "taxonomy": {
+                "vocabulary": "Federal Organization",
+                "term": "olc-usdoj-gov",
+                "Federal Agency": "Department of Justice",
+                "Sub Agency": "Office of Legal Counsel",
+                "unique id": "olc-usdoj-gov",
+                "is_cfo": "Y"
+            }
+        },
+        {
+            "taxonomy": {
+                "vocabulary": "Federal Organization",
+                "term": "state-gov",
+                "Federal Agency": "Department of State",
+                "Sub Agency": "",
+                "unique id": "state-gov",
+                "is_cfo": "Y"
+            }
+        }
+    ]
+}

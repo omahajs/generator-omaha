@@ -1,14 +1,38 @@
-'use strict';
 
 const {last}       = require('lodash');
 const {join}       = require('path');
 const {unlinkSync} = require('fs');
+const {
+    fin,
+    fail,
+    formatCsvData,
+    formatFederalAgencyData
+} = require('../generators/server/data-utils');
 const {
     json,
     maybeInclude,
     parseModuleData
 } = require('../generators/app/utils');
 
+const TEST_JSON_DATA = require('./data/test.json');
+const TEST_CSV_DATA = `
+"Foo","Bar"
+"42","45"
+`;
+
+describe('Data Utilities Module', function() {
+    it('can format federal agency JSON data', () => {
+        const results = formatFederalAgencyData(TEST_JSON_DATA);
+        expect(results).toMatchSnapshot();
+    });
+    it('can format CSV data', done => {
+        formatCsvData(TEST_CSV_DATA).then(str => {
+            console.log('Boot!');
+            console.log(str);
+            done();
+        });
+    });
+});
 describe('Utilities Module', function() {
     it('can parse module data string', () => {
         expect(

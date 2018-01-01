@@ -1,4 +1,3 @@
-'use strict';
 
 const {join} = require('path');
 const {bold, green} = require('chalk');
@@ -16,7 +15,7 @@ captureScreenshots().then(msg => console.log(bold(green('✔ ') + bold(msg))));
 /* eslint-enable no-console */
 
 function captureScreenshots(options) {
-    return (async () => {
+    return (async() => {
         const data = await readFile(join(__dirname, 'builds'), 'utf8');
         const builds = data.split('\n')
             .map(str => str.split('=')[0])
@@ -27,7 +26,7 @@ function captureScreenshots(options) {
         const screenshot = name => page.screenshot(getPath(name));
         await page.setViewport({width, height});
         let i = 0;
-        for (let url of urls) {
+        for (const url of urls) {
             await page.goto(url);
             await screenshot(`${builds[i++]}`);
         }

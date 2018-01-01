@@ -1,7 +1,6 @@
-'use strict';
 
-const {join}  = require('path');
-const helpers = require('yeoman-test');
+const {join}     = require('path');
+const helpers    = require('yeoman-test');
 const {
     file,
     noFile,
@@ -35,6 +34,21 @@ describe('Server generator', () => {
                 verifyCoreFiles();
                 verifyPorts(http, https, ws, graphql);
                 verifyMarkdownSupport(true);
+            }));
+        it('with data sets selected via prompt choices', () => helpers.run(join(__dirname, '../generators/server'))
+            .withOptions({skipInstall})
+            .withPrompts({
+                downloadData: [
+                    'Federal agencies data',
+                    '2013 Earthquake data'
+                ]
+            })
+            .toPromise()
+            .then(() => {
+                verifyCoreFiles();
+                verifyMarkdownSupport(false);
+                fileContent('web/graphql.js', '// const data = require(\'web/data/federal_agencies.json\');');
+                fileContent('web/graphql.js', '// const data = require(\'web/data/earthquakes_2013.json\');');
             }));
         it('with custom ports set via command line options', () => helpers.run(join(__dirname, '../generators/server'))
             .withOptions({skipInstall, http, https, ws, graphql})
