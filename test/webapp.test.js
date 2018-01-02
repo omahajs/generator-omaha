@@ -1,4 +1,3 @@
-'use strict';
 
 const {join}     = require('path');
 const {copySync} = require('fs-extra');

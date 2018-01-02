@@ -2,22 +2,27 @@
  * WebSocket Server
  * @see {@link https://github.com/websockets/ws}
 **/
-var config = require('config');
-var WebSocketServer = require('ws').Server;
-var wss = new WebSocketServer({
+'use strict';
+
+const config   = require('config');
+const {Server} = require('ws');
+
+const wss = new Server({
     app: require(`${__dirname }/server`),
     port: config.get('websocket').port
 });
-wss.broadcast = function broadcast(data) {
-    wss.clients.forEach(function each(client) {
+
+wss.broadcast = data => {
+    wss.clients.forEach(client => {
         client.send(data);
     });
 };
-wss.on('connection', function(ws) {
+wss.on('connection', socket => {
     console.log(`${wss.clients.length } client(s) connected.`);
-    ws.on('message', function(message) {
+    socket.on('message', message => {
         console.log('received: %s', message);
-        ws.send(message);
+        socket.send(message);
     });
 });
+
 module.exports = wss;

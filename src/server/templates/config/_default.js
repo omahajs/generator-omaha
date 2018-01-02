@@ -23,6 +23,9 @@ module.exports = {
     https: {
         port: <%= httpsPort %>
     },
+    graphql: {
+        port: <%= graphqlPort %>
+    },
     log: {
         level: 'error'
     },

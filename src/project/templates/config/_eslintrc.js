@@ -3,7 +3,7 @@ module.exports = {
         node: true,
         es6: true,
         mocha: <%= !useJest %>,
-        jest: <%= useJest %>
+        jest: <%= !!useJest %>
     },
     globals: {
         sinon: true

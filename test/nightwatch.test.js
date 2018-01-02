@@ -1,4 +1,3 @@
-'use strict';
 
 process.env.mode = 'TESTING';
 

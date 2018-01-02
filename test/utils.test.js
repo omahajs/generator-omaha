@@ -1,15 +1,45 @@
-'use strict';
-
 const {last}       = require('lodash');
 const {join}       = require('path');
 const {unlinkSync} = require('fs');
+const {
+    fin,
+    fail,
+    download,
+    formatFederalAgencyData
+} = require('../generators/server/data-utils');
 const {
     json,
     maybeInclude,
     parseModuleData
 } = require('../generators/app/utils');
 
-describe('Utilities Module', function() {
+const ORIGINAL_CONSOLE_LOG = window.console.log;
+const TEST_JSON_DATA = require('./data/test.json');
+
+describe('Data Utilities Module', () => {
+    beforeAll(() => {
+        window.console.log = jest.fn().mockName('Console Log');
+    });
+    afterAll(() => {
+        window.console.log.mock.mockReset();
+        window.console.log = ORIGINAL_CONSOLE_LOG;
+    });
+    it('can log failure message for invalid url', () => {
+        const url = 'not a valid url';
+        const path = url;
+        download({url, path});
+    });
+    it('can format federal agency JSON data', () => {
+        const results = formatFederalAgencyData(TEST_JSON_DATA);
+        expect(results).toMatchSnapshot();
+    });
+    it('can log success and fail messages via promise chain', () => {
+        const path = 'some-path-name.json';
+        expect(fin(path)([1, 2, 3])).toMatchSnapshot();
+        expect(fail(path)([3, 2, 1])).toMatchSnapshot();
+    });
+});
+describe('Utilities Module', () => {
     it('can parse module data string', () => {
         expect(
             [
