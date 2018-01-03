@@ -9,34 +9,12 @@ const banner = require('../app/banner');
 const footer = require('../app/doneMessage');
 const { project } = require('../app/prompts');
 const tasks = require('../app/gruntTaskConfigs');
+const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
 const {
     copyTpl,
     maybeInclude: iff,
     json: { extend }
 } = require('../app/utils');
-
-const COMMAND_LINE_OPTIONS = {
-    defaults: {
-        type: Boolean,
-        desc: 'Scaffold app with no user input using default settings',
-        defaults: false
-    },
-    skipBenchmark: {
-        type: Boolean,
-        desc: 'DO NOT add benchmark.js code and dependencies to project',
-        defaults: false
-    },
-    skipCoveralls: {
-        type: Boolean,
-        desc: 'DO NOT add coveralls tasks and dependencies to project',
-        defaults: false
-    },
-    skipJsinspect: {
-        type: Boolean,
-        desc: 'DO NOT add JSInspect tasks and dependencies to project',
-        defaults: false
-    }
-};
 
 const showBanner = (generator, banner) => {
     const hideBanner = generator.config.get('hideBanner');

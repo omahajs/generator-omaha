@@ -1,12 +1,13 @@
 /* @flow */
 import type {WebappGenerator} from '../types';
 
-const {assign, flow, partial, pick} = require('lodash');
+const {assign, flow, partial, pick}         = require('lodash');
 const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
-const Generator = require('yeoman-generator');
-const Gruntfile = require('gruntfile-editor');
-const {webapp}  = require('../app/prompts');
-const tasks     = require('../app/gruntTaskConfigs');
+const Generator                             = require('yeoman-generator');
+const Gruntfile                             = require('gruntfile-editor');
+const {webapp}                              = require('../app/prompts');
+const tasks                                 = require('../app/gruntTaskConfigs');
+const COMMAND_LINE_OPTIONS                  = require('./commandLineOptions');
 const {
     copy,
     copyTpl,
@@ -15,48 +16,6 @@ const {
     json: {extend}
 } = require('../app/utils');
 
-const COMMAND_LINE_OPTIONS = {
-    defaults: {
-        type: Boolean,
-        desc: 'Scaffold app with no user input using default settings',
-        defaults: false
-    },
-    useBrowserify: {
-        type: Boolean,
-        desc: 'Use Browserify to bundle scripts',
-        defaults: false
-    },
-    useJest: {
-        type: Boolean,
-        desc: 'Use Jest to run tests',
-        defaults: false
-    },
-    useWebpack: {
-        type: Boolean,
-        desc: 'Use Webpack to bundle scripts',
-        defaults: false
-    },
-    cssPreprocessor: {
-        type: String,
-        desc: 'Choose CSS pre-processor',
-        defaults: 'less'
-    },
-    templateTechnology: {
-        type: String,
-        desc: 'Choose technology to use when pre-compiling templates',
-        defaults: 'handlebars'
-    },
-    skipImagemin: {
-        type: Boolean,
-        desc: 'DO NOT add image minification to project deploy pipeline',
-        defaults: false
-    },
-    skipAria: {
-        type: Boolean,
-        desc: 'DO NOT add ARIA auditing tasks and dependencies to project',
-        defaults: false
-    }
-};
 const CSS_PREPROCESSOR_EXT_LOOKUP = {
     less: 'less',
     sass: 'scss',
@@ -482,10 +441,12 @@ module.exports = class extends Generator {
     }
 };
 function getPackageJsonAttributes() {
-    const generator: WebappGenerator = this;
+    const generator = this;
+    // $FlowFixMe
     const {config} = generator;
     const {isNative, sourceDirectory, useBrowserify} = config.getAll();
     const main = isNative ? './index.js' : `${sourceDirectory}app/main.js`;
+    // $FlowFixMe
     const scripts = getScripts(generator);
     const babel = {
         plugins: [],
