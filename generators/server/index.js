@@ -14,7 +14,7 @@ const {
     download,
     formatCsvData,
     formatFederalAgencyData
-} = require('./data-utils');
+} = require('../app/data-utils');
 const {
     copyTpl,
     json: { extend }

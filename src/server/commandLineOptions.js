@@ -1,4 +1,4 @@
-const PORTS = require('./ports');
+const {http, https, ws, graphql} = require('./ports');
 module.exports = {
     defaults: {
         type: Boolean,
@@ -8,21 +8,21 @@ module.exports = {
     http: {
         type: String,
         desc: 'HTTP server port',
-        defaults: PORTS.http
+        defaults: http
     },
     https: {
         type: String,
         desc: 'HTTPS server port',
-        defaults: PORTS.https
+        defaults: https
     },
     ws: {
         type: String,
         desc: 'WebSocket server port',
-        defaults: PORTS.ws
+        defaults: ws
     },
     graphql: {
         type: String,
         desc: 'GraphQL server port',
-        defaults: PORTS.graphql
+        defaults: graphql
     }
 };

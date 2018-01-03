@@ -2,16 +2,16 @@ const {last}       = require('lodash');
 const {join}       = require('path');
 const {unlinkSync} = require('fs');
 const {
-    fin,
-    fail,
-    download,
-    formatFederalAgencyData
-} = require('../generators/server/data-utils');
-const {
     json,
     maybeInclude,
     parseModuleData
 } = require('../generators/app/utils');
+const {
+    fin,
+    fail,
+    download,
+    formatFederalAgencyData
+} = require('../generators/app/data-utils');
 
 const ORIGINAL_CONSOLE_LOG = window.console.log;
 const TEST_JSON_DATA = require('./data/test.json');
