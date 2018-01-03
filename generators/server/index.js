@@ -8,6 +8,8 @@ const { mkdirp } = require('fs-extra');
 const { blue } = require('chalk');
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
+const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
+const PORTS = require('./ports');
 const {
     download,
     formatCsvData,
@@ -51,40 +53,7 @@ const DATA_LOOKUP = {
         formatter: formatCsvData
     }
 };
-const PORTS = {
-    http: 8111,
-    https: 8443,
-    ws: 13337,
-    graphql: 4669
-};
 const INCLUDE_MARKDOWN_SUPPORT_DEFAULT = false;
-const COMMAND_LINE_OPTIONS = {
-    defaults: {
-        type: Boolean,
-        desc: 'Scaffold server with defaults settings and no user interaction',
-        defaults: false
-    },
-    http: {
-        type: String,
-        desc: 'HTTP server port',
-        defaults: PORTS.http
-    },
-    https: {
-        type: String,
-        desc: 'HTTPS server port',
-        defaults: PORTS.https
-    },
-    ws: {
-        type: String,
-        desc: 'WebSocket server port',
-        defaults: PORTS.ws
-    },
-    graphql: {
-        type: String,
-        desc: 'GraphQL server port',
-        defaults: PORTS.graphql
-    }
-};
 const PROMPTS = [{
     type: 'input',
     name: 'httpPort',

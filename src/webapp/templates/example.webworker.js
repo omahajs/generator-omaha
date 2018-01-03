@@ -15,8 +15,8 @@
  * }, 1000);
 **/
 importScripts('../../assets/library/require.min.js');
-let q = new Promise(function() {});
-let msg = [];
+const q = new Promise(function() {});
+const msg = [];
 self.onmessage = function(data) {
     'use strict';
     msg.push(data);

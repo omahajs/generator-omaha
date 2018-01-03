@@ -1,4 +1,7 @@
+
+
 const Generator = require('yeoman-generator');
+
 const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
 const { copyTpl } = require('../app/utils');
 
@@ -43,6 +46,11 @@ const questions = [{
     }]
 }];
 
+const aliasFor = dep => globalNameLookup[dep];
+const requireStatementFor = dep => `var ${aliasFor(dep)} = require('${npmModuleNameLookup[dep]}');`;
+const removeSingleQuotes = str => str.replace(/'/g, '');
+const wrapSingleQuotes = str => `'${str}'`;
+
 module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
@@ -55,6 +63,7 @@ module.exports = class extends Generator {
     prompting() {
         const generator = this;
         const { options, user } = generator;
+        const { name } = options;
         const customDepName = options.customDependency;
         if (customDepName && options.alias) {
             COMMAND_LINE_OPTIONS[customDepName] = true;
@@ -62,8 +71,8 @@ module.exports = class extends Generator {
             globalNameLookup[customDepName] = options.alias;
             npmModuleNameLookup[customDepName] = customDepName;
         }
-        const dependencySelected = Object.keys(COMMAND_LINE_OPTIONS).map(key => options[key]).indexOf(true) > -1;
-        generator.pluginName = generator.options.name.substring(generator.options.name.charAt(0) === '/' ? 1 : 0).replace('.', '_');
+        const dependencySelected = Object.keys(COMMAND_LINE_OPTIONS).map(key => options[key]).some(Boolean);
+        generator.pluginName = name.substring(name.charAt(0) === '/' ? 1 : 0).replace('.', '_');
         generator.userName = user.git.name() ? user.git.name() : 'A.Developer';
         generator.use = {};
         if (dependencySelected) {
@@ -106,15 +115,3 @@ module.exports = class extends Generator {
         copyTpl('umd.template.js', `${pathBase}${pluginName}.js`, generator);
     }
 };
-function aliasFor(dep) {
-    return globalNameLookup[dep];
-}
-function requireStatementFor(dep) {
-    return `var ${aliasFor(dep)} = require('${npmModuleNameLookup[dep]}');`;
-}
-function removeSingleQuotes(str) {
-    return str.replace(/'/g, '');
-}
-function wrapSingleQuotes(str) {
-    return `'${str}'`;
-}
