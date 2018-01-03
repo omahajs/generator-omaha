@@ -5,7 +5,7 @@ const { assign, keys } = Object;
 const { join } = require('path');
 const { pick } = require('lodash');
 const { mkdirp } = require('fs-extra');
-const { blue } = require('chalk');
+const { blue, red } = require('chalk');
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
 const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
@@ -76,6 +76,11 @@ const PROMPTS = [{
     default: PORTS.graphql
 }, {
     type: 'confirm',
+    name: 'enableGraphiql',
+    message: 'Enable GraphiQL endpoint?',
+    default: false
+}, {
+    type: 'confirm',
     name: 'markdownSupport',
     message: 'Add support for rendering Markdown files?',
     default: false
@@ -104,7 +109,8 @@ module.exports = class extends Generator {
         if (options.defaults || useCustomPorts()) {
             const done = this.async();
             const datasources = {};
-            assign(generator, { datasources }, {
+            const enableGraphiql = false;
+            assign(generator, { datasources, enableGraphiql }, {
                 httpPort: http,
                 httpsPort: https,
                 websocketPort: ws,
@@ -114,16 +120,17 @@ module.exports = class extends Generator {
             done();
         } else {
             return generator.prompt(PROMPTS).then((answers => {
-                const { downloadData } = answers;
+                const { downloadData, enableGraphiql } = answers;
                 const datasources = pick(DATA_LOOKUP, downloadData);
-                assign(generator, { datasources }, pick(answers, ['httpPort', 'httpsPort', 'websocketPort', 'graphqlPort', 'downloadData', 'markdownSupport']));
+                assign(generator, { datasources, enableGraphiql }, pick(answers, ['httpPort', 'httpsPort', 'websocketPort', 'graphqlPort', 'downloadData', 'markdownSupport']));
             }).bind(this));
         }
     }
     writing() {
         const generator = this;
-        const { fs, log, markdownSupport } = generator;
-        markdownSupport && log(yosay(`Place Markdown files in ${blue('./web/client/')}`));
+        const { fs, enableGraphiql, log, markdownSupport } = generator;
+        markdownSupport && log(yosay(`Place Markdown files in ${blue('./web/client/')}`)); /* eslint-disable no-console */
+        enableGraphiql && console.log(`    ${red.bold('Warning')}: CSRF and CSP will be disabled\n`); /* eslint-enable no-console */
         [// Boilerplate files
         ['_package.json', 'package.json'], ['config/_gitignore', '.gitignore'], ['config/_env', '.env'], ['config/_default.js', 'config/default.js'], ['../../project/templates/config/_eslintrc.js', 'config/.eslintrc.js'], ['_index.js', 'index.js'], ['_socket.js', 'web/socket.js'], // WebSocket server
         ['_server.js', 'web/server.js'], // HTTP server

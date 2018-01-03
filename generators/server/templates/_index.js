@@ -37,12 +37,12 @@ app.listen(config.get('http').port);
 //
 https.createServer(credentials, app).listen(config.get('https').port);
 //
-// WebSocket Server Endpoint
+// WebSocket Server
 //
 const wss = require('./web/socket.js');
 wss.on('error', data => log.error(data));
 //
-// GraphQL Server Endpoint
+// GraphQL Server
 //
 const gql = require('./web/graphql.js');
 gql.listen(config.get('graphql').port);

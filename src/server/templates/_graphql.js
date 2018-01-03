@@ -66,8 +66,9 @@ const schema = makeExecutableSchema({
     typeDefs,
     resolvers
 });
-const app = express();
-app.use(endpointURL, bodyParser.json(), graphqlExpress({schema, formatErrors}));
-app.use('/graphiql', graphiqlExpress({endpointURL}));
+const app = require('./server');
+app<% if (enableGraphiql) { %>
+    .use('/graphiql', graphiqlExpress({endpointURL}))
+    <% } %>.use(endpointURL, bodyParser.json(), graphqlExpress({schema, formatErrors}));
 
 module.exports = app;
