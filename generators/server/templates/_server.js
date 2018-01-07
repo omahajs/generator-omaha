@@ -36,6 +36,17 @@ const md = new Remarkable({
 });<% } %>
 const NINETY_DAYS_IN_MILLISECONDS = 7776000000;
 
+const setCsrfHeader = (req, res, next) => {
+    res.set('X-CSRF', req.sessionID);
+    return next();
+};
+const verifyCsrfHeader = (req, res, next) => {
+    if (res.get('X-CSRF') !== req.sessionID) {
+        res.status(412).end();
+    } else {
+        return next();
+    }
+};
 const app = express()
     .engine('html', require('ejs').renderFile)<% if (markdownSupport) { %>
     .engine('md', (path, options, fn) => {
@@ -52,10 +63,7 @@ const app = express()
     .set('view engine', 'html')
     .set('views', __dirname + '/client')
     .use(session(config.get('session')))
-    .use((req, res, next) => {
-        res.set('X-CSRF', req.sessionID);
-        return next();
-    })
+    .use(setCsrfHeader)
     .disable('x-powered-by') // Do not advertise Express
     <% if (enableGraphiql) { %>// <% } %>.use(lusca.csrf()) // Cross Site Request Forgery
     <% if (enableGraphiql) { %>// <% } %>.use(lusca.csp({policy: config.csp})) // Content Security Policy
@@ -72,20 +80,12 @@ const app = express()
     }))
     .use(compress()) // Use gzip compression
     .use(express.static(__dirname)); // Serve static files
-app.get('/', (req, res) => {
-    if (res.get('X-CSRF') === req.sessionID) {
-        res.render('index', {message: 'The server is functioning properly!'});
-    } else {
-        res.status(412).end();
-    }
+app.get('/', verifyCsrfHeader, (req, res) => {
+    res.render('index', {message: 'The server is functioning properly!'});
 });<% if (markdownSupport) { %>
-app.get('/:page.md', (req, res) => {
-    if (res.get('X-CSRF') === req.sessionID) {
-        const {page} = req.params;
-        res.render(`${page}.md`);
-    } else {
-        res.status(412).end();
-    }
+app.get('/:page.md', verifyCsrfHeader, (req, res) => {
+    const {page} = req.params;
+    res.render(`${page}.md`);
 });<% } %>
 
 module.exports = app;
