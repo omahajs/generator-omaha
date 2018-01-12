@@ -1,7 +1,7 @@
 Description:
-    Creates Node.js HTTP and WebSocket servers with security baked in
+    Creates Node.js HTTP, WebSocket, and GraphQL servers with security baked in
 
-Options:
+Prompts:
     > HTTP server port?
         Port that will serve HTTP content
 
@@ -11,18 +11,32 @@ Options:
     > WebSocket server port?
         Port that will serve WebSocket content
 
+    > GraphQL server port?
+        Port that will serve GraphQL content
+
+    > Enable GraphiQL endpoint?
+        Enable /graphiql endpoint for explorign GraphQL data and schema
+
+        ** Selecting "yes" will disable CSRF and CSP support **
+
     > Add support for rendering Markdown files?
         This will add a Markdown engine to the server using marked
         Any .md file inside web/markdown will be auto-rendered
         (MD extension not required in page path)
 
+    > Download data sets to explore:
+        This allows you to select some number of data sources to download for testing and exploration
+
 Example:
     yo omaha:server
 
-        This will create:
+        You will need to respond to some prompts.
+        After you have answered all the questions, the following will be created:
             package.json          - Development packages installed by npm
             app.json              - Configuration file for deploying to Heroku
             index.js              - Server entry point
             web/server.js         - HTTP server module
             web/socket.js         - WebSocket server module
+            web/graphql.js        - GraphQL server module
             web/client/index.html - Default client entry point
+            config/               - Configuration files directory
