@@ -2,97 +2,21 @@
 import type {ServerGenerator} from '../types';
 
 const {assign, keys}       = Object;
-const {join}               = require('path');
 const {pick}               = require('lodash');
 const {mkdirp}             = require('fs-extra');
-const {blue}               = require('chalk');
+const {blue, red}          = require('chalk');
 const Generator            = require('yeoman-generator');
 const yosay                = require('yosay');
+const {download}           = require('../app/data-utils');
+const {server}             = require('../app/prompts');
 const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
 const PORTS                = require('./ports');
-const {
-    download,
-    formatCsvData,
-    formatFederalAgencyData
-} = require('../app/data-utils');
+const {dir, lookup}        = require('./data');
 const {
     copyTpl,
     json: {extend}
 } = require('../app/utils');
-
-const DATA_DIR = './web/data';
-const DATA_LOOKUP = {
-    'Federal agencies data': {
-        url: 'https://raw.githubusercontent.com/GSA/data.gov/master/roots-nextdatagov/assets/Json/fed_agency.json',
-        path: join(DATA_DIR, 'federal_agencies.json'),
-        formatter: formatFederalAgencyData
-    },
-    'Federal IT Standards Profile List': {// https://github.com/GSA/data
-        url: 'https://raw.githubusercontent.com/GSA/data/master/enterprise-architecture/it-standards.csv',
-        path: join(DATA_DIR, 'federal_it_standards.json'),
-        formatter: formatCsvData
-    },
-    'Federal .gov domains': {// https://github.com/GSA/data
-        url: 'https://raw.githubusercontent.com/GSA/data/master/dotgov-domains/current-federal.csv',
-        path: join(DATA_DIR, 'federal_dotgov_domains.json'),
-        formatter: formatCsvData
-    },
-    '2013 Earthquake data': {// https://github.com/GSA/data.gov
-        url: 'https://raw.githubusercontent.com/GSA/data.gov/gh-pages/wordpress/assets/earthquakes.csv',
-        path: join(DATA_DIR, 'earthquakes_2013.json'),
-        formatter: formatCsvData
-    },
-    '2012 Revenue data': {
-        url: 'https://raw.githubusercontent.com/curran/data/gh-pages/wikibon/revenueBigData2012.csv',
-        path: join(DATA_DIR, 'revenue_2012.json'),
-        formatter: formatCsvData
-    },
-    '2015 Startup analytics data': {
-        url: 'https://raw.githubusercontent.com/curran/data/gh-pages/mattermark/2015-top-100-analytics-startups.csv',
-        path: join(DATA_DIR, 'startups_2015.json'),
-        formatter: formatCsvData
-    }
-};
 const INCLUDE_MARKDOWN_SUPPORT_DEFAULT = false;
-const PROMPTS = [
-    {
-        type: 'input',
-        name: 'httpPort',
-        message: 'HTTP server port?',
-        default: PORTS.http
-    },
-    {
-        type: 'input',
-        name: 'httpsPort',
-        message: 'HTTPS server port?',
-        default: PORTS.https
-    },
-    {
-        type: 'input',
-        name: 'websocketPort',
-        message: 'WebSocket server port?',
-        default: PORTS.ws
-    },
-    {
-        type: 'input',
-        name: 'graphqlPort',
-        message: 'GraphQL server port?',
-        default: PORTS.graphql
-    },
-    {
-        type: 'confirm',
-        name: 'markdownSupport',
-        message: 'Add support for rendering Markdown files?',
-        default: false
-    },
-    {
-        type: 'checkbox',
-        name: 'downloadData',
-        message: 'Download data sets to explore:',
-        default: [],
-        choices: keys(DATA_LOOKUP)
-    }
-];
 
 module.exports = class extends Generator {
     constructor(args: any, opts: any) {
@@ -116,7 +40,8 @@ module.exports = class extends Generator {
         if (options.defaults || useCustomPorts()) {
             const done = this.async();
             const datasources = {};
-            assign(generator, {datasources}, {
+            const enableGraphiql = false;
+            assign(generator, {datasources, enableGraphiql}, {
                 httpPort:  http,
                 httpsPort: https,
                 websocketPort: ws,
@@ -125,10 +50,10 @@ module.exports = class extends Generator {
             });
             done();
         } else {
-            return generator.prompt(PROMPTS).then((answers => {
-                const {downloadData} = answers;
-                const datasources = pick(DATA_LOOKUP, downloadData);
-                assign(generator, {datasources}, pick(answers, [
+            return generator.prompt(server.prompts).then((answers => {
+                const {downloadData, enableGraphiql} = answers;
+                const datasources = pick(lookup, downloadData);
+                assign(generator, {datasources, enableGraphiql}, pick(answers, [
                     'httpPort',
                     'httpsPort',
                     'websocketPort',
@@ -141,8 +66,9 @@ module.exports = class extends Generator {
     }
     writing() {
         const generator = this;
-        const {fs, log, markdownSupport} = generator;
-        markdownSupport && log(yosay(`Place Markdown files in ${blue('./web/client/')}`));
+        const {fs, enableGraphiql, log, markdownSupport} = generator;
+        markdownSupport && log(yosay(`Place Markdown files in ${blue('./web/client/')}`));/* eslint-disable no-console */
+        enableGraphiql && console.log(`    ${red.bold('Warning')}: CSRF and CSP will be disabled\n`);/* eslint-enable no-console */
         [// Boilerplate files
             ['_package.json', 'package.json'],
             ['config/_gitignore', '.gitignore'],
@@ -179,8 +105,8 @@ module.exports = class extends Generator {
         //
         const {downloadData} = generator;
         if (Array.isArray(downloadData) && downloadData.length > 0) {
-            mkdirp(DATA_DIR);
-            downloadData.forEach(data => download(DATA_LOOKUP[data]));
+            mkdirp(dir);
+            downloadData.forEach(data => download(lookup[data]));
         }
     }
 };

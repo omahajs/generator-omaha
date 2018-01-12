@@ -75,7 +75,7 @@ module.exports = class extends Generator {
             assign(generator, generator.use, settings);
             done();
         } else {
-            return generator.prompt(webapp.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
+            return generator.prompt(webapp.getQuestions({isWebapp}).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
                 const {cssPreprocessor, templateTechnology} = options;
                 const USE_DEFAULT_CSS_PREPROCESSOR = (cssPreprocessor === COMMAND_LINE_OPTIONS.cssPreprocessor.defaults);

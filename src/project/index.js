@@ -82,7 +82,7 @@ module.exports = class extends Generator {
             assign(generator, settings);
             done();
         } else {
-            return generator.prompt(project.getQuestions(isWebapp).filter(isUnAnswered)).then(function(answers) {
+            return generator.prompt(project.getQuestions({isWebapp}).filter(isUnAnswered)).then(function(answers) {
                 generator.use = answers;
                 const settings = getProjectVariables(generator);
                 config.set(settings);

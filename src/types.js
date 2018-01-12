@@ -29,15 +29,16 @@ export type WebappGenerator = {
     }
 };
 export type ServerGenerator = {
-    prompt: Function,
-    options: any,
     datasources: any,
+    enableGraphiql: boolean,
+    graphqlPort: string,
     httpPort: string,
     httpsPort: string,
-    websocketPort: string,
-    graphqlPort: string,
     markdownSupport: boolean,
-    useJest?: boolean
+    options: any,
+    prompt: Function,
+    useJest?: boolean,
+    websocketPort: string
 };
 export type PluginGenerator = {
     async: Function,

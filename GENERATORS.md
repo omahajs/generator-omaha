@@ -97,7 +97,8 @@ yo omaha:server
 - `--defaults`: scaffold server with no user input using defaults
 - `--http`: set HTTP port (auto applies `--defaults`)
 - `--https`: set HTTPS port (auto applies `--defaults`)
-- `--ws`: set websocket port (auto applies `--defaults`)
+- `--ws`: set WebSocket port (auto applies `--defaults`)
+- `--graphql`: set GraphQL port (auto applies `--defaults`)
 
 **Examples:**
 
@@ -106,9 +107,9 @@ Create a server with default ports (no markdown support):
 yo omaha:server --defaults
 ```
 
-Create a server with custom HTTP port (all other ports use default value):
+Create a server with custom GraphQL port (all other ports use default value):
 ```sh
-yo omaha:server --http 1234
+yo omaha:server --graphql 1234
 ```
 
 Create a server with all custom ports (no markdown support):

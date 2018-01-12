@@ -1,6 +1,9 @@
-
 const { extend, curry, head, pick, set, toLower } = require('lodash');
-const { blue, red, yellow } = require('chalk');
+const { keys } = Object;
+const chalk = require('chalk');
+const { blue, red, yellow } = chalk;
+const { http, https, ws, graphql } = require('../server/ports');
+const { lookup } = require('../server/data');
 
 const projectQuestions = [{
     type: 'input',
@@ -54,27 +57,67 @@ const webappQuestions = [{
     message: 'Use image compression for deployed application?',
     default: true
 }];
-const getPromptQuestions = curry(function (type, isWebapp) {
+const serverQuestions = [{
+    type: 'input',
+    name: 'httpPort',
+    message: 'HTTP server port?',
+    default: http
+}, {
+    type: 'input',
+    name: 'httpsPort',
+    message: 'HTTPS server port?',
+    default: https
+}, {
+    type: 'input',
+    name: 'websocketPort',
+    message: 'WebSocket server port?',
+    default: ws
+}, {
+    type: 'input',
+    name: 'graphqlPort',
+    message: 'GraphQL server port?',
+    default: graphql
+}, {
+    type: 'confirm',
+    name: 'enableGraphiql',
+    message: 'Enable GraphiQL endpoint?',
+    default: false
+}, {
+    type: 'confirm',
+    name: 'markdownSupport',
+    message: 'Add support for rendering Markdown files?',
+    default: false
+}, {
+    type: 'checkbox',
+    name: 'downloadData',
+    message: 'Download data sets to explore:',
+    default: [],
+    choices: keys(lookup)
+}];
+const getPromptQuestions = curry(function (type, options) {
+    const { isWebapp, isServer } = options;
     const questionLookup = {
         project: projectQuestions,
-        webapp: webappQuestions
+        webapp: webappQuestions,
+        server: serverQuestions
     };
-    return questionLookup[type].map(promptMessageFormat(type, isWebapp));
+    return questionLookup[type].map(promptMessageFormat({ type, isWebapp, isServer }));
 });
 const defaults = {
     project: projectQuestions.map(question => set({}, question.name, question.default)).reduce(extend),
     webapp: webappQuestions.map(question => pick(question, ['name', 'default', 'choices'])).map(item => set({}, item.name, Array.isArray(item.choices) ? head(item.choices.map(toLower)) : item.default)).reduce(extend)
 };
 
-function promptMessageFormat(type, isWebapp) {
-    function addLeadingZero(step) {
-        return step < 10 ? `0${step}` : step;
-    }
-    let total = projectQuestions.length;
+function addLeadingZero(step) {
+    return step < 10 ? `0${step}` : step;
+}
+function promptMessageFormat(options) {
+    const { type, isWebapp, isServer } = options;
+    let total = isServer ? serverQuestions.length : projectQuestions.length;
     total += isWebapp ? webappQuestions.length : 0;
     return function (question, index) {
         const step = index + 1 + (type === 'webapp' ? projectQuestions.length : 0);
-        question.message = require('chalk')[step === total ? 'green' : 'gray'](`(${addLeadingZero(step)}/${total}) `) + question.message;
+        question.message = chalk[step === total ? 'green' : 'gray'](`(${addLeadingZero(step)}/${total}) `) + question.message;
         return question;
     };
 }
@@ -86,4 +129,7 @@ exports.project = {
 exports.webapp = {
     defaults: defaults.webapp,
     getQuestions: getPromptQuestions('webapp')
+};
+exports.server = {
+    prompts: getPromptQuestions('server', { isServer: true })
 };
