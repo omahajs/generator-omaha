@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "eslint": "^3.0.0",
-    "eslint-config-omaha-prime-grade": "^1.0.0",
+    "eslint-config-omaha-prime-grade": "^4.0.0",
     "nodemon": "^1.8.1",
     "watch": "^1.0.0"
   },
