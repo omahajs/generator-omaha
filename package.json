@@ -66,7 +66,7 @@
     "setupTestFrameworkScriptFile": "./test/lib/jestSetup.js"
   },
   "scripts": {
-    "lint": "flow && npm run eslint",
+    "lint": "glow && npm run eslint",
     "eslint": "eslint --fix -c ./.eslintrc.js ./src/**/*.js",
     "lint:watch": "watch 'npm run lint' ./src",
     "lint:tests": "eslint --fix --env jest -c ./.eslintrc.js ./test/**; exit 0;",
