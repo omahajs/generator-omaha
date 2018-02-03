@@ -219,32 +219,28 @@ function getJestConfig(generator: ProjectGenerator) {
     };
 }
 function getScripts(generator: ProjectGenerator) {
-    const {useBenchmark, useCoveralls, useJest, useWebpack} = generator.config.getAll();
+    const {
+        useBenchmark,
+        useCoveralls,
+        useJest,
+        useWebpack
+    } = generator.config.getAll();
     const scripts = {coverage: 'nyc report -r text'};
-    if (useBenchmark) {
-        assign(scripts, {
-            'test:perf': 'grunt benchmark'
-        });
-    }
-    if (useCoveralls) {
-        assign(scripts, {
-            'test:travis': 'nyc report --reporter=text-lcov | coveralls'
-        });
-    }
-    if (useJest) {
-        assign(scripts, {
-            test: 'jest .*.test.js',
-            coverage: 'npm test -- --coverage',
-            'test:watch': 'npm test -- --watch',
-            'test:travis': 'npm run coverage && cat ./coverage/lcov.info | coveralls',
-            'lint:tests': 'eslint -c ./config/.eslintrc.js ./test/*.js'
-        });
-    }
-    if (useWebpack) {
-        assign(scripts, {
-            'build:watch': 'webpack-dashboard -- webpack-dev-server --config ./config/webpack.config.js'
-        });
-    }
+    useBenchmark && assign(scripts, {
+        'test:perf': 'grunt benchmark'
+    });
+    useCoveralls && assign(scripts, {
+        'test:travis': useJest ? 'npm run coverage && cat ./coverage/lcov.info | coveralls' : 'nyc report --reporter=text-lcov | coveralls'
+    });
+    useJest && assign(scripts, {
+        test: 'jest .*.test.js',
+        coverage: 'npm test -- --coverage',
+        'test:watch': 'npm test -- --watch',
+        'lint:tests': 'eslint -c ./config/.eslintrc.js ./test/*.js'
+    });
+    useWebpack && assign(scripts, {
+        'build:watch': 'webpack-dashboard -- webpack-dev-server --config ./config/webpack.config.js'
+    });
     /* istanbul ignore else */
     if (['linux', 'freebsd'].includes(process.platform)) {
         assign(scripts, {
