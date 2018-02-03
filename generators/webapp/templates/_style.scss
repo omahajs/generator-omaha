@@ -1,8 +1,10 @@
-@import "../../node_modules/normalize.css/normalize.css";
+// Sass does not support inline CSS import so this will not work
+// Inline CSS import is slated for Sass v4 - https://github.com/sass/sass/issues/193#issuecomment-108590912
+// @import "<% if (sourceDirectory !== './') { %>../<% } %>../../node_modules/normalize.css/normalize.css";
 
 body {
     background-color: white;
-    background-image: url("../assets/images/logo.png");
+    background-image: url("../<%= sourceDirectory %>assets/images/logo.png");
     background-position: 50% -50%;
     background-repeat: no-repeat;
     background-size: 250px;

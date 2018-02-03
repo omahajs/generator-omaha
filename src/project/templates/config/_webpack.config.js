@@ -3,7 +3,7 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {
     entry: {
-        app: './app/main.js'
+        app: './<%= sourceDirectory %>app/main.js'
     },
     output: {
         path: resolve('./dist/client'),
@@ -27,7 +27,7 @@ module.exports = {
     resolve: {
         modules: [
             resolve('./node_modules'),
-            resolve('./app')
+            resolve('./<%= sourceDirectory %>app')
         ],
         alias: {
             handlebars: 'handlebars/runtime.js'//https://github.com/wycats/handlebars.js/issues/953#issuecomment-94931306
