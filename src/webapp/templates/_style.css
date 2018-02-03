@@ -1,8 +1,8 @@
-@import "../../node_modules/normalize.css/normalize.css";
+@import "<% if (sourceDirectory !== './') { %>../<% } %>../../node_modules/normalize.css/normalize.css";
 
 body {
     background-color: white;
-    background-image: url("../assets/images/logo.png");
+    background-image: url("../<%= sourceDirectory %>assets/images/logo.png");
     background-position: 50% -50%;
     background-repeat: no-repeat;
     background-size: 250px;
