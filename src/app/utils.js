@@ -33,20 +33,20 @@ function maybe(condition: boolean, val: any, defaultValue: any = []) {
     return (isBoolean(condition) && condition) ? val : defaultValue;
 }
 function copy(from: string, to: string, context: any) {
-    var source = context.templatePath(from);
-    var dest = context.destinationPath(to);
+    const source = context.templatePath(from);
+    const dest = context.destinationPath(to);
     context.fs.copy(source, dest);
 }
 function copyTpl(from: string, to: string, context: any) {
-    var source = context.templatePath(from);
-    var dest = context.destinationPath(to);
+    const source = context.templatePath(from);
+    const dest = context.destinationPath(to);
     context.fs.copyTpl(source, dest, context);
 }
 function readJSON(fileName: string) {
     return JSON.parse(readFileSync(fileName).toString());
 }
 function writeJSON(fileName: string, content: any) {
-    var INDENT_SPACES = 4;
+    const INDENT_SPACES = 4;
     writeFileSync(fileName, `${JSON.stringify(content, null, INDENT_SPACES) }\n`);
 }
 function extendJSON(fileName: string, obj: any) {

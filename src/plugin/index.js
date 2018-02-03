@@ -90,7 +90,7 @@ module.exports = class extends Generator {
             done();
         } else {
             return generator.prompt(questions).then(function(answers) {
-                const dependencies = answers.dependencies;
+                const {dependencies} = answers;
                 generator.depList = dependencies.map(wrapSingleQuotes);
                 generator.dependencies = dependencies;
                 dependencies.forEach(dep => {

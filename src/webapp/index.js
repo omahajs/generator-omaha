@@ -65,7 +65,7 @@ module.exports = class extends Generator {
                 moduleFormat,
                 useAmd,
                 useBrowserify: (useBrowserify || !(useAmd || useWebpack)), // Browserify is default
-                useWebpack:    useWebpack,
+                useWebpack,
                 useJest:       (useJest || useWebpack), // Jest is ONLY an option and does not need to be saved via config
                 useLess:       options.cssPreprocessor === 'less',
                 useSass:       options.cssPreprocessor === 'sass',
