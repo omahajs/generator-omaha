@@ -227,8 +227,9 @@ function getScripts(generator: ProjectGenerator) {
         });
     }
     if (useCoveralls) {
+        const command = useJest ? 'npm run coverage && cat ./coverage/lcov.info | coveralls' : 'nyc report --reporter=text-lcov | coveralls';
         assign(scripts, {
-            'test:travis': 'nyc report --reporter=text-lcov | coveralls'
+            'test:travis': command
         });
     }
     if (useJest) {
@@ -236,7 +237,6 @@ function getScripts(generator: ProjectGenerator) {
             test: 'jest .*.test.js',
             coverage: 'npm test -- --coverage',
             'test:watch': 'npm test -- --watch',
-            'test:travis': 'npm run coverage && cat ./coverage/lcov.info | coveralls',
             'lint:tests': 'eslint -c ./config/.eslintrc.js ./test/*.js'
         });
     }
