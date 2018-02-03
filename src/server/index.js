@@ -29,14 +29,14 @@ module.exports = class extends Generator {
     prompting() {
         const generator: ServerGenerator = this;
         const {options} = generator;
-        const {http, https, useJest, ws, graphql} = options;
+        const {http, https, ws, graphql} = options;
         const useCustomPorts = () => [
             PORTS.http !== Number(http),
             PORTS.https !== Number(https),
             PORTS.ws !== Number(ws),
             PORTS.graphql !== Number(graphql)
         ].some(Boolean);
-        generator.useJest = Boolean(useJest);
+        generator.useJest = false;
         if (options.defaults || useCustomPorts()) {
             const done = this.async();
             const datasources = {};

@@ -85,7 +85,7 @@ module.exports = class extends Generator {
             done();
         } else {
             return generator.prompt(questions).then(function (answers) {
-                const dependencies = answers.dependencies;
+                const { dependencies } = answers;
                 generator.depList = dependencies.map(wrapSingleQuotes);
                 generator.dependencies = dependencies;
                 dependencies.forEach(dep => {
@@ -97,8 +97,11 @@ module.exports = class extends Generator {
     writing() {
         const generator = this;
         const { config, pluginName, use } = generator;
-        const pluginDirectory = config.get('pluginDirectory');
-        let pathBase = pluginDirectory ? `${pluginDirectory}/app/plugins/` : config.get('sourceDirectory');
+        const {
+            pluginDirectory,
+            sourceDirectory
+        } = config.getAll();
+        let pathBase = pluginDirectory ? `${pluginDirectory}/app/plugins/` : sourceDirectory;
         pathBase = pathBase ? pathBase : './';
         if (use.marionette && !use.backbone) {
             generator.depList.unshift('\'backbone\'');

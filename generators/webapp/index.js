@@ -64,8 +64,8 @@ module.exports = class extends Generator {
             const settings = {
                 moduleFormat,
                 useAmd,
+                useWebpack,
                 useBrowserify: useBrowserify || !(useAmd || useWebpack), // Browserify is default
-                useWebpack: useWebpack,
                 useJest: useJest || useWebpack, // Jest is ONLY an option and does not need to be saved via config
                 useLess: options.cssPreprocessor === 'less',
                 useSass: options.cssPreprocessor === 'sass',
@@ -160,6 +160,7 @@ module.exports = class extends Generator {
         const generator = this;
         const { config } = generator;
         const {
+            projectParameters,
             sourceDirectory,
             useAmd,
             useAria,
@@ -264,15 +265,18 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        const projectParameters = assign(config.get('projectParameters'), pick(generator, ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']));
-        config.set({ projectParameters });
+        const parameters = assign({}, projectParameters, pick(generator, ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']));
+        config.set({ parameters });
     }
 };
 function getPackageJsonAttributes() {
     const generator = this;
-    // $FlowFixMe
-    const { config } = generator;
-    const { isNative, sourceDirectory, useBrowserify } = config.getAll();
+    const {
+        isNative,
+        sourceDirectory,
+        useBrowserify
+        // $FlowFixMe
+    } = generator.config.getAll();
     const main = isNative ? './index.js' : `${sourceDirectory}app/main.js`;
     // $FlowFixMe
     const scripts = getScripts(generator);
@@ -284,8 +288,13 @@ function getPackageJsonAttributes() {
     return { main, scripts, babel, stylelint };
 }
 function getScripts(generator) {
-    const { config } = generator;
-    const { isNative, useAmd, useJest, useCoveralls, useJsinspect } = config.getAll();
+    const {
+        isNative,
+        useAmd,
+        useJest,
+        useCoveralls,
+        useJsinspect
+    } = generator.config.getAll();
     const scripts = {
         lint: 'grunt eslint:src',
         'lint:watch': 'grunt eslint:ing watch:eslint',
@@ -316,23 +325,17 @@ function getScripts(generator) {
             postbuild: `babel ${temp} -o ${dist}config.js && rm ${temp}`
         });
     }
-    if (useCoveralls) {
-        assign(scripts, {
-            'test:ci': 'npm test && grunt coveralls'
-        });
-    }
-    if (useJest) {
-        assign(scripts, {
-            pretest: 'npm run lint',
-            test: 'jest .*.test.js --coverage',
-            'test:watch': 'npm test -- --watch'
-        });
-    }
-    if (useJsinspect) {
-        assign(scripts, {
-            inspect: 'grunt jsinspect:app'
-        });
-    }
+    useCoveralls && assign(scripts, {
+        'test:ci': 'npm test && grunt coveralls'
+    });
+    useJest && assign(scripts, {
+        pretest: 'npm run lint',
+        test: 'jest .*.test.js --coverage',
+        'test:watch': 'npm test -- --watch'
+    });
+    useJsinspect && assign(scripts, {
+        inspect: 'grunt jsinspect:app'
+    });
     return scripts;
 }
 function getTasks(generator) {
