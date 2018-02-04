@@ -60,7 +60,8 @@ module.exports = class extends Generator {
             'electron-is-dev'
         ];
         const devDependencies = [
-            'spectron'
+            'spectron',
+            'electron-reloader'
         ].concat(// work in progress
             // 'devtron',// waiting on https://github.com/electron/devtron/issues/96
             // 'electron-builder',// https://github.com/electron-userland/electron-builder
