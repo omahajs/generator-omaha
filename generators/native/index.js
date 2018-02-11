@@ -53,7 +53,7 @@ module.exports = class extends Generator {
         // Install dependencies
         //
         const dependencies = ['electron', 'electron-context-menu', 'electron-debug', 'electron-is-dev'];
-        const devDependencies = ['spectron'].concat();
+        const devDependencies = ['spectron', 'electron-reloader'].concat();
         this.npmInstall(dependencies, { save: true });
         this.npmInstall(devDependencies, { saveDev: true });
         //

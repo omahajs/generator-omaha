@@ -2,6 +2,12 @@ const {join} = require('path');
 const {app, BrowserWindow, Menu} = require('electron');
 const ContextMenu = require('electron-context-menu');
 //
+// electron-reloaoder - https://github.com/sindresorhus/electron-reloader
+// main process file change --> app restart
+// renderer file change --> page reload
+//
+try {require('electron-reloader')(module);} catch (err) {/* intentionally left blank */}
+//
 // Add debug features like hotkeys for triggering dev tools and reload
 //
 require('electron-debug')();
