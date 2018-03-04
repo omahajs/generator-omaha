@@ -17,6 +17,5 @@ module.exports = class extends Generator {
     }
     end() {
         this.log(footer(this));
-        // this.config.set('hideBanner', false);
     }
 };
