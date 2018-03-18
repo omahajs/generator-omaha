@@ -23,14 +23,12 @@ const CSS_PREPROCESSOR_EXT_LOOKUP = {
 };
 
 const resolveModuleFormat = bundler => bundler === 'rjs' ? 'amd' : 'commonjs';
-const getScriptBundler = generator => parseModuleData(generator.use.moduleData)[1].toLowerCase();
 const getModuleFormat = generator => {
     const { options } = generator;
     const { useBrowserify, useJest, useWebpack } = options;
     return useJest || useBrowserify || useWebpack ? 'commonjs' : 'amd';
 };
-const useDefaultScriptBundler = generator => {
-    const scriptBundler = getScriptBundler(generator);
+const shouldUseBrowserify = scriptBundler => {
     const moduleFormat = scriptBundler !== 'rjs' ? 'commonjs' : 'amd';
     const useWebpack = scriptBundler === 'webpack';
     const useAmd = moduleFormat === 'amd';
@@ -75,22 +73,23 @@ module.exports = class extends Generator {
             assign(generator, generator.use, settings);
             done();
         } else {
-            return generator.prompt(webapp.getQuestions({ isWebapp }).filter(isUnAnswered)).then(function (answers) {
-                generator.use = answers;
+            const questions = webapp.getQuestions({ isWebapp }).filter(isUnAnswered);
+            return generator.prompt(questions).then(answers => {
                 const { cssPreprocessor, templateTechnology } = options;
                 const USE_DEFAULT_CSS_PREPROCESSOR = cssPreprocessor === COMMAND_LINE_OPTIONS.cssPreprocessor.defaults;
                 const USE_DEFAULT_TEMPLATE_RENDERER = templateTechnology === COMMAND_LINE_OPTIONS.templateTechnology.defaults;
-                const CSS_PREPROCESSOR = USE_DEFAULT_CSS_PREPROCESSOR ? generator.use.cssPreprocessor.toLowerCase() : cssPreprocessor;
-                const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? generator.use.templateTechnology.toLowerCase() : templateTechnology;
-                const SCRIPT_BUNDLER = parseModuleData(generator.use.moduleData)[1].toLowerCase();
+                const CSS_PREPROCESSOR = USE_DEFAULT_CSS_PREPROCESSOR ? answers.cssPreprocessor.toLowerCase() : cssPreprocessor;
+                const TEMPLATE_TECHNOLOGY = USE_DEFAULT_TEMPLATE_RENDERER ? answers.templateTechnology.toLowerCase() : templateTechnology;
+                const SCRIPT_BUNDLER = parseModuleData(answers.moduleData)[1].toLowerCase();
                 const USE_BROWSERIFY = SCRIPT_BUNDLER === 'browserify';
                 const USE_WEBPACK = SCRIPT_BUNDLER === 'webpack' || useWebpack;
                 const moduleFormat = resolveModuleFormat(SCRIPT_BUNDLER);
                 const useAmd = moduleFormat === 'amd';
                 const settings = {
                     moduleFormat,
+                    use: answers,
                     useAmd,
-                    useBrowserify: USE_BROWSERIFY || useDefaultScriptBundler(generator), // Browserify is default
+                    useBrowserify: USE_BROWSERIFY || shouldUseBrowserify(SCRIPT_BUNDLER), // Browserify is default
                     useWebpack: USE_WEBPACK,
                     useJest: useJest || USE_WEBPACK, // Jest is ONLY an option and does not need to be saved via config
                     useLess: CSS_PREPROCESSOR === 'less',
@@ -98,8 +97,8 @@ module.exports = class extends Generator {
                     useHandlebars: TEMPLATE_TECHNOLOGY === 'handlebars'
                 };
                 config.set(settings);
-                assign(generator, settings);
-            }.bind(generator));
+                return assign(generator, settings);
+            });
         }
     }
     writing() {

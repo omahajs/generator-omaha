@@ -82,12 +82,13 @@ module.exports = class extends Generator {
             assign(generator, settings);
             done();
         } else {
-            return generator.prompt(project.getQuestions({ isWebapp }).filter(isUnAnswered)).then(function (answers) {
+            const questions = project.getQuestions({ isWebapp }).filter(isUnAnswered);
+            return generator.prompt(questions).then(answers => {
                 generator.use = answers;
                 const settings = getProjectVariables(generator);
                 config.set(settings);
-                assign(generator, settings);
-            }.bind(generator));
+                return assign(generator, settings);
+            });
         }
     }
     writing() {
