@@ -68,6 +68,7 @@ export type ServerGenerator = {
     httpsPort: string,
     markdownSupport: boolean,
     options: {
+        defaults: boolean,
         http: string,
         https: string,
         graphql: string,
@@ -94,7 +95,8 @@ export type PluginGenerator = {
     requireStatements: string,
     use: {
         backbone?: boolean,
-        underscore?: boolean
+        underscore?: boolean,
+        marionette?: boolean
     },
     user: {
         git: {
