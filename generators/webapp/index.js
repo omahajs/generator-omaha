@@ -102,9 +102,6 @@ module.exports = class extends Generator {
         }
     }
     writing() {
-        //
-        // Write configuration files
-        //
         const generator = this;
         const { config, options, use, user } = generator;
         const { skipAria, skipImagemin } = options;
