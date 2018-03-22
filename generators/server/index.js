@@ -45,11 +45,12 @@ module.exports = class extends Generator {
             });
             done();
         } else {
-            return generator.prompt(server.prompts).then((answers => {
+            const questions = server.prompts;
+            return generator.prompt(questions).then(answers => {
                 const { downloadData, enableGraphiql } = answers;
                 const datasources = pick(lookup, downloadData);
-                assign(generator, { datasources, enableGraphiql }, pick(answers, ['httpPort', 'httpsPort', 'websocketPort', 'graphqlPort', 'downloadData', 'markdownSupport']));
-            }).bind(this));
+                return assign(generator, { datasources, enableGraphiql }, pick(answers, ['httpPort', 'httpsPort', 'websocketPort', 'graphqlPort', 'downloadData', 'markdownSupport']));
+            });
         }
     }
     writing() {

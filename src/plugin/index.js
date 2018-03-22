@@ -89,14 +89,15 @@ module.exports = class extends Generator {
             });
             done();
         } else {
-            return generator.prompt(questions).then(function(answers) {
+            return generator.prompt(questions).then(answers => {
                 const {dependencies} = answers;
                 generator.depList = dependencies.map(wrapSingleQuotes);
                 generator.dependencies = dependencies;
                 dependencies.forEach(dep => {
                     generator.use[dep] = true;
                 });
-            }.bind(generator));
+                return generator;
+            });
         }
     }
     writing() {
