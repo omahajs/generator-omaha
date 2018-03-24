@@ -180,6 +180,15 @@ describe('Default generator', function() {
                 verifyBoilerplateFiles('./');
                 verifyDefaultConfiguration();
             }));
+        it('--defaults --use-rust', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {defaults, 'use-rust': true}))
+            .toPromise()
+            .then(() => {
+                verify();
+                fileContent('package.json', '"build:wasm": ');
+                fileContent('package.json', '"postbuild:wasm": ');
+                file('assets/rust/main.rs');
+            }));
         it('--defaults --use-jest', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {defaults, 'use-jest': true}))
             .toPromise()

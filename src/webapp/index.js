@@ -51,7 +51,7 @@ module.exports = class extends Generator {
     prompting() {
         const generator = this;
         const {config, options} = generator;
-        const {useBrowserify, useJest, useWebpack} = options;
+        const {useBrowserify, useJest, useRust, useWebpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
         const isWebapp = true;
         if (options.defaults) {
@@ -62,6 +62,7 @@ module.exports = class extends Generator {
             const settings = {
                 moduleFormat,
                 useAmd,
+                useRust,
                 useWebpack,
                 useBrowserify: (useBrowserify || !(useAmd || useWebpack)), // Browserify is default
                 useJest:       (useJest || useWebpack), // Jest is ONLY an option and does not need to be saved via config
@@ -112,6 +113,7 @@ module.exports = class extends Generator {
             useAmd,
             useHandlebars,
             useJest,
+            useRust,
             useWebpack
         } = config.getAll();
         const userName = config.get('userName') || user.git.name();
@@ -205,7 +207,15 @@ module.exports = class extends Generator {
         //
         // Write assets files
         //
-        ['fonts', 'images', 'templates', 'library', 'workers'].forEach(path => mkdirp(`${assetsDirectory}${path}`));
+        [
+            'fonts',
+            'images',
+            'templates',
+            'library',
+            'workers'
+        ].concat(// optional folders
+            iff(useRust, 'rust')
+        ).forEach(path => mkdirp(`${assetsDirectory}${path}`));
         copy('library/*', `${assetsDirectory}library`, generator);
         copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
         [].concat(
@@ -225,6 +235,7 @@ module.exports = class extends Generator {
                     ]
                 ]
             ),
+            iff(useRust, [['main.rs', 'rust/main.rs']]),
             [[
                 'example.template.hbs',
                 'templates/example.hbs'
@@ -461,10 +472,12 @@ function getPackageJsonAttributes() {
 function getScripts(generator: WebappGenerator) {
     const {
         isNative,
+        sourceDirectory,
         useAmd,
         useJest,
         useCoveralls,
-        useJsinspect
+        useJsinspect,
+        useRust
     } = generator.config.getAll();
     const scripts = {
         lint:         'grunt eslint:src',
@@ -506,6 +519,10 @@ function getScripts(generator: WebappGenerator) {
     });
     useJsinspect && assign(scripts, {
         inspect: 'grunt jsinspect:app'
+    });
+    useRust && assign(scripts, {
+        'build:wasm': `rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib ${sourceDirectory}assets/rust/main.rs -o ${sourceDirectory}assets/rust/main.wasm`, // eslint-disable-line max-len
+        'postbuild:wasm': `wasm-gc ${sourceDirectory}assets/rust/main.wasm ${sourceDirectory}assets/rust/main.min.wasm`
     });
     return scripts;
 }
