@@ -188,6 +188,7 @@ describe('Default generator', function() {
                 fileContent(browserifyContent);
                 fileContent('package.json', '"testMatch":');
                 fileContent('package.json', '"test": "jest ');
+                file('assets/workers/example.webworker.js');
                 file('test/example.test.js');
                 noFile('test/mocha.opts');
             }));
@@ -206,6 +207,7 @@ describe('Default generator', function() {
             .then(() => {
                 verify();
                 file('config/webpack.config.js');
+                file('assets/workers/example.webworker.js');
                 fileContent('package.json', 'webpack-dashboard -- webpack-dev-server --config');
                 fileContent('Gruntfile.js', 'webpack: ');
                 fileContent('Gruntfile.js', 'uglify: ');

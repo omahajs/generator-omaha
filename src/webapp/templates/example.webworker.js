@@ -1,41 +1,19 @@
 /* global self, importScripts */
 /* eslint strict: 0 */
 /**
- * @file Example Web Worker using RequireJS
+ * @file Example Web Worker
  * @author Jason Wohlgemuth
  * @module webworker/example
- * @example <caption>Using web workers with RequireJS</caption>
+ * @example <caption>Using web workers</caption>
  * //inside main.js
- * var worker = new Worker('controllers/example.webworker.js');
- * worker.onmessage = function(e) {
- *     console.log('Received from Worker:' + e.data);
+ * const worker = new Worker('assets/workers/example.webworker.js');
+ * worker.onmessage = e => {
+ *     console.log(`Received from Worker: ${e.data}`);
  * };
- * setTimeout(function() {
+ * setTimeout(() => {
  *     worker.postMessage('start worker');
  * }, 1000);
 **/
-importScripts('../../assets/library/require.min.js');
-const q = new Promise(function() {});
-const msg = [];
-self.onmessage = function(data) {
-    'use strict';
-    msg.push(data);
-};
-const PREVENT_IMPORTSCRIPTS_ERROR = {baseUrl: '../', map: {'*': {main: 'config'}}};
-require(PREVENT_IMPORTSCRIPTS_ERROR, ['config'], function() {
-    'use strict';
-    require(PREVENT_IMPORTSCRIPTS_ERROR, [/*paths from config go here*/], function() {
-        q.resolve = function() {
-            self.onmessage = function(e) {
-                msg.push(e);
-                msg.forEach(function(data) {
-                    /*
-                    Code using RequireJS modules go here
-                    */
-                    self.postMessage(data.data);
-                });
-            };
-        };
-        q.resolve();
-    });
-});
+self.onmessage = () => {
+    self.postMessage('Hello');
+}

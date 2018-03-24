@@ -159,7 +159,6 @@ module.exports = class extends Generator {
         //
         [].concat(
             iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]),
-            iff(useAmd, [['example.webworker.js', 'controllers/example.webworker.js']]),
             [[
                 'helpers/jquery.extensions.js',
                 'helpers/jquery.extensions.js'
@@ -206,10 +205,14 @@ module.exports = class extends Generator {
         //
         // Write assets files
         //
-        ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${assetsDirectory}${path}`));
+        ['fonts', 'images', 'templates', 'library', 'workers'].forEach(path => mkdirp(`${assetsDirectory}${path}`));
         copy('library/*', `${assetsDirectory}library`, generator);
         copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
         [].concat(
+            iff(useAmd,
+                [['example.webworker.amd.js', 'workers/example.webworker.amd.js']],
+                [['example.webworker.js', 'workers/example.webworker.js']]
+            ),
             iff((type === 'none'),
                 [[// No CSS pre-processor
                     '_style.css',
@@ -417,7 +420,7 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        const parameters = assign({}, projectParameters, pick(generator, [
+        const parameters = assign({}, projectParameters, pick(config.getAll(), [
             'moduleFormat',
             'projectName',
             'sourceDirectory',

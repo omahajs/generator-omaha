@@ -141,14 +141,14 @@ module.exports = class extends Generator {
         //
         // Write boilerplate files
         //
-        [].concat(iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]), iff(useAmd, [['example.webworker.js', 'controllers/example.webworker.js']]), [['helpers/jquery.extensions.js', 'helpers/jquery.extensions.js']], [['plugins/*.js', 'plugins']], [['shims/*.js', 'shims']], [['_index.html', 'index.html']], [['_app.js', 'app.js']], [['_main.js', 'main.js']], [['_router.js', 'router.js']], [['example.model.js', 'models/example.js']], [['example.view.js', 'views/example.js']], [['example.controller.js', 'controllers/example.js']]).map(data => [data[0], `${appDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
+        [].concat(iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]), [['helpers/jquery.extensions.js', 'helpers/jquery.extensions.js']], [['plugins/*.js', 'plugins']], [['shims/*.js', 'shims']], [['_index.html', 'index.html']], [['_app.js', 'app.js']], [['_main.js', 'main.js']], [['_router.js', 'router.js']], [['example.model.js', 'models/example.js']], [['example.view.js', 'views/example.js']], [['example.controller.js', 'controllers/example.js']]).map(data => [data[0], `${appDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
         //
         // Write assets files
         //
-        ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${assetsDirectory}${path}`));
+        ['fonts', 'images', 'templates', 'library', 'workers'].forEach(path => mkdirp(`${assetsDirectory}${path}`));
         copy('library/*', `${assetsDirectory}library`, generator);
         copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
-        [].concat(iff(type === 'none', [[// No CSS pre-processor
+        [].concat(iff(useAmd, [['example.webworker.amd.js', `workers/example.webworker.amd.js`]], [['example.webworker.js', `workers/example.webworker.js`]]), iff(type === 'none', [[// No CSS pre-processor
         '_style.css', 'css/style.css']], [[// Main style sheet
         `_style.${ext}`, `${type}/style.${ext}`]]), [['example.template.hbs', 'templates/example.hbs']]).map(data => [data[0], `${assetsDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
     }
@@ -261,7 +261,7 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        const parameters = assign({}, projectParameters, pick(generator, ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']));
+        const parameters = assign({}, projectParameters, pick(config.getAll(), ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']));
         config.set({ parameters });
     }
 };

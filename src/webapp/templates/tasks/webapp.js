@@ -66,6 +66,7 @@ module.exports = function(grunt) {
         'htmlmin',
         'copy:fonts',
         'copy:library',
+        'copy:workers',
         <% if (moduleFormat !== 'amd') { %>'replace:bundle-url',<% } else { %>'replace:almond-shim',<% } %>
         <% if (useImagemin) { %>'imagemin:build'<% } else { %>'copy:images'<% } %>
     ]);

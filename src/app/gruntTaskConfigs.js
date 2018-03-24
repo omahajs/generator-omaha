@@ -163,6 +163,15 @@ module.exports = {
                 dest: '<%= folders.dist %>',
                 filter: 'isFile'
             }]
+        },
+        workers: {
+            files: [{
+                expand: true,
+                flatten: false,
+                src: ['<%= folders.assets %>/workers/<%= files.scripts %>'],
+                dest: '<%= folders.dist %>',
+                filter: 'isFile'
+            }]
         }
     }`,
     /**

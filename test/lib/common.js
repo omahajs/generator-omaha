@@ -37,8 +37,9 @@ module.exports = {
 function verifyAmdFiles() {
     [
         'app/config.js',
-        'app/controllers/example.webworker.js'
+        'assets/workers/example.webworker.amd.js'
     ].forEach(name => file(name));
+    noFile('assets/workers/example.webworker.js');
     fileContent('config/.eslintrc.js', 'amd: true,');
     fileContent('config/.eslintrc.js', 'commonjs: false,');
 }

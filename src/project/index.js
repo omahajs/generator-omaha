@@ -187,7 +187,7 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        const projectParameters = pick(generator, [
+        const projectParameters = pick(config.getAll(), [
             'moduleFormat',
             'projectName',
             'sourceDirectory',
