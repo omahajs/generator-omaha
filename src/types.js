@@ -16,6 +16,7 @@ type Config = {
     useJest: boolean,
     useJsinspect: boolean,
     useLess: boolean,
+    useRust: boolean,
     useSass: boolean,
     useWebpack: boolean
 };

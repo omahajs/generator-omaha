@@ -180,6 +180,15 @@ describe('Default generator', function() {
                 verifyBoilerplateFiles('./');
                 verifyDefaultConfiguration();
             }));
+        it('--defaults --use-rust', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {defaults, 'use-rust': true}))
+            .toPromise()
+            .then(() => {
+                verify();
+                fileContent('package.json', '"build:wasm": ');
+                fileContent('package.json', '"postbuild:wasm": ');
+                file('assets/rust/main.rs');
+            }));
         it('--defaults --use-jest', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {defaults, 'use-jest': true}))
             .toPromise()
@@ -188,6 +197,7 @@ describe('Default generator', function() {
                 fileContent(browserifyContent);
                 fileContent('package.json', '"testMatch":');
                 fileContent('package.json', '"test": "jest ');
+                file('assets/workers/example.webworker.js');
                 file('test/example.test.js');
                 noFile('test/mocha.opts');
             }));
@@ -206,6 +216,7 @@ describe('Default generator', function() {
             .then(() => {
                 verify();
                 file('config/webpack.config.js');
+                file('assets/workers/example.webworker.js');
                 fileContent('package.json', 'webpack-dashboard -- webpack-dev-server --config');
                 fileContent('Gruntfile.js', 'webpack: ');
                 fileContent('Gruntfile.js', 'uglify: ');

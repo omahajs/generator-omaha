@@ -51,7 +51,7 @@ module.exports = class extends Generator {
     prompting() {
         const generator = this;
         const { config, options } = generator;
-        const { useBrowserify, useJest, useWebpack } = options;
+        const { useBrowserify, useJest, useRust, useWebpack } = options;
         const isUnAnswered = option => !!!options[option.name] || options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults;
         const isWebapp = true;
         if (options.defaults) {
@@ -62,6 +62,7 @@ module.exports = class extends Generator {
             const settings = {
                 moduleFormat,
                 useAmd,
+                useRust,
                 useWebpack,
                 useBrowserify: useBrowserify || !(useAmd || useWebpack), // Browserify is default
                 useJest: useJest || useWebpack, // Jest is ONLY an option and does not need to be saved via config
@@ -112,6 +113,7 @@ module.exports = class extends Generator {
             useAmd,
             useHandlebars,
             useJest,
+            useRust,
             useWebpack
         } = config.getAll();
         const userName = config.get('userName') || user.git.name();
@@ -141,16 +143,17 @@ module.exports = class extends Generator {
         //
         // Write boilerplate files
         //
-        [].concat(iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]), iff(useAmd, [['example.webworker.js', 'controllers/example.webworker.js']]), [['helpers/jquery.extensions.js', 'helpers/jquery.extensions.js']], [['plugins/*.js', 'plugins']], [['shims/*.js', 'shims']], [['_index.html', 'index.html']], [['_app.js', 'app.js']], [['_main.js', 'main.js']], [['_router.js', 'router.js']], [['example.model.js', 'models/example.js']], [['example.view.js', 'views/example.js']], [['example.controller.js', 'controllers/example.js']]).map(data => [data[0], `${appDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
+        [].concat(iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]), [['helpers/jquery.extensions.js', 'helpers/jquery.extensions.js']], [['plugins/*.js', 'plugins']], [['shims/*.js', 'shims']], [['_index.html', 'index.html']], [['_app.js', 'app.js']], [['_main.js', 'main.js']], [['_router.js', 'router.js']], [['example.model.js', 'models/example.js']], [['example.view.js', 'views/example.js']], [['example.controller.js', 'controllers/example.js']]).map(data => [data[0], `${appDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
         //
         // Write assets files
         //
-        ['fonts', 'images', 'templates', 'library'].forEach(path => mkdirp(`${assetsDirectory}${path}`));
+        ['fonts', 'images', 'templates', 'library', 'workers'].concat( // optional folders
+        iff(useRust, 'rust')).forEach(path => mkdirp(`${assetsDirectory}${path}`));
         copy('library/*', `${assetsDirectory}library`, generator);
         copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
-        [].concat(iff(type === 'none', [[// No CSS pre-processor
+        [].concat(iff(useAmd, [['example.webworker.amd.js', 'workers/example.webworker.amd.js']], [['example.webworker.js', 'workers/example.webworker.js']]), iff(type === 'none', [[// No CSS pre-processor
         '_style.css', 'css/style.css']], [[// Main style sheet
-        `_style.${ext}`, `${type}/style.${ext}`]]), [['example.template.hbs', 'templates/example.hbs']]).map(data => [data[0], `${assetsDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
+        `_style.${ext}`, `${type}/style.${ext}`]]), iff(useRust, [['main.rs', 'rust/main.rs']]), [['example.template.hbs', 'templates/example.hbs']]).map(data => [data[0], `${assetsDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
     }
     install() {
         const generator = this;
@@ -261,7 +264,7 @@ module.exports = class extends Generator {
         //
         // Save configuration
         //
-        const parameters = assign({}, projectParameters, pick(generator, ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']));
+        const parameters = assign({}, projectParameters, pick(config.getAll(), ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']));
         config.set({ parameters });
     }
 };
@@ -286,10 +289,12 @@ function getPackageJsonAttributes() {
 function getScripts(generator) {
     const {
         isNative,
+        sourceDirectory,
         useAmd,
         useJest,
         useCoveralls,
-        useJsinspect
+        useJsinspect,
+        useRust
     } = generator.config.getAll();
     const scripts = {
         lint: 'grunt eslint:src',
@@ -331,6 +336,10 @@ function getScripts(generator) {
     });
     useJsinspect && assign(scripts, {
         inspect: 'grunt jsinspect:app'
+    });
+    useRust && assign(scripts, {
+        'build:wasm': `rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib ${sourceDirectory}assets/rust/main.rs -o ${sourceDirectory}assets/rust/main.wasm`,
+        'postbuild:wasm': `wasm-gc ${sourceDirectory}assets/rust/main.wasm ${sourceDirectory}assets/rust/main.min.wasm`
     });
     return scripts;
 }

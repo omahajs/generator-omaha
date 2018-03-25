@@ -127,6 +127,7 @@ yo omaha --defaults --template-technology lodash --skip-coveralls
 - `--use-browserify`: use Browserify as script bundler (auto selects CommonJS module format)
 - `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)
 - `--use-webpack`: use Webpack as script bundler (auto selects CommonJS module format and Jest test framework)
+- `--use-rust`: Add folder structure, sample file, and build scripts for WebAssembly development using Rust (`rustc` and `wasm-gc` required)
 - `--skip-benchmark`: use with `--defaults`
 - `--skip-coveralls`: use with `--defaults`
 - `--skip-jsinspect`: use with `--defaults`
