@@ -69,6 +69,7 @@
   },
   "scripts": {
     "precommit": "npm run lint",
+    "prepush": "echo hello",
     "lint": "flow && npm run eslint",
     "eslint": "eslint --fix -c ./.eslintrc.js ./src/**/*.js",
     "lint:watch": "watch 'npm run lint' ./src",
