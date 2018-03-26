@@ -47,7 +47,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "flow-bin": "^0.68.0",
     "http-server": "^0.11.0",
-    "husky": "^0.15.0-rc.13",
+    "husky": "^0.14.3",
     "jest": "^22.0.0",
     "jest-image-snapshot": "^2.0.0",
     "ncp": "^2.0.0",
@@ -61,11 +61,6 @@
       "flow"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
-  },
   "jest": {
     "testMatch": [
       "**/test/*.js"
@@ -73,6 +68,7 @@
     "setupTestFrameworkScriptFile": "./test/lib/jestSetup.js"
   },
   "scripts": {
+    "precommit": "npm run lint",
     "lint": "flow && npm run eslint",
     "eslint": "eslint --fix -c ./.eslintrc.js ./src/**/*.js",
     "lint:watch": "watch 'npm run lint' ./src",
