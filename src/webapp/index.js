@@ -43,13 +43,13 @@ const resolveCssPreprocessor = (generator: WebappGenerator) => {
 module.exports = class extends Generator {
     constructor(args: any, opts: any) {
         super(args, opts);
-        const generator = this;
+        const generator: WebappGenerator = this;
         Object.keys(COMMAND_LINE_OPTIONS).forEach(option => {
             generator.option(option, COMMAND_LINE_OPTIONS[option]);
         });
     }
     prompting() {
-        const generator = this;
+        const generator: WebappGenerator = this;
         const {config, options} = generator;
         const {useBrowserify, useJest, useRust, useWebpack} = options;
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
@@ -103,9 +103,9 @@ module.exports = class extends Generator {
         }
     }
     writing() {
-        const generator = this;
+        const generator: WebappGenerator = this;
         const {config, options, use, user} = generator;
-        const {skipAria, skipImagemin} = options;
+        const {skipAria, skipImagemin, slim} = options;
         const {
             isNative,
             projectName,
@@ -117,8 +117,8 @@ module.exports = class extends Generator {
             useWebpack
         } = config.getAll();
         const userName = config.get('userName') || user.git.name();
-        const useAria = use.aria && !skipAria;
-        const useImagemin = use.imagemin && !skipImagemin;
+        const useAria = use.aria && !skipAria && !slim;
+        const useImagemin = use.imagemin && !skipImagemin && !slim;
         const appDirectory = `${sourceDirectory}app/`;
         const assetsDirectory = `${sourceDirectory}assets/`;
         const pluginDirectory = sourceDirectory;
@@ -452,7 +452,7 @@ module.exports = class extends Generator {
     }
 };
 function getPackageJsonAttributes() {
-    const generator = this;
+    const generator: WebappGenerator = this;
     const {
         isNative,
         sourceDirectory,

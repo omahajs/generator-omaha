@@ -105,7 +105,7 @@ module.exports = class extends Generator {
     writing() {
         const generator = this;
         const { config, options, use, user } = generator;
-        const { skipAria, skipImagemin } = options;
+        const { skipAria, skipImagemin, slim } = options;
         const {
             isNative,
             projectName,
@@ -117,8 +117,8 @@ module.exports = class extends Generator {
             useWebpack
         } = config.getAll();
         const userName = config.get('userName') || user.git.name();
-        const useAria = use.aria && !skipAria;
-        const useImagemin = use.imagemin && !skipImagemin;
+        const useAria = use.aria && !skipAria && !slim;
+        const useImagemin = use.imagemin && !skipImagemin && !slim;
         const appDirectory = `${sourceDirectory}app/`;
         const assetsDirectory = `${sourceDirectory}assets/`;
         const pluginDirectory = sourceDirectory;

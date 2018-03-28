@@ -27,13 +27,13 @@ const getSourceDirectory = (generator: ProjectGenerator, dir: string) => {
 const getProjectVariables = (generator: ProjectGenerator) => {
     const {options, use} = generator;
     const {projectName, sourceDirectory} = use;
-    const {skipBenchmark, skipCoveralls, skipJsinspect} = options;
+    const {skipBenchmark, skipCoveralls, skipJsinspect, slim} = options;
     return {
         projectName,
         sourceDirectory: getSourceDirectory(generator, sourceDirectory),
-        useBenchmark:    use.benchmark && !skipBenchmark,
-        useCoveralls:    use.coveralls && !skipCoveralls,
-        useJsinspect:    use.jsinspect && !skipJsinspect
+        useBenchmark:    use.benchmark && !skipBenchmark && !slim,
+        useCoveralls:    use.coveralls && !skipCoveralls && !slim,
+        useJsinspect:    use.jsinspect && !skipJsinspect && !slim
     };
 };
 const getModuleFormat = (generator: ProjectGenerator) => {
