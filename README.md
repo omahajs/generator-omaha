@@ -123,6 +123,7 @@ yo omaha --defaults --template-technology lodash --skip-coveralls
 > Default in **bold**
 
 - `--defaults`: scaffold app with no user input using defaults
+- `--slim`: use with `--defaults` to skip install of support for benchmark, coveralls, jsinspect, aria, and imagemin
 - `--amd`: use AMD module format (with r.js as script bundler)
 - `--use-browserify`: use Browserify as script bundler (auto selects CommonJS module format)
 - `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)

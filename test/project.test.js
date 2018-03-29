@@ -105,6 +105,10 @@ describe('Project generator', () => {
                 assert.noFileContent('package.json', 'nyc');
                 assert.noFileContent('package.json', 'mocha');
             }));
+        it('--defaults --slim', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true, slim: true}))
+            .toPromise()
+            .then(() => verify(...useNeither)));
     });
 });
 function verifyCoreFiles() {

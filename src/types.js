@@ -3,7 +3,7 @@ type Config = {
     isNative: boolean,
     isWebapp: boolean,
     pluginDirectory: string,
-    projectParameters: Object,
+    projectName: string,
     sourceDirectory: string,
     userName: string,
     useAmd: boolean,
@@ -35,6 +35,7 @@ export type ProjectGenerator = {
         skipBenchmark: boolean,
         skipCoveralls: boolean,
         skipJsinspect: boolean,
+        slim: boolean,
         useBrowserify: boolean,
         useJest: boolean,
         useWebpack: boolean
@@ -52,13 +53,29 @@ export type WebappGenerator = {
     config: GeneratorConfig,
     destinationPath: (path: string) => string,
     npmInstall: (dependencies: string[], options?: {save?: boolean, saveDev?: boolean}) => void,
+    option: Function,
     options: {
+        cssPreprocessor: string,
+        defaults: boolean,
+        skipAria: boolean,
+        skipImagemin: boolean,
+        slim: boolean,
+        templateTechnology: string,
         useBrowserify: boolean,
         useJest: boolean,
+        useRust: boolean,
         useWebpack: boolean
     },
+    prompt: Function,
     use: {
+        aria: boolean,
+        imagemin: boolean,
         moduleData: string
+    },
+    user: {
+        git: {
+            name: Function
+        }
     }
 };
 export type ServerGenerator = {

@@ -180,6 +180,14 @@ describe('Default generator', function() {
                 verifyBoilerplateFiles('./');
                 verifyDefaultConfiguration();
             }));
+        it('--defaults --slim', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {defaults, slim: true}))
+            .toPromise()
+            .then(() => {
+                verify();
+                noFileContent(ariaContent);
+                noFileContent('Gruntfile.js', 'imagemin: ');
+            }));
         it('--defaults --use-rust', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {defaults, 'use-rust': true}))
             .toPromise()
