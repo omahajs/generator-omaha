@@ -1,4 +1,5 @@
 RLH="yo omaha --defaults"
+RLHS="yo omaha --defaults --slim"
 BLHJ="yo omaha --defaults --use-jest"
 RSH="yo omaha --defaults --css-preprocessor sass"
 RSL="yo omaha --defaults --css-preprocessor sass --template-technology lodash"
