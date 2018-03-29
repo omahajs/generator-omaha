@@ -1,6 +1,6 @@
 
 
-const { assign, partial, pick } = require('lodash');
+const { assign, partial } = require('lodash');
 
 const { mkdirp, readFileSync, writeFileSync } = require('fs-extra');
 const Generator = require('yeoman-generator');
@@ -140,11 +140,6 @@ module.exports = class extends Generator {
             gruntfile.insertConfig('benchmark', tasks.benchmark);
             writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
         }
-        //
-        // Save configuration
-        //
-        const projectParameters = pick(config.getAll(), ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']);
-        config.set({ projectParameters });
     }
     end() {
         const { config, log } = this;

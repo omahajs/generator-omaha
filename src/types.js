@@ -4,7 +4,6 @@ type Config = {
     isWebapp: boolean,
     pluginDirectory: string,
     projectName: string,
-    projectParameters: Object,
     sourceDirectory: string,
     userName: string,
     useAmd: boolean,

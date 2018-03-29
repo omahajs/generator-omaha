@@ -1,6 +1,6 @@
 
 
-const { assign, flow, partial, pick } = require('lodash');
+const { assign, flow, partial } = require('lodash');
 
 const { mkdirp, readFileSync, writeFileSync } = require('fs-extra');
 const Generator = require('yeoman-generator');
@@ -159,7 +159,6 @@ module.exports = class extends Generator {
         const generator = this;
         const { config } = generator;
         const {
-            projectParameters,
             sourceDirectory,
             useAmd,
             useAria,
@@ -261,11 +260,6 @@ module.exports = class extends Generator {
         // Write to file and display footer
         //
         writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
-        //
-        // Save configuration
-        //
-        const parameters = assign({}, projectParameters, pick(config.getAll(), ['moduleFormat', 'projectName', 'sourceDirectory', 'useAmd', 'useAria', 'useBenchmark', 'useBrowserify', 'useCoveralls', 'useHandlebars', 'useImagemin', 'useJest', 'useJsinspect', 'useLess', 'useSass', 'useWebpack']));
-        config.set({ parameters });
     }
 };
 function getPackageJsonAttributes() {
