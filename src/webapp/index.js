@@ -285,6 +285,7 @@ module.exports = class extends Generator {
             'grunt-postcss',
             'autoprefixer',
             'stylelint',
+            'stylelint-config-recommended',
             'cssnano',
             'normalize.css',
             'postcss-reporter',

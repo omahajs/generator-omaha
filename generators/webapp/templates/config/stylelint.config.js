@@ -1,4 +1,5 @@
 module.exports = {
+    extends: 'stylelint-config-recommended',
     rules: {
         // 'at-rule-blacklist': string|[],
         // 'at-rule-empty-line-before': 'always'|'never',
