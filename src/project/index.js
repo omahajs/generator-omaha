@@ -21,14 +21,15 @@ const showBanner = (generator: ProjectGenerator) => {
     hideBanner || generator.log(banner);
 };
 const getSourceDirectory = (generator: ProjectGenerator) => {
-    const {sourceDirectory} = generator.use;
+    const {options, use} = generator;
     const isNative = generator.config.get('isNative');
-    return isNative ? 'renderer/' : (!/\/$/.test(sourceDirectory)) ? `${sourceDirectory }/` : sourceDirectory;
+    const sourceDirectory = (options.src !== '') ? options.src : use.sourceDirectory;
+    return isNative ? 'renderer/' : (!/\/$/.test(sourceDirectory)) ? `${sourceDirectory}/` : sourceDirectory;
 };
 const getProjectVariables = (generator: ProjectGenerator) => {
     const {options, use} = generator;
-    const {projectName} = use;
     const {skipBenchmark, skipCoveralls, skipJsinspect, slim} = options;
+    const {projectName} = use;
     return {
         projectName,
         sourceDirectory: getSourceDirectory(generator),

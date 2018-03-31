@@ -101,6 +101,12 @@ yo omaha
 yo omaha --defaults
 ```
 
+- Use "silent" webapp defaults, skip support for everything, and select custom source directory
+
+```bash
+yo omaha --defaults --slim --src src
+```
+
 - Use "silent" web app defaults with [Webpack](https://webpack.js.org/)
 
 ```bash
@@ -124,6 +130,7 @@ yo omaha --defaults --template-technology lodash --skip-coveralls
 
 - `--defaults`: scaffold app with no user input using defaults
 - `--slim`: use with `--defaults` to skip install of support for benchmark, coveralls, jsinspect, aria, and imagemin
+- `--src`: use with `--defaults` to select custom source directory for app and assets files
 - `--amd`: use AMD module format (with r.js as script bundler)
 - `--use-browserify`: use Browserify as script bundler (auto selects CommonJS module format)
 - `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)

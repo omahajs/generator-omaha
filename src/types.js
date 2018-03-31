@@ -36,6 +36,7 @@ export type ProjectGenerator = {
         skipCoveralls: boolean,
         skipJsinspect: boolean,
         slim: boolean,
+        src: string,
         useBrowserify: boolean,
         useJest: boolean,
         useWebpack: boolean

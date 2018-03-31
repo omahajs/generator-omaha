@@ -292,6 +292,15 @@ describe('Default generator', function() {
                 fileContent(ariaContent);
                 fileContent('Gruntfile.js', 'imagemin: ');
             }));
+    it('--defaults --src boot', () => helpers.run(join(__dirname, '../generators/app'))
+        .withOptions(merge({}, SKIP_INSTALL, {
+            defaults: true,
+            src: 'boot'}))
+        .toPromise()
+        .then(() => {
+            verifyCoreFiles();
+            verifyBoilerplateFiles('boot/');
+        }));
     });
 });
 describe('Default generator (with custom source directory)', function() {
