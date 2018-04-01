@@ -16,21 +16,23 @@ const {
     json: { extend }
 } = require('../app/utils');
 
-const showBanner = (generator, banner) => {
+const showBanner = generator => {
     const hideBanner = generator.config.get('hideBanner');
     hideBanner || generator.log(banner);
 };
-const getSourceDirectory = (generator, dir) => {
+const getSourceDirectory = generator => {
+    const { options, use } = generator;
     const isNative = generator.config.get('isNative');
-    return isNative ? 'renderer/' : !/\/$/.test(dir) ? `${dir}/` : dir;
+    const sourceDirectory = options.src !== '' ? options.src : use.sourceDirectory;
+    return isNative ? 'renderer/' : !/\/$/.test(sourceDirectory) ? `${sourceDirectory}/` : sourceDirectory;
 };
 const getProjectVariables = generator => {
     const { options, use } = generator;
-    const { projectName, sourceDirectory } = use;
     const { skipBenchmark, skipCoveralls, skipJsinspect, slim } = options;
+    const { projectName } = use;
     return {
         projectName,
-        sourceDirectory: getSourceDirectory(generator, sourceDirectory),
+        sourceDirectory: getSourceDirectory(generator),
         useBenchmark: use.benchmark && !skipBenchmark && !slim,
         useCoveralls: use.coveralls && !skipCoveralls && !slim,
         useJsinspect: use.jsinspect && !skipJsinspect && !slim
@@ -55,7 +57,7 @@ module.exports = class extends Generator {
         config.set('userName', user.git.name() ? user.git.name() : 'A. Developer');
     }
     prompting() {
-        showBanner(this, banner);
+        showBanner(this);
         const generator = this;
         const { config, options } = generator;
         const { isWebapp, userName } = config.getAll();

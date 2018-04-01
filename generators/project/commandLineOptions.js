@@ -18,5 +18,10 @@ module.exports = {
         type: Boolean,
         desc: 'DO NOT add JSInspect tasks and dependencies to project',
         defaults: false
+    },
+    src: {
+        type: String,
+        desc: 'Source directory for app and asset files (use with --defaults)',
+        defaults: ''
     }
 };
