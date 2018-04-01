@@ -43,7 +43,8 @@ yo omaha
 </br>
 ✔ Start creating your app!
 
-[![asciicast](https://asciinema.org/a/qytysbzqcRUxahON22oJVrD74.png)](https://asciinema.org/a/qytysbzqcRUxahON22oJVrD74)
+
+[![omaha generator quick start asciicast](https://asciinema.org/a/gWenj2iSZu92MKunVzOSH5iTy.png)](https://asciinema.org/a/gWenj2iSZu92MKunVzOSH5iTy)
 
 Patterns are Paramount
 ----------------------
