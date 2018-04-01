@@ -209,6 +209,13 @@ module.exports = class extends Generator {
                 }
             }
         });
+        config.get('isNative') && extend(generator.destinationPath('config/default.json'), {
+            grunt: {
+                folders: {
+                    dist: `${sourceDirectory}dist`
+                }
+            }
+        });
         //
         // Configure package.json
         //

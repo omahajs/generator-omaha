@@ -1,4 +1,7 @@
+
+
 const { set } = require('lodash');
+
 const Generator = require('yeoman-generator');
 const banner = require('../app/banner');
 const footer = require('../app/doneMessage');
@@ -18,7 +21,8 @@ const COMMAND_LINE_OPTIONS = {
 
 module.exports = class extends Generator {
     initializing() {
-        this.log(banner);
+        const generator = this;
+        generator.log(banner);
     }
     constructor(args, opts) {
         super(args, opts);
@@ -42,24 +46,26 @@ module.exports = class extends Generator {
     writing() {
         const generator = this;
         const { config } = generator;
-        const isWebapp = config.get('isWebapp');
+        const { isWebapp, moduleFormat } = config.getAll();
         const rendererIndexPath = isWebapp ? 'app/index.html' : 'index.html';
+        generator.moduleFormat = moduleFormat;
         copy('bin/preload.js', 'bin/preload.js', generator);
         copyTpl('_index.html', config.get('sourceDirectory') + rendererIndexPath, generator);
         copyTpl('_index.js', 'index.js', set(generator, 'rendererIndexPath', rendererIndexPath));
     }
     install() {
+        const generator = this;
         //
         // Install dependencies
         //
         const dependencies = ['electron', 'electron-context-menu', 'electron-debug', 'electron-is-dev'];
         const devDependencies = ['spectron', 'electron-reloader'].concat();
-        this.npmInstall(dependencies, { save: true });
-        this.npmInstall(devDependencies, { saveDev: true });
+        generator.npmInstall(dependencies, { save: true });
+        generator.npmInstall(devDependencies, { saveDev: true });
         //
         // Configure package.json
         //
-        extend(this.destinationPath('package.json'), {
+        extend(generator.destinationPath('package.json'), {
             main: './index.js',
             scripts: {
                 start: 'electron index',
@@ -68,6 +74,7 @@ module.exports = class extends Generator {
         });
     }
     end() {
-        this.log(footer(this));
+        const generator = this;
+        generator.log(footer(generator));
     }
 };

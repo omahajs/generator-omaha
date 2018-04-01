@@ -2,6 +2,7 @@
 type Config = {
     isNative: boolean,
     isWebapp: boolean,
+    moduleFormat: string,
     pluginDirectory: string,
     projectName: string,
     sourceDirectory: string,
@@ -21,8 +22,9 @@ type Config = {
     useWebpack: boolean
 };
 type GeneratorConfig = {
+    defaults: Function,
     getAll: () => Config,
-    get: (val: string) => Object | string | boolean,
+    get: (val: string) => any,
     set: (name: mixed, val?: mixed) => void
 };
 export type ProjectGenerator = {
@@ -124,3 +126,20 @@ export type PluginGenerator = {
     },
     userName: string
 };
+export type NativeGenerator = {
+    composeWith: Function,
+    config: GeneratorConfig,
+    destinationPath: (path: string) => string,
+    log: (message: string) => void,
+    moduleFormat: string,
+    npmInstall: (dependencies: string[], options?: {save?: boolean, saveDev?: boolean}) => void,
+    option: Function,
+    options: {
+        skipWebapp: boolean
+    },
+    user: {
+        git: {
+            name: Function
+        }
+    }
+}

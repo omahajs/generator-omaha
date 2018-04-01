@@ -1,4 +1,6 @@
 /* @flow */
+import type {NativeGenerator} from '../types';
+
 const {set}     = require('lodash');
 const Generator = require('yeoman-generator');
 const banner    = require('../app/banner');
@@ -19,11 +21,12 @@ const COMMAND_LINE_OPTIONS = {
 
 module.exports = class extends Generator {
     initializing() {
-        this.log(banner);
+        const generator: NativeGenerator = this;
+        generator.log(banner);
     }
     constructor(args: any, opts: any) {
         super(args, opts);
-        const generator = this;
+        const generator: NativeGenerator = this;
         const {config, options} = generator;
         Object.keys(COMMAND_LINE_OPTIONS).forEach(option => {
             generator.option(option, COMMAND_LINE_OPTIONS[option]);
@@ -41,15 +44,17 @@ module.exports = class extends Generator {
         }
     }
     writing() {
-        const generator = this;
+        const generator: NativeGenerator = this;
         const {config} = generator;
-        const isWebapp = config.get('isWebapp');
+        const {isWebapp, moduleFormat} = config.getAll();
         const rendererIndexPath = isWebapp ? 'app/index.html' : 'index.html';
+        generator.moduleFormat = moduleFormat;
         copy('bin/preload.js', 'bin/preload.js', generator);
         copyTpl('_index.html', config.get('sourceDirectory') + rendererIndexPath, generator);
         copyTpl('_index.js', 'index.js', set(generator, 'rendererIndexPath', rendererIndexPath));
     }
     install() {
+        const generator: NativeGenerator = this;
         //
         // Install dependencies
         //
@@ -67,12 +72,12 @@ module.exports = class extends Generator {
             // 'electron-builder',// https://github.com/electron-userland/electron-builder
             // 'electron-packager'// https://github.com/electron-userland/electron-packager
         );
-        this.npmInstall(dependencies, {save: true});
-        this.npmInstall(devDependencies, {saveDev: true});
+        generator.npmInstall(dependencies, {save: true});
+        generator.npmInstall(devDependencies, {saveDev: true});
         //
         // Configure package.json
         //
-        extend(this.destinationPath('package.json'), {
+        extend(generator.destinationPath('package.json'), {
             main: './index.js',
             scripts: {
                 start: 'electron index',
@@ -81,6 +86,7 @@ module.exports = class extends Generator {
         });
     }
     end() {
-        this.log(footer(this));
+        const generator: NativeGenerator = this;
+        generator.log(footer(generator));
     }
 };

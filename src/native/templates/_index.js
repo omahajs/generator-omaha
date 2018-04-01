@@ -42,7 +42,7 @@ const createWindow = () => {
     });
     Menu.setApplicationMenu(applicationMenu);
     ContextMenu({prepend: (params, browserWindow) => menuItems});
-    mainWindow.loadURL(`file://${__dirname}/renderer/app/index.html`);
+    mainWindow.loadURL(`file://${__dirname}/renderer/<% if (moduleFormat === 'amd') { %>app<% } else {%>dist/client<% } %>/index.html`);
     //
     // Open dev console
     //

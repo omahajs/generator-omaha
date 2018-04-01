@@ -48,9 +48,12 @@ module.exports = function(grunt) {
         'postcss:dev',/* post-process */
         'postcss:prod'
     ]);<% if (moduleFormat !== 'amd') { %>
-    task('bundle-scripts', [
-        <% if (useBrowserify) { %>'browserify:bundle'<% } %>
-        <% if (useWebpack) { %>'webpack:bundle'<% } %>
+    task('bundle-scripts', [<% if (useBrowserify) { %>
+        'browserify:bundle'<% } %><% if (useWebpack) { %>
+        'webpack:bundle'<% } %><% if (isNative) { %>,
+        'htmlmin',
+        'copy',
+        'replace:bundle-url'<% } %>
     ]);<% } %>
     task('compile', [
         'clean:compile',
