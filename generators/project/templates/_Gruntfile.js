@@ -8,9 +8,7 @@ module.exports = function(grunt) {
         folders: config.folders,
         files:   config.files,
         deployed: {
-            assets: config.folders.assets.split('/')[1],
-            images: config.files.images.split('/')[0],
-            fonts:  config.files.fonts.split('/')[0]
+            assets: config.folders.assets.split('/')[1]
         }
     });
     require('time-grunt')(grunt);

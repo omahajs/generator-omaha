@@ -26,13 +26,13 @@
             },
             "index":        "index.html",
             "scripts":      "**/*.js",
+            "fonts":        "**/*.{ttf,woff,eot,svg}",
+            "images":       "**/*.{png,jpg,gif,svg}",
             "mainScript":   "main.js",
             "configScript": "config.js",
             "models":       "models/**/*.js",
             "views":        "views/**/*.js",
             "controllers":  "controllers/**/*.js",
-            "fonts":        "fonts/*.{ttf,woff,eot,svg}",
-            "images":       "images/**/*.{png,jpg,gif,svg}",
             "templates":    "templates/**/*.hbs"
         }
     }
