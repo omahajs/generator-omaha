@@ -4,7 +4,7 @@
 
 body {
     background-color: white;
-    background-image: url("../<%= sourceDirectory %>assets/images/logo.png");
+    background-image: url("../<% if (!isNative) { %><%= sourceDirectory %><% } %>assets/images/logo.png");
     background-position: 50% -50%;
     background-repeat: no-repeat;
     background-size: 250px;

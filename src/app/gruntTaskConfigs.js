@@ -136,9 +136,9 @@ module.exports = {
         fonts: {
             files: [{
                 expand: true,
-                flatten: true,
-                src: ['<%= folders.assets %>/<%= files.fonts %>'],
-                dest: '<%= folders.dist %>/<%= deployed.assets %>/<%= deployed.fonts %>',
+                cwd: '<%= folders.assets %>/fonts',
+                src: ['<%= files.fonts %>'],
+                dest: '<%= folders.dist %>/<%= deployed.assets %>/fonts',
                 filter: 'isFile'
             }]
         },
@@ -158,18 +158,18 @@ module.exports = {
         images: {
             files: [{
                 expand: true,
-                flatten: false,
-                src: ['<%= folders.assets %>/<%= files.images %>'],
-                dest: '<%= folders.dist %>',
+                cwd: '<%= folders.assets %>/images',
+                src: ['<%= files.images %>'],
+                dest: '<%= folders.dist %>/<%= deployed.assets %>/images',
                 filter: 'isFile'
             }]
         },
         workers: {
             files: [{
                 expand: true,
-                flatten: false,
-                src: ['<%= folders.assets %>/workers/<%= files.scripts %>'],
-                dest: '<%= folders.dist %>',
+                cwd: '<%= folders.assets %>/workers',
+                src: ['<%= files.scripts %>'],
+                dest: '<%= folders.dist %>/<%= deployed.assets %>/workers',
                 filter: 'isFile'
             }]
         }
@@ -297,7 +297,7 @@ module.exports = {
                 expand: true,
                 flatten: false,
                 cwd: './',
-                src: ['<%= folders.assets %>/<%= files.images %>'],
+                src: ['<%= folders.assets %>/images/<%= files.images %>'],
                 dest: '<%= folders.dist %>'
             }]
         }

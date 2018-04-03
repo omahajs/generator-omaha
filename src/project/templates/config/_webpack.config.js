@@ -6,7 +6,7 @@ module.exports = {
         app: './<%= sourceDirectory %>app/main.js'
     },
     output: {
-        path: resolve('./dist/client'),
+        path: resolve('./<% if (isNative) { %><%= sourceDirectory %><% } %>dist/client'),
         filename: 'bundle.min.js'
     },
     module: {

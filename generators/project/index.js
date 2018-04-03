@@ -32,6 +32,7 @@ const getProjectVariables = generator => {
     const { projectName } = use;
     return {
         projectName,
+        isNative: generator.config.get('isNative'),
         sourceDirectory: getSourceDirectory(generator),
         useBenchmark: use.benchmark && !skipBenchmark && !slim,
         useCoveralls: use.coveralls && !skipCoveralls && !slim,
