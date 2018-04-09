@@ -34,6 +34,7 @@ export type ProjectGenerator = {
     npmInstall: (dependencies?: Array<mixed>, options?: {save?: boolean, saveDev?: boolean}) => void,
     options: {
         defaults: boolean,
+        name: string,
         skipBenchmark: boolean,
         skipCoveralls: boolean,
         skipJsinspect: boolean,
