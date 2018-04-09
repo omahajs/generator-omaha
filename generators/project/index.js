@@ -5,47 +5,18 @@ const { assign, partial } = require('lodash');
 const { mkdirp, readFileSync, writeFileSync } = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
-const banner = require('../app/banner');
 const footer = require('../app/doneMessage');
 const { project } = require('../app/prompts');
 const tasks = require('../app/gruntTaskConfigs');
 const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
 const {
     copyTpl,
+    getModuleFormat,
+    getProjectVariables,
+    json: { extend },
     maybeInclude: iff,
-    json: { extend }
+    showBanner
 } = require('../app/utils');
-
-const showBanner = generator => {
-    const hideBanner = generator.config.get('hideBanner');
-    hideBanner || generator.log(banner);
-};
-const getSourceDirectory = generator => {
-    const { options, use } = generator;
-    const isNative = generator.config.get('isNative');
-    const sourceDirectory = options.src !== '' ? options.src : use.sourceDirectory;
-    return isNative ? 'renderer/' : !/\/$/.test(sourceDirectory) ? `${sourceDirectory}/` : sourceDirectory;
-};
-const getProjectVariables = generator => {
-    const { options, use } = generator;
-    const { skipBenchmark, skipCoveralls, skipJsinspect, slim } = options;
-    const { projectName } = use;
-    return {
-        projectName,
-        isNative: generator.config.get('isNative'),
-        sourceDirectory: getSourceDirectory(generator),
-        useBenchmark: use.benchmark && !skipBenchmark && !slim,
-        useCoveralls: use.coveralls && !skipCoveralls && !slim,
-        useJsinspect: use.jsinspect && !skipJsinspect && !slim
-    };
-};
-const getModuleFormat = generator => {
-    const { config, options } = generator;
-    const { useBrowserify, useJest, useWebpack } = options;
-    const USE_BROWSERIFY = useBrowserify === true || !!config.get('useBrowserify');
-    const USE_WEBPACK = useWebpack === true || !!config.get('useWebpack');
-    return useJest || USE_BROWSERIFY || USE_WEBPACK ? 'commonjs' : 'amd';
-};
 
 module.exports = class extends Generator {
     constructor(args, opts) {

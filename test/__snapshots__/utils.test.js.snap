@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Data Utilities Module can format federal agency JSON data 1`] = `
+exports[`Data Utilities can format federal agency JSON data 1`] = `
 Array [
   Object {
     "federalAgency": "Department of Commerce",
@@ -26,7 +26,7 @@ Array [
 ]
 `;
 
-exports[`Data Utilities Module can log success and fail messages via promise chain 1`] = `
+exports[`Data Utilities can log success and fail messages via promise chain 1`] = `
 Array [
   1,
   2,
@@ -34,7 +34,7 @@ Array [
 ]
 `;
 
-exports[`Data Utilities Module can log success and fail messages via promise chain 2`] = `
+exports[`Data Utilities can log success and fail messages via promise chain 2`] = `
 Array [
   3,
   2,
@@ -42,24 +42,136 @@ Array [
 ]
 `;
 
-exports[`Generator JSON utility can extend JSON files 1`] = `
-Object {
-  "foo": "bar",
-}
+exports[`Generator Utilities can get module format 1`] = `
+Array [
+  "amd",
+  "commonjs",
+  "commonjs",
+  "commonjs",
+  "commonjs",
+  "commonjs",
+  "commonjs",
+  "commonjs",
+]
 `;
 
-exports[`Generator JSON utility can extend JSON files 2`] = `
-Object {
-  "bar": "baz",
-  "foo": "bar",
-}
+exports[`Generator Utilities can get project variables (with --skip options) 1`] = `
+Array [
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": false,
+    "useCoveralls": true,
+    "useJsinspect": true,
+  },
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": true,
+    "useCoveralls": false,
+    "useJsinspect": true,
+  },
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": true,
+    "useCoveralls": true,
+    "useJsinspect": false,
+  },
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": false,
+    "useCoveralls": true,
+    "useJsinspect": false,
+  },
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": true,
+    "useCoveralls": false,
+    "useJsinspect": false,
+  },
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": false,
+    "useCoveralls": false,
+    "useJsinspect": true,
+  },
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": false,
+    "useCoveralls": false,
+    "useJsinspect": false,
+  },
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": false,
+    "useCoveralls": false,
+    "useJsinspect": false,
+  },
+  Object {
+    "isNative": false,
+    "projectName": "my-project",
+    "sourceDirectory": "undefined/",
+    "useBenchmark": false,
+    "useCoveralls": false,
+    "useJsinspect": false,
+  },
+]
 `;
 
-exports[`Utilities Module can optionally return values 1`] = `
+exports[`Generator Utilities can get source directory 1`] = `
+Array [
+  "renderer/",
+  "renderer/",
+  "renderer/",
+  "renderer/",
+  "foo/",
+  "bar/",
+  "src/",
+  "src/",
+]
+`;
+
+exports[`Generator Utilities can optionally return values 1`] = `
 Array [
   "foo",
   "b",
   "c",
   "d",
 ]
+`;
+
+exports[`Generator Utilities can resolve CSS preprocessor 1`] = `
+Array [
+  "less",
+  "less",
+  "sass",
+  "none",
+]
+`;
+
+exports[`JSON utilities can extend JSON files 1`] = `
+Object {
+  "foo": "bar",
+}
+`;
+
+exports[`JSON utilities can extend JSON files 2`] = `
+Object {
+  "bar": "baz",
+  "foo": "bar",
+}
 `;

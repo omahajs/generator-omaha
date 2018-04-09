@@ -1,14 +1,26 @@
+
+
 const { isBoolean, findKey, merge, partialRight } = require('lodash');
+
 const { readFileSync, writeFileSync } = require('fs-extra');
+const banner = require('../app/banner');
 
 const maybeInclude = partialRight(maybe, []);
+const resolveModuleFormat = bundler => bundler === 'rjs' ? 'amd' : 'commonjs';
 
 module.exports = {
     copy,
     copyTpl,
+    getModuleFormat,
+    getProjectVariables,
+    getSourceDirectory,
     maybe,
     maybeInclude,
     parseModuleData,
+    resolveModuleFormat,
+    resolveCssPreprocessor,
+    shouldUseBrowserify,
+    showBanner,
     json: {
         read: readJSON,
         write: writeJSON,
@@ -19,18 +31,6 @@ module.exports = {
     }
 };
 
-function parseModuleData(str) {
-    const BUNDLER_LOOKUP = {
-        browserify: /browserify/i,
-        webpack: /webpack/i,
-        rjs: /r[.]js/i
-    };
-    const data = str.split(' with ');
-    return [data[0], findKey(BUNDLER_LOOKUP, re => re.test(data[1]))];
-}
-function maybe(condition, val, defaultValue = []) {
-    return isBoolean(condition) && condition ? val : defaultValue;
-}
 function copy(from, to, context) {
     const source = context.templatePath(from);
     const dest = context.destinationPath(to);
@@ -40,6 +40,59 @@ function copyTpl(from, to, context) {
     const source = context.templatePath(from);
     const dest = context.destinationPath(to);
     context.fs.copyTpl(source, dest, context);
+}
+function getModuleFormat(generator) {
+    const { config, options } = generator;
+    const { useBrowserify, useJest, useWebpack } = options;
+    const USE_BROWSERIFY = useBrowserify === true || !!config.get('useBrowserify');
+    const USE_WEBPACK = useWebpack === true || !!config.get('useWebpack');
+    return useJest || USE_BROWSERIFY || USE_WEBPACK ? 'commonjs' : 'amd';
+}
+function getProjectVariables(generator) {
+    const { options, use } = generator;
+    const { skipBenchmark, skipCoveralls, skipJsinspect, slim } = options;
+    const { projectName } = use;
+    return {
+        projectName,
+        isNative: generator.config.get('isNative'),
+        sourceDirectory: getSourceDirectory(generator),
+        useBenchmark: use.benchmark && !skipBenchmark && !slim,
+        useCoveralls: use.coveralls && !skipCoveralls && !slim,
+        useJsinspect: use.jsinspect && !skipJsinspect && !slim
+    };
+}
+function getSourceDirectory(generator) {
+    const { options, use } = generator;
+    const isNative = generator.config.get('isNative');
+    const sourceDirectory = options.src !== '' ? options.src : use.sourceDirectory;
+    return isNative ? 'renderer/' : !/\/$/.test(sourceDirectory) ? `${sourceDirectory}/` : sourceDirectory;
+}
+function maybe(condition, val, defaultValue = []) {
+    return isBoolean(condition) && condition ? val : defaultValue;
+}
+function parseModuleData(str) {
+    const BUNDLER_LOOKUP = {
+        browserify: /browserify/i,
+        webpack: /webpack/i,
+        rjs: /r[.]js/i
+    };
+    const data = str.split(' with ');
+    return [data[0], findKey(BUNDLER_LOOKUP, re => re.test(data[1]))];
+}
+function resolveCssPreprocessor(generator) {
+    const { config } = generator;
+    const { useLess, useSass } = config.getAll();
+    return useLess ? 'less' : useSass ? 'sass' : 'none';
+}
+function shouldUseBrowserify(scriptBundler) {
+    const moduleFormat = scriptBundler !== 'rjs' ? 'commonjs' : 'amd';
+    const useWebpack = scriptBundler === 'webpack';
+    const useAmd = moduleFormat === 'amd';
+    return !(useAmd || useWebpack);
+}
+function showBanner(generator) {
+    const hideBanner = generator.config.get('hideBanner');
+    hideBanner || generator.log(banner);
 }
 function readJSON(fileName) {
     return JSON.parse(readFileSync(fileName).toString());

@@ -2,9 +2,14 @@ const {last}       = require('lodash');
 const {join}       = require('path');
 const {unlinkSync} = require('fs');
 const {
+    getModuleFormat,
+    getProjectVariables,
+    getSourceDirectory,
     json,
     maybeInclude,
-    parseModuleData
+    parseModuleData,
+    resolveCssPreprocessor,
+    shouldUseBrowserify
 } = require('../generators/app/utils');
 const {
     fin,
@@ -16,14 +21,15 @@ const {
 const ORIGINAL_CONSOLE_LOG = window.console.log;
 const TEST_JSON_DATA = require('./data/test.json');
 
-describe('Data Utilities Module', () => {
-    beforeAll(() => {
-        window.console.log = jest.fn().mockName('Console Log');
-    });
-    afterAll(() => {
-        window.console.log.mock.mockReset();
-        window.console.log = ORIGINAL_CONSOLE_LOG;
-    });
+
+beforeAll(() => {
+    window.console.log = jest.fn().mockName('Console Log');
+});
+afterAll(() => {
+    window.console.log.mock.mockReset();
+    window.console.log = ORIGINAL_CONSOLE_LOG;
+});
+describe('Data Utilities', () => {
     it('can log failure message for invalid url', () => {
         const url = 'not a valid url';
         const path = url;
@@ -39,7 +45,7 @@ describe('Data Utilities Module', () => {
         expect(fail(path)([3, 2, 1])).toMatchSnapshot();
     });
 });
-describe('Utilities Module', () => {
+describe('Generator Utilities', () => {
     it('can parse module data string', () => {
         expect(
             [
@@ -63,8 +69,117 @@ describe('Utilities Module', () => {
         );
         expect(result).toMatchSnapshot();
     });
+    it('can get module format', () => {
+        function createDummyGenerator(useBrowserify, useJest, useWebpack) {
+            const options = {
+                useBrowserify,
+                useJest,
+                useWebpack
+            };
+            return {
+                options,
+                config: {get: () => false}
+            };
+        }
+        const input = [
+            /* useBrowserify, useJest, useWebpack */
+            [false, false, false],
+            [false, false, true],
+            [false, true, false],
+            [false, true, true],
+            [true, true, true],
+            [true, true, false],
+            [true, false, true],
+            [true, false, false]
+        ];
+        const results = input
+            .map(values => createDummyGenerator(...values))
+            .map(getModuleFormat);
+        expect(results).toMatchSnapshot();
+    });
+    it('can get source directory', () => {
+        function createDummyGenerator(isNative, src, sourceDirectory) {
+            return {
+                options: {src},
+                use: {sourceDirectory},
+                config: {get: () => isNative}
+            };
+        }
+        const PATH_WITH_FORWARD_SLASH = 'foo/';
+        const PATH_WITHOUT_FORWARD_SLASH = 'bar';
+        const input = [
+            /* isNative, options.src, use.sourceDirectory */
+            [true, '', PATH_WITH_FORWARD_SLASH],
+            [true, '', PATH_WITHOUT_FORWARD_SLASH],
+            [true, 'src', PATH_WITH_FORWARD_SLASH],
+            [true, 'src', PATH_WITHOUT_FORWARD_SLASH],
+            [false, '', PATH_WITH_FORWARD_SLASH],
+            [false, '', PATH_WITHOUT_FORWARD_SLASH],
+            [false, 'src', PATH_WITH_FORWARD_SLASH],
+            [false, 'src', PATH_WITHOUT_FORWARD_SLASH]
+        ];
+        const results = input
+            .map(values => createDummyGenerator(...values))
+            .map(getSourceDirectory);
+        expect(results).toMatchSnapshot();
+    });
+    it('can get project variables (with --skip options)', () => {
+        function createDummyGenerator(skipBenchmark, skipCoveralls, skipJsinspect, slim) {
+            const projectName = 'my-project';
+            return {
+                options: {skipBenchmark, skipCoveralls, skipJsinspect, slim},
+                use: {
+                    projectName,
+                    benchmark: true,
+                    coveralls: true,
+                    jsinspect: true
+                },
+                config: {get: () => false}
+            };
+        }
+        const input = [
+            /* skipBenchmark, skipCoveralls, skipJsinspect, slim */
+            [true, false, false, false],
+            [false, true, false, false],
+            [false, false, true, false],
+            [true, false, true, false],
+            [false, true, true, false],
+            [true, true, false, false],
+            [true, true, true, false],
+            [true, true, true, true],
+            [false, false, false, true]
+        ];
+        const results = input
+            .map(values => createDummyGenerator(...values))
+            .map(getProjectVariables);
+        expect(results).toMatchSnapshot();
+    });
+    it('can resolve CSS preprocessor', () => {
+        function createDummyGenerator(useLess, useSass) {
+            return {
+                config: {getAll: () => ({useLess, useSass})}
+            };
+        }
+        const input = [
+            /* useLess, useSass */
+            [true, true],
+            [true, false],
+            [false, true],
+            [false, false]
+        ];
+        const results = input
+            .map(values => createDummyGenerator(...values))
+            .map(resolveCssPreprocessor);
+        expect(results).toMatchSnapshot();
+    });
+    it('can determine when to use Browserify', () => {
+        expect(shouldUseBrowserify('webpack')).toBeFalsy();
+        expect(shouldUseBrowserify('rjs')).toBeFalsy();
+        expect(shouldUseBrowserify('browserify')).toBeTruthy();
+        expect(shouldUseBrowserify('not a known bundler')).toBeTruthy(); // Browserify is default "non AMD" choice
+    });
 });
-describe('Generator JSON utility', () => {
+describe('JSON utilities', () => {
     let content;
     const testJSON = join(__dirname, 'test.json');
     beforeEach(() => {

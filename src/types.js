@@ -55,7 +55,8 @@ export type ProjectGenerator = {
 export type WebappGenerator = {
     config: GeneratorConfig,
     destinationPath: (path: string) => string,
-    npmInstall: (dependencies: string[], options?: {save?: boolean, saveDev?: boolean}) => void,
+    log: (message: string) => void,
+    npmInstall: (dependencies?: string[], options?: {save?: boolean, saveDev?: boolean}) => void,
     option: Function,
     options: {
         cssPreprocessor: string,
