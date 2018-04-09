@@ -17,8 +17,8 @@ module.exports = {
 };
 
 function download(options) {
-    const {formatter, path, url} = options;/* eslint-disable no-unused-vars */
-    const [extension, ...rest] = url.split('.').reverse();/* eslint-enable no-unused-vars */
+    const {formatter, path, url} = options;
+    const [extension, ...rest] = url.split('.').reverse();// eslint-disable-line no-unused-vars
     const parse = (extension === 'json') ? (res => res.json()) : (res => res.text());
     const format = (typeof formatter === 'function') ? formatter : (i => i);
     return fetch(url)
@@ -44,15 +44,15 @@ function formatFederalAgencyData(data) {
         .map(sanitizeKeyNames)
         .map(item => omit(item, 'vocabulary'));
 }
-function fin(str) {/* eslint-disable no-console */
+function fin(str) {
     return items => {
-        console.log(`${green.bold('✔')} Successfully downloaded ${cyan(str)}`);/* eslint-enable no-console */
+        console.log(`${green.bold('✔')} Successfully downloaded ${cyan(str)}`);// eslint-disable-line no-console
         return items;
     };
 }
 function fail(str) {
-    return items => {/* eslint-disable no-console */
-        console.log(`${red.bold('✗')} Failed to download ${cyan(str)}`);/* eslint-enable no-console */
+    return items => {
+        console.log(`${red.bold('✗')} Failed to download ${cyan(str)}`);// eslint-disable-line no-console
         return items;
     };
 }

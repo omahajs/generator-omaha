@@ -11,33 +11,19 @@ const COMMAND_LINE_OPTIONS                  = require('./commandLineOptions');
 const {
     copy,
     copyTpl,
-    parseModuleData,
+    getModuleFormat,
+    json: {extend},
     maybeInclude: iff,
-    json: {extend}
+    parseModuleData,
+    resolveCssPreprocessor,
+    resolveModuleFormat,
+    shouldUseBrowserify
 } = require('../app/utils');
 
 const CSS_PREPROCESSOR_EXT_LOOKUP = {
     less: 'less',
     sass: 'scss',
     none: 'css'
-};
-
-const resolveModuleFormat = (bundler: string) => (bundler === 'rjs') ? 'amd' : 'commonjs';
-const getModuleFormat = (generator: WebappGenerator) => {
-    const {options} = generator;
-    const {useBrowserify, useJest, useWebpack} = options;
-    return (useJest || useBrowserify || useWebpack) ? 'commonjs' : 'amd';
-};
-const shouldUseBrowserify = (scriptBundler: string) => {
-    const moduleFormat = (scriptBundler !== 'rjs') ? 'commonjs' : 'amd';
-    const useWebpack = (scriptBundler === 'webpack');
-    const useAmd = (moduleFormat === 'amd');
-    return !(useAmd || useWebpack);
-};
-const resolveCssPreprocessor = (generator: WebappGenerator) => {
-    const {config} = generator;
-    const {useLess, useSass} = config.getAll();
-    return useLess ? 'less' : (useSass ? 'sass' : 'none');
 };
 
 module.exports = class extends Generator {
