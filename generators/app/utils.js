@@ -1,8 +1,9 @@
 
 
-const { isBoolean, findKey, merge, partialRight } = require('lodash');
+const { findKey, merge, partialRight } = require('lodash');
 
 const { readFileSync, writeFileSync } = require('fs-extra');
+const { project } = require('../app/prompts');
 const banner = require('../app/banner');
 
 const maybeInclude = partialRight(maybe, []);
@@ -52,8 +53,10 @@ function getProjectVariables(generator) {
     const { options, use } = generator;
     const { skipBenchmark, skipCoveralls, skipJsinspect, slim } = options;
     const { projectName } = use;
+    const { name } = options;
+    const shouldUseNameOption = typeof name === 'string' && name !== project.defaults.projectName;
     return {
-        projectName,
+        projectName: shouldUseNameOption ? name : projectName,
         isNative: generator.config.get('isNative'),
         sourceDirectory: getSourceDirectory(generator),
         useBenchmark: use.benchmark && !skipBenchmark && !slim,
@@ -68,7 +71,7 @@ function getSourceDirectory(generator) {
     return isNative ? 'renderer/' : !/\/$/.test(sourceDirectory) ? `${sourceDirectory}/` : sourceDirectory;
 }
 function maybe(condition, val, defaultValue = []) {
-    return isBoolean(condition) && condition ? val : defaultValue;
+    return typeof condition === 'boolean' && condition ? val : defaultValue;
 }
 function parseModuleData(str) {
     const BUNDLER_LOOKUP = {
@@ -91,8 +94,9 @@ function shouldUseBrowserify(scriptBundler) {
     return !(useAmd || useWebpack);
 }
 function showBanner(generator) {
-    const hideBanner = generator.config.get('hideBanner');
-    hideBanner || generator.log(banner);
+    const { config, log } = generator;
+    const hideBanner = config.get('hideBanner');
+    hideBanner || log(banner);
 }
 function readJSON(fileName) {
     return JSON.parse(readFileSync(fileName).toString());

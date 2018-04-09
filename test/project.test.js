@@ -63,10 +63,18 @@ describe('Project generator', () => {
             .then(() => verify(...useBoth)));
     });
     describe('can create and configure files with command line options', () => {
+        const name = 'my-super-cool-project';
         it('--defaults', () => helpers.run(join(__dirname, '../generators/project'))
             .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}))
             .toPromise()
             .then(() => verify(...useBoth)));
+        it('--defaults --name my-super-cool-project', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true, name}))
+            .toPromise()
+            .then(() => {
+                verifyCoreFiles(name);
+                verifyProjectConfigs(...useBoth);
+            }));
         it('--defaults --skip-benchmark', () => helpers.run(join(__dirname, '../generators/project'))
             .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                 'skip-benchmark': true
@@ -109,9 +117,16 @@ describe('Project generator', () => {
             .withOptions(merge(clone(SKIP_INSTALL), {defaults: true, slim: true}))
             .toPromise()
             .then(() => verify(...useNeither)));
+        it('--defaults --slim --name my-super-cool-project', () => helpers.run(join(__dirname, '../generators/project'))
+            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true, slim: true, name}))
+            .toPromise()
+            .then(() => {
+                verifyCoreFiles(name);
+                verifyProjectConfigs(...useNeither);
+            }));
     });
 });
-function verifyCoreFiles() {
+function verifyCoreFiles(projectName = 'omaha-project') {
     const ALWAYS_INCLUDED = [
         'README.md',
         'LICENSE',
@@ -123,7 +138,7 @@ function verifyCoreFiles() {
     ];
     assert.noFile('test/example.test.js');
     assert.noFileContent('package.json', '"testMatch":');
-    assert.fileContent('package.json', '"name": "omaha-project"');
+    assert.fileContent('package.json', `"name": "${projectName}"`);
     assert.fileContent('package.json', '"author": "A. Developer"');
     assert.fileContent('config/.eslintrc.js', 'es6: true,');
     assert.noFileContent('config/.eslintrc.js', 'backbone');
