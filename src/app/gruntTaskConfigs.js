@@ -172,6 +172,15 @@ module.exports = {
                 dest: '<%= folders.dist %>/<%= deployed.assets %>/workers',
                 filter: 'isFile'
             }]
+        },
+        wasm: {
+            files: [{
+                expand: true,
+                cwd: '<%= folders.assets %>/rust',
+                src: ['**/*.wasm'],
+                dest: '<%= folders.dist %>/<%= deployed.assets %>/rust',
+                filter: 'isFile'
+            }]
         }
     }`,
     /**

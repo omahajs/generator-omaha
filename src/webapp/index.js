@@ -147,6 +147,7 @@ module.exports = class extends Generator {
         //
         [].concat(
             iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]),
+            iff(useRust, [['helpers/importWasm.js', 'helpers/importWasm.js']]),
             [[
                 'helpers/jquery.extensions.js',
                 'helpers/jquery.extensions.js'

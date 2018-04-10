@@ -129,7 +129,7 @@ module.exports = class extends Generator {
         //
         // Write boilerplate files
         //
-        [].concat(iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]), [['helpers/jquery.extensions.js', 'helpers/jquery.extensions.js']], [['plugins/*.js', 'plugins']], [['shims/*.js', 'shims']], [['_index.html', 'index.html']], [['_app.js', 'app.js']], [['_main.js', 'main.js']], [['_router.js', 'router.js']], [['example.model.js', 'models/example.js']], [['example.view.js', 'views/example.js']], [['example.controller.js', 'controllers/example.js']]).map(data => [data[0], `${appDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
+        [].concat(iff(useHandlebars, [['helpers/handlebars.helpers.js', 'helpers/handlebars.helpers.js']]), iff(useRust, [['helpers/importWasm.js', 'helpers/importWasm.js']]), [['helpers/jquery.extensions.js', 'helpers/jquery.extensions.js']], [['plugins/*.js', 'plugins']], [['shims/*.js', 'shims']], [['_index.html', 'index.html']], [['_app.js', 'app.js']], [['_main.js', 'main.js']], [['_router.js', 'router.js']], [['example.model.js', 'models/example.js']], [['example.view.js', 'views/example.js']], [['example.controller.js', 'controllers/example.js']]).map(data => [data[0], `${appDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
         //
         // Write assets files
         //

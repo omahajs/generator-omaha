@@ -195,6 +195,7 @@ describe('Default generator', function() {
                 verify();
                 fileContent('package.json', '"build:wasm": ');
                 fileContent('package.json', '"postbuild:wasm": ');
+                file('app/helpers/importWasm.js');
                 file('assets/rust/main.rs');
             }));
         it('--defaults --use-jest', () => helpers.run(join(__dirname, '../generators/app'))

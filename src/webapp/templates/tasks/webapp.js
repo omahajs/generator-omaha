@@ -70,6 +70,7 @@ module.exports = function(grunt) {
         'copy:fonts',
         'copy:library',
         'copy:workers',
+        'copy:wasm',
         <% if (moduleFormat !== 'amd') { %>'replace:bundle-url',<% } else { %>'replace:almond-shim',<% } %>
         <% if (useImagemin) { %>'imagemin:build'<% } else { %>'copy:images'<% } %>
     ]);
