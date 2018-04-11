@@ -453,48 +453,48 @@ module.exports = {
      * Apply several post-processors to your CSS using PostCSS
      * @see {@link https://github.com/nDmitry/grunt-postcss}
     **/
-    postcss: function (sourceDirectory, useCssnext) {
-        return `{
+    postcss: (sourceDirectory, useCssnext) => `{
+        options: {
+            parser: require('postcss-safe-parser'),
+            processors: [
+                require('stylelint')(),
+                ${useCssnext ? `require('postcss-import')(),
+                require('postcss-cssnext')({
+                    browsers: 'last 2 versions',
+                    warnForDuplicates: false
+                }),` : `require('autoprefixer')({browsers: 'last 2 versions'}),`}
+                require('cssnano')(),
+                require('postcss-reporter')({clearReportedMessages: true})
+            ]
+        },
+        dev: {
             options: {
-                parser: require('postcss-safe-parser'),
-                processors: [
-                    require('autoprefixer')({browsers: 'last 2 versions'}),
-                    require('stylelint')(),
-                    ${useCssnext ? `require('postcss-import')(),
-                    require('postcss-cssnext')({warnForDuplicates: false}),` : ''}
-                    require('cssnano')(),
-                    require('postcss-reporter')({clearReportedMessages: true})
-                ]
+                map: {
+                    inline: false,
+                    annotation: '<%= folders.app %>'
+                }
             },
-            dev: {
-                options: {
-                    map: {
-                        inline: false,
-                        annotation: '<%= folders.app %>'
+            src: ['<%= folders.app %>/*.css', '<%= folders.assets %>/css/style.css'],
+            dest: '<%= folders.app %>/style.css'
+        },
+        prod: {
+            src:  '<%= folders.app %>/*.css',
+            dest: '<%= folders.dist %>/<%= folders.client %>/style.css'
+        },
+        styleguide: {
+            options: {
+                processors: [require('mdcss')({
+                    examples: {
+                        css: [
+                            '../${sourceDirectory}app/style.css',
+                            '../${sourceDirectory}assets/css/style.css'
+                        ],
                     }
-                },
-                src: ['<%= folders.app %>/*.css', '<%= folders.assets %>/css/style.css'],
-                dest: '<%= folders.app %>/style.css'
+                })],
             },
-            prod: {
-                src:  '<%= folders.app %>/*.css',
-                dest: '<%= folders.dist %>/<%= folders.client %>/style.css'
-            },
-            styleguide: {
-                options: {
-                    processors: [require('mdcss')({
-                        examples: {
-                            css: [
-                                '../${sourceDirectory}app/style.css',
-                                '../${sourceDirectory}assets/css/style.css'
-                            ],
-                        }
-                    })],
-                },
-                src:  ['<%= folders.app %>/*.css', '<%= folders.assets %>/css/*.css']
-            }
-        }`;
-    },
+            src:  ['<%= folders.app %>/*.css', '<%= folders.assets %>/css/*.css']
+        }
+    }`,
     /**
      * Use Applause to replace link to bundled scripts if using browserify
      * @see {@link https://github.com/outaTiME/grunt-replace}
