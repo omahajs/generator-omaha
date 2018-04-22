@@ -33,6 +33,7 @@ module.exports = {
             resolve('./<%= sourceDirectory %>app')
         ],
         alias: {
+            underscore: 'lodash',
             handlebars: 'handlebars/runtime.js'//https://github.com/wycats/handlebars.js/issues/953#issuecomment-94931306
         }
     }
