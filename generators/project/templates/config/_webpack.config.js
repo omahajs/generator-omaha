@@ -1,7 +1,10 @@
 const {resolve}       = require('path');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 
+const IS_DEVELOPMENT = true;
+
 module.exports = {
+    mode: IS_DEVELOPMENT ? 'development' : 'production',
     entry: {
         app: './<%= sourceDirectory %>app/main.js'
     },
@@ -10,7 +13,7 @@ module.exports = {
         filename: 'bundle.min.js'
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js?$/,
                 exclude: /node_modules/,
@@ -32,8 +35,5 @@ module.exports = {
         alias: {
             handlebars: 'handlebars/runtime.js'//https://github.com/wycats/handlebars.js/issues/953#issuecomment-94931306
         }
-    },
-    node: {
-        fs: 'empty'// https://github.com/webpack-contrib/css-loader/issues/447
     }
 };

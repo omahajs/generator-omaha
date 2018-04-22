@@ -140,7 +140,7 @@ module.exports = class extends Generator {
             iff(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]),
             iff(useJsinspect, 'jsinspect'),
             iff(useJsinspect && isWebapp, ['jsinspect', 'grunt-jsinspect']),
-            iff(useWebpack, ['webpack@3.11.0', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader'])
+            iff(useWebpack, ['webpack', 'webpack-cli', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader'])
         );
         generator.npmInstall();
         generator.npmInstall(devDependencies, {saveDev: true});

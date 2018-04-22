@@ -99,7 +99,7 @@ module.exports = class extends Generator {
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
         const isNotWindows = ['linux', 'freebsd'].includes(process.platform);
         const karmaDependencies = ['karma', 'karma-chrome-launcher', 'karma-coverage', 'karma-firefox-launcher', 'karma-mocha', 'karma-chai', 'karma-sinon', 'karma-spec-reporter'];
-        const devDependencies = [].concat(iff(isNotWindows, 'stmux'), iff(isWebapp && useWebpack, 'grunt-webpack'), iff(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']), iff(useCoveralls, 'coveralls'), iff(useCoveralls && isWebapp, 'grunt-karma-coveralls'), iff(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]), iff(useJsinspect, 'jsinspect'), iff(useJsinspect && isWebapp, ['jsinspect', 'grunt-jsinspect']), iff(useWebpack, ['webpack@3.11.0', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader']));
+        const devDependencies = [].concat(iff(isNotWindows, 'stmux'), iff(isWebapp && useWebpack, 'grunt-webpack'), iff(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']), iff(useCoveralls, 'coveralls'), iff(useCoveralls && isWebapp, 'grunt-karma-coveralls'), iff(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]), iff(useJsinspect, 'jsinspect'), iff(useJsinspect && isWebapp, ['jsinspect', 'grunt-jsinspect']), iff(useWebpack, ['webpack', 'webpack-cli', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader']));
         generator.npmInstall();
         generator.npmInstall(devDependencies, { saveDev: true });
         updatePackageJson(getJestConfig(generator));
