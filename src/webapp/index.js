@@ -222,7 +222,10 @@ module.exports = class extends Generator {
                     ]
                 ]
             ),
-            iff(useRust, [['main.rs', 'rust/main.rs']]),
+            iff(useRust, [
+                ['main.rs', 'rust/main.rs'],
+                ['counter.rs', 'rust/counter.rs']
+            ]),
             [[
                 'example.template.hbs',
                 'templates/example.hbs'
