@@ -5,10 +5,10 @@
  * const importWasm = require('./helpers/importWasm');
  *
  * importWasm('../assets/rust/main.min.wasm').then(api => {
- *     const {add_one} = api;
- *     console.log(add_one(9000)); // 9001
+ *     const {addOne} = api;
+ *     console.log(addOne(9000)); // 9001
  * });
- * @example <caption>Using Counter example</caption>
+ * @example <caption>Using Counter example code</caption>
  * const importWasm = require('./helpers/importWasm');
  *
  * importWasm('../assets/rust/main.min.wasm').then(api => {
