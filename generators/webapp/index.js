@@ -139,7 +139,7 @@ module.exports = class extends Generator {
         copy('omaha.png', `${assetsDirectory}images/logo.png`, generator);
         [].concat(iff(useAmd, [['example.webworker.amd.js', 'workers/example.webworker.amd.js']], [['example.webworker.js', 'workers/example.webworker.js']]), iff(type === 'none', [[// No CSS pre-processor
         '_style.css', 'css/style.css']], [[// Main style sheet
-        `_style.${ext}`, `${type}/style.${ext}`]]), iff(useRust, [['main.rs', 'rust/main.rs']]), [['example.template.hbs', 'templates/example.hbs']]).map(data => [data[0], `${assetsDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
+        `_style.${ext}`, `${type}/style.${ext}`]]), iff(useRust, [['main.rs', 'rust/main.rs'], ['counter.rs', 'rust/counter.rs']]), [['example.template.hbs', 'templates/example.hbs']]).map(data => [data[0], `${assetsDirectory}${data[1]}`]).forEach(data => copyTpl(...data, generator));
     }
     install() {
         const generator = this;
