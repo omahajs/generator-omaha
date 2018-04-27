@@ -329,7 +329,7 @@ module.exports = class extends Generator {
             'globby',
             'json-server'
         ].concat(// conditional dependencies
-            iff(!useBrowserify, 'babel-preset-minify'),
+            iff(!useBrowserify, 'babel-preset-minify@0.3.0'),
             iff(!useJest, requirejsDevDependencies),
             ...gruntDependencies,
             ...htmlDevDependencies,
