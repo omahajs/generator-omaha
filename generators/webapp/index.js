@@ -171,7 +171,7 @@ module.exports = class extends Generator {
         const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(iff(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul']));
         const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-eslint', 'grunt-express', 'grunt-jsdoc', 'grunt-jsonlint', 'grunt-open', 'grunt-parallel', 'grunt-plato', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(iff(!useJest, 'grunt-karma'));
         const workflowDependencies = ['babel-cli', 'babel-preset-env', 'config', 'eslint-plugin-backbone', 'fs-promise', 'globby', 'json-server'].concat( // conditional dependencies
-        iff(!useBrowserify, 'babel-preset-minify'), iff(!useJest, requirejsDevDependencies), ...gruntDependencies, ...htmlDevDependencies, ...cssDevDependencies);
+        iff(!useBrowserify, 'babel-preset-minify@0.3.0'), iff(!useJest, requirejsDevDependencies), ...gruntDependencies, ...htmlDevDependencies, ...cssDevDependencies);
         const devDependencies = workflowDependencies.concat(iff(useBrowserify, browserifyDependencies), iff(useAria, ['grunt-a11y', 'grunt-accessibility']), iff(useImagemin, 'grunt-contrib-imagemin'), iff(useLess, 'grunt-contrib-less'), iff(useSass, 'grunt-contrib-sass'), iff(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst'));
         generator.npmInstall(dependencies, { save: true });
         generator.npmInstall(devDependencies, { saveDev: true });
