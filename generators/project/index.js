@@ -71,7 +71,6 @@ module.exports = class extends Generator {
             isWebapp,
             moduleFormat,
             useBenchmark,
-            useCoveralls,
             useJest,
             useWebpack
         } = generator.config.getAll();
@@ -82,7 +81,7 @@ module.exports = class extends Generator {
         const mochaTemplateData = [['test/mocha.opts', 'test/mocha.opts'], [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']];
         const jestTemplateData = [['test/jest/example.test.js', 'test/example.test.js']];
         const webpackTemplateData = [['config/_webpack.config.js', 'config/webpack.config.js']];
-        defaultTemplateData.concat(iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]), iff(useCoveralls, [['_travis.yml', '.travis.yml']]), iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]), iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]), iff(useJest, jestTemplateData, mochaTemplateData), iff(useWebpack, webpackTemplateData)).forEach(data => copyTpl(data[0], data[1], generator));
+        defaultTemplateData.concat(iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]), iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]), iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]), iff(useJest, jestTemplateData, mochaTemplateData), iff(useWebpack, webpackTemplateData)).forEach(data => copyTpl(data[0], data[1], generator));
         copyTpl('test/data/**/*.*', 'test/data', generator);
     }
     install() {
@@ -91,7 +90,6 @@ module.exports = class extends Generator {
         const {
             isWebapp,
             useBenchmark,
-            useCoveralls,
             useJest,
             useJsinspect,
             useWebpack
@@ -99,7 +97,7 @@ module.exports = class extends Generator {
         const updatePackageJson = partial(extend, generator.destinationPath('package.json'));
         const isNotWindows = ['linux', 'freebsd'].includes(process.platform);
         const karmaDependencies = ['karma', 'karma-chrome-launcher', 'karma-coverage', 'karma-firefox-launcher', 'karma-mocha', 'karma-chai', 'karma-sinon', 'karma-spec-reporter'];
-        const devDependencies = [].concat(iff(isNotWindows, 'stmux'), iff(isWebapp && useWebpack, 'grunt-webpack'), iff(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']), iff(useCoveralls, 'coveralls'), iff(useCoveralls && isWebapp, 'grunt-karma-coveralls'), iff(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]), iff(useJsinspect, 'jsinspect'), iff(useJsinspect && isWebapp, ['jsinspect', 'grunt-jsinspect']), iff(useWebpack, ['webpack', 'webpack-cli', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader']));
+        const devDependencies = [].concat(iff(isNotWindows, 'stmux'), iff(isWebapp && useWebpack, 'grunt-webpack'), iff(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']), iff(useJest, ['watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]), iff(useJsinspect, 'jsinspect'), iff(useJsinspect && isWebapp, ['jsinspect', 'grunt-jsinspect']), iff(useWebpack, ['webpack', 'webpack-cli', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader']));
         generator.npmInstall();
         generator.npmInstall(devDependencies, { saveDev: true });
         updatePackageJson(getJestConfig(generator));
@@ -131,16 +129,12 @@ function getJestConfig(generator) {
 function getScripts(generator) {
     const {
         useBenchmark,
-        useCoveralls,
         useJest,
         useWebpack
     } = generator.config.getAll();
     const scripts = { coverage: 'nyc report -r text' };
     useBenchmark && assign(scripts, {
         'test:perf': 'grunt benchmark'
-    });
-    useCoveralls && assign(scripts, {
-        'test:travis': useJest ? 'npm run coverage && cat ./coverage/lcov.info | coveralls' : 'nyc report --reporter=text-lcov | coveralls'
     });
     useJest && assign(scripts, {
         test: 'jest .*.test.js',

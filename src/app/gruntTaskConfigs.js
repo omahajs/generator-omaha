@@ -184,18 +184,6 @@ module.exports = {
         }
     }`,
     /**
-     * Send coverage report to Coveralls.io
-     * @see {@link https://github.com/mattjmorrison/grunt-karma-coveralls}
-    **/
-    coveralls: `{
-        options: {
-            // LCOV coverage file relevant to every target
-            coverageDir: '<%= folders.reports %>/<%= folders.coverage %>/',
-            recursive: true,
-            force: true
-        }
-    }`,
-    /**
      * Validate files with ESLint
      * @see {@link https://www.npmjs.com/package/grunt-eslint}
     **/

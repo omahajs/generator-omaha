@@ -26,12 +26,6 @@ const projectQuestions = [
     },
     {
         type: 'confirm',
-        name: 'coveralls',
-        message: 'Integrate with Coveralls.io?',
-        default: true
-    },
-    {
-        type: 'confirm',
         name: 'jsinspect',
         message: 'Detect copy-pasted and structurally similar code with JS Inspect?',
         default: true

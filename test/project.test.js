@@ -10,8 +10,8 @@ const {defaults} = require('../generators/app/prompts').project;
 const SKIP_INSTALL = {skipInstall: true};
 const useBoth = [true, true];
 const useNeither = [false, false];
-const onlyBenchmark = [true, false];
-const onlyCoveralls = [false, true];
+const useBenchmark = true;
+const skipBenchmark = false;
 
 describe('Project generator', () => {
     let stub;
@@ -35,7 +35,6 @@ describe('Project generator', () => {
             .withOptions(SKIP_INSTALL)
             .withPrompts(merge(clone(defaults), {
                 benchmark: false,
-                coveralls: false,
                 jsinspect: false
             }))
             .toPromise()
@@ -46,14 +45,7 @@ describe('Project generator', () => {
                 benchmark: false
             }))
             .toPromise()
-            .then(() => verify(...onlyCoveralls)));
-        it('only coveralls FALSE', () => helpers.run(join(__dirname, '../generators/project'))
-            .withOptions(SKIP_INSTALL)
-            .withPrompts(merge(clone(defaults), {
-                coveralls: false
-            }))
-            .toPromise()
-            .then(() => verify(...onlyBenchmark)));
+            .then(() => verify(skipBenchmark)));
         it('only jsinspect FALSE', () => helpers.run(join(__dirname, '../generators/project'))
             .withOptions(SKIP_INSTALL)
             .withPrompts(merge(clone(defaults), {
@@ -80,23 +72,16 @@ describe('Project generator', () => {
                 'skip-benchmark': true
             }))
             .toPromise()
-            .then(() => verify(...onlyCoveralls)));
-        it('--defaults --skip-coveralls', () => helpers.run(join(__dirname, '../generators/project'))
-            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
-                'skip-coveralls': true
-            }))
-            .toPromise()
-            .then(() => verify(...onlyBenchmark)));
+            .then(() => verify(skipBenchmark)));
         it('--defaults --skip-jsinspect', () => helpers.run(join(__dirname, '../generators/project'))
             .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                 'skip-jsinspect': true
             }))
             .toPromise()
             .then(() => verify(...useBoth)));
-        it('--defaults --skip-benchmark --skip-coveralls --skip-jsinspect', () => helpers.run(join(__dirname, '../generators/project'))
+        it('--defaults --skip-benchmark --skip-jsinspect', () => helpers.run(join(__dirname, '../generators/project'))
             .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                 'skip-benchmark': true,
-                'skip-coveralls': true,
                 'skip-jsinspect': true
             }))
             .toPromise()
@@ -144,10 +129,8 @@ function verifyCoreFiles(projectName = 'omaha-project') {
     assert.noFileContent('config/.eslintrc.js', 'backbone');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
 }
-function verifyProjectConfigs(useBenchmark, useCoveralls) {
+function verifyProjectConfigs(useBenchmark) {
     const verify = feature => assert[feature ? 'fileContent' : 'noFileContent'];
     (useBenchmark ? assert.file : assert.noFile)('Gruntfile.js');
-    (useCoveralls ? assert.file : assert.noFile)('.travis.yml');
     verify(useBenchmark)('package.json', '"test:perf": "');
-    verify(useCoveralls)('package.json', '"test:travis": "nyc report --reporter=text-lcov | coveralls"');
 }

@@ -16,7 +16,6 @@ module.exports = function(generator) {
         useAmd,
         useAria,
         useBenchmark,
-        useCoveralls,
         useHandlebars,
         useImagemin,
         useJest,
@@ -52,7 +51,6 @@ module.exports = function(generator) {
         ].map(yes).map(str => `  ${str}`)),
         '',
         yesNo(useBenchmark)('Install benchmarks.js support'),
-        yesNo(useCoveralls)('Integrate Coveralls.io support'),
         yesNo(useJsinspect)('Find duplicate code with JSInspect'),
         maybe(isWebapp, [
             yesNo(useAria)('Perform accessibility audit on HTML code'),

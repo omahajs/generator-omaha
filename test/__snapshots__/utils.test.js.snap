@@ -62,7 +62,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": false,
-    "useCoveralls": true,
     "useJsinspect": true,
   },
   Object {
@@ -70,7 +69,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": true,
-    "useCoveralls": false,
     "useJsinspect": true,
   },
   Object {
@@ -78,7 +76,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": true,
-    "useCoveralls": true,
     "useJsinspect": false,
   },
   Object {
@@ -86,7 +83,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": false,
-    "useCoveralls": true,
     "useJsinspect": false,
   },
   Object {
@@ -94,7 +90,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": true,
-    "useCoveralls": false,
     "useJsinspect": false,
   },
   Object {
@@ -102,7 +97,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": false,
-    "useCoveralls": false,
     "useJsinspect": true,
   },
   Object {
@@ -110,7 +104,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": false,
-    "useCoveralls": false,
     "useJsinspect": false,
   },
   Object {
@@ -118,7 +111,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": false,
-    "useCoveralls": false,
     "useJsinspect": false,
   },
   Object {
@@ -126,7 +118,6 @@ Array [
     "projectName": "my-project",
     "sourceDirectory": "undefined/",
     "useBenchmark": false,
-    "useCoveralls": false,
     "useJsinspect": false,
   },
 ]

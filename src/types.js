@@ -11,7 +11,6 @@ type Config = {
     useAria: boolean,
     useBenchmark: boolean,
     useBrowserify: boolean,
-    useCoveralls: boolean,
     useHandlebars: boolean,
     useImagemin: boolean,
     useJest: boolean,
@@ -36,7 +35,6 @@ export type ProjectGenerator = {
         defaults: boolean,
         name: string,
         skipBenchmark: boolean,
-        skipCoveralls: boolean,
         skipJsinspect: boolean,
         slim: boolean,
         src: string,
@@ -47,7 +45,6 @@ export type ProjectGenerator = {
     prompt: Function,
     use: {
         benchmark?: boolean,
-        coveralls?: boolean,
         jsinspect?: boolean,
         projectName: string,
         sourceDirectory: string
