@@ -21,7 +21,6 @@ const {
 const ORIGINAL_CONSOLE_LOG = window.console.log;
 const TEST_JSON_DATA = require('./data/test.json');
 
-
 beforeAll(() => {
     window.console.log = jest.fn().mockName('Console Log');
 });

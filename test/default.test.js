@@ -1,4 +1,4 @@
-
+/* eslint-disable promise/always-return */
 const {merge, mapValues, isBoolean} = require('lodash');
 const {join}    = require('path');
 const {blue, yellow}  = require('chalk');
@@ -294,15 +294,15 @@ describe('Default generator', function() {
                 fileContent(ariaContent);
                 fileContent('Gruntfile.js', 'imagemin: ');
             }));
-    it('--defaults --src boot', () => helpers.run(join(__dirname, '../generators/app'))
-        .withOptions(merge({}, SKIP_INSTALL, {
-            defaults: true,
-            src: 'boot'}))
-        .toPromise()
-        .then(() => {
-            verifyCoreFiles();
-            verifyBoilerplateFiles('boot/');
-        }));
+        it('--defaults --src boot', () => helpers.run(join(__dirname, '../generators/app'))
+            .withOptions(merge({}, SKIP_INSTALL, {
+                defaults: true,
+                src: 'boot'}))
+            .toPromise()
+            .then(() => {
+                verifyCoreFiles();
+                verifyBoilerplateFiles('boot/');
+            }));
     });
 });
 describe('Default generator (with custom source directory)', function() {

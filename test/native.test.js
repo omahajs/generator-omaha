@@ -1,4 +1,4 @@
-
+/* eslint-disable promise/always-return */
 const {merge, mapValues, isBoolean} = require('lodash');
 const {join}    = require('path');
 const helpers   = require('yeoman-test');

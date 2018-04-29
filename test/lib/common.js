@@ -90,7 +90,7 @@ function verifyNativeConfiguration(isWebapp) {
     fileContent('package.json', `"start": ${startScript}`);
 }
 function verifyDefaultTasksConfiguration() {
-    var defaultTaskConfigs = [
+    const defaultTaskConfigs = [
         ['Gruntfile.js', 'browserSync: {'],
         ['Gruntfile.js', 'clean: {'],
         ['Gruntfile.js', 'jsdoc: {'],
@@ -105,17 +105,17 @@ function verifyDefaultTasksConfiguration() {
     fileContent(defaultTaskConfigs);
 }
 function verifyPreprocessorConfigured(type, sourceDirectory) {
-    var EXT_LOOKUP = {
+    const EXT_LOOKUP = {
         less: 'less',
         sass: 'scss'
     };
-    var ext = EXT_LOOKUP[type];
-    var notType = _(EXT_LOOKUP)
+    const ext = EXT_LOOKUP[type];
+    const notType = _(EXT_LOOKUP)
         .omit(type)
         .keys()
         .head();
-    var notExt = EXT_LOOKUP[notType];
-    var customPath = sourceDirectory || '';
+    const notExt = EXT_LOOKUP[notType];
+    const customPath = sourceDirectory || '';
     fileContent('Gruntfile.js', 'postcss: ');
     noFile(`${customPath}assets/${type}/reset.${ext}`);
     file(`${customPath}assets/${type}/style.${ext}`);

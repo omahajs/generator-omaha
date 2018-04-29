@@ -8,9 +8,7 @@ const width = 600;
 const height = 650;
 const getPath = name => ({path: createFilePath(name)});
 const readFile = Promise.promisify(require('fs').readFile);
-/* eslint-disable no-console */
-captureScreenshots().then(msg => console.log(bold(green('✔ ') + bold(msg))));
-/* eslint-enable no-console */
+captureScreenshots().then(msg => console.log(bold(green('✔ ') + bold(msg)))).catch(handleError); // eslint-disable-line no-console
 
 function captureScreenshots() {
     return (async() => {
@@ -34,7 +32,10 @@ function captureScreenshots() {
 }
 function createFilePath(name, ext) {
     ext = ext ? ext : '.png';
-    var filePath = join(__dirname, 'screenshots', name);
+    let filePath = join(__dirname, 'screenshots', name);
     filePath += ext;
     return filePath;
+}
+function handleError(err) {
+    console.log(err); // eslint-disable-line no-console
 }
