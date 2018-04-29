@@ -64,7 +64,9 @@
     "testMatch": [
       "**/test/*.js"
     ],
-    "setupTestFrameworkScriptFile": "./test/lib/jestSetup.js"
+    "setupTestFrameworkScriptFile": "./test/lib/jestSetup.js",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "scripts": {
     "lint": "flow && npm run eslint",
@@ -75,8 +77,6 @@
     "test": "npm run build && jest .*.test.js",
     "coverage": "npm test -- --coverage",
     "test:watch": "npm test -- --watch",
-    "test:ci": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "test:travis": "npm run test:ci",
     "test:all": "npm test && npm run test:builds && npm run test:visual",
     "pretest:builds": "mkdir -p ~/.omahajs-builds-output-directory",
     "test:builds": "bash ./test/lib/generate-build-test.sh",
