@@ -103,7 +103,7 @@ function readJSON(fileName: string) {
 }
 function writeJSON(fileName: string, content: any) {
     const INDENT_SPACES = 4;
-    writeFileSync(fileName, `${JSON.stringify(content, null, INDENT_SPACES) }\n`);
+    writeFileSync(fileName, `${JSON.stringify(content, null, INDENT_SPACES)}\n`);
 }
 function extendJSON(fileName: string, obj: any) {
     writeJSON(fileName, merge(readJSON(fileName), obj));

@@ -137,14 +137,14 @@ const defaults = {
         .reduce(extend)
 };
 
-function addLeadingZero(step) {return (step < 10) ? (`0${ step}`) : step;}
+function addLeadingZero(step) {return (step < 10) ? (`0${step}`) : step;}
 function promptMessageFormat(options) {
     const {type, isWebapp, isServer} = options;
     let total = isServer ? serverQuestions.length : projectQuestions.length;
     total += isWebapp ? webappQuestions.length : 0;
     return function(question, index) {
         const step = index + 1 + ((type === 'webapp') ? projectQuestions.length : 0);
-        question.message = chalk[step === total ? 'green' : 'gray'](`(${ addLeadingZero(step) }/${ total }) `) + question.message;
+        question.message = chalk[step === total ? 'green' : 'gray'](`(${addLeadingZero(step)}/${total}) `) + question.message;
         return question;
     };
 }

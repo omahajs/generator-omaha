@@ -68,6 +68,6 @@ module.exports = function(generator) {
     ).join('\n');
 };
 function yes(str) {return bold(green('✔ ') + white(str));}
-function no(str) {return bold.gray(`✗ ${ str}`);}
+function no(str) {return bold.gray(`✗ ${str}`);}
 function yesNo(val) {return (isBoolean(val) && val) ? yes : no;}
 function spaceWrap(str) {return ` ${str} `;}
