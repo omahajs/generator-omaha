@@ -5,8 +5,8 @@
     <a href="https://travis-ci.org/omahajs/generator-omaha">
         <img src="https://travis-ci.org/omahajs/generator-omaha.svg?branch=master" alt="Travis-CI Build Status" title="Travis-CI Build Status"/>
     </a>
-    <a href="https://coveralls.io/github/omahajs/generator-omaha?branch=master">
-        <img src="https://coveralls.io/repos/omahajs/generator-omaha/badge.svg?branch=master&service=github" alt="Coveralls.io Coverage Status" title="Coveralls.io Coverage Status"/>
+    <a href="https://codecov.io/gh/omahajs/generator-omaha">
+        <img src="https://img.shields.io/codecov/c/github/omahajs/generator-omaha.svg" alt="Codecov Coverage Status" title="Codecov Coverage Status"/>
     </a>
     <a href="https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha?ref=badge_shield" alt="FOSSA Status">
         <img src="https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fomahajs%2Fgenerator-omaha.svg?type=shield"/>
