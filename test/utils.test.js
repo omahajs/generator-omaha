@@ -21,7 +21,6 @@ const {
 const ORIGINAL_CONSOLE_LOG = window.console.log;
 const TEST_JSON_DATA = require('./data/test.json');
 
-
 beforeAll(() => {
     window.console.log = jest.fn().mockName('Console Log');
 });
@@ -124,30 +123,29 @@ describe('Generator Utilities', () => {
         expect(results).toMatchSnapshot();
     });
     it('can get project variables (with --skip options)', () => {
-        function createDummyGenerator(skipBenchmark, skipCoveralls, skipJsinspect, slim) {
+        function createDummyGenerator(skipBenchmark, skipJsinspect, slim) {
             const projectName = 'my-project';
             return {
-                options: {skipBenchmark, skipCoveralls, skipJsinspect, slim},
+                options: {skipBenchmark, skipJsinspect, slim},
                 use: {
                     projectName,
                     benchmark: true,
-                    coveralls: true,
                     jsinspect: true
                 },
                 config: {get: () => false}
             };
         }
         const input = [
-            /* skipBenchmark, skipCoveralls, skipJsinspect, slim */
-            [true, false, false, false],
-            [false, true, false, false],
-            [false, false, true, false],
-            [true, false, true, false],
-            [false, true, true, false],
-            [true, true, false, false],
-            [true, true, true, false],
-            [true, true, true, true],
-            [false, false, false, true]
+            /* skipBenchmark, skipJsinspect, slim */
+            [true, false, false],
+            [false, false, false],
+            [false, true, false],
+            [true, true, false],
+            [false, true, false],
+            [true, false, false],
+            [true, true, false],
+            [true, true, true],
+            [false, false, true]
         ];
         const results = input
             .map(values => createDummyGenerator(...values))

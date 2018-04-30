@@ -51,7 +51,7 @@ function getModuleFormat(generator: (ProjectGenerator | WebappGenerator)): strin
 }
 function getProjectVariables(generator: ProjectGenerator) {
     const {options, use} = generator;
-    const {skipBenchmark, skipCoveralls, skipJsinspect, slim} = options;
+    const {skipBenchmark, skipJsinspect, slim} = options;
     const {projectName} = use;
     const {name} = options;
     const shouldUseNameOption = (typeof name === 'string') && (name !== project.defaults.projectName);
@@ -60,7 +60,6 @@ function getProjectVariables(generator: ProjectGenerator) {
         isNative:        generator.config.get('isNative'),
         sourceDirectory: getSourceDirectory(generator),
         useBenchmark:    use.benchmark && !skipBenchmark && !slim,
-        useCoveralls:    use.coveralls && !skipCoveralls && !slim,
         useJsinspect:    use.jsinspect && !skipJsinspect && !slim
     };
 }
@@ -103,7 +102,7 @@ function readJSON(fileName: string) {
 }
 function writeJSON(fileName: string, content: any) {
     const INDENT_SPACES = 4;
-    writeFileSync(fileName, `${JSON.stringify(content, null, INDENT_SPACES) }\n`);
+    writeFileSync(fileName, `${JSON.stringify(content, null, INDENT_SPACES)}\n`);
 }
 function extendJSON(fileName: string, obj: any) {
     writeJSON(fileName, merge(readJSON(fileName), obj));

@@ -1,4 +1,4 @@
-
+/* eslint-disable promise/always-return */
 const {join}     = require('path');
 const helpers    = require('yeoman-test');
 const {
@@ -115,10 +115,10 @@ function verifyCoreFiles() {
 }
 function verifyPorts(http, https, ws, graphql) {
     [
-        ['config/default.js', `port: process.env.PORT || ${ http}`],
-        ['config/default.js', `port: ${ https}`],
-        ['config/default.js', `port: ${ ws}`],
-        ['config/default.js', `port: ${ graphql}`]
+        ['config/default.js', `port: process.env.PORT || ${http}`],
+        ['config/default.js', `port: ${https}`],
+        ['config/default.js', `port: ${ws}`],
+        ['config/default.js', `port: ${graphql}`]
     ].forEach(data => fileContent(...data));
 }
 function verifyMarkdownSupport(exists) {

@@ -23,7 +23,6 @@ yo omaha:project
 - `--use-jest`: use Facebook's Jest instead of mocha (auto selects CommonJS module format)
 - `--use-webpack`: use Webpack as script bundler (auto selects CommonJS module format and Jest test framework)
 - `--skip-benchmark`: use with `--defaults`
-- `--skip-coveralls`: use with `--defaults`
 - `--skip-jsinspect`: use with `--defaults`
 
 **Examples:**
@@ -31,11 +30,6 @@ yo omaha:project
 Create a project with default options:
 ```sh
 yo omaha:project --defaults
-```
-
-Create a project without Coveralls.io support:
-```sh
-yo omaha:project --defaults --skip-coveralls
 ```
 
 Plugin

@@ -1,7 +1,7 @@
 
 const chalk = require('chalk');
 const color = 'black';
-let omaha = `\n${ chalk[color].bgYellow(
+let omaha = `\n${chalk[color].bgYellow(
     '                                                                   \n',
     '  ██████╗ ███╗   ███╗ █████╗ ██╗  ██╗ █████╗          ██╗███████╗ \n',
     ' ██╔═══██╗████╗ ████║██╔══██╗██║  ██║██╔══██╗         ██║██╔════╝ \n',
@@ -10,6 +10,6 @@ let omaha = `\n${ chalk[color].bgYellow(
     ' ╚██████╔╝██║ ╚═╝ ██║██║  ██║██║  ██║██║  ██║    ╚█████╔╝███████║ \n',
     '  ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚════╝ ╚══════╝ '
 )}`;
-omaha = `${omaha }\n`;
+omaha = `${omaha}\n`;
 
 module.exports = omaha;

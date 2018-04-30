@@ -279,7 +279,6 @@ function getScripts(generator) {
         sourceDirectory,
         useAmd,
         useJest,
-        useCoveralls,
         useJsinspect,
         useRust
     } = generator.config.getAll();
@@ -313,9 +312,6 @@ function getScripts(generator) {
             postbuild: `babel ${temp} -o ${dist}config.js && rm ${temp}`
         });
     }
-    useCoveralls && assign(scripts, {
-        'test:ci': 'npm test && grunt coveralls'
-    });
     useJest && assign(scripts, {
         pretest: 'npm run lint',
         test: 'jest .*.test.js --coverage',
@@ -336,7 +332,6 @@ function getTasks(generator) {
         useAria,
         useBenchmark,
         useBrowserify,
-        useCoveralls,
         useHandlebars,
         useImagemin,
         useJsinspect,
@@ -346,6 +341,6 @@ function getTasks(generator) {
     } = config.getAll();
     return [// Tasks enabled by default
     'browserSync', 'clean', 'copy', 'eslint', 'htmlmin', 'htmlhintplus', 'jsdoc', 'jsonlint', 'karma', 'open', 'plato', 'replace', 'requirejs', 'watch'].concat( // Project tasks enabled by user
-    iff(useBenchmark, 'benchmark'), iff(useCoveralls, 'coveralls'), iff(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user
+    iff(useBenchmark, 'benchmark'), iff(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user
     iff(useAria, ['a11y', 'accessibility']), iff(useBrowserify, 'browserify'), iff(useHandlebars, 'handlebars', 'jst'), iff(useImagemin, ['imagemin', 'copy']), iff(useLess, 'less'), iff(useSass, 'sass'), iff(useWebpack, 'webpack'), iff(useWebpack || useBrowserify, 'uglify'));
 }

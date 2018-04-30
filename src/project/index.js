@@ -71,7 +71,6 @@ module.exports = class extends Generator {
             isWebapp,
             moduleFormat,
             useBenchmark,
-            useCoveralls,
             useJest,
             useWebpack
         } = generator.config.getAll();
@@ -100,7 +99,6 @@ module.exports = class extends Generator {
         ];
         defaultTemplateData.concat(
             iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]),
-            iff(useCoveralls, [['_travis.yml', '.travis.yml']]),
             iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]),
             iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]),
             iff(useJest, jestTemplateData, mochaTemplateData),
@@ -114,7 +112,6 @@ module.exports = class extends Generator {
         const {
             isWebapp,
             useBenchmark,
-            useCoveralls,
             useJest,
             useJsinspect,
             useWebpack
@@ -135,9 +132,7 @@ module.exports = class extends Generator {
             iff(isNotWindows, 'stmux'),
             iff(isWebapp && useWebpack, 'grunt-webpack'),
             iff(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']),
-            iff(useCoveralls, 'coveralls'),
-            iff(useCoveralls && isWebapp, 'grunt-karma-coveralls'),
-            iff(useJest, ['coveralls', 'watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]),
+            iff(useJest, ['watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]),
             iff(useJsinspect, 'jsinspect'),
             iff(useJsinspect && isWebapp, ['jsinspect', 'grunt-jsinspect']),
             iff(useWebpack, ['webpack', 'webpack-cli', 'webpack-dev-server', 'webpack-dashboard', 'babel-loader'])
@@ -175,16 +170,12 @@ function getJestConfig(generator: ProjectGenerator) {
 function getScripts(generator: ProjectGenerator) {
     const {
         useBenchmark,
-        useCoveralls,
         useJest,
         useWebpack
     } = generator.config.getAll();
     const scripts = {coverage: 'nyc report -r text'};
     useBenchmark && assign(scripts, {
         'test:perf': 'grunt benchmark'
-    });
-    useCoveralls && assign(scripts, {
-        'test:travis': useJest ? 'npm run coverage && cat ./coverage/lcov.info | coveralls' : 'nyc report --reporter=text-lcov | coveralls'
     });
     useJest && assign(scripts, {
         test: 'jest .*.test.js',

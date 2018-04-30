@@ -18,7 +18,7 @@ module.exports = class extends Generator {
             copySync(join(__dirname, `/bin/${chromedriver}`), `bin/${chromedriver}`);// v2.30
             copySync(join(__dirname, '/bin/selenium-server-standalone-3.4.0.jar'), 'bin/selenium-server-standalone.jar');
         } else {
-            this.log(yosay(`${red('Not so fast!') }\nUse ${ white.bgBlack(' yo omaha ') } first!`));
+            this.log(yosay(`${red('Not so fast!')}\nUse ${white.bgBlack(' yo omaha ')} first!`));
             (process.env.mode !== 'TESTING') && process.exit(1);
         }
     }

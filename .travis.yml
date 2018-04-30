@@ -9,4 +9,3 @@ script:
 node_js:
   - 'node'
   - '8'
-  - '6'

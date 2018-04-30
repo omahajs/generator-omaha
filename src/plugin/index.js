@@ -29,22 +29,22 @@ const questions = [{
     message: 'Choose plugin dependencies:',
     choices: [
         {
-            name: `${indent }jQuery`,
+            name: `${indent}jQuery`,
             value: 'jquery',
             checked: false
         },
         {
-            name: `${indent }Underscore.js`,
+            name: `${indent}Underscore.js`,
             value: 'underscore',
             checked: false
         },
         {
-            name: `${indent }Backbone.js`,
+            name: `${indent}Backbone.js`,
             value: 'backbone',
             checked: false
         },
         {
-            name: `${indent }MarionetteJS`,
+            name: `${indent}MarionetteJS`,
             value: 'marionette',
             checked: false
         }
@@ -52,7 +52,7 @@ const questions = [{
 }];
 
 const aliasFor = dep => globalNameLookup[dep];
-const requireStatementFor = dep => `var ${ aliasFor(dep) } = require('${ npmModuleNameLookup[dep] }');`;
+const requireStatementFor = dep => `var ${aliasFor(dep)} = require('${npmModuleNameLookup[dep]}');`;
 const removeSingleQuotes = str => str.replace(/'/g, '');
 const wrapSingleQuotes = str => `'${str}'`;
 

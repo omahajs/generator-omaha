@@ -451,7 +451,6 @@ function getScripts(generator: WebappGenerator) {
         sourceDirectory,
         useAmd,
         useJest,
-        useCoveralls,
         useJsinspect,
         useRust
     } = generator.config.getAll();
@@ -485,9 +484,6 @@ function getScripts(generator: WebappGenerator) {
             postbuild: `babel ${temp} -o ${dist}config.js && rm ${temp}`
         });
     }
-    useCoveralls && assign(scripts, {
-        'test:ci': 'npm test && grunt coveralls'
-    });
     useJest && assign(scripts, {
         pretest: 'npm run lint',
         test: 'jest .*.test.js --coverage',
@@ -508,7 +504,6 @@ function getTasks(generator) {
         useAria,
         useBenchmark,
         useBrowserify,
-        useCoveralls,
         useHandlebars,
         useImagemin,
         useJsinspect,
@@ -534,7 +529,6 @@ function getTasks(generator) {
     ]
         .concat(// Project tasks enabled by user
             iff(useBenchmark, 'benchmark'),
-            iff(useCoveralls, 'coveralls'),
             iff(useJsinspect, 'jsinspect')
         )
         .concat(// Webapp tasks enabled by user
