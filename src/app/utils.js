@@ -51,7 +51,7 @@ function getModuleFormat(generator: (ProjectGenerator | WebappGenerator)): strin
 }
 function getProjectVariables(generator: ProjectGenerator) {
     const {options, use} = generator;
-    const {skipBenchmark, skipJsinspect, slim} = options;
+    const {skipJsinspect, slim} = options;
     const {projectName} = use;
     const {name} = options;
     const shouldUseNameOption = (typeof name === 'string') && (name !== project.defaults.projectName);
@@ -59,7 +59,6 @@ function getProjectVariables(generator: ProjectGenerator) {
         projectName:     shouldUseNameOption ? name : projectName,
         isNative:        generator.config.get('isNative'),
         sourceDirectory: getSourceDirectory(generator),
-        useBenchmark:    use.benchmark && !skipBenchmark && !slim,
         useJsinspect:    use.jsinspect && !skipJsinspect && !slim
     };
 }

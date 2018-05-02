@@ -1,14 +1,12 @@
 /* @flow */
 import type {ProjectGenerator} from '../types';
 
-const {assign, partial}                     = require('lodash');
-const {mkdirp, readFileSync, writeFileSync} = require('fs-extra');
-const Generator                             = require('yeoman-generator');
-const Gruntfile                             = require('gruntfile-editor');
-const footer                                = require('../app/doneMessage');
-const {project}                             = require('../app/prompts');
-const tasks                                 = require('../app/gruntTaskConfigs');
-const COMMAND_LINE_OPTIONS                  = require('./commandLineOptions');
+const {assign, partial}    = require('lodash');
+const {mkdirp}             = require('fs-extra');
+const Generator            = require('yeoman-generator');
+const footer               = require('../app/doneMessage');
+const {project}            = require('../app/prompts');
+const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
 const {
     copyTpl,
     getModuleFormat,
@@ -66,11 +64,10 @@ module.exports = class extends Generator {
         }
     }
     writing() {
-        const generator = this;
+        const generator: ProjectGenerator = this;
         const {
             isWebapp,
             moduleFormat,
-            useBenchmark,
             useJest,
             useWebpack
         } = generator.config.getAll();
@@ -99,8 +96,6 @@ module.exports = class extends Generator {
         ];
         defaultTemplateData.concat(
             iff(isWebapp, webappTemplateData, [['config/_eslintrc.js', 'config/.eslintrc.js']]),
-            iff(useBenchmark, [['test/example.benchmark.js', 'test/benchmarks/example.benchmark.js']]),
-            iff(useBenchmark && !isWebapp, [['_Gruntfile.js', 'Gruntfile.js']]),
             iff(useJest, jestTemplateData, mochaTemplateData),
             iff(useWebpack, webpackTemplateData)
         ).forEach(data => copyTpl(data[0], data[1], generator));
@@ -111,7 +106,6 @@ module.exports = class extends Generator {
         const {config} = generator;
         const {
             isWebapp,
-            useBenchmark,
             useJest,
             useJsinspect,
             useWebpack
@@ -130,8 +124,8 @@ module.exports = class extends Generator {
         ];
         const devDependencies = [].concat(
             iff(isNotWindows, 'stmux'),
+            iff(isWebapp, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config']),
             iff(isWebapp && useWebpack, 'grunt-webpack'),
-            iff(useBenchmark, ['lodash', 'grunt', 'load-grunt-tasks', 'time-grunt', 'config', 'grunt-benchmark']),
             iff(useJest, ['watch', 'jest'], ['mocha', 'chai', 'sinon', 'nyc', ...karmaDependencies]),
             iff(useJsinspect, 'jsinspect'),
             iff(useJsinspect && isWebapp, ['jsinspect', 'grunt-jsinspect']),
@@ -141,18 +135,6 @@ module.exports = class extends Generator {
         generator.npmInstall(devDependencies, {saveDev: true});
         updatePackageJson(getJestConfig(generator));
         updatePackageJson(getScripts(generator));
-        //
-        // Configure workflow tasks
-        //
-        if (useBenchmark) {
-            const placeholder = '/* -- load tasks placeholder -- */';
-            const text = readFileSync(generator.destinationPath('Gruntfile.js'))
-                .toString()
-                .replace(placeholder, isWebapp ? placeholder : '');
-            const gruntfile = new Gruntfile(text);
-            gruntfile.insertConfig('benchmark', tasks.benchmark);
-            writeFileSync(generator.destinationPath('Gruntfile.js'), gruntfile.toString());
-        }
     }
     end() {
         const {config, log} = this;
@@ -169,14 +151,10 @@ function getJestConfig(generator: ProjectGenerator) {
 }
 function getScripts(generator: ProjectGenerator) {
     const {
-        useBenchmark,
         useJest,
         useWebpack
     } = generator.config.getAll();
     const scripts = {coverage: 'nyc report -r text'};
-    useBenchmark && assign(scripts, {
-        'test:perf': 'grunt benchmark'
-    });
     useJest && assign(scripts, {
         test: 'jest .*.test.js',
         coverage: 'npm test -- --coverage',

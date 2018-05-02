@@ -15,7 +15,6 @@ module.exports = function(generator) {
         projectName,
         useAmd,
         useAria,
-        useBenchmark,
         useHandlebars,
         useImagemin,
         useJest,
@@ -50,7 +49,6 @@ module.exports = function(generator) {
             `Template renderer: ${bold(maybe(useHandlebars, handlebars, lodash))}`
         ].map(yes).map(str => `  ${str}`)),
         '',
-        yesNo(useBenchmark)('Install benchmarks.js support'),
         yesNo(useJsinspect)('Find duplicate code with JSInspect'),
         maybe(isWebapp, [
             yesNo(useAria)('Perform accessibility audit on HTML code'),
