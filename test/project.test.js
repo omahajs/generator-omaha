@@ -10,14 +10,11 @@ const {defaults} = require('../generators/app/prompts').project;
 const SKIP_INSTALL = {skipInstall: true};
 const useBoth = [true, true];
 const useNeither = [false, false];
-const useBenchmark = true;
-const skipBenchmark = false;
 
 describe('Project generator', () => {
     let stub;
     const verify = (...args) => {
         verifyCoreFiles();
-        verifyProjectConfigs(...args);
     };
     beforeEach(() => {
         stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
@@ -34,25 +31,10 @@ describe('Project generator', () => {
         it('all prompts FALSE', () => helpers.run(join(__dirname, '../generators/project'))
             .withOptions(SKIP_INSTALL)
             .withPrompts(merge(clone(defaults), {
-                benchmark: false,
                 jsinspect: false
             }))
             .toPromise()
             .then(() => verify(...useNeither)));
-        it('only benchmark FALSE', () => helpers.run(join(__dirname, '../generators/project'))
-            .withOptions(SKIP_INSTALL)
-            .withPrompts(merge(clone(defaults), {
-                benchmark: false
-            }))
-            .toPromise()
-            .then(() => verify(skipBenchmark)));
-        it('only jsinspect FALSE', () => helpers.run(join(__dirname, '../generators/project'))
-            .withOptions(SKIP_INSTALL)
-            .withPrompts(merge(clone(defaults), {
-                jsinspect: false
-            }))
-            .toPromise()
-            .then(() => verify(...useBoth)));
     });
     describe('can create and configure files with command line options', () => {
         const name = 'my-super-cool-project';
@@ -65,27 +47,13 @@ describe('Project generator', () => {
             .toPromise()
             .then(() => {
                 verifyCoreFiles(name);
-                verifyProjectConfigs(...useBoth);
             }));
-        it('--defaults --skip-benchmark', () => helpers.run(join(__dirname, '../generators/project'))
-            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
-                'skip-benchmark': true
-            }))
-            .toPromise()
-            .then(() => verify(skipBenchmark)));
         it('--defaults --skip-jsinspect', () => helpers.run(join(__dirname, '../generators/project'))
             .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                 'skip-jsinspect': true
             }))
             .toPromise()
             .then(() => verify(...useBoth)));
-        it('--defaults --skip-benchmark --skip-jsinspect', () => helpers.run(join(__dirname, '../generators/project'))
-            .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
-                'skip-benchmark': true,
-                'skip-jsinspect': true
-            }))
-            .toPromise()
-            .then(() => verify(...useNeither)));
         it('--defaults --use-jest', () => helpers.run(join(__dirname, '../generators/project'))
             .withOptions(merge(clone(SKIP_INSTALL), {defaults: true}, {
                 'use-jest': true
@@ -107,7 +75,6 @@ describe('Project generator', () => {
             .toPromise()
             .then(() => {
                 verifyCoreFiles(name);
-                verifyProjectConfigs(...useNeither);
             }));
     });
 });
@@ -128,9 +95,4 @@ function verifyCoreFiles(projectName = 'omaha-project') {
     assert.fileContent('config/.eslintrc.js', 'es6: true,');
     assert.noFileContent('config/.eslintrc.js', 'backbone');
     ALWAYS_INCLUDED.forEach(file => assert.file(file));
-}
-function verifyProjectConfigs(useBenchmark) {
-    const verify = feature => assert[feature ? 'fileContent' : 'noFileContent'];
-    (useBenchmark ? assert.file : assert.noFile)('Gruntfile.js');
-    verify(useBenchmark)('package.json', '"test:perf": "');
 }

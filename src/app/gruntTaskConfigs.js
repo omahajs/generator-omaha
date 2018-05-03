@@ -42,19 +42,6 @@ module.exports = {
         }
     }`,
     /**
-     * Run benchmarks
-     * @see {@link https://github.com/shama/grunt-benchmark}
-    **/
-    benchmark: `{
-        options: {
-            displayResults: true
-        },
-        all: {
-            src: ['<%= folders.test %>/benchmarks/*.js'],
-            dest: '<%= folders.reports %>/benchmarks/results.csv'
-        }
-    }`,
-    /**
      * Use Browserify to bundle scripts
      * @see {@link https://github.com/jmreidy/grunt-browserify}
     **/

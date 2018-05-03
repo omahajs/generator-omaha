@@ -502,7 +502,6 @@ function getTasks(generator) {
     const {config} = generator;
     const {
         useAria,
-        useBenchmark,
         useBrowserify,
         useHandlebars,
         useImagemin,
@@ -528,7 +527,6 @@ function getTasks(generator) {
         'watch'
     ]
         .concat(// Project tasks enabled by user
-            iff(useBenchmark, 'benchmark'),
             iff(useJsinspect, 'jsinspect')
         )
         .concat(// Webapp tasks enabled by user

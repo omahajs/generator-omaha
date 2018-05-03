@@ -17,11 +17,6 @@ const projectQuestions = [{
     default: './'
 }, {
     type: 'confirm',
-    name: 'benchmark',
-    message: 'Add benchmarking support using Benchmark.js?',
-    default: true
-}, {
-    type: 'confirm',
     name: 'jsinspect',
     message: 'Detect copy-pasted and structurally similar code with JS Inspect?',
     default: true

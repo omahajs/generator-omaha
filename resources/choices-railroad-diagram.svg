@@ -305,14 +305,6 @@
                 <text x="1353" y="95">imagemin</text>
             </g>
             <path d="M1439 91a10 10 0 0 0 10 -10v-20"></path>
-            <path d="M1257 61v50a10 10 0 0 0 10 10"></path>
-            <g class="terminal">
-                <path d="M1267 121h28"></path>
-                <path d="M1411 121h28"></path>
-                <rect x="1295" y="110" width="116" height="22" rx="10" ry="10"></rect>
-                <text x="1353" y="125">benchmark.js</text>
-            </g>
-            <path d="M1439 121a10 10 0 0 0 10 -10v-50"></path>
             <g class="diagram-text">
                 <title>take one or more branches, once each, in any order</title>
                 <path d="M 1257 51 h -26 a 4 4 0 0 0 -4 4 v 12 a 4 4 0 0 0 4 4 h 26 z" class="diagram-text"></path>

@@ -41,7 +41,6 @@ Diagram(
     MultipleChoice(1, 'any',
         Comment('Optimization'),
         NonTerminal('babel-preset-minify'),
-        Terminal('imagemin'),
-        Terminal('benchmark.js')
+        Terminal('imagemin')
     )
 )

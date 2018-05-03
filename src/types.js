@@ -9,7 +9,6 @@ type Config = {
     userName: string,
     useAmd: boolean,
     useAria: boolean,
-    useBenchmark: boolean,
     useBrowserify: boolean,
     useHandlebars: boolean,
     useImagemin: boolean,
@@ -34,7 +33,6 @@ export type ProjectGenerator = {
     options: {
         defaults: boolean,
         name: string,
-        skipBenchmark: boolean,
         skipJsinspect: boolean,
         slim: boolean,
         src: string,
@@ -43,8 +41,8 @@ export type ProjectGenerator = {
         useWebpack: boolean
     },
     prompt: Function,
+    sourceDirectory: string,
     use: {
-        benchmark?: boolean,
         jsinspect?: boolean,
         projectName: string,
         sourceDirectory: string

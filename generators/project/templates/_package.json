@@ -14,8 +14,8 @@
     "node": "*"
   },
   "devDependencies": {
-    "eslint": "^3.0.0",
-    "eslint-config-omaha-prime-grade": "^4.0.0"
+    "eslint": "^4.19.1",
+    "eslint-config-omaha-prime-grade": "^9.0.0"
   },
   "scripts": {
     "lint": "eslint -c ./config/.eslintrc.js index.js",

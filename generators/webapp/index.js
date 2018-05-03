@@ -330,7 +330,6 @@ function getTasks(generator) {
     const { config } = generator;
     const {
         useAria,
-        useBenchmark,
         useBrowserify,
         useHandlebars,
         useImagemin,
@@ -341,6 +340,6 @@ function getTasks(generator) {
     } = config.getAll();
     return [// Tasks enabled by default
     'browserSync', 'clean', 'copy', 'eslint', 'htmlmin', 'htmlhintplus', 'jsdoc', 'jsonlint', 'karma', 'open', 'plato', 'replace', 'requirejs', 'watch'].concat( // Project tasks enabled by user
-    iff(useBenchmark, 'benchmark'), iff(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user
+    iff(useJsinspect, 'jsinspect')).concat( // Webapp tasks enabled by user
     iff(useAria, ['a11y', 'accessibility']), iff(useBrowserify, 'browserify'), iff(useHandlebars, 'handlebars', 'jst'), iff(useImagemin, ['imagemin', 'copy']), iff(useLess, 'less'), iff(useSass, 'sass'), iff(useWebpack, 'webpack'), iff(useWebpack || useBrowserify, 'uglify'));
 }
