@@ -14,8 +14,8 @@
     <a href="http://packagequality.com/#?package=generator-omaha">
         <img src="http://npm.packagequality.com/shield/generator-omaha.svg" alt="Package Quality" title="Package Quality"/>
     </a>
-    <a href="https://www.bithound.io/github/omahajs/generator-omaha">
-        <img src="https://www.bithound.io/github/omahajs/generator-omaha/badges/score.svg" alt="bitHound Overall Score" title="bitHound Overall Score">
+    <a href="https://www.codefactor.io/repository/github/omahajs/generator-omaha">
+        <img src="https://www.codefactor.io/repository/github/omahajs/generator-omaha/badge" alt="CodeFactor Quality Score" title="CodeFactor Quality Score"/>
     </a>
 </div>
 <br/>
