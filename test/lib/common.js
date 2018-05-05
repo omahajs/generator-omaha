@@ -93,8 +93,7 @@ function verifyDefaultTasksConfiguration() {
         ['Gruntfile.js', 'open: {'],
         ['Gruntfile.js', 'requirejs: {'],
         ['Gruntfile.js', 'options: { spawn: false }'], // watch task
-        ['Gruntfile.js', 'configFile: \'<%= files.config.eslint %>\''], // eslint task
-        ['Gruntfile.js', 'eslint: require(config.files.config.eslint)']// plato task
+        ['Gruntfile.js', 'configFile: \'<%= files.config.eslint %>\''] // eslint task
     ];
     fileContent(defaultTaskConfigs);
 }

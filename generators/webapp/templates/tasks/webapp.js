@@ -81,10 +81,4 @@ module.exports = function(grunt) {
         'sass:main',/* pre-process */<% } %>
         'postcss:styleguide'
     ]);
-    task('reports', 'Generate code coverage and plato report - then open both in browser', [
-        'plato',
-        'cover',
-        'open:plato',
-        'open:coverage'
-    ]);
 };

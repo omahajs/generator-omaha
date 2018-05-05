@@ -309,7 +309,6 @@ module.exports = class extends Generator {
             'grunt-jsonlint',
             'grunt-open',
             'grunt-parallel',
-            'grunt-plato',
             'grunt-replace',
             'load-grunt-tasks',
             'time-grunt'
@@ -509,7 +508,6 @@ function getTasks(generator) {
         'jsonlint',
         'karma',
         'open',
-        'plato',
         'replace',
         'requirejs',
         'watch'
