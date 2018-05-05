@@ -350,27 +350,11 @@ module.exports = {
         coverage: {
             path: __dirname + '/<%= folders.reports %>/<%= folders.coverage %>/report-html/index.html'
         },
-        plato: {
-            path: __dirname + '/<%= folders.reports %>/plato/index.html'
-        },
         docs: {
             path: __dirname + '/<%= folders.reports %>/<%= folders.docs %>/index.html'
         },
         styleguide: {
             path: __dirname + '/styleguide/index.html'
-        }
-    }`,
-    /**
-     * Generate persistent static analysis reports with plato
-     * @see {@link https://github.com/jsoverson/grunt-plato}
-    **/
-    plato: `{
-        app: {
-            src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js'],
-            dest: '<%= folders.reports %>/plato',
-            options: {
-                eslint: require(config.files.config.eslint)
-            }
         }
     }`,
     /**
