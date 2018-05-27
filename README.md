@@ -42,7 +42,7 @@ yo omaha
 </div>
 </br>
 ✔ Start creating your app!
-
+</br>
 
 [![omaha generator quick start asciicast](https://asciinema.org/a/gWenj2iSZu92MKunVzOSH5iTy.png)](https://asciinema.org/a/gWenj2iSZu92MKunVzOSH5iTy)
 
@@ -57,8 +57,6 @@ Patterns are Paramount
 - [Predictable state management with Redux](https://github.com/omahajs/generator-omaha/tree/master/generators/webapp/templates/plugins#reduxstatejs)
 - Workflow with support for linting, optimization, testing, bundling, documentation and transpilation.
 - End-to-end (E2E) browser testing with [Nightwatch.js](http://nightwatchjs.org/)
-
-> See the full webapp tech stack [here](https://github.com/omahajs/generator-omaha/blob/master/generators/app/README.md)
 
 The default sub-generator may be for a web app, but `generator-omaha` also has [sub-generators](https://github.com/omahajs/generator-omaha/blob/master/GENERATORS.md) for crafting:
 
@@ -85,7 +83,7 @@ Typical Workflows
   - Living styleguide: `grunt docs open:styleguide`
 - [Review the code](/generators/webapp/templates/tasks) to see all the available tasks
 
-> View the [technologies used](generators/app/README.md) and the [lint rules that make your code more secure](https://github.com/omahajs/eslint-config-omaha-prime-grade/blob/master/RULES_FOR_SECURITY.md)
+> View the [lint rules that make your code more secure](https://github.com/omahajs/eslint-config-omaha-prime-grade/blob/master/RULES_FOR_SECURITY.md)
 
 Command Line Options
 --------------------
