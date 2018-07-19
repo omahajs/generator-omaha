@@ -30,8 +30,9 @@ module.exports = {
         level: 'error'
     },
     csp: {
-        'default-src': '\'self\'',
-        'script-src':  '\'self\' cdnjs.cloudflare.com',
-        'font-src': '\'self\' fonts.gstatic.com data:'
+        'frame-ancestors': `'self'`,
+        'default-src': `'self'`,
+        'script-src':  `'self' cdnjs.cloudflare.com`,
+        'font-src': `'self' fonts.gstatic.com data:`
     }
 };
