@@ -1,0 +1,10 @@
+inspecode:
+    eslint:
+        input: src
+        ignore:
+            - src/native/templates
+            - src/nightwatch/templates
+            - src/plugin/templates
+            - src/project/templates
+            - src/server/templates
+            - src/webapp/templates
