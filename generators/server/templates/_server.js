@@ -67,7 +67,6 @@ const app = express()
     .disable('x-powered-by') // Do not advertise Express
     <% if (enableGraphiql) { %>// <% } %>.use(lusca.csrf()) // Cross Site Request Forgery
     <% if (enableGraphiql) { %>// <% } %>.use(lusca.csp({policy: config.csp})) // Content Security Policy
-    .use(lusca.xframe('SAMEORIGIN')) // Helps prevent Clickjacking
     .use(lusca.hsts({maxAge: 31536000}))
     .use(lusca.xssProtection(true))
     .use(helmet.noSniff())
