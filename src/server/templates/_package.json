@@ -31,7 +31,6 @@
     "highlight.js": "*",<% } %>
     "node-uuid": "^1.4.3",
     "npmlog": "*",
-    "nsp": "*",
     "protocolify": "^1.0.2",
     "ws": "^1.0.0"
   },
@@ -42,8 +41,7 @@
     "watch": "^1.0.0"
   },
   "scripts": {
-    "scan": "nsp check",
-    "prestart": "npm run scan",
+    "prestart": "npm audit",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "lint": "eslint -c ./config/.eslintrc.js index.js --fix",
