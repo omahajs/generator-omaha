@@ -73,7 +73,7 @@ module.exports = class extends Generator {
         } = generator.config.getAll();
         assign(generator, { moduleFormat });
         mkdirp(generator.sourceDirectory);
-        const defaultTemplateData = [['_README.md', 'README.md'], ['_LICENSE', 'LICENSE'], ['_package.json', 'package.json'], ['config/_gitignore', '.gitignore'], ['config/_default.json', 'config/default.json']];
+        const defaultTemplateData = [['_README.md', 'README.md'], ['_LICENSE', 'LICENSE'], ['_package.json', 'package.json'], ['config/_gitignore', '.gitignore'], ['config/_eslintignore', 'config/.eslintignore'], ['config/_default.json', 'config/default.json']];
         const webappTemplateData = [['_Gruntfile.js', 'Gruntfile.js'], ['config/_eslintrc_webapp.js', 'config/.eslintrc.js']];
         const mochaTemplateData = [['test/mocha.opts', 'test/mocha.opts'], [`test/mocha/specs/${isWebapp ? 'example' : 'simple'}.spec.js`, 'test/mocha/specs/example.spec.js']];
         const jestTemplateData = [['test/jest/example.test.js', 'test/example.test.js']];

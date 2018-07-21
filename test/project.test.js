@@ -70,6 +70,7 @@ function verifyCoreFiles(projectName = 'omaha-project') {
         'package.json',
         '.gitignore',
         'config/.eslintrc.js',
+        'config/.eslintignore',
         'test/data/db.json',
         'test/mocha/specs/example.spec.js'
     ];

@@ -78,6 +78,7 @@ module.exports = class extends Generator {
             ['_LICENSE', 'LICENSE'],
             ['_package.json', 'package.json'],
             ['config/_gitignore', '.gitignore'],
+            ['config/_eslintignore', 'config/.eslintignore'],
             ['config/_default.json', 'config/default.json']
         ];
         const webappTemplateData = [
