@@ -26,10 +26,10 @@
   "dependencies": {
     "chalk": "^2.0.1",
     "config": "^1.17.1",
-    "csvtojson": "^1.1.9",
+    "csvtojson": "^2.0.6",
     "fs-extra": "^7.0.0",
-    "gruntfile-editor": "^1.2.0",
-    "lodash": "^4.13.1",
+    "gruntfile-editor": "^1.2.1",
+    "lodash": "^4.17.10",
     "node-fetch": "^2.0.0",
     "yeoman-generator": "^2.0.3",
     "yosay": "^2.0.0"
@@ -39,7 +39,6 @@
     "babel-eslint": "^8.0.2",
     "babel-preset-flow": "^6.23.0",
     "bluebird": "^3.4.1",
-    "coveralls": "^3.0.0",
     "del-cli": "^1.1.0",
     "eslint": "^4.1.1",
     "eslint-config-omaha-prime-grade": "^10.0.0",
