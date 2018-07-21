@@ -1,9 +1,9 @@
 <% if (moduleFormat === 'amd') { %>define(function(require) {
     'use strict';
 <% } %>
-    const sinon  = require('sinon');
-    const expect = require('chai').expect;
-    const webapp = require('app');
+    const sinon    = require('sinon');
+    const {expect} = require('chai');
+    const webapp   = require('app');
 
     describe('My Super Cool Web App', () => {
         it('should have a predictable state container', () => {

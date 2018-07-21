@@ -92,8 +92,7 @@ function verifyDefaultTasksConfiguration() {
         ['Gruntfile.js', 'karma: {'],
         ['Gruntfile.js', 'open: {'],
         ['Gruntfile.js', 'requirejs: {'],
-        ['Gruntfile.js', 'options: { spawn: false }'], // watch task
-        ['Gruntfile.js', 'configFile: \'<%= files.config.eslint %>\''] // eslint task
+        ['Gruntfile.js', 'options: { spawn: false }'] // watch task
     ];
     fileContent(defaultTaskConfigs);
 }

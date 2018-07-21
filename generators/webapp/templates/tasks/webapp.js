@@ -11,8 +11,7 @@ module.exports = function(grunt) {
     ]);
     task('lint', 'Lint JSON, CSS, and JS code', [
         'jsonlint',
-        'htmlhintplus',
-        'eslint:src'
+        'htmlhintplus'
     ]);
     task('linting', 'Watch task for real-time linting', [
         'lint',

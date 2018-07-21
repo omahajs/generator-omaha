@@ -130,33 +130,6 @@ module.exports = {
         }
     }`,
     /**
-     * Validate files with ESLint
-     * @see {@link https://www.npmjs.com/package/grunt-eslint}
-    **/
-    eslint: `{
-        options: {
-            configFile: '<%= files.config.eslint %>'
-        },
-        ing: {
-            options: {
-                fix: true
-            },
-            src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js']
-        },
-        src: {
-            options: {
-                fix: true
-            },
-            src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js']
-        },
-        tests: {
-            options: {
-                fix: true
-            },
-            src: ['<%= folders.test %>/<%= folders.specs %>/<%= files.scripts %>']
-        }
-    }`,
-    /**
      * Start an Express.js web server
      * @see {@link https://github.com/blai/grunt-express}
     **/

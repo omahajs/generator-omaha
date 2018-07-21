@@ -303,7 +303,6 @@ module.exports = class extends Generator {
             'grunt-contrib-copy',
             'grunt-contrib-uglify',
             'grunt-contrib-watch',
-            'grunt-eslint',
             'grunt-express',
             'grunt-jsdoc',
             'grunt-jsonlint',
@@ -447,9 +446,8 @@ function getScripts(generator: WebappGenerator) {
         useRust
     } = generator.config.getAll();
     const scripts = {
-        lint:         'grunt eslint:src',
-        'lint:watch': 'grunt eslint:ing watch:eslint',
-        'lint:tests': 'grunt eslint:tests',
+        lint:         `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
+        'lint:watch': `watch "npm run lint" ${sourceDirectory}/app`,
         test:         'grunt test',
         'test:watch': 'grunt karma:covering'
     };
@@ -501,7 +499,6 @@ function getTasks(generator) {
         'browserSync',
         'clean',
         'copy',
-        'eslint',
         'htmlmin',
         'htmlhintplus',
         'jsdoc',
