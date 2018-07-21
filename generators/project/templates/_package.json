@@ -23,7 +23,6 @@
     "lint:tests": "eslint -c ./config/.eslintrc.js ./test/mocha/specs/*.js",
     "test": "nyc mocha",
     "test:watch": "mocha -w",
-    "test:ci": "npm test",
     "preversion": "npm test",
     "postversion": "git push && git push --tags",
     "rest-api": "json-server --port 8080 --watch test/data/db.json",
