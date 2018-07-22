@@ -198,13 +198,6 @@ module.exports = {
         }
     }`,
     /**
-     * Lint project JSON files
-     * @see {@link https://github.com/brandonramirez/grunt-jsonlint}
-    **/
-    jsonlint: `{
-        project: {src: ['./*.json']}
-    }`,
-    /**
      * Pre-compile templates
      * @see {@link https://github.com/gruntjs/grunt-contrib-jst}
     **/

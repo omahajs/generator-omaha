@@ -88,7 +88,6 @@ function verifyDefaultTasksConfiguration() {
         ['Gruntfile.js', 'browserSync: {'],
         ['Gruntfile.js', 'clean: {'],
         ['Gruntfile.js', 'jsdoc: {'],
-        ['Gruntfile.js', 'jsonlint: {'],
         ['Gruntfile.js', 'karma: {'],
         ['Gruntfile.js', 'open: {'],
         ['Gruntfile.js', 'requirejs: {'],

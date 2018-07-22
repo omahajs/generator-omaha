@@ -9,13 +9,6 @@ module.exports = function(grunt) {
         <% if (moduleFormat === 'amd') { %>'browserSync:amd'<% } else { %>'browserSync:cjs'<% } %>,
         'watch:browser'
     ]);
-    task('lint', 'Lint JSON, CSS, and JS code', [
-        'jsonlint'
-    ]);
-    task('linting', 'Watch task for real-time linting', [
-        'lint',
-        'watch:lint'
-    ]);
     task('styling', 'Watch task for real-time styling', [
         'process-styles',
         'watch:style'
