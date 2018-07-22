@@ -264,8 +264,7 @@ module.exports = class extends Generator {
             iff(useAmd, 'requirejs')
         );
         const htmlDevDependencies = [
-            'grunt-contrib-htmlmin',
-            'grunt-htmlhint-plus'
+            'grunt-contrib-htmlmin'
         ];
         const cssDevDependencies = [
             'grunt-postcss',

@@ -161,7 +161,7 @@ module.exports = class extends Generator {
         const dependencies = [// always included
         'backbone', 'backbone.marionette', 'backbone.radio', 'jquery', 'lodash', 'morphdom', 'redux'].concat( // conditional dependencies
         iff(useHandlebars, 'handlebars'), iff(useAmd, 'requirejs'));
-        const htmlDevDependencies = ['grunt-contrib-htmlmin', 'grunt-htmlhint-plus'];
+        const htmlDevDependencies = ['grunt-contrib-htmlmin'];
         const cssDevDependencies = ['grunt-postcss', 'autoprefixer', 'stylelint', 'stylelint-config-recommended', 'cssnano', 'normalize.css', 'postcss-reporter', 'postcss-safe-parser', 'mdcss', 'mdcss-theme-github'].concat(iff(type === 'none', ['postcss-import', 'postcss-cssnext']));
         const requirejsDevDependencies = ['grunt-contrib-requirejs', 'karma-requirejs'];
         const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(iff(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul']));
