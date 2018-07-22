@@ -152,18 +152,6 @@ module.exports = {
         }
     }`,
     /**
-     * Lint HTML files
-     * @see {@link https://github.com/yaniswang/HTMLHint}
-    **/
-    htmlhintplus: `{
-        app: {
-            src: [
-              '<%= folders.assets %>/<%= files.templates %>',
-              '<%= folders.app %>/<%= files.index %>'
-            ]
-        }
-    }`,
-    /**
      * Minimize index.html for deployment
      * @see {@link https://github.com/gruntjs/grunt-contrib-htmlmin}
     **/

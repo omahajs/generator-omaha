@@ -10,8 +10,7 @@ module.exports = function(grunt) {
         'watch:browser'
     ]);
     task('lint', 'Lint JSON, CSS, and JS code', [
-        'jsonlint',
-        'htmlhintplus'
+        'jsonlint'
     ]);
     task('linting', 'Watch task for real-time linting', [
         'lint',

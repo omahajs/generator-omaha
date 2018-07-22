@@ -327,6 +327,6 @@ function getTasks(generator) {
         useWebpack
     } = config.getAll();
     return [// Tasks enabled by default
-    'browserSync', 'clean', 'copy', 'htmlmin', 'htmlhintplus', 'jsdoc', 'jsonlint', 'karma', 'open', 'replace', 'requirejs', 'watch'].concat( // Webapp tasks enabled by user
+    'browserSync', 'clean', 'copy', 'htmlmin', 'jsdoc', 'jsonlint', 'karma', 'open', 'replace', 'requirejs', 'watch'].concat( // Webapp tasks enabled by user
     iff(useBrowserify, 'browserify'), iff(useHandlebars, 'handlebars', 'jst'), iff(useImagemin, ['imagemin', 'copy']), iff(useLess, 'less'), iff(useSass, 'sass'), iff(useWebpack, 'webpack'), iff(useWebpack || useBrowserify, 'uglify'));
 }

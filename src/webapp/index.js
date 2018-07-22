@@ -499,7 +499,6 @@ function getTasks(generator) {
         'clean',
         'copy',
         'htmlmin',
-        'htmlhintplus',
         'jsdoc',
         'jsonlint',
         'karma',
