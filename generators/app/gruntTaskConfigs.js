@@ -130,28 +130,6 @@ module.exports = {
         }
     }`,
     /**
-     * Start an Express.js web server
-     * @see {@link https://github.com/blai/grunt-express}
-    **/
-    express: `{
-        main: {
-            options: {
-                bases: [__dirname],
-                port: '<%= ports.server %>',
-                hostname: '0.0.0.0',
-                livereload: '<%= ports.livereload %>'
-            }
-        },
-        demo: {
-            options: {
-                bases: [__dirname],
-                port: '<%= ports.server %>',
-                hostname: '0.0.0.0',
-                serverreload: true
-            }
-        }
-    }`,
-    /**
      * Pre-compile Handlebars templates
      * @see {@link https://github.com/gruntjs/grunt-contrib-handlebars}
     **/

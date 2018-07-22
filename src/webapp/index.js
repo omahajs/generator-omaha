@@ -303,7 +303,6 @@ module.exports = class extends Generator {
             'grunt-contrib-copy',
             'grunt-contrib-uglify',
             'grunt-contrib-watch',
-            'grunt-express',
             'grunt-jsdoc',
             'grunt-jsonlint',
             'grunt-open',
