@@ -285,10 +285,9 @@ function getScripts(generator) {
         useJest,
         useRust
     } = generator.config.getAll();
-    const srcDir = sourceDirectory === './' ? '' : sourceDirectory;
     const scripts = {
         lint: `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
-        'lint:watch': `watch "npm run lint" ${srcDir}/app`,
+        'lint:watch': `watch "npm run lint" ${sourceDirectory}app`,
         test: 'grunt test',
         'test:watch': 'grunt karma:covering',
         'open:coverage': 'opn ./reports/coverage/report-html/index.html',
