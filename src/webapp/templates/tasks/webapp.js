@@ -11,7 +11,6 @@ module.exports = function(grunt) {
     ]);
     task('test', 'Run full test and validation battery', [
         'compile',
-        'lint',
         'cover'
     ]);<% if (useJest !== true) { %>
     task('cover', 'Generate code coverage report using Karma and Istanbul', [
