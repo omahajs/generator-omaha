@@ -229,7 +229,7 @@ module.exports = {
     **/
     karma: `{
         options: {
-            configFile: '<%= files.config.karma %>',
+            configFile: './config/karma.conf.js',
             port: '<%= ports.karma %>'
         },
         watch: {

@@ -1,19 +1,13 @@
 {
     "grunt": {
         "folders": {
-            "config":   "config",
-            "app":      "<%= sourceDirectory %>",
-            "assets":   "",
-            "tasks":    "./tasks",
-            "test":     "./test",
-            "specs":    "mocha/specs"
+            "app":    "<%= sourceDirectory %>",
+            "assets": "",
+            "tasks":  "./tasks",
+            "test":   "./test",
+            "specs":  "mocha/specs"
         },
         "files": {
-            "config": {
-                "eslint":  "./config/.eslintrc.js",
-                "karma":   "./config/karma.conf.js",
-                "webpack": "./config/webpack.config.js"
-            },
             "index":        "index.html",
             "scripts":      "**/*.js",
             "fonts":        "**/*.{ttf,woff,eot,svg}",
