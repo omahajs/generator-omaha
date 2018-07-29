@@ -10,7 +10,7 @@ expect.extend({toMatchImageSnapshot});
 const screenshotDirectory = join(__dirname, 'lib', 'screenshots');
 const hasPngExtension = name => (name.split('').slice(-1 * '.png'.length).join('') === '.png');
 
-describe('Omaha Generator', function() {
+describe('Omaha Generator', () => {
     it('can build the same webapp with myriad tech stack configurations', () => {
         const customDiffConfig = {
             threshold: 0.001

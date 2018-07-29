@@ -9,7 +9,8 @@ const {
     maybeInclude,
     parseModuleData,
     resolveCssPreprocessor,
-    shouldUseBrowserify
+    shouldUseBrowserify,
+    sortKeysBy
 } = require('../generators/app/utils');
 const {
     fin,

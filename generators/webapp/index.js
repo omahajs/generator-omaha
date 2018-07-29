@@ -5,6 +5,7 @@ const { assign, flow, partial } = require('lodash');
 const { mkdirp, readFileSync, writeFileSync } = require('fs-extra');
 const Generator = require('yeoman-generator');
 const Gruntfile = require('gruntfile-editor');
+const sortJson = require('sort-json');
 const { webapp } = require('../app/prompts');
 const tasks = require('../app/gruntTaskConfigs');
 const COMMAND_LINE_OPTIONS = require('./commandLineOptions');
@@ -239,6 +240,7 @@ module.exports = class extends Generator {
                 }
             });
         }
+        sortJson.overwrite(generator.destinationPath('package.json'));
         //
         // Configure workflow tasks
         //
@@ -288,7 +290,7 @@ function getScripts(generator) {
     const scripts = {
         lint: `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
         'lint:watch': `watch "npm run lint" ${sourceDirectory}app`,
-        'pretest': 'npm run lint',
+        pretest: 'npm run lint',
         test: 'grunt test',
         'test:watch': 'grunt karma:covering',
         docs: 'grunt reports',

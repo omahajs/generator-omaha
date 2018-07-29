@@ -33,7 +33,7 @@ describe('Plugin generator', () => {
             fileContent(pluginPath, 'module.exports = factory(root);');
             fileContent(pluginPath, `root.${name} = factory(root);`);
             fileContent(pluginPath, '}(this, function(root) {');
-            ['jquery', 'underscore', 'backbone', 'marionette'].forEach(function(alias) {
+            ['jquery', 'underscore', 'backbone', 'marionette'].forEach(alias => {
                 noFileContent(pluginPath, `var ${alias} = require('`);
             });
         });

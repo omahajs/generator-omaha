@@ -25,7 +25,7 @@ const browserifyContent = [
     ['Gruntfile.js', 'browserify']
 ];
 
-describe('Default generator', function() {
+describe('Default generator', () => {
     let stub;
     beforeEach(() => {
         stub = jest.spyOn(Generator.prototype.user.git, 'name').mockReturnValue(null);
@@ -273,7 +273,7 @@ describe('Default generator', function() {
             }));
     });
 });
-describe('Default generator (with custom source directory)', function() {
+describe('Default generator (with custom source directory)', () => {
     let stub;
     const sourceDirectory = 'webapp/';
     const verify = () => {

@@ -26,7 +26,7 @@ describe('Webapp generator', () => {
     it('can create and configure files with default prompt choices', () => helpers.run(join(__dirname, '../generators/webapp'))
         .inTmpDir(dir => {
             const projectTemplatesDirectory = '../generators/project/templates/';
-            ['_README.md', '_Gruntfile.js', '_package.json'].forEach(function(file) {
+            ['_README.md', '_Gruntfile.js', '_package.json'].forEach(file => {
                 copySync(
                     join(__dirname, `${projectTemplatesDirectory}${file}`),
                     join(dir, file.split('_')[1])
@@ -60,7 +60,7 @@ describe('Webapp generator (custom source directory)', () => {
     it('can create and configure files with default prompt choices', () => helpers.run(join(__dirname, '../generators/webapp'))
         .inTmpDir(dir => {
             const projectTemplatesDirectory = '../generators/project/templates/';
-            ['_README.md', '_Gruntfile.js', '_package.json'].forEach(function(file) {
+            ['_README.md', '_Gruntfile.js', '_package.json'].forEach(file => {
                 copySync(
                     join(__dirname, `${projectTemplatesDirectory}${file}`),
                     join(dir, file.split('_')[1])

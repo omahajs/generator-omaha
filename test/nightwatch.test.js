@@ -8,30 +8,26 @@ const assert     = require('yeoman-assert');
 
 const SKIP_INSTALL = {skipInstall: true};
 
-describe('Nightwatch Generator', function() {
-    it('can scaffold files needed to use nightwatch for E2E testing', function() {
-        return helpers.run(join(__dirname, '../generators/nightwatch'))
-            .inTmpDir(dir => {
-                copySync(
-                    join(__dirname, '../generators/project/templates/_package.json'),
-                    join(dir, 'package.json')
-                );
-            })
-            .withLocalConfig({isWebapp: true})
-            .withOptions(SKIP_INSTALL)
-            .toPromise()
-            .then(verifyCoreFiles);
-    });
-    it('can exit when run in empty directory', function() {
-        return helpers.run(join(__dirname, '../generators/nightwatch'))
-            .inTmpDir(dir => {
-                copySync(
-                    join(__dirname, '../generators/project/templates/_package.json'),
-                    join(dir, 'package.json')
-                );
-            })
-            .toPromise();
-    });
+describe('Nightwatch Generator', () => {
+    it('can scaffold files needed to use nightwatch for E2E testing', () => helpers.run(join(__dirname, '../generators/nightwatch'))
+        .inTmpDir(dir => {
+            copySync(
+                join(__dirname, '../generators/project/templates/_package.json'),
+                join(dir, 'package.json')
+            );
+        })
+        .withLocalConfig({isWebapp: true})
+        .withOptions(SKIP_INSTALL)
+        .toPromise()
+        .then(verifyCoreFiles));
+    it('can exit when run in empty directory', () => helpers.run(join(__dirname, '../generators/nightwatch'))
+        .inTmpDir(dir => {
+            copySync(
+                join(__dirname, '../generators/project/templates/_package.json'),
+                join(dir, 'package.json')
+            );
+        })
+        .toPromise());
 });
 function verifyCoreFiles() {
     const ALWAYS_INCLUDED = [

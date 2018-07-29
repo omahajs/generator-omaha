@@ -15,7 +15,7 @@ const SKIP_INSTALL = {skipInstall: true};
 const ALL_TRUE = merge({}, prompts.project.defaults, prompts.webapp.defaults);
 const ALL_FALSE = mapValues(ALL_TRUE, option => isBoolean(option) ? false : option);
 
-describe('Native generator', function() {
+describe('Native generator', () => {
     const sourceDirectory = './renderer/';
     const isWebapp = true;
     const verify = isWebapp => {
