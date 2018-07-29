@@ -290,6 +290,8 @@ function getScripts(generator) {
         'lint:watch': `watch "npm run lint" ${sourceDirectory}app`,
         test: 'grunt test',
         'test:watch': 'grunt karma:covering',
+        'docs': 'grunt docs',
+        'postdocs': 'npm run open:docs',
         'open:coverage': 'opn ./reports/coverage/report-html/index.html',
         'open:docs': 'opn ./reports/docs/index.html',
         'open:styleguide': 'opn ./styleguide/index.html'

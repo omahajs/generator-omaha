@@ -79,7 +79,7 @@ Typical Workflows
 - Demo your bundled project in a browser with `npm run demo`
 - View reports, documentation and styleguide:
   - code coverage: `grunt cover && npm run open:coverage`
-  - JSDocs documentation: `grunt docs && npm run open:docs`
+  - JSDocs documentation: `npm run docs`
   - Living styleguide: `grunt docs && npm run open:styleguide`
 - [Review the code](/generators/webapp/templates/tasks) to see all the available tasks
 
