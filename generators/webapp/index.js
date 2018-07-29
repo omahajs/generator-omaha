@@ -288,6 +288,7 @@ function getScripts(generator) {
     const scripts = {
         lint: `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
         'lint:watch': `watch "npm run lint" ${sourceDirectory}app`,
+        'pretest': 'npm run lint',
         test: 'grunt test',
         'test:watch': 'grunt karma:covering',
         docs: 'grunt reports',

@@ -454,12 +454,13 @@ function getScripts(generator: WebappGenerator) {
     const scripts = {
         lint:              `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
         'lint:watch':      `watch "npm run lint" ${sourceDirectory}app`,
+        'pretest':         'npm run lint',
         test:              'grunt test',
         'test:watch':      'grunt karma:covering',
-        docs:            'grunt reports',
-        postdocs:        'npm run open:docs',
-        styleguide:      'grunt reports',
-        poststyleguide:  'npm run open:styleguide',
+        docs:              'grunt reports',
+        postdocs:          'npm run open:docs',
+        styleguide:        'grunt reports',
+        poststyleguide:    'npm run open:styleguide',
         'open:coverage':   'opn ./reports/coverage/report-html/index.html',
         'open:docs':       'opn ./reports/docs/index.html',
         'open:styleguide': 'opn ./styleguide/index.html'
