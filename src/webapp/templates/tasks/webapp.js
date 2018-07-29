@@ -9,10 +9,6 @@ module.exports = function(grunt) {
         <% if (moduleFormat === 'amd') { %>'browserSync:amd'<% } else { %>'browserSync:cjs'<% } %>,
         'watch:browser'
     ]);
-    task('styling', 'Watch task for real-time styling', [
-        'process-styles',
-        'watch:style'
-    ]);
     task('test', 'Run full test and validation battery', [
         'compile',
         'lint',
@@ -33,11 +29,14 @@ module.exports = function(grunt) {
     task('precompile-templates', [
         <% if (useHandlebars) { %>'handlebars:main'<% } else { %>'jst:main'<% } %>
     ]);
-    task('process-styles', [<% if (useLess) { %>
+    task('preprocess-styles', [<% if (useLess) { %>
         'less:main',/* pre-process */<% } %><% if (useSass) { %>
-        'sass:main',/* pre-process */<% } %>
+        'sass:main'/* pre-process */<% } %>
+    ]);
+    task('process-styles', [
+        'preprocess-styles',
         'postcss:dev',/* post-process */
-        'postcss:prod'
+        'postcss:prod'/* post-process */
     ]);<% if (moduleFormat !== 'amd') { %>
     task('bundle-scripts', [<% if (useBrowserify) { %>
         'browserify:bundle'<% } %><% if (useWebpack) { %>
@@ -65,11 +64,10 @@ module.exports = function(grunt) {
         <% if (moduleFormat !== 'amd') { %>'replace:bundle-url',<% } else { %>'replace:almond-shim',<% } %>
         <% if (useImagemin) { %>'imagemin:build'<% } else { %>'copy:images'<% } %>
     ]);
-    task('docs', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
+    task('reports', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
         'clean:docs',
-        'jsdoc:app',<% if (useLess) { %>
-        'less:main',/* pre-process */<% } %><% if (useSass) { %>
-        'sass:main',/* pre-process */<% } %>
+        'jsdoc:app',
+        'preprocess-styles',
         'postcss:styleguide'
     ]);
 };

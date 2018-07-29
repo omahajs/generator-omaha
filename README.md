@@ -72,7 +72,7 @@ Typical Workflows
 - Serve live-reload enabled app with companion RESTful API using `npm start`, then...
   - :sparkles: lint your code in real-time with a second terminal running `npm run lint:watch`
   - :100: run tests and calculate code coverage in real-time with `npm run test:watch`
-  - :lipstick: see your style updates and code changes in the browser with a second terminal running `grunt styling`
+  - :lipstick: see your style updates and code changes in the browser with a second terminal running `npm run build:css:watch`
 - Run tests with `npm test`
 - One-time lint with `npm run lint`
 - Run tests and lint code as a watch task in one terminal with: `npm run dev` (*linux only*)
@@ -80,7 +80,7 @@ Typical Workflows
 - View reports, documentation and styleguide:
   - code coverage: `grunt cover && npm run open:coverage`
   - JSDocs documentation: `npm run docs`
-  - Living styleguide: `grunt docs && npm run open:styleguide`
+  - Living styleguide: `npm run styleguide`
 - [Review the code](/generators/webapp/templates/tasks) to see all the available tasks
 
 > View the [lint rules that make your code more secure](https://github.com/omahajs/eslint-config-omaha-prime-grade/blob/master/RULES_FOR_SECURITY.md)

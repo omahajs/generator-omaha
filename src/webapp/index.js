@@ -456,8 +456,10 @@ function getScripts(generator: WebappGenerator) {
         'lint:watch':      `watch "npm run lint" ${sourceDirectory}app`,
         test:              'grunt test',
         'test:watch':      'grunt karma:covering',
-        docs:            'grunt docs',
+        docs:            'grunt reports',
         postdocs:        'npm run open:docs',
+        styleguide:      'grunt reports',
+        poststyleguide:  'npm run open:styleguide',
         'open:coverage':   'opn ./reports/coverage/report-html/index.html',
         'open:docs':       'opn ./reports/docs/index.html',
         'open:styleguide': 'opn ./styleguide/index.html'
@@ -470,11 +472,13 @@ function getScripts(generator: WebappGenerator) {
         });
     } else {
         assign(scripts, {
-            start:     'grunt serve',
-            build:     'grunt build',
-            predemo:   'npm run build',
-            demo:      'grunt browserSync:demo',
-            predeploy: 'npm run build'
+            start:             'grunt serve',
+            build:             'grunt build',
+            'build:css':       'grunt process-styles',
+            'build:css:watch': 'grunt process-styles watch:style',
+            predemo:           'npm run build',
+            demo:              'grunt browserSync:demo',
+            predeploy:         'npm run build'
         });
     }
     if (useAmd) {
