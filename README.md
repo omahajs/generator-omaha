@@ -82,8 +82,9 @@ Typical Workflows
   - JSDocs documentation: `npm run docs`
   - Living styleguide: `npm run styleguide`
 - [Review the code](/generators/webapp/templates/tasks) to see all the available tasks
+- View the [lint rules that make your code more secure](https://github.com/omahajs/eslint-config-omaha-prime-grade/blob/master/RULES_FOR_SECURITY.md)
 
-> View the [lint rules that make your code more secure](https://github.com/omahajs/eslint-config-omaha-prime-grade/blob/master/RULES_FOR_SECURITY.md)
+> **Tip:** Too many npm scripts to remember? Try using the [npm Task List module, `ntl`](https://www.npmjs.com/package/ntl) :+1:
 
 Command Line Options
 --------------------
