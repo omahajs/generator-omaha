@@ -17,7 +17,7 @@ module.exports = function(karmaConfig) {
         },
         reporters: ['progress', 'mocha', 'coverage'],
         coverageReporter: {
-            dir: `${config.folders.reports }/${ config.folders.coverage}`,
+            dir: `./reports/coverage`,
             includeAllSources: true,
             reporters: [
                 {type: 'text-summary', subdir: '.', file: 'text-summary.txt'},
