@@ -7,7 +7,7 @@ module.exports = {
     browserify: `{
         bundle: {
             files: {
-                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': [
+                './dist/client/bundle.min.js': [
                     '<%= folders.app %>/main.js'
                 ]
             }
@@ -43,20 +43,20 @@ module.exports = {
         cjs: {
             bsFiles: {
                 src: [
-                    '<%= folders.dist %>/<%= folders.client %>/bundle.min.js'
+                    './dist/client/bundle.min.js'
                 ]
             },
             options: {
                 port: '<%= ports.server %>',
                 watchTask: true,
                 reloadDelay: 500,
-                server: ['<%= folders.dist %>', '<%= folders.dist %>/<%= folders.client %>']
+                server: ['dist', './dist/client']
             }
         },
         demo: {
             options: {
                 port: '<%= ports.server %>',
-                server: ['<%= folders.dist %>', '<%= folders.dist %>/<%= folders.client %>']
+                server: ['dist', './dist/client']
             }
         }
     }`,
@@ -68,10 +68,10 @@ module.exports = {
         options: {
             force: true
         },
-        docs:       ['<%= folders.reports %>/<%= folders.docs %>/*', './styleguide'],
-        coverage:   ['<%= folders.reports %>/<%= folders.coverage %>/'],
+        docs:       ['./reports/docs/*', './styleguide'],
+        coverage:   ['./reports/coverage/'],
         compile:    ['<%= folders.app %>/templates.js', '<%= folders.app %>/style.css', '<%= folders.app %>/style.css.map'],
-        build:      ['<%= folders.dist %>/<%= folders.client %>', '<%= folders.dist %>/<%= deployed.assets %>']
+        build:      ['dist/client', './dist/<%= deployed.assets %>']
     }`,
     /**
      * Copy files and folders (used here to copy font files to deployment directory)
@@ -84,7 +84,7 @@ module.exports = {
                 expand: true,
                 cwd: '<%= folders.assets %>/fonts',
                 src: ['<%= files.fonts %>'],
-                dest: '<%= folders.dist %>/<%= deployed.assets %>/fonts',
+                dest: './dist/<%= deployed.assets %>/fonts',
                 filter: 'isFile'
             }]
         },
@@ -97,7 +97,7 @@ module.exports = {
                     '!<%= folders.assets %>/library/almond.min.js',
                     '!<%= folders.assets %>/library/require.min.js'
                 ],
-                dest: '<%= folders.dist %>/<%= deployed.assets %>/library',
+                dest: './dist/<%= deployed.assets %>/library',
                 filter: 'isFile'
             }]
         },
@@ -106,7 +106,7 @@ module.exports = {
                 expand: true,
                 cwd: '<%= folders.assets %>/images',
                 src: ['<%= files.images %>'],
-                dest: '<%= folders.dist %>/<%= deployed.assets %>/images',
+                dest: './dist/<%= deployed.assets %>/images',
                 filter: 'isFile'
             }]
         },
@@ -115,7 +115,7 @@ module.exports = {
                 expand: true,
                 cwd: '<%= folders.assets %>/workers',
                 src: ['<%= files.scripts %>'],
-                dest: '<%= folders.dist %>/<%= deployed.assets %>/workers',
+                dest: './dist/<%= deployed.assets %>/workers',
                 filter: 'isFile'
             }]
         },
@@ -124,7 +124,7 @@ module.exports = {
                 expand: true,
                 cwd: '<%= folders.assets %>/rust',
                 src: ['**/*.wasm'],
-                dest: '<%= folders.dist %>/<%= deployed.assets %>/rust',
+                dest: './dist/<%= deployed.assets %>/rust',
                 filter: 'isFile'
             }]
         }
@@ -164,7 +164,7 @@ module.exports = {
             files: [
                 {
                     src:  '<%= folders.app %>/<%= files.index %>',
-                    dest: '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>'
+                    dest: './dist/client/<%= files.index %>'
                 }
             ]
         }
@@ -180,7 +180,7 @@ module.exports = {
                 flatten: false,
                 cwd: './',
                 src: ['<%= folders.assets %>/images/<%= files.images %>'],
-                dest: '<%= folders.dist %>'
+                dest: './dist'
             }]
         }
     }`,
@@ -191,7 +191,7 @@ module.exports = {
     jsdoc: `{
         app: {
             src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js'],
-            dest: '<%= folders.reports %>/<%= folders.docs %>',
+            dest: './reports/docs',
             options: {
                 readme: 'README.md'
             }
@@ -236,7 +236,7 @@ module.exports = {
             background: true,
             singleRun: false,
             coverageReporter: {
-                dir: '<%= folders.reports %>/<%= folders.coverage %>/',
+                dir: './reports/coverage/',
                 includeAllSources: true
             }
         },
@@ -298,7 +298,7 @@ module.exports = {
         },
         prod: {
             src:  '<%= folders.app %>/*.css',
-            dest: '<%= folders.dist %>/<%= folders.client %>/style.css'
+            dest: './dist/client/style.css'
         },
         styleguide: {
             options: {
@@ -327,8 +327,8 @@ module.exports = {
                 }]
             },
             files: [{
-                src:  '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>',
-                dest: '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>'
+                src:  './dist/client/<%= files.index %>',
+                dest: './dist/client/<%= files.index %>'
             }]
         },
         'bundle-url': {
@@ -339,8 +339,8 @@ module.exports = {
                 }]
             },
             files: [{
-                src:  '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>',
-                dest: '<%= folders.dist %>/<%= folders.client %>/<%= files.index %>'
+                src:  './dist/client/<%= files.index %>',
+                dest: './dist/client/<%= files.index %>'
             }]
         }
     }`,
@@ -352,7 +352,7 @@ module.exports = {
     requirejs: `{
         bundle: {
             options: {
-                out: '<%= folders.dist %>/<%= folders.client %>/temp.js',
+                out: './dist/client/temp.js',
                 mainConfigFile: '<%= folders.app %>/<%= files.configScript %>',
                 baseUrl: '<%= folders.app %>',
                 include: [join(__dirname, '/<%= folders.assets %>/library/almond.min.js'), '<%= files.configScript %>'],
@@ -392,8 +392,8 @@ module.exports = {
                 }
             },
             files: {
-                '<%= folders.dist %>/<%= folders.client %>/bundle.min.js': [
-                    '<%= folders.dist %>/<%= folders.client %>/bundle.min.js'
+                './dist/client/bundle.min.js': [
+                    './dist/client/bundle.min.js'
                 ]
             }
         }

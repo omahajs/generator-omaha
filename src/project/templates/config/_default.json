@@ -2,16 +2,11 @@
     "grunt": {
         "folders": {
             "config":   "config",
-            "client":   "client",
-            "dist":     "dist",
             "app":      "<%= sourceDirectory %>",
             "assets":   "",
             "tasks":    "./tasks",
             "test":     "./test",
-            "reports":  "./reports",
-            "specs":    "mocha/specs",
-            "coverage": "coverage",
-            "docs":     "docs"
+            "specs":    "mocha/specs"
         },
         "files": {
             "config": {
