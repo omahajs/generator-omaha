@@ -77,8 +77,8 @@ Typical Workflows
 - One-time lint with `npm run lint`
 - Run tests and lint code as a watch task in one terminal with: `npm run dev` (*linux only*)
 - Demo your bundled project in a browser with `npm run demo`
-- View reports, documentation and styleguide:
-  - code coverage: `grunt cover && npm run open:coverage`
+- View reports (coverage, documentation, and styleguide):
+  - code coverage: `npm test && npm run open:coverage`
   - JSDocs documentation: `npm run docs`
   - Living styleguide: `npm run styleguide`
 - [Review the code](/generators/webapp/templates/tasks) to see all the available tasks
