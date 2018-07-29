@@ -4,6 +4,7 @@ type Config = {
     isWebapp: boolean,
     moduleFormat: string,
     pluginDirectory: string,
+    ports: Object,
     projectName: string,
     sourceDirectory: string,
     userName: string,

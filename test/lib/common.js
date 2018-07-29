@@ -89,7 +89,6 @@ function verifyDefaultTasksConfiguration() {
         ['Gruntfile.js', 'clean: {'],
         ['Gruntfile.js', 'jsdoc: {'],
         ['Gruntfile.js', 'karma: {'],
-        ['Gruntfile.js', 'open: {'],
         ['Gruntfile.js', 'requirejs: {'],
         ['Gruntfile.js', 'options: { spawn: false }'] // watch task
     ];

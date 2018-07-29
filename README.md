@@ -78,9 +78,9 @@ Typical Workflows
 - Run tests and lint code as a watch task in one terminal with: `npm run dev` (*linux only*)
 - Demo your bundled project in a browser with `npm run demo`
 - View reports, documentation and styleguide:
-  - code coverage: `grunt cover open:coverage`
-  - JSDocs documentation: `grunt docs open:docs`
-  - Living styleguide: `grunt docs open:styleguide`
+  - code coverage: `grunt cover && npm run open:coverage`
+  - JSDocs documentation: `grunt docs && npm run open:docs`
+  - Living styleguide: `grunt docs && npm run open:styleguide`
 - [Review the code](/generators/webapp/templates/tasks) to see all the available tasks
 
 > View the [lint rules that make your code more secure](https://github.com/omahajs/eslint-config-omaha-prime-grade/blob/master/RULES_FOR_SECURITY.md)

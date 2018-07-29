@@ -25,6 +25,11 @@ const CSS_PREPROCESSOR_EXT_LOOKUP = {
     sass: 'scss',
     none: 'css'
 };
+const ports = {
+    server: 1337,
+    karma: 4669,
+    livereload: 46692
+};
 
 module.exports = class extends Generator {
     constructor(args: any, opts: any) {
@@ -38,6 +43,7 @@ module.exports = class extends Generator {
         const generator: WebappGenerator = this;
         const {config, options} = generator;
         const {useBrowserify, useJest, useRust, useWebpack} = options;
+
         const isUnAnswered = option => (!!!options[option.name] || (options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults));
         const isWebapp = true;
         if (options.defaults) {
@@ -47,6 +53,7 @@ module.exports = class extends Generator {
             const useAmd = (moduleFormat === 'amd');
             const settings = {
                 moduleFormat,
+                ports,
                 useAmd,
                 useRust,
                 useWebpack,
@@ -74,6 +81,7 @@ module.exports = class extends Generator {
                 const useAmd = (moduleFormat === 'amd');
                 const settings = {
                     moduleFormat,
+                    ports,
                     use: answers,
                     useAmd,
                     useBrowserify: USE_BROWSERIFY || shouldUseBrowserify(SCRIPT_BUNDLER), // Browserify is default
@@ -303,7 +311,6 @@ module.exports = class extends Generator {
             'grunt-contrib-uglify',
             'grunt-contrib-watch',
             'grunt-jsdoc',
-            'grunt-open',
             'grunt-parallel',
             'grunt-replace',
             'load-grunt-tasks',
@@ -318,7 +325,8 @@ module.exports = class extends Generator {
             'eslint-plugin-backbone',
             'fs-promise',
             'globby',
-            'json-server'
+            'json-server',
+            'opn-cli'
         ].concat(// conditional dependencies
             iff(!useBrowserify, 'babel-preset-minify@0.3.0'),
             iff(!useJest, requirejsDevDependencies),
@@ -349,6 +357,7 @@ module.exports = class extends Generator {
         }
         extend(generator.destinationPath('config/default.json'), {
             grunt: {
+                ports,
                 folders: {
                     app:    `${sourceDirectory}app`,
                     assets: `${sourceDirectory}assets`
@@ -442,11 +451,15 @@ function getScripts(generator: WebappGenerator) {
         useJest,
         useRust
     } = generator.config.getAll();
+    const srcDir = sourceDirectory === './' ? '' : sourceDirectory;
     const scripts = {
-        lint:         `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
-        'lint:watch': `watch "npm run lint" ${sourceDirectory}/app`,
-        test:         'grunt test',
-        'test:watch': 'grunt karma:covering'
+        lint:              `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
+        'lint:watch':      `watch "npm run lint" ${srcDir}/app`,
+        test:              'grunt test',
+        'test:watch':      'grunt karma:covering',
+        'open:coverage':   'opn ./reports/coverage/report-html/index.html',
+        'open:docs':       'opn ./reports/docs/index.html',
+        'open:styleguide': 'opn ./styleguide/index.html'
     };
     if (isNative) {
         assign(scripts, {
@@ -499,7 +512,6 @@ function getTasks(generator) {
         'htmlmin',
         'jsdoc',
         'karma',
-        'open',
         'replace',
         'requirejs',
         'watch'

@@ -94,7 +94,7 @@ const serverQuestions = [
         choices: keys(lookup)
     }
 ];
-const getPromptQuestions = curry(function(type, options) {
+const getPromptQuestions = curry((type, options) => {
     const {isWebapp, isServer} = options;
     const questionLookup = {
         project: projectQuestions,

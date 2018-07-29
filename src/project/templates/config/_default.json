@@ -1,10 +1,5 @@
 {
     "grunt": {
-        "ports": {
-            "server":     1337,
-            "karma":      4669,
-            "livereload": 46692
-        },
         "folders": {
             "config":   "config",
             "client":   "client",

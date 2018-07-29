@@ -25,6 +25,11 @@ const CSS_PREPROCESSOR_EXT_LOOKUP = {
     sass: 'scss',
     none: 'css'
 };
+const ports = {
+    server: 1337,
+    karma: 4669,
+    livereload: 46692
+};
 
 module.exports = class extends Generator {
     constructor(args, opts) {
@@ -38,6 +43,7 @@ module.exports = class extends Generator {
         const generator = this;
         const { config, options } = generator;
         const { useBrowserify, useJest, useRust, useWebpack } = options;
+
         const isUnAnswered = option => !!!options[option.name] || options[option.name] === COMMAND_LINE_OPTIONS[option.name].defaults;
         const isWebapp = true;
         if (options.defaults) {
@@ -47,6 +53,7 @@ module.exports = class extends Generator {
             const useAmd = moduleFormat === 'amd';
             const settings = {
                 moduleFormat,
+                ports,
                 useAmd,
                 useRust,
                 useWebpack,
@@ -74,6 +81,7 @@ module.exports = class extends Generator {
                 const useAmd = moduleFormat === 'amd';
                 const settings = {
                     moduleFormat,
+                    ports,
                     use: answers,
                     useAmd,
                     useBrowserify: USE_BROWSERIFY || shouldUseBrowserify(SCRIPT_BUNDLER), // Browserify is default
@@ -165,8 +173,8 @@ module.exports = class extends Generator {
         const cssDevDependencies = ['grunt-postcss', 'autoprefixer', 'stylelint', 'stylelint-config-recommended', 'cssnano', 'normalize.css', 'postcss-reporter', 'postcss-safe-parser', 'mdcss', 'mdcss-theme-github'].concat(iff(type === 'none', ['postcss-import', 'postcss-cssnext']));
         const requirejsDevDependencies = ['grunt-contrib-requirejs', 'karma-requirejs'];
         const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(iff(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul']));
-        const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-jsdoc', 'grunt-open', 'grunt-parallel', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(iff(!useJest, 'grunt-karma'));
-        const workflowDependencies = ['babel-cli', 'babel-preset-env', 'config', 'eslint-plugin-backbone', 'fs-promise', 'globby', 'json-server'].concat( // conditional dependencies
+        const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-jsdoc', 'grunt-parallel', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(iff(!useJest, 'grunt-karma'));
+        const workflowDependencies = ['babel-cli', 'babel-preset-env', 'config', 'eslint-plugin-backbone', 'fs-promise', 'globby', 'json-server', 'opn-cli'].concat( // conditional dependencies
         iff(!useBrowserify, 'babel-preset-minify@0.3.0'), iff(!useJest, requirejsDevDependencies), ...gruntDependencies, ...htmlDevDependencies, ...cssDevDependencies);
         const devDependencies = workflowDependencies.concat(iff(useBrowserify, browserifyDependencies), iff(useImagemin, 'grunt-contrib-imagemin'), iff(useLess, 'grunt-contrib-less'), iff(useSass, 'grunt-contrib-sass'), iff(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst'));
         generator.npmInstall(dependencies, { save: true });
@@ -185,6 +193,7 @@ module.exports = class extends Generator {
         }
         extend(generator.destinationPath('config/default.json'), {
             grunt: {
+                ports,
                 folders: {
                     app: `${sourceDirectory}app`,
                     assets: `${sourceDirectory}assets`
@@ -276,11 +285,15 @@ function getScripts(generator) {
         useJest,
         useRust
     } = generator.config.getAll();
+    const srcDir = sourceDirectory === './' ? '' : sourceDirectory;
     const scripts = {
         lint: `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
-        'lint:watch': `watch "npm run lint" ${sourceDirectory}/app`,
+        'lint:watch': `watch "npm run lint" ${srcDir}/app`,
         test: 'grunt test',
-        'test:watch': 'grunt karma:covering'
+        'test:watch': 'grunt karma:covering',
+        'open:coverage': 'opn ./reports/coverage/report-html/index.html',
+        'open:docs': 'opn ./reports/docs/index.html',
+        'open:styleguide': 'opn ./styleguide/index.html'
     };
     if (isNative) {
         assign(scripts, {
@@ -327,6 +340,6 @@ function getTasks(generator) {
         useWebpack
     } = config.getAll();
     return [// Tasks enabled by default
-    'browserSync', 'clean', 'copy', 'htmlmin', 'jsdoc', 'karma', 'open', 'replace', 'requirejs', 'watch'].concat( // Webapp tasks enabled by user
+    'browserSync', 'clean', 'copy', 'htmlmin', 'jsdoc', 'karma', 'replace', 'requirejs', 'watch'].concat( // Webapp tasks enabled by user
     iff(useBrowserify, 'browserify'), iff(useHandlebars, 'handlebars', 'jst'), iff(useImagemin, ['imagemin', 'copy']), iff(useLess, 'less'), iff(useSass, 'sass'), iff(useWebpack, 'webpack'), iff(useWebpack || useBrowserify, 'uglify'));
 }

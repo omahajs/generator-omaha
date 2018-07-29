@@ -21,7 +21,7 @@ module.exports = class extends Generator {
         super(args, opts);
         const generator = this;
         const {config, user} = generator;
-        Object.keys(COMMAND_LINE_OPTIONS).forEach(function(option) {
+        Object.keys(COMMAND_LINE_OPTIONS).forEach(option => {
             generator.option(option, COMMAND_LINE_OPTIONS[option]);
         });
         config.set('userName', user.git.name() ? user.git.name() : 'A. Developer');

@@ -269,27 +269,6 @@ module.exports = {
         }
     }`,
     /**
-     * Open files in browsers for review
-     * @see {@link https://github.com/jsoverson/grunt-open}
-    **/
-    open: `{
-        browser: {
-            path: 'http://localhost:<%= ports.server %>/<%= folders.app %>'
-        },
-        demo: {
-            path: 'http://localhost:<%= ports.server %>/<%= folders.dist %>/<%= folders.client %>'
-        },
-        coverage: {
-            path: __dirname + '/<%= folders.reports %>/<%= folders.coverage %>/report-html/index.html'
-        },
-        docs: {
-            path: __dirname + '/<%= folders.reports %>/<%= folders.docs %>/index.html'
-        },
-        styleguide: {
-            path: __dirname + '/styleguide/index.html'
-        }
-    }`,
-    /**
      * Apply several post-processors to your CSS using PostCSS
      * @see {@link https://github.com/nDmitry/grunt-postcss}
     **/
