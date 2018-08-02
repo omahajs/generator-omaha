@@ -87,7 +87,6 @@ function verifyDefaultTasksConfiguration() {
     const defaultTaskConfigs = [
         ['Gruntfile.js', 'browserSync: {'],
         ['Gruntfile.js', 'clean: {'],
-        ['Gruntfile.js', 'jsdoc: {'],
         ['Gruntfile.js', 'karma: {'],
         ['Gruntfile.js', 'requirejs: {'],
         ['Gruntfile.js', 'options: { spawn: false }'] // watch task

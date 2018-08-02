@@ -185,19 +185,6 @@ module.exports = {
         }
     }`,
     /**
-     * Generate documentation from JS comments using JSDoc3
-     * @see {@link https://github.com/krampstudio/grunt-jsdoc}
-    **/
-    jsdoc: `{
-        app: {
-            src: ['<%= folders.app %>/<%= files.scripts %>', '!<%= folders.app %>/templates.js'],
-            dest: './reports/docs',
-            options: {
-                readme: 'README.md'
-            }
-        }
-    }`,
-    /**
      * Pre-compile templates
      * @see {@link https://github.com/gruntjs/grunt-contrib-jst}
     **/

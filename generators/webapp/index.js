@@ -174,8 +174,8 @@ module.exports = class extends Generator {
         const cssDevDependencies = ['grunt-postcss', 'autoprefixer', 'stylelint', 'stylelint-config-recommended', 'cssnano', 'normalize.css', 'postcss-reporter', 'postcss-safe-parser', 'mdcss', 'mdcss-theme-github'].concat(iff(type === 'none', ['postcss-import', 'postcss-cssnext']));
         const requirejsDevDependencies = ['grunt-contrib-requirejs', 'karma-requirejs'];
         const browserifyDependencies = ['browserify', 'browserify-shim', 'aliasify', 'babelify', 'deamdify', 'grunt-browserify'].concat(iff(useBrowserify && !useJest, ['karma-browserify', 'browserify-istanbul']));
-        const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-jsdoc', 'grunt-parallel', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(iff(!useJest, 'grunt-karma'));
-        const workflowDependencies = ['babel-cli', 'babel-preset-env', 'config', 'eslint-plugin-backbone', 'fs-promise', 'globby', 'json-server', 'opn-cli'].concat( // conditional dependencies
+        const gruntDependencies = ['grunt', 'grunt-browser-sync', 'grunt-cli', 'grunt-contrib-clean', 'grunt-contrib-copy', 'grunt-contrib-uglify', 'grunt-contrib-watch', 'grunt-parallel', 'grunt-replace', 'load-grunt-tasks', 'time-grunt'].concat(iff(!useJest, 'grunt-karma'));
+        const workflowDependencies = ['babel-cli', 'babel-preset-env', 'config', 'eslint-plugin-backbone', 'fs-promise', 'globby', 'jsdoc', 'json-server', 'opn-cli'].concat( // conditional dependencies
         iff(!useBrowserify, 'babel-preset-minify@0.3.0'), iff(!useJest, requirejsDevDependencies), ...gruntDependencies, ...htmlDevDependencies, ...cssDevDependencies);
         const devDependencies = workflowDependencies.concat(iff(useBrowserify, browserifyDependencies), iff(useImagemin, 'grunt-contrib-imagemin'), iff(useLess, 'grunt-contrib-less'), iff(useSass, 'grunt-contrib-sass'), iff(useHandlebars, 'grunt-contrib-handlebars', 'grunt-contrib-jst'));
         generator.npmInstall(dependencies, { save: true });
@@ -293,9 +293,9 @@ function getScripts(generator) {
         pretest: 'npm run lint',
         test: 'grunt test',
         'test:watch': 'grunt karma:covering',
-        docs: 'grunt reports',
+        docs: 'jsdoc -r -d ./reports/docs --readme ./README.md app',
         postdocs: 'npm run open:docs',
-        styleguide: 'grunt reports',
+        styleguide: 'grunt styleguide',
         poststyleguide: 'npm run open:styleguide',
         'open:coverage': 'opn ./reports/coverage/report-html/index.html',
         'open:docs': 'opn ./reports/docs/index.html',
@@ -348,6 +348,6 @@ function getTasks(generator) {
         useWebpack
     } = config.getAll();
     return [// Tasks enabled by default
-    'browserSync', 'clean', 'copy', 'htmlmin', 'jsdoc', 'karma', 'replace', 'requirejs', 'watch'].concat( // Webapp tasks enabled by user
+    'browserSync', 'clean', 'copy', 'htmlmin', 'karma', 'replace', 'requirejs', 'watch'].concat( // Webapp tasks enabled by user
     iff(useBrowserify, 'browserify'), iff(useHandlebars, 'handlebars', 'jst'), iff(useImagemin, ['imagemin', 'copy']), iff(useLess, 'less'), iff(useSass, 'sass'), iff(useWebpack, 'webpack'), iff(useWebpack || useBrowserify, 'uglify'));
 }

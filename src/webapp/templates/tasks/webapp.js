@@ -62,9 +62,7 @@ module.exports = function(grunt) {
         <% if (moduleFormat !== 'amd') { %>'replace:bundle-url',<% } else { %>'replace:almond-shim',<% } %>
         <% if (useImagemin) { %>'imagemin:build'<% } else { %>'copy:images'<% } %>
     ]);
-    task('reports', 'Generate documentation with JSDoc3 and styleguide with mdcss', [
-        'clean:docs',
-        'jsdoc:app',
+    task('styleguide', 'Generate styleguide with mdcss', [
         'preprocess-styles',
         'postcss:styleguide'
     ]);
