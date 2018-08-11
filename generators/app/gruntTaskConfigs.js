@@ -14,53 +14,6 @@ module.exports = {
         }
     }`,
     /**
-     * Live-reload enabled sychronized server for development, tests, and demos
-     * @see {@link https://www.browsersync.io/docs/grunt}
-    **/
-    browserSync: `{
-        amd: {
-            bsFiles: {
-                src: [
-                    '<%= folders.app %>/<%= files.index %>',
-                    '<%= folders.app %>/style.css',
-                    '<%= folders.app %>/templates.js'
-                ]
-            },
-            options: {
-                port: '<%= ports.server %>',
-                watchTask: true,
-                reloadDelay: 500,
-                server: {
-                    baseDir: ['<%= folders.app %>'],
-                    routes: {
-                        '/node_modules': './node_modules',
-                        '/assets': '<%= folders.assets %>',
-                    },
-                    index: '<%= files.index %>'
-                }
-            }
-        },
-        cjs: {
-            bsFiles: {
-                src: [
-                    './dist/client/bundle.min.js'
-                ]
-            },
-            options: {
-                port: '<%= ports.server %>',
-                watchTask: true,
-                reloadDelay: 500,
-                server: ['dist', './dist/client']
-            }
-        },
-        demo: {
-            options: {
-                port: '<%= ports.server %>',
-                server: ['dist', './dist/client']
-            }
-        }
-    }`,
-    /**
      * Clear files and folders
      * @see {@link https://github.com/gruntjs/grunt-contrib-clean}
     **/

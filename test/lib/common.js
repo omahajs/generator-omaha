@@ -43,6 +43,8 @@ function verifyCoreFiles() {
         'README.md',
         'Gruntfile.js',
         'config/default.json',
+        'config/bs.config.dev.js',
+        'config/bs.config.demo.js',
         'config/stylelint.config.js',
         'tasks/webapp.js'
     ];
@@ -85,7 +87,6 @@ function verifyNativeConfiguration(isWebapp) {
 }
 function verifyDefaultTasksConfiguration() {
     const defaultTaskConfigs = [
-        ['Gruntfile.js', 'browserSync: {'],
         ['Gruntfile.js', 'clean: {'],
         ['Gruntfile.js', 'karma: {'],
         ['Gruntfile.js', 'requirejs: {'],

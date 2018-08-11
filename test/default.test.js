@@ -153,6 +153,7 @@ describe('Default generator', () => {
             .then(() => {
                 verifyBoilerplateFiles('./');
                 verifyDefaultConfiguration();
+                fileContent('package.json', '"build:watch": ');
             }));
         it('--defaults --slim', () => helpers.run(join(__dirname, '../generators/app'))
             .withOptions(merge({}, SKIP_INSTALL, {defaults, slim: true}))

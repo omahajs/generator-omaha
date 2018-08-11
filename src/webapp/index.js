@@ -132,7 +132,13 @@ module.exports = class extends Generator {
         [// always included
             ['config/stylelint.config.js', 'config/stylelint.config.js'],
             ['tasks/webapp.js', 'tasks/webapp.js']
-        ].concat(// optional dependencies
+        ].concat(// browser-sync configs
+            [['config/bs.config.demo.js', 'config/bs.config.demo.js']],
+            iff(useAmd,
+                [['config/bs.config-amd.js', 'config/bs.config.dev.js']],
+                [['config/bs.config-cjs.js', 'config/bs.config.dev.js']]
+            )
+        ).concat(// optional dependencies
             iff(useAmd, [['_config.js', `${appDirectory}config.js`]])
         ).concat(
             iff(useAmd,
@@ -305,7 +311,6 @@ module.exports = class extends Generator {
         );
         const gruntDependencies = [
             'grunt',
-            'grunt-browser-sync',
             'grunt-cli',
             'grunt-contrib-clean',
             'grunt-contrib-copy',
@@ -321,12 +326,14 @@ module.exports = class extends Generator {
         const workflowDependencies = [
             'babel-cli',
             'babel-preset-env',
+            'browser-sync',
             'config',
             'eslint-plugin-backbone',
             'fs-promise',
             'globby',
             'jsdoc',
             'json-server',
+            'npm-run-all',
             'opn-cli'
         ].concat(// conditional dependencies
             iff(!useBrowserify, 'babel-preset-minify@0.3.0'),
@@ -454,10 +461,12 @@ function getScripts(generator: WebappGenerator) {
         useRust
     } = generator.config.getAll();
     const scripts = {
+        compile:           'grunt compile',
+        'compile:watch':   `watch \"npm run compile\" ${sourceDirectory}/app ${sourceDirectory}assets`,
         lint:              `eslint -c ./config/.eslintrc.js --ignore-path ./config/.eslintignore ${sourceDirectory}app/**/*.js --fix`,
         'lint:watch':      `watch "npm run lint" ${sourceDirectory}app`,
         pretest:           'npm run lint',
-        test:              'grunt test',
+        test:              'grunt compile karma:coverage',
         'test:watch':      'grunt karma:covering',
         docs:              'jsdoc -r -d ./reports/docs --readme ./README.md app',
         postdocs:          'npm run open:docs',
@@ -465,7 +474,8 @@ function getScripts(generator: WebappGenerator) {
         poststyleguide:    'npm run open:styleguide',
         'open:coverage':   'opn ./reports/coverage/report-html/index.html',
         'open:docs':       'opn ./reports/docs/index.html',
-        'open:styleguide': 'opn ./styleguide/index.html'
+        'open:styleguide': 'opn ./styleguide/index.html',
+        serve:             'browser-sync --config ./config/bs.config.dev.js start'
     };
     if (isNative) {
         assign(scripts, {
@@ -475,13 +485,16 @@ function getScripts(generator: WebappGenerator) {
         });
     } else {
         assign(scripts, {
-            start:             'grunt serve',
+            start:             'npm-run-all build serve build:watch',
             build:             'grunt build',
             'build:css':       'grunt process-styles',
             'build:css:watch': 'grunt process-styles watch:style',
             predemo:           'npm run build',
-            demo:              'grunt browserSync:demo',
+            demo:              'browser-sync --config ./config/bs.config.demo.js start',
             predeploy:         'npm run build'
+        });
+        useAmd && assign(scripts, {
+            start: 'npm-run-all compile serve'
         });
     }
     if (useAmd) {
@@ -489,7 +502,8 @@ function getScripts(generator: WebappGenerator) {
         const dist = './dist/client/';
         const temp = `${dist}temp.js`;
         assign(scripts, {
-            postbuild: `babel ${temp} -o ${dist}config.js && rm ${temp}`
+            'build:watch': `watch \"npm run build\" ${sourceDirectory}app`,
+            postbuild:     `babel ${temp} -o ${dist}config.js && rm ${temp}`
         });
     }
     useJest && assign(scripts, {
@@ -514,7 +528,6 @@ function getTasks(generator) {
         useWebpack
     } = config.getAll();
     return [// Tasks enabled by default
-        'browserSync',
         'clean',
         'copy',
         'htmlmin',

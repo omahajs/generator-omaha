@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
     'use strict';
 
-    var task =grunt.registerTask;
+    var task = grunt.registerTask;
 
     // Default Task
     task('serve', 'Start a live-reload enabled browser (no tests)', [
@@ -9,21 +9,6 @@ module.exports = function(grunt) {
         <% if (moduleFormat === 'amd') { %>'browserSync:amd'<% } else { %>'browserSync:cjs'<% } %>,
         'watch:browser'
     ]);
-    task('test', 'Run full test and validation battery', [
-        'compile',
-        'cover'
-    ]);<% if (useJest !== true) { %>
-    task('cover', 'Generate code coverage report using Karma and Istanbul', [
-        'clean:coverage',
-        'precompile-templates',
-        'karma:coverage'
-    ]);
-    task('covering', 'Watch task to write tests and see code coverage in real-time', [
-        'clean:coverage',
-        'clean:compile',
-        'precompile-templates',
-        'karma:covering'
-    ]);<% } %>
     task('precompile-templates', [
         <% if (useHandlebars) { %>'handlebars:main'<% } else { %>'jst:main'<% } %>
     ]);
