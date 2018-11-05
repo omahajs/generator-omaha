@@ -30,7 +30,7 @@
     "fs-extra": "^7.0.0",
     "gruntfile-editor": "^1.2.0",
     "lodash": "^4.13.1",
-    "node-fetch": "^2.0.0",
+    "node-fetch": "^2.2.1",
     "yeoman-generator": "^2.0.3",
     "yosay": "^2.0.0"
   },
